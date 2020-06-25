@@ -25,7 +25,7 @@
  * 
  */
 #include "allegro_setup.h"
-#include "config.h"
+#include "config.h" 
 int main(void) {
     ALLEGRO_DISPLAY * display = NULL;
     ALLEGRO_EVENT_QUEUE * event_queue=NULL;
