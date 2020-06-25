@@ -18,8 +18,9 @@
 #include "config.h"  //header with defines 
 
 uint16_t allegro_ini(ALLEGRO_DISPLAY** display,ALLEGRO_EVENT_QUEUE**  event_queue
-                        ,ALLEGRO_FONT**font,ALLEGRO_SAMPLE **sample )
+                        ,ALLEGRO_FONT*font[],ALLEGRO_SAMPLE *sample[] )
 {
+    uint16_t i;
     if (!al_init()) {
         fprintf(stderr, "failed to initialize allegro!\n");
         return -1;
@@ -99,33 +100,36 @@ uint16_t allegro_ini(ALLEGRO_DISPLAY** display,ALLEGRO_EVENT_QUEUE**  event_queu
     
     al_init_font_addon(); 
     al_init_ttf_addon();
-    *font = al_load_ttf_font("04B_20__.TTF", 12, 0); //HAY CREAR UN FONT PARA CADA TAMAÃƒâ€˜O DE LETRA :( 
-
-    if (!font) {
-        fprintf(stderr, "Could not load '04B_20__.TTF'.\n");
-        al_uninstall_system();
-        al_uninstall_mouse();
-        al_uninstall_keyboard();
-        al_shutdown_primitives_addon();
-        al_uninstall_audio();
-        al_destroy_display(*display);
-        al_destroy_event_queue(*event_queue);
-        return -1;
+    font[0] = al_load_ttf_font("04B_20__.TTF", 12, 0); 
+    
+    for(i=0;i<FONTS;i++){
+        if (!font[i]) {
+            fprintf(stderr, "No se pudo cargar una fuente.\n");
+            al_uninstall_system();
+            al_uninstall_mouse();
+            al_uninstall_keyboard();
+            al_shutdown_primitives_addon();
+            al_uninstall_audio();
+            al_destroy_display(*display);
+            al_destroy_event_queue(*event_queue);
+            return -1;
+        }
     }
     
-    *sample = al_load_sample("audio.wav");
-    
-    if (!sample) {
-        fprintf(stderr,"Audio clip sample not loaded!\n");
-        al_uninstall_system();
-        al_uninstall_mouse();
-        al_uninstall_keyboard();
-        al_shutdown_primitives_addon();
-        al_uninstall_audio();
-        al_destroy_display(*display);
-        al_destroy_event_queue(*event_queue);
-        al_shutdown_ttf_addon();
-        return -1;
+    sample[0] = al_load_sample("audio.wav");
+    for(i=0;i<SAMPLES;i++){
+        if (!sample) {
+            fprintf(stderr,"Audio clip sample not loaded!\n");
+            al_uninstall_system();
+            al_uninstall_mouse();
+            al_uninstall_keyboard();
+            al_shutdown_primitives_addon();
+            al_uninstall_audio();
+            al_destroy_display(*display);
+            al_destroy_event_queue(*event_queue);
+            al_shutdown_ttf_addon();
+            return -1;
+        }
     }
     
     al_register_event_source(*event_queue, al_get_keyboard_event_source());

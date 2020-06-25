@@ -17,6 +17,7 @@
 #define SCREEN_W = 800
 #define SCREEN_H = 640
 #define SAMPLES = 1
+#define FONTS = 1
 #endif//CONFIG_H
 
 

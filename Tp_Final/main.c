@@ -24,14 +24,17 @@
 /*
  * 
  */
+#include "allegro_setup.h"
+#include "config.h"
 int main(void) {
     ALLEGRO_DISPLAY * display = NULL;
     ALLEGRO_EVENT_QUEUE * event_queue=NULL;
     ALLEGRO_TIMER * timer=NULL;
-    ALLEGRO_FONT *font=NULL;
-    ALLEGRO_SAMPLE * sample_disp=NULL;
-    ALLEGRO_SAMPLE * sample_song1=NULL;
+    ALLEGRO_FONT *font[]={NULL,NULL,NULL,NULL};//Para incluir mas de un tipo de letra , es decir mayusculas y bla bla bla
+    ALLEGRO_SAMPLE * samples[]={NULL,NULL,NULL,NULL};//arreglo de canciones , para saber cuantas hay que iniciar.
+    
+    
+    
     
     return (EXIT_SUCCESS);
 }
-

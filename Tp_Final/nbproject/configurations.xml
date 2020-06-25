@@ -4,6 +4,7 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>allegro_setup.h</itemPath>
       <itemPath>config.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -57,6 +58,8 @@
       </compileType>
       <item path="allegro_setup.c" ex="false" tool="0" flavor2="0">
       </item>
+      <item path="allegro_setup.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="config.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
@@ -83,6 +86,8 @@
         </asmTool>
       </compileType>
       <item path="allegro_setup.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="allegro_setup.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="config.h" ex="false" tool="3" flavor2="0">
       </item>
