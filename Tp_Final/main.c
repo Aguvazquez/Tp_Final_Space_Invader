@@ -34,7 +34,9 @@ int main(void) {
     ALLEGRO_SAMPLE * samples[]={NULL,NULL,NULL,NULL};//arreglo de canciones , para saber cuantas hay que iniciar.
     
     
-    
+    if(!allegro_ini(&display,&event_queue,&font[],&samples[],&timer)){
+        fprintf(stderr,"Hubo un error kpo , volve a descargar el archivo , gracias\n");
+    }
     
     return (EXIT_SUCCESS);
 }

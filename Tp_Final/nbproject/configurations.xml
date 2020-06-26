@@ -11,12 +11,14 @@
                    displayName="Resource Files"
                    projectFiles="true">
       <itemPath>space_invaders.ttf</itemPath>
+      <itemPath>spaceinvader_theme.wav</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>allegro_setup.c</itemPath>
       <itemPath>main.c</itemPath>
+      <itemPath>main_menu.c</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -65,7 +67,11 @@
       </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
+      <item path="main_menu.c" ex="false" tool="0" flavor2="0">
+      </item>
       <item path="space_invaders.ttf" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="spaceinvader_theme.wav" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="1">
@@ -96,7 +102,11 @@
       </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
+      <item path="main_menu.c" ex="false" tool="0" flavor2="0">
+      </item>
       <item path="space_invaders.ttf" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="spaceinvader_theme.wav" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>
