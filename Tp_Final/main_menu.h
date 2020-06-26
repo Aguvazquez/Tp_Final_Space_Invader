@@ -14,8 +14,9 @@
 #ifndef MAIN_MENU_H
 #define MAIN_MENU_H
 
-uint16_t menu_display(ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[]);
-void create_button(ALLEGRO_FONT*font);
+uint16_t menu_display(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP** display_background);
+void create_button_unpressed(ALLEGRO_FONT*font);
+void create_button_pressed(ALLEGRO_FONT*font,uint8_t button);
 #endif
 
 

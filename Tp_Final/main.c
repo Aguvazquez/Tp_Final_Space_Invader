@@ -34,12 +34,13 @@ int main(void) {
     ALLEGRO_TIMER * timer=NULL;
     ALLEGRO_FONT *font[]={NULL,NULL,NULL,NULL};//Para incluir mas de un tipo de letra , es decir mayusculas y bla bla bla
     ALLEGRO_SAMPLE * samples[]={NULL,NULL,NULL,NULL};//arreglo de canciones , para saber cuantas hay que iniciar.
+    ALLEGRO_BITMAP* display_background=NULL;
     
-    
-    if(!allegro_ini(&display,&event_queue,&font,&samples,&timer)){
+    if(!allegro_ini(&display,&event_queue,&font,&samples,&timer,&display_background)){
         fprintf(stderr,"Hubo un error tato , volve a descargar el archivo , gracias\n");
     };
-    aux=menu_display(&samples[0],&event_queue,&font[0]);
+    
+    aux=menu_display(&display,&samples[0],&event_queue,&font[0],&display_background);
     printf("%d",aux);
     return (EXIT_SUCCESS);
 }
