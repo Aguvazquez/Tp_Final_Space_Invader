@@ -37,7 +37,7 @@ int main(void) {
     
     
     if(!allegro_ini(&display,&event_queue,&font,&samples,&timer)){
-        fprintf(stderr,"Hubo un error kpo , volve a descargar el archivo , gracias\n");
+        fprintf(stderr,"Hubo un error kpisimo , volve a descargar el archivo , gracias\n");
     };
     aux=menu_display(&samples[0],&event_queue,&font[0]);
     printf("%d",aux);
