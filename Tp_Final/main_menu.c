@@ -15,7 +15,7 @@
 #include <allegro5/allegro_audio.h> 
 #include <allegro5/allegro_acodec.h> 
 #include "config.h"
-
+#include "main_menu.h"
 uint16_t menu_display(ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[]){
     uint8_t do_exit=false, aux=0 ;
     float mouse_x = 0 ;
@@ -28,7 +28,7 @@ uint16_t menu_display(ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queu
         ALLEGRO_EVENT ev;
         if (al_get_next_event(*event_queue, &ev)) //Toma un evento de la cola, VER RETURN EN DOCUMENT.
         {
-             if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE )//Si se cierra el display o click de mouse cerrar
+             if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE )
                 do_exit = true;
 
             else if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP) {
