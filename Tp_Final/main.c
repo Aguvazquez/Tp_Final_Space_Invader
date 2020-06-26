@@ -25,8 +25,10 @@
  * 
  */
 #include "allegro_setup.h"
-#include "config.h" 
+#include "config.h"
+#include "main_menu.h"
 int main(void) {
+    uint16_t aux=0;
     ALLEGRO_DISPLAY * display = NULL;
     ALLEGRO_EVENT_QUEUE * event_queue=NULL;
     ALLEGRO_TIMER * timer=NULL;
@@ -34,9 +36,10 @@ int main(void) {
     ALLEGRO_SAMPLE * samples[]={NULL,NULL,NULL,NULL};//arreglo de canciones , para saber cuantas hay que iniciar.
     
     
-    if(!allegro_ini(&display,&event_queue,&font[],&samples[],&timer)){
+    if(!allegro_ini(&display,&event_queue,&font,&samples,&timer)){
         fprintf(stderr,"Hubo un error kpo , volve a descargar el archivo , gracias\n");
-    }
-    
+    };
+    aux=menu_display(&samples[0],&event_queue,&font[0]);
+    printf("%d",aux);
     return (EXIT_SUCCESS);
 }

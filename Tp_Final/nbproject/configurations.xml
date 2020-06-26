@@ -6,6 +6,7 @@
                    projectFiles="true">
       <itemPath>allegro_setup.h</itemPath>
       <itemPath>config.h</itemPath>
+      <itemPath>main_menu.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -69,6 +70,8 @@
       </item>
       <item path="main_menu.c" ex="false" tool="0" flavor2="0">
       </item>
+      <item path="main_menu.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="space_invaders.ttf" ex="false" tool="3" flavor2="0">
       </item>
       <item path="spaceinvader_theme.wav" ex="false" tool="3" flavor2="0">
@@ -103,6 +106,8 @@
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="main_menu.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="main_menu.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="space_invaders.ttf" ex="false" tool="3" flavor2="0">
       </item>
