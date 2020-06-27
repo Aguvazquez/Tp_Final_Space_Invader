@@ -14,8 +14,7 @@
 #ifndef TOP_SCORE_H
 #define TOP_SCORE_H
 uint16_t Top_Score(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[]);
-void create_button_unpressed_top_score(ALLEGRO_FONT * font);
-void create_button_pressed_top_score(ALLEGRO_FONT * font);
+
 uint16_t Create_Top_Score();
 
 #endif

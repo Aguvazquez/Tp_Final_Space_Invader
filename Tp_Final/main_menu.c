@@ -17,6 +17,8 @@
 #include "config.h"
 #include "main_menu.h"
 #include "Top_Score.h"
+static void create_button_unpressed(ALLEGRO_FONT*font);
+static void create_button_pressed(ALLEGRO_FONT*font,uint8_t button);
 uint16_t menu_display(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[]){
     uint8_t do_exit=false, check=false,redraw=false ;
     uint8_t aux=0;
@@ -88,7 +90,7 @@ uint16_t menu_display(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO
             create_button_unpressed(font[0]);
             redraw =false;
         }
-        
+        check= false;
     }
     
     return aux;

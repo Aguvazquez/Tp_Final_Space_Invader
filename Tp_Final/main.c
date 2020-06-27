@@ -30,6 +30,7 @@
 #include "Top_Score.h"
 int main(void) {
     uint16_t aux=0;
+    uint8_t do_exit=false;
     ALLEGRO_DISPLAY * display = NULL;
     ALLEGRO_EVENT_QUEUE * event_queue=NULL;
     ALLEGRO_TIMER * timer=NULL;
@@ -42,28 +43,35 @@ int main(void) {
         return -1;
     };
     
+    while(!do_exit){
     
-    aux=menu_display(&display,&samples[0],&event_queue,&font[0],&display_background[0]);
-    switch(aux){
-        case 1 :al_stop_samples();//PLAY 
-        break;
-        case 2 ://DIFFICULTY
-        break;
-        case 3 :{
-           if(!Top_Score(&display,&samples[0],&event_queue,&font[0],&display_background[0])){
-               fprintf(stderr,"Hubo un error tato , volve a descargar el archivo , gracias\n");
-               return -1;
+        switch(menu_display(&display,&samples[0],&event_queue,&font[0],&display_background[0])){
+            case 1 :{
+                al_stop_samples();//PLAY 
+                do_exit=true;
+            }
+            break;
+            case 2 ://DIFFICULTY
+            break;
+            case 3 :{
+                aux =Top_Score(&display,&samples[0],&event_queue,&font[0],&display_background[0]);
+               if(!aux){
+                   fprintf(stderr,"Hubo un error tato , volve a descargar el archivo , gracias\n");
+                   return -1;
+
+               }else if(aux==2) //Si fue un 2 , entonces se apreto la x del display
+                   do_exit =true;
                
-           } 
-          
+
+            }
+            break;
+            default :{ fprintf(stderr,"Hubo un error tato , volve a descargar el archivo , gracias\n");
+                   return -1;
+            }
+            break;
+
+
         }
-        break;
-        default :{ fprintf(stderr,"Hubo un error tato , volve a descargar el archivo , gracias\n");
-               return -1;
-        }
-        break;
-        
-            
     }
     allegro_shutdown(&event_queue,&display);
     return (EXIT_SUCCESS);
