@@ -115,7 +115,7 @@ uint16_t allegro_ini(ALLEGRO_DISPLAY** display,ALLEGRO_EVENT_QUEUE**  event_queu
     
     al_init_font_addon(); 
     al_init_ttf_addon();
-    font[0] = al_load_ttf_font("space_invaders.ttf", 16, 0); 
+    font[0] = al_load_ttf_font("space_invaders.ttf", 22, 0); 
     for(i=0;i<FONTS;i++){
         if (!font[i]) {
             fprintf(stderr, "No se pudo cargar una fuente.\n");
@@ -177,6 +177,7 @@ void allegro_shutdown(ALLEGRO_EVENT_QUEUE** event_queue,ALLEGRO_DISPLAY **displa
     al_uninstall_mouse();
     al_uninstall_keyboard();
     al_shutdown_primitives_addon();
+    al_shutdown_image_addon();
     al_uninstall_audio();
     al_destroy_display(*display);
     al_destroy_event_queue(*event_queue);

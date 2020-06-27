@@ -92,13 +92,13 @@ uint16_t menu_display(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO
 void create_button_unpressed(ALLEGRO_FONT*font){
     al_draw_filled_rectangle(SCREEN_W/4, 7*SCREEN_H/16, 3*SCREEN_W/4, 9*SCREEN_H/16, al_color_name("black"));
     al_draw_rectangle(SCREEN_W/4, 7*SCREEN_H/16, 3*SCREEN_W/4, 9*SCREEN_H/16, al_color_name("white"),2.0);
-    al_draw_text(font, al_map_rgb(255, 255, 255), SCREEN_W / 2, (SCREEN_H /2), ALLEGRO_ALIGN_CENTER, "PLAY");
+    al_draw_text(font, al_map_rgb(255, 255, 255), SCREEN_W / 2, (12*SCREEN_H /25), ALLEGRO_ALIGN_CENTER, "PLAY");
     al_draw_filled_rectangle(SCREEN_W/4, 5*SCREEN_H/8, 3*SCREEN_W/4, 3*SCREEN_H/4, al_color_name("black"));
     al_draw_rectangle(SCREEN_W/4, 5*SCREEN_H/8, 3*SCREEN_W/4, 3*SCREEN_H/4, al_color_name("white"),2.0);
-    al_draw_text(font, al_map_rgb(255, 255, 255), SCREEN_W / 2, (11*SCREEN_H / 16), ALLEGRO_ALIGN_CENTER, "DIFFICULTY");
+    al_draw_text(font, al_map_rgb(255, 255, 255), SCREEN_W / 2, (267*SCREEN_H / 400), ALLEGRO_ALIGN_CENTER, "DIFFICULTY");
     al_draw_filled_rectangle(SCREEN_W/4, 13*SCREEN_H/16, 3*SCREEN_W/4, 15*SCREEN_H/16, al_color_name("black"));
     al_draw_rectangle(SCREEN_W/4, 13*SCREEN_H/16, 3*SCREEN_W/4, 15*SCREEN_H/16, al_color_name("white"),2.0);
-    al_draw_text(font, al_map_rgb(255, 255, 255), SCREEN_W / 2, (7*SCREEN_H / 8), ALLEGRO_ALIGN_CENTER, "TOP SCORE");
+    al_draw_text(font, al_map_rgb(255, 255, 255), SCREEN_W / 2, (171*SCREEN_H / 200), ALLEGRO_ALIGN_CENTER, "TOP SCORE");
     al_flip_display();
     
 }
@@ -106,17 +106,17 @@ void create_button_pressed(ALLEGRO_FONT*font,uint8_t button){
     switch(button){
         case 1:{
                 al_draw_filled_rectangle(SCREEN_W/4, 7*SCREEN_H/16, 3*SCREEN_W/4, 9*SCREEN_H/16, al_color_name("grey"));
-                al_draw_text(font, al_map_rgb(0,0,0), SCREEN_W / 2, (SCREEN_H /2), ALLEGRO_ALIGN_CENTER, "PLAY");
+                al_draw_text(font, al_map_rgb(0,0,0), SCREEN_W / 2, (12*SCREEN_H /25), ALLEGRO_ALIGN_CENTER, "PLAY");
         }
         break;
         case 2:{
                 al_draw_filled_rectangle(SCREEN_W/4, 5*SCREEN_H/8, 3*SCREEN_W/4, 3*SCREEN_H/4, al_color_name("grey"));
-                al_draw_text(font, al_map_rgb(0,0,0), SCREEN_W / 2, (11*SCREEN_H / 16), ALLEGRO_ALIGN_CENTER, "DIFFICULTY");
+                al_draw_text(font, al_map_rgb(0,0,0), SCREEN_W / 2, (267*SCREEN_H / 400), ALLEGRO_ALIGN_CENTER, "DIFFICULTY");
         }
         break;
         case 3:{
                 al_draw_filled_rectangle(SCREEN_W/4, 13*SCREEN_H/16, 3*SCREEN_W/4, 15*SCREEN_H/16, al_color_name("grey"));
-                al_draw_text(font, al_map_rgb(0,0,0), SCREEN_W / 2, (7*SCREEN_H / 8), ALLEGRO_ALIGN_CENTER, "TOP SCORE");
+                al_draw_text(font, al_map_rgb(0,0,0), SCREEN_W / 2, (171*SCREEN_H / 200), ALLEGRO_ALIGN_CENTER, "TOP SCORE");
         }
         break;
     }
