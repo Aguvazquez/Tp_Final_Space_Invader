@@ -16,11 +16,15 @@
 #include <allegro5/allegro_acodec.h> 
 #include "config.h"
 #include "main_menu.h"
+#include "Top_Score.h"
 uint16_t menu_display(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[]){
     uint8_t do_exit=false, check=false,redraw=false ;
     uint8_t aux=0;
     float mouse_x = 0 ;
     float mouse_y =0 ;
+    if(!Create_Top_Score()){
+        return 0;
+    }
     al_draw_scaled_bitmap(display_background[0],0, 0, al_get_bitmap_width(display_background[0]), al_get_bitmap_height(display_background[0]), //imagen
             0, 0, al_get_display_width(*display), al_get_display_height(*display), //a que tamaño queres que se dibuje la imagen
             0);
@@ -59,7 +63,7 @@ uint16_t menu_display(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO
             else if(mouse_y>=5*SCREEN_H/8 && mouse_y<= 3*SCREEN_H/4){
                 if(check){
                     do_exit=true;
-                    aux=1;
+                    aux=2;
                 }
                 else{
                     create_button_pressed(font[0],2);
@@ -68,7 +72,7 @@ uint16_t menu_display(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO
             else if (mouse_y>=13*SCREEN_H/16 && mouse_y<= 15*SCREEN_H/16){
                 if(check){
                     do_exit=true;
-                    aux=1;
+                    aux=3;
                 }
                 else{
                     create_button_pressed(font[0],3);
@@ -86,9 +90,9 @@ uint16_t menu_display(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO
         }
         
     }
-    al_stop_samples();
+    
     return aux;
-}
+}//acordarse de invocar al_stop_samples(); una vez que se inicia PLAY.
 void create_button_unpressed(ALLEGRO_FONT*font){
     al_draw_filled_rectangle(SCREEN_W/4, 7*SCREEN_H/16, 3*SCREEN_W/4, 9*SCREEN_H/16, al_color_name("black"));
     al_draw_rectangle(SCREEN_W/4, 7*SCREEN_H/16, 3*SCREEN_W/4, 9*SCREEN_H/16, al_color_name("white"),2.0);

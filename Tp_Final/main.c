@@ -27,6 +27,7 @@
 #include "allegro_setup.h"
 #include "config.h"
 #include "main_menu.h"
+#include "Top_Score.h"
 int main(void) {
     uint16_t aux=0;
     ALLEGRO_DISPLAY * display = NULL;
@@ -38,10 +39,32 @@ int main(void) {
     
     if(!allegro_ini(&display,&event_queue,&font[0],&samples[0],&timer,&display_background[0])){
         fprintf(stderr,"Hubo un error tato , volve a descargar el archivo , gracias\n");
+        return -1;
     };
     
+    
     aux=menu_display(&display,&samples[0],&event_queue,&font[0],&display_background[0]);
-    printf("%d",aux);
+    switch(aux){
+        case 1 :al_stop_samples();//PLAY 
+        break;
+        case 2 ://DIFFICULTY
+        break;
+        case 3 :{
+           if(!Top_Score(&display,&samples[0],&event_queue,&font[0],&display_background[0])){
+               fprintf(stderr,"Hubo un error tato , volve a descargar el archivo , gracias\n");
+               return -1;
+               
+           } 
+          
+        }
+        break;
+        default :{ fprintf(stderr,"Hubo un error tato , volve a descargar el archivo , gracias\n");
+               return -1;
+        }
+        break;
+        
+            
+    }
     allegro_shutdown(&event_queue,&display);
     return (EXIT_SUCCESS);
 }

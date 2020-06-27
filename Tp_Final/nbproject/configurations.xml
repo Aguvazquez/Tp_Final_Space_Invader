@@ -4,6 +4,7 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>Top_Score.h</itemPath>
       <itemPath>allegro_setup.h</itemPath>
       <itemPath>config.h</itemPath>
       <itemPath>main_menu.h</itemPath>
@@ -19,6 +20,7 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>Top_Score.c</itemPath>
       <itemPath>allegro_setup.c</itemPath>
       <itemPath>main.c</itemPath>
       <itemPath>main_menu.c</itemPath>
@@ -62,6 +64,10 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
+      <item path="Top_Score.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="Top_Score.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="allegro_setup.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="allegro_setup.h" ex="false" tool="3" flavor2="0">
@@ -103,6 +109,10 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="Top_Score.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="Top_Score.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="allegro_setup.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="allegro_setup.h" ex="false" tool="3" flavor2="0">

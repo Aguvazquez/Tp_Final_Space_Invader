@@ -35,6 +35,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/Top_Score.o \
 	${OBJECTDIR}/allegro_setup.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/main_menu.o
@@ -63,6 +64,11 @@ LDLIBSOPTIONS=
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/tp_final: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.c} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/tp_final ${OBJECTFILES} ${LDLIBSOPTIONS}
+
+${OBJECTDIR}/Top_Score.o: Top_Score.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Top_Score.o Top_Score.c
 
 ${OBJECTDIR}/allegro_setup.o: allegro_setup.c
 	${MKDIR} -p ${OBJECTDIR}
