@@ -149,11 +149,38 @@ static void get_top_score(ALLEGRO_DISPLAY * display , ALLEGRO_FONT *font){
     //SEGUNDO PUESTO    
         //SCORE
         fgets(str,STR_LONG,fp);
-        al_draw_text(font, al_map_rgb(255,255,255), SCREEN_W / 2, (SCREEN_H / 3), ALLEGRO_ALIGN_CENTER, str);
+        al_draw_text(font, al_map_rgb(255,255,255), 7*SCREEN_W / 16, 25*SCREEN_H / 48, ALLEGRO_ALIGN_CENTER, str);
         fgetc(fp);
         //NAME
         fgets(str,STR_LONG,fp);
-        al_draw_text(font, al_map_rgb(255,255,255), SCREEN_W / 2, (SCREEN_H / 3), ALLEGRO_ALIGN_CENTER, str);
+        al_draw_text(font, al_map_rgb(255,255,255), 31*SCREEN_W / 48, 25*SCREEN_H / 48, ALLEGRO_ALIGN_CENTER, str);
+        fgetc(fp);
+    //TERCER PUESTO    
+        //SCORE
+        fgets(str,STR_LONG,fp);
+        al_draw_text(font, al_map_rgb(255,255,255), 7*SCREEN_W / 16, 29*SCREEN_H / 48, ALLEGRO_ALIGN_CENTER, str);
+        fgetc(fp);
+        //NAME
+        fgets(str,STR_LONG,fp);
+        al_draw_text(font, al_map_rgb(255,255,255), 31*SCREEN_W / 48, 29*SCREEN_H / 48, ALLEGRO_ALIGN_CENTER, str);
+        fgetc(fp);
+    //CUARTO PUESTO    
+        //SCORE
+        fgets(str,STR_LONG,fp);
+        al_draw_text(font, al_map_rgb(255,255,255), 7*SCREEN_W / 16, 11*SCREEN_H / 16, ALLEGRO_ALIGN_CENTER, str);
+        fgetc(fp);
+        //NAME
+        fgets(str,STR_LONG,fp);
+        al_draw_text(font, al_map_rgb(255,255,255), 31*SCREEN_W / 48, 11*SCREEN_H / 16, ALLEGRO_ALIGN_CENTER, str);
+        fgetc(fp);
+    //QUINTO PUESTO    
+        //SCORE
+        fgets(str,STR_LONG,fp);
+        al_draw_text(font, al_map_rgb(255,255,255), 7*SCREEN_W / 16, 37*SCREEN_H / 48, ALLEGRO_ALIGN_CENTER, str);
+        fgetc(fp);
+        //NAME
+        fgets(str,STR_LONG,fp);
+        al_draw_text(font, al_map_rgb(255,255,255), 31*SCREEN_W / 48, 37*SCREEN_H / 48, ALLEGRO_ALIGN_CENTER, str);
         fgetc(fp);
     
 }
