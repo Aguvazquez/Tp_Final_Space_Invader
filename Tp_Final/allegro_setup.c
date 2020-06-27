@@ -20,7 +20,7 @@
 
 uint16_t allegro_ini(ALLEGRO_DISPLAY** display,ALLEGRO_EVENT_QUEUE**  event_queue
                         ,ALLEGRO_FONT*font[],ALLEGRO_SAMPLE *sample[],ALLEGRO_TIMER **timer,
-                        ALLEGRO_BITMAP** display_background)
+                        ALLEGRO_BITMAP* display_background[])
 {
     uint16_t i;
     if (!al_init()) {
@@ -116,7 +116,6 @@ uint16_t allegro_ini(ALLEGRO_DISPLAY** display,ALLEGRO_EVENT_QUEUE**  event_queu
     al_init_font_addon(); 
     al_init_ttf_addon();
     font[0] = al_load_ttf_font("space_invaders.ttf", 16, 0); 
-    font[1] = al_load_ttf_font("space_invaders.ttf", 40, 0);
     for(i=0;i<FONTS;i++){
         if (!font[i]) {
             fprintf(stderr, "No se pudo cargar una fuente.\n");
@@ -148,8 +147,10 @@ uint16_t allegro_ini(ALLEGRO_DISPLAY** display,ALLEGRO_EVENT_QUEUE**  event_queu
             return -1;
         }
     }
-    *display_background = al_load_bitmap("invaders.png");
-    if (!display_background) {
+    display_background[0] = al_load_bitmap("invaders.png");
+    display_background[1] = al_load_bitmap("space-invaders-logo.png");
+    for(i=0;i<2;i++){
+    if (!display_background[i]) {
             fprintf(stderr,"background image not loaded!\n");
             al_uninstall_system();
             al_shutdown_image_addon();
@@ -162,6 +163,7 @@ uint16_t allegro_ini(ALLEGRO_DISPLAY** display,ALLEGRO_EVENT_QUEUE**  event_queu
             al_shutdown_ttf_addon();
             return -1;
         }
+    }
     al_register_event_source(*event_queue, al_get_keyboard_event_source());
     al_register_event_source(*event_queue, al_get_display_event_source(*display));
     al_register_event_source(*event_queue, al_get_mouse_event_source());

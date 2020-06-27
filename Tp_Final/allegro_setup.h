@@ -24,7 +24,7 @@
  */
 uint16_t allegro_ini(ALLEGRO_DISPLAY** display,ALLEGRO_EVENT_QUEUE**  event_queue
                         ,ALLEGRO_FONT*font[],ALLEGRO_SAMPLE *sample[],ALLEGRO_TIMER **timer,
-                        ALLEGRO_BITMAP** display_background);
+                        ALLEGRO_BITMAP* display_background[0]);
 uint16_t allegro_shudown(ALLEGRO_EVENT_QUEUE** event_queue,ALLEGRO_DISPLAY **display);
     
 #endif

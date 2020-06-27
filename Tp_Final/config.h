@@ -17,7 +17,7 @@
 #define SCREEN_W  800
 #define SCREEN_H  640
 #define SAMPLES  5
-#define FONTS  2
+#define FONTS  1
 #endif//CONFIG_H
 
 

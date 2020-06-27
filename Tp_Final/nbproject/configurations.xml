@@ -11,6 +11,8 @@
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
                    projectFiles="true">
+      <itemPath>invaders.png</itemPath>
+      <itemPath>space-invaders-logo.png</itemPath>
       <itemPath>space_invaders.ttf</itemPath>
       <itemPath>spaceinvader_theme.wav</itemPath>
     </logicalFolder>
@@ -66,11 +68,15 @@
       </item>
       <item path="config.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="invaders.png" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="main_menu.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="main_menu.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="space-invaders-logo.png" ex="false" tool="3" flavor2="0">
       </item>
       <item path="space_invaders.ttf" ex="false" tool="3" flavor2="0">
       </item>
@@ -103,11 +109,15 @@
       </item>
       <item path="config.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="invaders.png" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="main_menu.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="main_menu.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="space-invaders-logo.png" ex="false" tool="3" flavor2="0">
       </item>
       <item path="space_invaders.ttf" ex="false" tool="3" flavor2="0">
       </item>

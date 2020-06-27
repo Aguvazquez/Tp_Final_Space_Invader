@@ -16,15 +16,18 @@
 #include <allegro5/allegro_acodec.h> 
 #include "config.h"
 #include "main_menu.h"
-uint16_t menu_display(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP** display_background){
+uint16_t menu_display(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[]){
     uint8_t do_exit=false, check=false,redraw=false ;
     uint8_t aux=0;
     float mouse_x = 0 ;
     float mouse_y =0 ;
-    al_draw_scaled_bitmap(*display_background,0, 0, al_get_bitmap_width(*display_background), al_get_bitmap_height(*display_background), //imagen
+    al_draw_scaled_bitmap(display_background[0],0, 0, al_get_bitmap_width(display_background[0]), al_get_bitmap_height(display_background[0]), //imagen
             0, 0, al_get_display_width(*display), al_get_display_height(*display), //a que tamaño queres que se dibuje la imagen
             0);
-    al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W / 2, (SCREEN_H / 5), ALLEGRO_ALIGN_CENTER, "SPACE INVADERS");
+    al_draw_scaled_bitmap(display_background[1],0, 0, al_get_bitmap_width(display_background[1]), al_get_bitmap_height(display_background[1]), //imagen
+            0, 0, al_get_display_width(*display), al_get_display_height(*display)/3, //a que tamaño queres que se dibuje la imagen
+            0);
+    
     al_play_sample(sample[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
     create_button_unpressed(font[0]);
     al_flip_display();
