@@ -27,7 +27,7 @@
 #include "allegro_setup.h"
 #include "config.h"
 #include "main_menu.h"
-#include "Top_Score.h"
+
 int main(void) {
     uint16_t aux=0;
     uint8_t do_exit=false;

@@ -17,8 +17,24 @@
 #include "config.h"
 #include "main_menu.h"
 #include "Top_Score.h"
+#include "Difficulty.h"
 
 /**********Header of locals fucntions*********/
+
+/*
+ * @Brief Create the main menu. 
+ * @Param param1: pointer to the display.
+ * @Param param2: pointer to samples array.
+ * @Param param3: pointer to the event queue.
+ * @Param param4: pointer to fonts array.
+ * @param param5: pointer to backgrounds array.
+ * @Return  0 close the game.
+ *          1 first button was pressed.
+ *          2 second button was pressed.
+ *          3 third button was pressed. 
+ * @Coment This fuctions doesn't stop the music.
+ */
+static uint16_t menu_display(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP* display_background[]);
 
 /*
  * @Brief create the buttons unpressed
@@ -52,7 +68,18 @@ int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_
                 do_exit=true;
             }
             break;
-            case 2 : do_exit=true;//DIFFICULTY
+            case 2 :{ 
+               aux =Difficulty(display,sample,event_queue,font,display_background);
+               if(!aux){
+                   fprintf(stderr,"Hubo un error tato , volve a descargar el archivo , gracias\n");
+                   return -1;
+
+               }
+               else if(aux==2) //Si fue un 2 , entonces se apreto la x del display
+                   do_exit =true;
+                
+            
+            }
             break;
             case 3 :{
                 aux =Top_Score(display,sample,event_queue,font,display_background);
@@ -60,7 +87,8 @@ int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_
                    fprintf(stderr,"Hubo un error tato , volve a descargar el archivo , gracias\n");
                    return -1;
 
-               }else if(aux==2) //Si fue un 2 , entonces se apreto la x del display
+               }
+               else if(aux==2) //Si fue un 2 , entonces se apreto la x del display
                    do_exit =true;
                
 
@@ -76,7 +104,10 @@ int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_
     }
    return aux;
 }
-uint16_t menu_display(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[]){
+
+/**********************Local functions***************/
+
+ static uint16_t menu_display(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[]){
     
     uint8_t do_exit=false, check=false,redraw=false ;
     uint8_t aux=0;
@@ -159,7 +190,7 @@ uint16_t menu_display(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO
     return aux;
 }
 
-/**********************Local functions***************/
+
 
 void create_button_unpressed(ALLEGRO_FONT*font){
     al_draw_filled_rectangle(SCREEN_W/4, 7*SCREEN_H/16, 3*SCREEN_W/4, 9*SCREEN_H/16, al_color_name("black"));

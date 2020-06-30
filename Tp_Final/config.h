@@ -18,6 +18,7 @@
 #define SCREEN_H  640
 #define SAMPLES  5
 #define FONTS  1
+enum{EASY=1,NORMAL,HARD};
 #endif//CONFIG_H
 
 
