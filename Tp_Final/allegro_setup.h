@@ -21,7 +21,7 @@
  *@param param4: puntero a arreglo de canciones/sonidos.
  *@param param5: puntero a puntero a timer
  *@param param6: puntero a arreglo de backgrounds. 
- *@return Devuelve un -1 si no se pudo iniciar algo , devuelve un 1 si sale todo bien 
+ *@return Devuelve un 0 si no se pudo iniciar algo , devuelve un 1 si sale todo bien 
  * 
  */
 uint16_t allegro_ini(ALLEGRO_DISPLAY** display,ALLEGRO_EVENT_QUEUE**  event_queue

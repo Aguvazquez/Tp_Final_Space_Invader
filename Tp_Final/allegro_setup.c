@@ -25,18 +25,18 @@ uint16_t allegro_ini(ALLEGRO_DISPLAY** display,ALLEGRO_EVENT_QUEUE**  event_queu
     uint16_t i;
     if (!al_init()) {
         fprintf(stderr, "failed to initialize allegro!\n");
-        return -1;
+        return 0;
     }
     if (!al_install_mouse()) {
         fprintf(stderr, "failed to initialize the mouse!\n");
         al_uninstall_system();
-        return -1;
+        return 0;
     }
     if(!al_init_image_addon()){
         fprintf(stderr, "failed to initialize the image!\n");
         al_uninstall_system();
         al_uninstall_mouse();
-        return -1;
+        return 0;
     }
     
     if (!al_install_keyboard()) {
@@ -44,7 +44,7 @@ uint16_t allegro_ini(ALLEGRO_DISPLAY** display,ALLEGRO_EVENT_QUEUE**  event_queu
         al_uninstall_system();
         al_shutdown_image_addon();
         al_uninstall_mouse();
-        return -1;
+        return 0;
     }
     
     if (!al_init_primitives_addon()) {
@@ -53,7 +53,7 @@ uint16_t allegro_ini(ALLEGRO_DISPLAY** display,ALLEGRO_EVENT_QUEUE**  event_queu
         al_shutdown_image_addon();
         al_uninstall_mouse();
         al_uninstall_keyboard();        
-        return -1;
+        return 0;
     }
     
     if (!al_install_audio()) {
@@ -63,7 +63,7 @@ uint16_t allegro_ini(ALLEGRO_DISPLAY** display,ALLEGRO_EVENT_QUEUE**  event_queu
         al_uninstall_mouse();
         al_uninstall_keyboard();
         al_shutdown_primitives_addon();
-        return -1;
+        return 0;
     }
 
     if (!al_init_acodec_addon()) {
@@ -74,7 +74,7 @@ uint16_t allegro_ini(ALLEGRO_DISPLAY** display,ALLEGRO_EVENT_QUEUE**  event_queu
         al_uninstall_keyboard();
         al_shutdown_primitives_addon();
         al_uninstall_audio();
-        return -1;
+        return 0;
     }
 
     if (!al_reserve_samples(SAMPLES)) {
@@ -85,7 +85,7 @@ uint16_t allegro_ini(ALLEGRO_DISPLAY** display,ALLEGRO_EVENT_QUEUE**  event_queu
         al_uninstall_keyboard();
         al_shutdown_primitives_addon();
         al_uninstall_audio();
-        return -1;
+        return 0;
     }
  
     *display = al_create_display(SCREEN_W, SCREEN_H); 
@@ -97,7 +97,7 @@ uint16_t allegro_ini(ALLEGRO_DISPLAY** display,ALLEGRO_EVENT_QUEUE**  event_queu
         al_uninstall_keyboard();
         al_shutdown_primitives_addon();
         al_uninstall_audio();
-        return -1;
+        return 0;
     }
     
     *event_queue = al_create_event_queue();
@@ -110,7 +110,7 @@ uint16_t allegro_ini(ALLEGRO_DISPLAY** display,ALLEGRO_EVENT_QUEUE**  event_queu
         al_shutdown_primitives_addon();
         al_uninstall_audio();
         al_destroy_display(*display);
-        return -1;
+        return 0;
     }
     
     al_init_font_addon(); 
@@ -127,7 +127,7 @@ uint16_t allegro_ini(ALLEGRO_DISPLAY** display,ALLEGRO_EVENT_QUEUE**  event_queu
             al_uninstall_audio();
             al_destroy_display(*display);
             al_destroy_event_queue(*event_queue);
-            return -1;
+            return 0;
         }
     }
     
@@ -144,7 +144,7 @@ uint16_t allegro_ini(ALLEGRO_DISPLAY** display,ALLEGRO_EVENT_QUEUE**  event_queu
             al_destroy_display(*display);
             al_destroy_event_queue(*event_queue);
             al_shutdown_ttf_addon();
-            return -1;
+            return 0;
         }
     }
     display_background[0] = al_load_bitmap("invaders.png");
@@ -161,7 +161,7 @@ uint16_t allegro_ini(ALLEGRO_DISPLAY** display,ALLEGRO_EVENT_QUEUE**  event_queu
             al_destroy_display(*display);
             al_destroy_event_queue(*event_queue);
             al_shutdown_ttf_addon();
-            return -1;
+            return 0;
         }
     }
     al_register_event_source(*event_queue, al_get_keyboard_event_source());
@@ -179,7 +179,7 @@ void allegro_shutdown(ALLEGRO_EVENT_QUEUE** event_queue,ALLEGRO_DISPLAY **displa
     al_shutdown_primitives_addon();
     al_shutdown_image_addon();
     al_uninstall_audio();
-    /*al_destroy_display(*display);  No entiendo porque da segmentation fault , pero son estas dos lineas de codigo
+  /*  al_destroy_display(*display); // No entiendo porque da segmentation fault , pero son estas dos lineas de codigo
     al_destroy_event_queue(*event_queue);*/
     al_shutdown_ttf_addon();
     
