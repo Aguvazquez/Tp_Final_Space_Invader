@@ -39,40 +39,15 @@ int main(void) {
     ALLEGRO_BITMAP* display_background[]={NULL,NULL};// arreglo para incluir fondos.
     
     if(!allegro_ini(&display,&event_queue,&font[0],&samples[0],&timer,&display_background[0])){
-        fprintf(stderr,"Hubo un error tato , volve a descargar el archivo , gracias\n");
+        fprintf(stderr,"Something happened, please try again later");
         return -1;
     };
     
-    while(!do_exit){
-    
-        switch(menu_display(&display,&samples[0],&event_queue,&font[0],&display_background[0])){
-            case 1 :{
-                al_stop_samples();//PLAY 
-                do_exit=true;
-            }
-            break;
-            case 2 ://DIFFICULTY
-            break;
-            case 3 :{
-                aux =Top_Score(&display,&samples[0],&event_queue,&font[0],&display_background[0]);
-               if(!aux){
-                   fprintf(stderr,"Hubo un error tato , volve a descargar el archivo , gracias\n");
-                   return -1;
-
-               }else if(aux==2) //Si fue un 2 , entonces se apreto la x del display
-                   do_exit =true;
-               
-
-            }
-            break;
-            default :{ fprintf(stderr,"Hubo un error tato , volve a descargar el archivo , gracias\n");
-                   return -1;
-            }
-            break;
-
-
-        }
+    if(main_menu(&display,&samples[0],&event_queue,&font[0],&display_background[0])== -1 ){
+        fprintf(stderr,"Something happened, please try again later");
+        return -1;
     }
+    
     allegro_shutdown(&event_queue,&display);
     return (EXIT_SUCCESS);
 }

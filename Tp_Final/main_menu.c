@@ -17,23 +17,86 @@
 #include "config.h"
 #include "main_menu.h"
 #include "Top_Score.h"
+
+/**********Header of locals fucntions*********/
+
+/*
+ * @Brief create the buttons unpressed
+ * @Param param1 : Type font.
+ *
+ */
 static void create_button_unpressed(ALLEGRO_FONT*font);
+
+/*
+ * @Brief create the buttons pressed.
+ * @Param param1 : Type font.
+ * @Param param2: Button be market as pressed
+ *
+ */
+
 static void create_button_pressed(ALLEGRO_FONT*font,uint8_t button);
+
+
+/****************************Global fuctions***********************/
+int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[]){
+   uint8_t do_exit=false;
+   uint8_t aux=0;
+    while(!do_exit){
+    
+        switch(aux=menu_display(display,sample,event_queue,font,display_background)){
+            case 0 : do_exit=true;//Exit value 
+            break;
+            case 1 :{
+                
+                al_stop_samples();//PLAY 
+                do_exit=true;
+            }
+            break;
+            case 2 : do_exit=true;//DIFFICULTY
+            break;
+            case 3 :{
+                aux =Top_Score(display,sample,event_queue,font,display_background);
+               if(!aux){
+                   fprintf(stderr,"Hubo un error tato , volve a descargar el archivo , gracias\n");
+                   return -1;
+
+               }else if(aux==2) //Si fue un 2 , entonces se apreto la x del display
+                   do_exit =true;
+               
+
+            }
+            break;
+            default :{ fprintf(stderr,"Hubo un error tato , volve a descargar el archivo , gracias\n");
+                   return -1;
+            }
+            break;
+
+
+        }
+    }
+   return aux;
+}
 uint16_t menu_display(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[]){
+    
     uint8_t do_exit=false, check=false,redraw=false ;
     uint8_t aux=0;
-    float mouse_x = 0 ;
+     
+    /***********Mouse axes**********/
+    float mouse_x = 0 ; 
     float mouse_y =0 ;
-    if(!Create_Top_Score()){
+    
+    if(!Create_Top_Score()){ 
         return 0;
     }
-    al_draw_scaled_bitmap(display_background[0],0, 0, al_get_bitmap_width(display_background[0]), al_get_bitmap_height(display_background[0]), //imagen
-            0, 0, al_get_display_width(*display), al_get_display_height(*display), //a que tamaño queres que se dibuje la imagen
-            0);
-    al_draw_scaled_bitmap(display_background[1],0, 0, al_get_bitmap_width(display_background[1]), al_get_bitmap_height(display_background[1]), //imagen
-            0, 0, al_get_display_width(*display), al_get_display_height(*display)/3, //a que tamaño queres que se dibuje la imagen
-            0);
     
+    /**********Title and bakground menu.*********************/
+    
+    al_draw_scaled_bitmap(display_background[0],0, 0, al_get_bitmap_width(display_background[0]), al_get_bitmap_height(display_background[0]), //imagen
+            0, 0, al_get_display_width(*display), al_get_display_height(*display),0);
+    al_draw_scaled_bitmap(display_background[1],0, 0, al_get_bitmap_width(display_background[1]), al_get_bitmap_height(display_background[1]), //imagen
+            0, 0, al_get_display_width(*display), al_get_display_height(*display)/3,0);
+    
+    /********************************************************/
     al_play_sample(sample[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
     create_button_unpressed(font[0]);
     al_flip_display();
@@ -94,7 +157,10 @@ uint16_t menu_display(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO
     }
     
     return aux;
-}//acordarse de invocar al_stop_samples(); una vez que se inicia PLAY.
+}
+
+/**********************Local functions***************/
+
 void create_button_unpressed(ALLEGRO_FONT*font){
     al_draw_filled_rectangle(SCREEN_W/4, 7*SCREEN_H/16, 3*SCREEN_W/4, 9*SCREEN_H/16, al_color_name("black"));
     al_draw_rectangle(SCREEN_W/4, 7*SCREEN_H/16, 3*SCREEN_W/4, 9*SCREEN_H/16, al_color_name("white"),2.0);
@@ -108,6 +174,8 @@ void create_button_unpressed(ALLEGRO_FONT*font){
     al_flip_display();
     
 }
+
+
 void create_button_pressed(ALLEGRO_FONT*font,uint8_t button){
     switch(button){
         case 1:{
