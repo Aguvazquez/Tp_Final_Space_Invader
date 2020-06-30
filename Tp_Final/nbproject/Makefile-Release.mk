@@ -39,7 +39,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/Top_Score.o \
 	${OBJECTDIR}/allegro_setup.o \
 	${OBJECTDIR}/main.o \
-	${OBJECTDIR}/main_menu.o
+	${OBJECTDIR}/main_menu.o \
+	${OBJECTDIR}/play.o
 
 
 # C Compiler Flags
@@ -90,6 +91,11 @@ ${OBJECTDIR}/main_menu.o: main_menu.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main_menu.o main_menu.c
+
+${OBJECTDIR}/play.o: play.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/play.o play.c
 
 # Subprojects
 .build-subprojects:
