@@ -63,9 +63,9 @@ int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_
             case 0 : do_exit=true;//Exit value 
             break;
             case 1 :{
-                
+                play(display);
                 al_stop_samples();//PLAY 
-                do_exit=true;
+                //do_exit=true;
             }
             break;
             case 2 :{ 
@@ -84,7 +84,7 @@ int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_
             case 3 :{
                 aux =Top_Score(display,sample,event_queue,font,display_background);
                if(!aux){
-                   fprintf(stderr,"Hubo un error tato , volve a descargar el archivo , gracias\n");
+                   fprintf(stderr,"Hubo un error kpo\n");
                    return -1;
 
                }
