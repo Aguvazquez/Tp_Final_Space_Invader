@@ -15,17 +15,20 @@ enum MYKEYS {
     KEY_LEFT, KEY_RIGHT, KEY_SPACE //arrow keys
 };
 
-void move()
+int move()
 {
     ALLEGRO_DISPLAY *display = NULL;
     ALLEGRO_EVENT_QUEUE *event_queue = NULL;
     ALLEGRO_TIMER *timer = NULL;
     ALLEGRO_BITMAP *cuadradito = NULL;
     ALLEGRO_BITMAP *bullet = NULL;
+    ALLEGRO_BITMAP *alien = NULL;
     
     float cuadradito_x = SCREEN_W / 2.0 - CUADRADITO_SIZE / 2.0;
     float cuadradito_y = SCREEN_H - CUADRADITO_SIZE;
     float bullet_x, bullet_y;
+    float alien_x = SCREEN_W / 2.0 - CUADRADITO_SIZE / 2.0;
+    float alien_y = SCREEN_H / 2.0 - CUADRADITO_SIZE;
 
     bool key_pressed[3] = {false, false, false}; //Estado de teclas, true cuando esta apretada
     bool redraw = false;
@@ -56,10 +59,20 @@ void move()
         return -1;
     }
     
-    bullet = al_create_bitmap(CUADRADITO_SIZE / 8, CUADRADITO_SIZE);
-    if (!cuadradito) {
+    bullet = al_create_bitmap(1, CUADRADITO_SIZE);
+    if (!bullet) {
         fprintf(stderr, "failed to create cuadradito bitmap!\n");
         al_destroy_timer(timer);
+        al_destroy_bitmap(cuadradito);
+        return -1;
+    }
+    
+    alien = al_create_bitmap(CUADRADITO_SIZE, CUADRADITO_SIZE);
+    if (!alien) {
+        fprintf(stderr, "failed to create cuadradito bitmap!\n");
+        al_destroy_timer(timer);
+        al_destroy_bitmap(cuadradito);
+        al_destroy_bitmap(bullet);
         return -1;
     }
 
@@ -67,6 +80,8 @@ void move()
     if (!event_queue) {
         fprintf(stderr, "failed to create event_queue!\n");
         al_destroy_bitmap(cuadradito);
+        al_destroy_bitmap(bullet);
+        al_destroy_bitmap(alien);
         al_destroy_timer(timer);
         return -1;
     }
@@ -76,12 +91,18 @@ void move()
         fprintf(stderr, "failed to create display!\n");
         al_destroy_timer(timer);
         al_destroy_bitmap(cuadradito);
+        al_destroy_bitmap(bullet);
+        al_destroy_bitmap(alien);
         al_destroy_event_queue(event_queue);
         return -1;
     }
 
     al_set_target_bitmap(cuadradito);
-    al_clear_to_color(al_map_rgb(255, 0, 255));
+    al_clear_to_color(al_map_rgb(255, 0, 0));
+    al_set_target_bitmap(bullet);
+    al_clear_to_color(al_map_rgb(255, 255, 255));
+    al_set_target_bitmap(alien);
+    al_clear_to_color(al_map_rgb(0, 255, 255));
     al_set_target_bitmap(al_get_backbuffer(display));
 
     al_register_event_source(event_queue, al_get_display_event_source(display));
@@ -148,6 +169,7 @@ void move()
             redraw = false;
             al_clear_to_color(al_map_rgb(0, 0, 0));
             al_draw_bitmap(cuadradito, cuadradito_x, cuadradito_y, 0);
+            al_draw_bitmap(alien, alien_x, alien_y, 0);
             if(shoot)
             {
                 bullet_x = cuadradito_x + 3*CUADRADITO_SIZE/2;
@@ -160,13 +182,20 @@ void move()
                 al_draw_bitmap(bullet, bullet_x, bullet_y, 0);
                 bullet_y-=MOVE_RATE;
             }
-            if(bullet_y<=0)
+            if(bullet_y<=MOVE_RATE)
                 lock = false;
+            if(bullet_y==alien_y && bullet_x>=alien_x && bullet_x<=alien_x+CUADRADITO_SIZE)
+            {
+                alien_y=SCREEN_H;
+                lock = false;
+            }
             al_flip_display();
         }
     }
 
     al_destroy_bitmap(cuadradito);
+    al_destroy_bitmap(cuadradito);
+    al_destroy_bitmap(alien);
     al_destroy_timer(timer);
     al_destroy_display(display);
     return 0;

@@ -29,8 +29,8 @@ uint8_t play(ALLEGRO_DISPLAY**display)
     //while(condicion)
     {
         set_level(game, level);
-        print_game(game, display);
-        //move();
+        //print_game(game, display);
+        move();
         //logic();
     }
     return 0;
