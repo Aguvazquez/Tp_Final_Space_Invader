@@ -40,6 +40,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/allegro_setup.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/main_menu.o \
+	${OBJECTDIR}/move.o \
 	${OBJECTDIR}/play.o
 
 
@@ -91,6 +92,11 @@ ${OBJECTDIR}/main_menu.o: main_menu.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main_menu.o main_menu.c
+
+${OBJECTDIR}/move.o: move.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/move.o move.c
 
 ${OBJECTDIR}/play.o: play.c
 	${MKDIR} -p ${OBJECTDIR}

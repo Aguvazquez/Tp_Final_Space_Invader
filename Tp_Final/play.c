@@ -11,7 +11,6 @@
 #include "play.h"
 #include "config.h"
 
-
 #define ALIEN 1
 #define PRIMERA_FILA 2
 #define ULTIMA_FILA 7
@@ -79,10 +78,5 @@ void print_game(uint8_t game[N][N], ALLEGRO_DISPLAY **display)
         }
     }
     al_flip_display();
-    al_rest(2.0);
+    al_rest(3.0);
 }
-
-/*void move()
-{
-    
-}*/
