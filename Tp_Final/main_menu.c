@@ -18,6 +18,7 @@
 #include "main_menu.h"
 #include "Top_Score.h"
 #include "Difficulty.h"
+#include "play.h"
 
 /**********Header of locals fucntions*********/
 
@@ -54,7 +55,7 @@ static void create_button_pressed(ALLEGRO_FONT*font,uint8_t button);
 
 
 /****************************Global fuctions***********************/
-int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[]){
+int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[],ALLEGRO_TIMER **timer){
    uint8_t do_exit=false;
    uint8_t aux=0;
     while(!do_exit){
@@ -63,8 +64,9 @@ int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_
             case 0 : do_exit=true;//Exit value 
             break;
             case 1 :{
-                play(display);
-                al_stop_samples();//PLAY 
+                al_stop_samples();
+                play(display,event_queue,timer);
+              
                 //do_exit=true;
             }
             break;

@@ -9,6 +9,7 @@
       <itemPath>allegro_setup.h</itemPath>
       <itemPath>config.h</itemPath>
       <itemPath>main_menu.h</itemPath>
+      <itemPath>move.h</itemPath>
       <itemPath>play.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -93,6 +94,8 @@
       </item>
       <item path="move.c" ex="false" tool="0" flavor2="0">
       </item>
+      <item path="move.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="play.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="play.h" ex="false" tool="3" flavor2="0">
@@ -147,6 +150,8 @@
       <item path="main_menu.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="move.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="move.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="play.c" ex="false" tool="0" flavor2="0">
       </item>

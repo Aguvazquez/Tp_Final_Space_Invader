@@ -30,7 +30,7 @@
 
 int main(void) {
     uint16_t aux=0;
-    uint8_t do_exit=false;
+    bool do_exit=false;
     ALLEGRO_DISPLAY * display = NULL;
     ALLEGRO_EVENT_QUEUE * event_queue=NULL;
     ALLEGRO_TIMER * timer=NULL;
@@ -43,7 +43,7 @@ int main(void) {
         return -1;
     };
     
-    if(main_menu(&display,&samples[0],&event_queue,&font[0],&display_background[0])== -1 ){
+    if(main_menu(&display,&samples[0],&event_queue,&font[0],&display_background[0],&timer)== -1 ){
         fprintf(stderr,"Something happened, please try again later");
         return -1;
     }

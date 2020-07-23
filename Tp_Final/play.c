@@ -10,27 +10,17 @@
 #include <allegro5/allegro_acodec.h> 
 #include "play.h"
 #include "config.h"
+#include "move.h"
 
-#define ALIEN 1
-#define PRIMERA_FILA 2
-#define ULTIMA_FILA 7
-#define PRIMERA_COLUMNA 2
-#define ULTIMA_COLUMNA 12
-#define ESPACIO_ALIENS 1
-#define BLOQUE 25
-#define FILA_BLOQUES N-3
-#define PRIMER_BLOQUE 2
-#define ULTIMO_BLOQUE 12
-#define ESPACIO_BLOQUES 3
 
-uint8_t play(ALLEGRO_DISPLAY**display)
+uint8_t play(ALLEGRO_DISPLAY**display,ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIMER **timer)
 {
     uint8_t game[N][N], level=1;
     //while(condicion)
     {
-        set_level(game, level);
+        set_level(game,level);
         //print_game(game, display);
-        move();
+        move(display,event_queue,timer);
         //logic();
     }
     return 0;

@@ -164,10 +164,25 @@ uint16_t allegro_ini(ALLEGRO_DISPLAY** display,ALLEGRO_EVENT_QUEUE**  event_queu
             return 0;
         }
     }
+    *timer = al_create_timer(1.0 / FPS);
+    if (!timer) {
+        fprintf(stderr,"Timer error!\n");
+            al_uninstall_system();
+            al_shutdown_image_addon();
+            al_uninstall_mouse();
+            al_uninstall_keyboard();
+            al_shutdown_primitives_addon();
+            al_uninstall_audio();
+            al_destroy_display(*display);
+            al_destroy_event_queue(*event_queue);
+            al_shutdown_ttf_addon();
+            return 0;
+    }
     al_register_event_source(*event_queue, al_get_keyboard_event_source());
     al_register_event_source(*event_queue, al_get_display_event_source(*display));
     al_register_event_source(*event_queue, al_get_mouse_event_source());
-    //al_start_timer(*timer);
+    al_register_event_source(*event_queue, al_get_timer_event_source(*timer));
+    
     
     return 1;
 }
