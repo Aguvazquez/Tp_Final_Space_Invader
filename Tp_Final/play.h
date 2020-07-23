@@ -16,7 +16,7 @@
 #define PLAY_H
 #define N 16
 
-uint8_t play(ALLEGRO_DISPLAY**display,ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIMER **timer);
+uint8_t play(ALLEGRO_DISPLAY**display,ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIMER **timer,ALLEGRO_BITMAP *display_background[]);
 void set_level(uint8_t game[N][N], uint8_t level);
 void print_game(uint8_t game[N][N], ALLEGRO_DISPLAY **display);
 

@@ -13,14 +13,14 @@
 #include "move.h"
 
 
-uint8_t play(ALLEGRO_DISPLAY**display,ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIMER **timer)
+uint8_t play(ALLEGRO_DISPLAY**display,ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIMER **timer,ALLEGRO_BITMAP *display_background[])
 {
     uint8_t game[N][N], level=1;
     //while(condicion)
     {
         set_level(game,level);
         //print_game(game, display);
-        if(move(display,event_queue,timer)==-1){
+        if(move(display,event_queue,timer,display_background)==-1){
             return 0;
         }
         //logic();

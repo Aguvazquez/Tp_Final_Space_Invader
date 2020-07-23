@@ -65,7 +65,7 @@ int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_
             break;
             case 1 :{
                 al_stop_samples();
-                play(display,event_queue,timer);
+                do_exit=!play(display,event_queue,timer,display_background);
               
                 //do_exit=true;
             }

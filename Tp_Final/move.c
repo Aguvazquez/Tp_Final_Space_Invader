@@ -11,9 +11,9 @@ enum MYKEYS {
     KEY_LEFT, KEY_RIGHT, KEY_SPACE //arrow keys
 };
 
-static int create_bitmaps(ALLEGRO_BITMAP **nave,ALLEGRO_BITMAP **bullet,ALLEGRO_BITMAP **alien, ALLEGRO_DISPLAY **display );
+static int create_bitmaps(ALLEGRO_BITMAP **bullet,ALLEGRO_BITMAP **alien, ALLEGRO_DISPLAY **display );
 
-int move(ALLEGRO_DISPLAY**display,ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIMER **timer)
+int move(ALLEGRO_DISPLAY**display,ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIMER **timer ,ALLEGRO_BITMAP *display_background[])
 {
     
     
@@ -37,7 +37,7 @@ int move(ALLEGRO_DISPLAY**display,ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIME
     bool lock = false;
     
     
-    if(!create_bitmaps(&nave,&bullet,&alien,display)){
+    if(!create_bitmaps(&bullet,&alien,display)){
         fprintf(stderr,"fail to create bitmap");
         return -1;
     }
@@ -100,7 +100,7 @@ int move(ALLEGRO_DISPLAY**display,ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIME
         if (redraw && al_is_event_queue_empty(*event_queue)) {
             redraw = false;
             al_clear_to_color(al_map_rgb(0, 0, 0));
-            al_draw_bitmap(nave, nave_x, nave_y, 0);
+            al_draw_bitmap(display_background[2], nave_x, nave_y-20, 0);
             for(i=0; i<N; i++)
             {
                 al_draw_bitmap(alien, alien_x[i], alien_y[i], 0);
@@ -131,36 +131,26 @@ int move(ALLEGRO_DISPLAY**display,ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIME
         }
     }
 
-    al_destroy_bitmap(nave);
-    al_destroy_bitmap(nave);
     al_destroy_bitmap(alien);
     al_stop_timer(*timer);
     return 0;
 }
-static int create_bitmaps(ALLEGRO_BITMAP **nave,ALLEGRO_BITMAP **bullet,ALLEGRO_BITMAP **alien,ALLEGRO_DISPLAY **display ){
+
+static int create_bitmaps(ALLEGRO_BITMAP **bullet,ALLEGRO_BITMAP **alien,ALLEGRO_DISPLAY **display ){
     
-    *nave = al_create_bitmap(2*ALIEN_SIZE, ALIEN_SIZE);
-    if (!nave) {
-        fprintf(stderr, "failed to create nave bitmap!\n");
-        return 0;
-    }
     
     *bullet = al_create_bitmap(1, ALIEN_SIZE);
     if (!bullet) {
         fprintf(stderr, "failed to create bullet bitmap!\n");
-        al_destroy_bitmap(*nave);
         return 0;
     }
     
     *alien = al_create_bitmap(ALIEN_SIZE, ALIEN_SIZE);
     if (!alien) {
         fprintf(stderr, "failed to create alien bitmap!\n");
-        al_destroy_bitmap(*nave);
         al_destroy_bitmap(*bullet);
         return 0;
     }
-    al_set_target_bitmap(*nave);
-    al_clear_to_color(al_map_rgb(255, 0, 0));
     al_set_target_bitmap(*bullet);
     al_clear_to_color(al_map_rgb(255, 255, 255));
     al_set_target_bitmap(*alien);
