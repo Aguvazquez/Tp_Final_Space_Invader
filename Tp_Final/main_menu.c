@@ -96,7 +96,7 @@ int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_
 
             }
             break;
-            default :{ fprintf(stderr,"Hubo un error tato , volve a descargar el archivo , gracias\n");
+            default :{ fprintf(stderr,"Hubo un error  , volve a descargar el archivo , gracias\n");
                    return -1;
             }
             break;
@@ -124,9 +124,9 @@ int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_
     
     /**********Title and bakground menu.*********************/
     
-    al_draw_scaled_bitmap(display_background[0],0, 0, al_get_bitmap_width(display_background[0]), al_get_bitmap_height(display_background[0]), //imagen
+    al_draw_scaled_bitmap(display_background[0],0, 0, al_get_bitmap_width(display_background[0]), al_get_bitmap_height(display_background[0]), 
             0, 0, al_get_display_width(*display), al_get_display_height(*display),0);
-    al_draw_scaled_bitmap(display_background[1],0, 0, al_get_bitmap_width(display_background[1]), al_get_bitmap_height(display_background[1]), //imagen
+    al_draw_scaled_bitmap(display_background[1],0, 0, al_get_bitmap_width(display_background[1]), al_get_bitmap_height(display_background[1]), 
             0, 0, al_get_display_width(*display), al_get_display_height(*display)/3,0);
     
     /********************************************************/

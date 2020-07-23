@@ -11,13 +11,15 @@ enum MYKEYS {
     KEY_LEFT, KEY_RIGHT, KEY_SPACE //arrow keys
 };
 
+static int create_bitmaps(ALLEGRO_BITMAP **nave,ALLEGRO_BITMAP **bullet,ALLEGRO_BITMAP **alien, ALLEGRO_DISPLAY **display );
+
 int move(ALLEGRO_DISPLAY**display,ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIMER **timer)
 {
     
     
-    static ALLEGRO_BITMAP *nave = NULL;
-    static ALLEGRO_BITMAP *bullet = NULL;
-    static ALLEGRO_BITMAP *alien = NULL;
+    ALLEGRO_BITMAP *nave = NULL;
+    ALLEGRO_BITMAP *bullet = NULL;
+    ALLEGRO_BITMAP *alien = NULL;
     
     float nave_x = SCREEN_W / 2.0 - ALIEN_SIZE;
     float nave_y = SCREEN_H - ALIEN_SIZE;
@@ -26,6 +28,7 @@ int move(ALLEGRO_DISPLAY**display,ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIME
                         SCREEN_W/6.0, SCREEN_W/3.0, SCREEN_W/2.0, 2*SCREEN_W/3.0, 5*SCREEN_W/6.0};
     float alien_y[N] = {SCREEN_H/4.0, SCREEN_H/4.0, SCREEN_H/4.0, SCREEN_H/4.0, SCREEN_H/4.0,
                         SCREEN_H/2.0, SCREEN_H/2.0, SCREEN_H/2.0, SCREEN_H/2.0, SCREEN_H/2.0, };
+    
     uint8_t i;
     bool key_pressed[3] = {false, false, false}; //Estado de teclas, true cuando esta apretada
     bool redraw = false;
@@ -34,44 +37,12 @@ int move(ALLEGRO_DISPLAY**display,ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIME
     bool lock = false;
     
     
-
-    
-
-    nave = al_create_bitmap(2*ALIEN_SIZE, ALIEN_SIZE);
-    if (!nave) {
-        fprintf(stderr, "failed to create nave bitmap!\n");
-        return -1;
-    }
-    
-    bullet = al_create_bitmap(1, ALIEN_SIZE);
-    if (!bullet) {
-        fprintf(stderr, "failed to create bullet bitmap!\n");
-        al_destroy_bitmap(nave);
-        return -1;
-    }
-    
-    alien = al_create_bitmap(ALIEN_SIZE, ALIEN_SIZE);
-    if (!alien) {
-        fprintf(stderr, "failed to create alien bitmap!\n");
-        al_destroy_bitmap(nave);
-        al_destroy_bitmap(bullet);
+    if(!create_bitmaps(&nave,&bullet,&alien,display)){
+        fprintf(stderr,"fail to create bitmap");
         return -1;
     }
 
     
-    al_set_target_bitmap(nave);
-    al_clear_to_color(al_map_rgb(255, 0, 0));
-    al_set_target_bitmap(bullet);
-    al_clear_to_color(al_map_rgb(255, 255, 255));
-    al_set_target_bitmap(alien);
-    al_clear_to_color(al_map_rgb(0, 255, 0));
-    al_set_target_bitmap(al_get_backbuffer(*display));
-
-    
-    
-
-    al_clear_to_color(al_map_rgb(0, 0, 0));
-    al_flip_display();
     al_start_timer(*timer);
 
     while (!do_exit) {
@@ -144,7 +115,7 @@ int move(ALLEGRO_DISPLAY**display,ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIME
             if(lock)
             {
                 al_draw_bitmap(bullet, bullet_x, bullet_y, 0);
-                bullet_y -= MOVE_RATE;
+                bullet_y -= 2*MOVE_RATE;
             }
             if(bullet_y <= MOVE_RATE)
                 lock = false;
@@ -163,6 +134,39 @@ int move(ALLEGRO_DISPLAY**display,ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIME
     al_destroy_bitmap(nave);
     al_destroy_bitmap(nave);
     al_destroy_bitmap(alien);
-
+    al_stop_timer(*timer);
     return 0;
+}
+static int create_bitmaps(ALLEGRO_BITMAP **nave,ALLEGRO_BITMAP **bullet,ALLEGRO_BITMAP **alien,ALLEGRO_DISPLAY **display ){
+    
+    *nave = al_create_bitmap(2*ALIEN_SIZE, ALIEN_SIZE);
+    if (!nave) {
+        fprintf(stderr, "failed to create nave bitmap!\n");
+        return 0;
+    }
+    
+    *bullet = al_create_bitmap(1, ALIEN_SIZE);
+    if (!bullet) {
+        fprintf(stderr, "failed to create bullet bitmap!\n");
+        al_destroy_bitmap(*nave);
+        return 0;
+    }
+    
+    *alien = al_create_bitmap(ALIEN_SIZE, ALIEN_SIZE);
+    if (!alien) {
+        fprintf(stderr, "failed to create alien bitmap!\n");
+        al_destroy_bitmap(*nave);
+        al_destroy_bitmap(*bullet);
+        return 0;
+    }
+    al_set_target_bitmap(*nave);
+    al_clear_to_color(al_map_rgb(255, 0, 0));
+    al_set_target_bitmap(*bullet);
+    al_clear_to_color(al_map_rgb(255, 255, 255));
+    al_set_target_bitmap(*alien);
+    al_clear_to_color(al_map_rgb(0, 255, 0));
+    al_set_target_bitmap(al_get_backbuffer(*display));
+    al_clear_to_color(al_map_rgb(0, 0, 0));
+    al_flip_display();
+    return 1;
 }

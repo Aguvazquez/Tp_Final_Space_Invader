@@ -20,10 +20,12 @@ uint8_t play(ALLEGRO_DISPLAY**display,ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_
     {
         set_level(game,level);
         //print_game(game, display);
-        move(display,event_queue,timer);
+        if(move(display,event_queue,timer)==-1){
+            return 0;
+        }
         //logic();
     }
-    return 0;
+    return 1;
 }
 
 void set_level(uint8_t game[N][N], uint8_t level)
