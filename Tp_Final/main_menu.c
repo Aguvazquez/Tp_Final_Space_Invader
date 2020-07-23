@@ -56,8 +56,8 @@ static void create_button_pressed(ALLEGRO_FONT*font,uint8_t button);
 
 /****************************Global fuctions***********************/
 int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[],ALLEGRO_TIMER **timer){
-   uint8_t do_exit=false;
-   uint8_t aux=0;
+    uint8_t do_exit=false;
+    uint8_t aux=0;
     while(!do_exit){
     
         switch(aux=menu_display(display,sample,event_queue,font,display_background)){
@@ -65,8 +65,7 @@ int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_
             break;
             case 1 :{
                 al_stop_samples();
-                do_exit=!play(display,event_queue,timer,display_background);
-              
+                play(display,event_queue,timer,display_background);
                 //do_exit=true;
             }
             break;
@@ -104,7 +103,7 @@ int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_
 
         }
     }
-   return aux;
+    return aux;
 }
 
 /**********************Local functions***************/

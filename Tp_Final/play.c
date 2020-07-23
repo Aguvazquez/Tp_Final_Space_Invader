@@ -18,15 +18,15 @@ uint8_t play(ALLEGRO_DISPLAY**display,ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_
     uint8_t game[N][N], level=1;
     //while(condicion)
     {
-        set_level(game,level);
+        //set_level(game,level); 
         //print_game(game, display);
-        if(move(display,event_queue,timer,display_background)==-1){
+        if(!move(display,event_queue,timer,display_background))
             return 0;
-        }
         //logic();
     }
     return 1;
 }
+/* CREO QUE ESTAS FUNCIONES NO SIRVEN PARA NADA
 
 void set_level(uint8_t game[N][N], uint8_t level)
 {
@@ -71,4 +71,4 @@ void print_game(uint8_t game[N][N], ALLEGRO_DISPLAY **display)
     }
     al_flip_display();
     al_rest(3.0);
-}
+}*/

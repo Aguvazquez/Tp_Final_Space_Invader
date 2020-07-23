@@ -7,15 +7,12 @@
 #include "config.h"
 #include "move.h"
 
-enum MYKEYS {
-    KEY_LEFT, KEY_RIGHT, KEY_SPACE //arrow keys
-};
+enum MYKEYS {KEY_LEFT, KEY_RIGHT, KEY_SPACE};
 
-static int create_bitmaps(ALLEGRO_BITMAP **bullet,ALLEGRO_BITMAP **alien, ALLEGRO_DISPLAY **display );
+static int create_bitmaps(ALLEGRO_BITMAP **bullet, ALLEGRO_BITMAP **alien, ALLEGRO_DISPLAY **display );
 
-int move(ALLEGRO_DISPLAY**display,ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIMER **timer ,ALLEGRO_BITMAP *display_background[])
+int move(ALLEGRO_DISPLAY** display, ALLEGRO_EVENT_QUEUE** event_queue, ALLEGRO_TIMER **timer, ALLEGRO_BITMAP *display_background[])
 {
-    
     
     ALLEGRO_BITMAP *nave = NULL;
     ALLEGRO_BITMAP *bullet = NULL;
@@ -24,13 +21,25 @@ int move(ALLEGRO_DISPLAY**display,ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIME
     float nave_x = SCREEN_W / 2.0 - ALIEN_SIZE;
     float nave_y = SCREEN_H - ALIEN_SIZE;
     float bullet_x, bullet_y;
-    float alien_x[N] = {SCREEN_W/6.0, SCREEN_W/3.0, SCREEN_W/2.0, 2*SCREEN_W/3.0, 5*SCREEN_W/6.0,
-                        SCREEN_W/6.0, SCREEN_W/3.0, SCREEN_W/2.0, 2*SCREEN_W/3.0, 5*SCREEN_W/6.0};
-    float alien_y[N] = {SCREEN_H/4.0, SCREEN_H/4.0, SCREEN_H/4.0, SCREEN_H/4.0, SCREEN_H/4.0,
-                        SCREEN_H/2.0, SCREEN_H/2.0, SCREEN_H/2.0, SCREEN_H/2.0, SCREEN_H/2.0, };
+    int cant_aliens = N;
+    //int cant_aliens = 1;    //solo para facilitar debug
     
-    uint8_t i;
-    bool key_pressed[3] = {false, false, false}; //Estado de teclas, true cuando esta apretada
+    //seteo de coordenadas iniciales de los aliens
+    
+    float alien_x[N] = {SCREEN_W/7, 2*SCREEN_W/7, 3*SCREEN_W/7, 4*SCREEN_W/7, 5*SCREEN_W/7, 6*SCREEN_W/7,
+                        SCREEN_W/7, 2*SCREEN_W/7, 3*SCREEN_W/7, 4*SCREEN_W/7, 5*SCREEN_W/7, 6*SCREEN_W/7,
+                        SCREEN_W/7, 2*SCREEN_W/7, 3*SCREEN_W/7, 4*SCREEN_W/7, 5*SCREEN_W/7, 6*SCREEN_W/7,
+                        SCREEN_W/7, 2*SCREEN_W/7, 3*SCREEN_W/7, 4*SCREEN_W/7, 5*SCREEN_W/7, 6*SCREEN_W/7,
+                        SCREEN_W/7, 2*SCREEN_W/7, 3*SCREEN_W/7, 4*SCREEN_W/7, 5*SCREEN_W/7, 6*SCREEN_W/7};
+    float alien_y[N] = {SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, 
+                        SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5,
+                        3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10,  
+                        2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 
+                        SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2};
+    
+    uint8_t i, check, aux;
+    int8_t step = ALIEN_SIZE/2;
+    bool key_pressed[3] = {false, false, false};    //estado de teclas, true cuando esta apretada
     bool redraw = false;
     bool do_exit = false;
     bool shoot = false;
@@ -45,19 +54,39 @@ int move(ALLEGRO_DISPLAY**display,ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIME
     
     al_start_timer(*timer);
 
-    while (!do_exit) {
+    while (!do_exit || !cant_aliens) {
         ALLEGRO_EVENT ev;
-        if (al_get_next_event(*event_queue, &ev)) //Toma un evento de la cola, VER RETURN EN DOCUMENT.
+        if (al_get_next_event(*event_queue, &ev)) //toma un evento de la cola.
         {
-            if (ev.type == ALLEGRO_EVENT_TIMER) {
+            if (ev.type == ALLEGRO_EVENT_TIMER) { //controles de movimiento de la nave
 
                 if (key_pressed[KEY_LEFT] && nave_x >= MOVE_RATE)
                     nave_x -= MOVE_RATE;
 
                 if (key_pressed[KEY_RIGHT] && nave_x <= SCREEN_W - 2*ALIEN_SIZE - MOVE_RATE)
                     nave_x += MOVE_RATE;
-               
+                
+                if(aux>20)
+                {
+                    for(i=0, check=0; i<N; i++)
+                    {
+                        if(alien_y[i] < SCREEN_H)
+                            if(alien_x[i] >= SCREEN_W-2*ALIEN_SIZE || alien_x[i] <= ALIEN_SIZE) //revisa que no sobrepasen los extremos
+                                check++;
+                    }
+                    if(check)
+                    {
+                        step *= -1;
+                        for(i=0; i<N; i++)
+                            alien_y[i] += ALIEN_SIZE;
+                    }
+                    for(i=0; i<N; i++)
+                        alien_x[i] += step;
+                    aux=0;
+                }
+                
                 redraw = true;
+                aux++;
             }
             else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
                 do_exit = true;
@@ -75,7 +104,7 @@ int move(ALLEGRO_DISPLAY**display,ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIME
                         
                     case ALLEGRO_KEY_SPACE:
                         if(!lock)
-                            shoot = true;
+                            shoot = true;   // solo dispara si no hay otra bala volando.
                         break;
                 }
             }
@@ -101,21 +130,25 @@ int move(ALLEGRO_DISPLAY**display,ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIME
             redraw = false;
             al_clear_to_color(al_map_rgb(0, 0, 0));
             al_draw_bitmap(display_background[2], nave_x, nave_y-20, 0);
-            for(i=0; i<N; i++)
+            for(i=0, check=0; i<N; i++)
             {
-                al_draw_bitmap(alien, alien_x[i], alien_y[i], 0);
+                if(alien_y[i] < SCREEN_H)
+                    al_draw_bitmap(alien, alien_x[i], alien_y[i], 0);   //dibuja cada alien
+                if(alien_x[i] >= SCREEN_W-2*ALIEN_SIZE || alien_x[i] <= ALIEN_SIZE) //revisa que no sobrepasen los extremos
+                    check++;
             }
+           
             if(shoot)
             {
-                bullet_x = nave_x + ALIEN_SIZE;
+                bullet_x = nave_x + ALIEN_SIZE;    //setea la bala
                 bullet_y = nave_y - ALIEN_SIZE;   
                 shoot = false;
-                lock = true;
+                lock = true;       //bloquea disparos temporalmente
             }
             if(lock)
             {
                 al_draw_bitmap(bullet, bullet_x, bullet_y, 0);
-                bullet_y -= 2*MOVE_RATE;
+                bullet_y -= 2*MOVE_RATE;        //actualiza la posicion de la bala en cada ciclo
             }
             if(bullet_y <= MOVE_RATE)
                 lock = false;
@@ -123,7 +156,8 @@ int move(ALLEGRO_DISPLAY**display,ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIME
             {
                 if(bullet_y>=alien_y[i] && bullet_y<=alien_y[i]+ALIEN_SIZE && bullet_x>=alien_x[i] && bullet_x<=alien_x[i]+ALIEN_SIZE)
                 {
-                    alien_y[i] = SCREEN_H;
+                    alien_y[i] = SCREEN_H;      //mueve el alien muerto fuera de la pantalla 
+                    cant_aliens--;
                     lock = false;
                 }
             }
@@ -133,7 +167,7 @@ int move(ALLEGRO_DISPLAY**display,ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIME
 
     al_destroy_bitmap(alien);
     al_stop_timer(*timer);
-    return 0;
+    return cant_aliens;
 }
 
 static int create_bitmaps(ALLEGRO_BITMAP **bullet,ALLEGRO_BITMAP **alien,ALLEGRO_DISPLAY **display ){
