@@ -66,7 +66,7 @@ int move(ALLEGRO_DISPLAY** display, ALLEGRO_EVENT_QUEUE** event_queue, ALLEGRO_T
                 if (key_pressed[KEY_RIGHT] && nave_x <= SCREEN_W - 2*ALIEN_SIZE - MOVE_RATE)
                     nave_x += MOVE_RATE;
                 
-                if(aux>20)
+                if(aux>25)
                 {
                     for(i=0, check=0; i<N; i++)
                     {
