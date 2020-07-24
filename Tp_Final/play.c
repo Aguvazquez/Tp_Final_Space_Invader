@@ -15,60 +15,25 @@
 
 uint8_t play(ALLEGRO_DISPLAY**display,ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIMER **timer,ALLEGRO_BITMAP *display_background[])
 {
-    uint8_t game[N][N], level=1;
-    //while(condicion)
+    uint8_t game[N][N], level=1, difficulty=25;
+    //difficulty = leer_archivo();
+    //idea: si es facil, puntaje final x1, medio x2, dificil x3
+    while(difficulty != 0)
     {
-        //set_level(game,level); 
-        //print_game(game, display);
-        if(!move(display,event_queue,timer,display_background))
-            return 0;
-        //logic();
-    }
-    return 1;
-}
-/* CREO QUE ESTAS FUNCIONES NO SIRVEN PARA NADA
-
-void set_level(uint8_t game[N][N], uint8_t level)
-{
-    uint8_t i, j;
-    for(i=0; i<N; i++)
-    {
-        for(j=0; j<N; j++)
-            game[i][j] = 0;
-    }
-    
-    for(i=PRIMERA_FILA; i<=ULTIMA_FILA; i++)
-    {
-        for(j=PRIMERA_COLUMNA; j<=ULTIMA_COLUMNA; j+=ESPACIO_ALIENS+1)
-            game[i][j] = ALIEN;
-    }
-    
-    if(level==1)    //los bloques solo se inicializan al principio
-    {
-        for(i=FILA_BLOQUES, j=PRIMER_BLOQUE; j<=ULTIMO_BLOQUE; j+=ESPACIO_BLOQUES+1)
+        if(!move(display,event_queue,timer,display_background, difficulty))
         {
-            game[i][j++] = BLOQUE;
-            game[i][j] = BLOQUE;
+            difficulty -= 1;
+            al_rest(1.0);   //mientras no este la pantalla que indica "siguiente nivel"
+            //next_level_pause();
+            //if(life<3)
+            //  life++;
+        }
+        else
+        {
+            difficulty = 0;
+            //perdiste_kpo();
+            //guardar_puntaje();
         }
     }
-    
-    //setear nave con puntero allegro bitmap
+    return 0;
 }
-
-void print_game(uint8_t game[N][N], ALLEGRO_DISPLAY **display)
-{
-    al_clear_to_color(al_color_name("black"));
-    uint8_t i, j;
-    for(i=0; i<N; i++)
-    {
-        for(j=0; j<N; j++)
-        {
-            if(game[i][j]==ALIEN)
-                al_draw_filled_rectangle(j*SCREEN_W/16, i*SCREEN_H/16, (j+1)*SCREEN_W/16, (i+1)*SCREEN_H/16, al_color_name("green"));
-            else if(game[i][j]==BLOQUE)
-                al_draw_filled_rectangle(j*SCREEN_W/16, i*SCREEN_H/16, (j+1)*SCREEN_W/16, (i+1)*SCREEN_H/16, al_color_name("red"));
-        }
-    }
-    al_flip_display();
-    al_rest(3.0);
-}*/

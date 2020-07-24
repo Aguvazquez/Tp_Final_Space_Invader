@@ -11,7 +11,7 @@ enum MYKEYS {KEY_LEFT, KEY_RIGHT, KEY_SPACE};
 
 static int create_bitmaps(ALLEGRO_BITMAP **bullet, ALLEGRO_BITMAP **alien, ALLEGRO_DISPLAY **display );
 
-int move(ALLEGRO_DISPLAY** display, ALLEGRO_EVENT_QUEUE** event_queue, ALLEGRO_TIMER **timer, ALLEGRO_BITMAP *display_background[])
+int move(ALLEGRO_DISPLAY** display, ALLEGRO_EVENT_QUEUE** event_queue, ALLEGRO_TIMER **timer, ALLEGRO_BITMAP *display_background[], uint8_t speed)
 {
     
     ALLEGRO_BITMAP *nave = NULL;
@@ -21,8 +21,8 @@ int move(ALLEGRO_DISPLAY** display, ALLEGRO_EVENT_QUEUE** event_queue, ALLEGRO_T
     float nave_x = SCREEN_W / 2.0 - ALIEN_SIZE;
     float nave_y = SCREEN_H - ALIEN_SIZE;
     float bullet_x, bullet_y;
-    int cant_aliens = N;
-    //int cant_aliens = 1;    //solo para facilitar debug
+    uint8_t cant_aliens = N;
+    //uint8_t cant_aliens = 3;    //solo para facilitar debug
     
     //seteo de coordenadas iniciales de los aliens
     
@@ -54,7 +54,7 @@ int move(ALLEGRO_DISPLAY** display, ALLEGRO_EVENT_QUEUE** event_queue, ALLEGRO_T
     
     al_start_timer(*timer);
 
-    while (!do_exit || !cant_aliens) {
+    while (!do_exit && cant_aliens) {
         ALLEGRO_EVENT ev;
         if (al_get_next_event(*event_queue, &ev)) //toma un evento de la cola.
         {
@@ -66,7 +66,7 @@ int move(ALLEGRO_DISPLAY** display, ALLEGRO_EVENT_QUEUE** event_queue, ALLEGRO_T
                 if (key_pressed[KEY_RIGHT] && nave_x <= SCREEN_W - 2*ALIEN_SIZE - MOVE_RATE)
                     nave_x += MOVE_RATE;
                 
-                if(aux>=25)
+                if(aux>=speed)
                 {
                     for(i=0, check=0; i<N; i++)
                     {
@@ -140,8 +140,6 @@ int move(ALLEGRO_DISPLAY** display, ALLEGRO_EVENT_QUEUE** event_queue, ALLEGRO_T
                 if(alien_x[i] >= SCREEN_W-2*ALIEN_SIZE || alien_x[i] <= ALIEN_SIZE) //revisa que no sobrepasen los extremos
                     check++;
             }
-           
-            
             if(lock)
             {
                 al_draw_bitmap(bullet, bullet_x, bullet_y, 0);
@@ -156,7 +154,10 @@ int move(ALLEGRO_DISPLAY** display, ALLEGRO_EVENT_QUEUE** event_queue, ALLEGRO_T
                     alien_y[i] = SCREEN_H;      //mueve el alien muerto fuera de la pantalla 
                     cant_aliens--;
                     lock = false;
+                    bullet_y = nave_y;
                 }
+                if(alien_y[i]>3*SCREEN_H/4 && alien_y[i]<SCREEN_H)
+                    do_exit = true;
             }
             al_flip_display();
         }
