@@ -15,7 +15,7 @@
 
 uint8_t play(ALLEGRO_DISPLAY**display,ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIMER **timer,ALLEGRO_BITMAP *display_background[])
 {
-    uint8_t game[N][N], level=1, difficulty=25;
+    uint8_t game[N][N], level=1, difficulty=35;
     //difficulty = leer_archivo();
     //idea: si es facil, puntaje final x1, medio x2, dificil x3
     while(difficulty != 0)

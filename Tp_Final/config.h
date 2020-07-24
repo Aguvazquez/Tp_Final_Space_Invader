@@ -19,7 +19,7 @@
 #define SAMPLES  5
 #define FONTS  1
 #define FPS    60.0
-#define ALIEN_SIZE 30
+#define BASE_SIZE 30
 #define MOVE_RATE  4.0
 #define N 30
 
