@@ -4,14 +4,19 @@
 #include <allegro5/allegro.h>  
 #include <allegro5/allegro_color.h> 
 #include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_font.h> 
+#include <allegro5/allegro_ttf.h> 
+#include <allegro5/allegro_audio.h> 
+#include <allegro5/allegro_acodec.h> 
 #include "config.h"
 #include "move.h"
+#include "menus.h"
 
 enum MYKEYS {KEY_LEFT, KEY_RIGHT, KEY_SPACE};
 
 static int create_bitmaps(ALLEGRO_BITMAP **bullet, ALLEGRO_BITMAP **alien, ALLEGRO_BITMAP **bloque, ALLEGRO_DISPLAY **display );
 
-int move(ALLEGRO_DISPLAY** display, ALLEGRO_EVENT_QUEUE** event_queue, ALLEGRO_TIMER **timer, ALLEGRO_BITMAP *display_background[], uint8_t speed)
+int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** event_queue, ALLEGRO_TIMER **timer, ALLEGRO_BITMAP *display_background[], uint8_t speed)
 {
     
     ALLEGRO_BITMAP *nave = NULL;
@@ -131,10 +136,8 @@ int move(ALLEGRO_DISPLAY** display, ALLEGRO_EVENT_QUEUE** event_queue, ALLEGRO_T
                         break;
                     
                     case ALLEGRO_KEY_ESCAPE:
-                        //pantalla_pausa
-                        //if(salir)
-                            do_exit = true;
-                        //else
+                        do_exit=pause_menu(display,event_queue,font,display_background);
+                        
                         break;
                 }
             }

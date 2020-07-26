@@ -14,7 +14,7 @@
 #ifndef MAIN_MENU_H
 #define MAIN_MENU_H
 
-
+bool pause_menu(ALLEGRO_DISPLAY**display ,ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[]);
 int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[],ALLEGRO_TIMER**timer);
 #endif
 

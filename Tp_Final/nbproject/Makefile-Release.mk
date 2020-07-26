@@ -40,7 +40,6 @@ OBJECTFILES= \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/menus.o \
 	${OBJECTDIR}/move.o \
-	${OBJECTDIR}/pause_menu.o \
 	${OBJECTDIR}/play.o
 
 
@@ -92,11 +91,6 @@ ${OBJECTDIR}/move.o: move.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/move.o move.c
-
-${OBJECTDIR}/pause_menu.o: pause_menu.c
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/pause_menu.o pause_menu.c
 
 ${OBJECTDIR}/play.o: play.c
 	${MKDIR} -p ${OBJECTDIR}

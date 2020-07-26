@@ -40,7 +40,6 @@ OBJECTFILES= \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/menus.o \
 	${OBJECTDIR}/move.o \
-	${OBJECTDIR}/pause_menu.o \
 	${OBJECTDIR}/play.o
 
 
@@ -92,11 +91,6 @@ ${OBJECTDIR}/move.o: move.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -g `pkg-config --cflags allegro-5` `pkg-config --cflags allegro_acodec-5` `pkg-config --cflags allegro_audio-5` `pkg-config --cflags allegro_color-5` `pkg-config --cflags allegro_dialog-5` `pkg-config --cflags allegro_font-5` `pkg-config --cflags allegro_image-5` `pkg-config --cflags allegro_main-5` `pkg-config --cflags allegro_memfile-5` `pkg-config --cflags allegro_physfs-5` `pkg-config --cflags allegro_primitives-5` `pkg-config --cflags allegro_ttf-5` `pkg-config --cflags allegro_video-5`   -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/move.o move.c
-
-${OBJECTDIR}/pause_menu.o: pause_menu.c
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.c) -g `pkg-config --cflags allegro-5` `pkg-config --cflags allegro_acodec-5` `pkg-config --cflags allegro_audio-5` `pkg-config --cflags allegro_color-5` `pkg-config --cflags allegro_dialog-5` `pkg-config --cflags allegro_font-5` `pkg-config --cflags allegro_image-5` `pkg-config --cflags allegro_main-5` `pkg-config --cflags allegro_memfile-5` `pkg-config --cflags allegro_physfs-5` `pkg-config --cflags allegro_primitives-5` `pkg-config --cflags allegro_ttf-5` `pkg-config --cflags allegro_video-5`   -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/pause_menu.o pause_menu.c
 
 ${OBJECTDIR}/play.o: play.c
 	${MKDIR} -p ${OBJECTDIR}

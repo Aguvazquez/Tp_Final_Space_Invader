@@ -34,7 +34,7 @@
  *          3 third button was pressed. 
  * @Coment This fuctions doesn't stop the music.
  */
-static uint16_t menu_display(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP* display_background[]);
+static uint16_t menu_display(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP* display_background[],char *str0, char*str1, char*str2,char flag);
 
 /*
  * @Brief create the buttons unpressed
@@ -52,7 +52,7 @@ static void create_button_unpressed(ALLEGRO_FONT*font,char *str0,char *str1,char
 
 static void create_button_pressed(ALLEGRO_FONT*font,uint8_t button,char *str0,char *str1,char *str2);
 
-static uint16_t Difficulty(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[]);
+static uint16_t Difficulty(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[],char *str0, char*str1, char*str2);
 
 /****************************Global fuctions***********************/
 int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[],ALLEGRO_TIMER **timer){
@@ -60,17 +60,17 @@ int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_
     uint8_t aux=0;
     while(!do_exit){
     
-        switch(aux=menu_display(display,sample,event_queue,font,display_background)){
+        switch(aux=menu_display(display,sample,event_queue,font,display_background,"PLAY","DIFFICULTY","TOP SCORE",0)){
             case 0 : do_exit=true;//Exit value 
             break;
             case 1 :{
                 al_stop_samples();
-                play(display,event_queue,timer,display_background);
+                play(display,font,event_queue,timer,display_background);
                 //do_exit=true;
             }
             break;
             case 2 :{ 
-               aux =Difficulty(display,sample,event_queue,font,display_background);
+               aux =Difficulty(display,sample,event_queue,font,display_background,"EASY","NORMAL","HARD");
                if(!aux){
                    fprintf(stderr,"Hubo un error tato , volve a descargar el archivo , gracias\n");
                    return -1;
@@ -105,11 +105,44 @@ int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_
     }
     return aux;
 }
+bool pause_menu(ALLEGRO_DISPLAY**display ,ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[]){
+    uint8_t do_exit=false;
+    uint8_t aux=0;
+    
+    switch(aux=menu_display(display,NULL,event_queue,font,display_background,"RESUME","RESET LEVEL","EXIT",1)){
+            case 0 : do_exit=true;//Exit value 
+            break;
+            case 1 :
+                break; // resume
+                
+            
+            break;
+            case 2 :{ //reset level
+               
+            
+            }
+            break;
+            case 3 :{
+                do_exit=true; // EXIT
 
+               }
+               
+            break;
+            default :{ 
+                fprintf(stderr,"Hubo un error  , volve a descargar el archivo , gracias\n");
+                return -1;
+            }
+            break;
+
+
+    }
+    
+    return do_exit;
+}
 
 /**********************Local functions***************/
 
- static uint16_t menu_display(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[]){
+ static uint16_t menu_display(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[], char *str0, char*str1, char*str2,char flag){
     
     uint8_t do_exit=false, check=false,redraw=false ;
     uint8_t aux=0;
@@ -130,8 +163,10 @@ int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_
             0, 0, al_get_display_width(*display), al_get_display_height(*display)/3,0);
     
     /********************************************************/
-    al_play_sample(sample[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
-    create_button_unpressed(font[0],"PLAY","DIFICULTY","TOP SCORE");
+    if(!flag){
+        al_play_sample(sample[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL); 
+    }
+    create_button_unpressed(font[0],str0,str1,str2);
     al_flip_display();
     while(!do_exit){ 
         ALLEGRO_EVENT ev;
@@ -155,7 +190,7 @@ int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_
                     aux=1;
                 }
                 else{
-                    create_button_pressed(font[0],1,"PLAY","DIFICULTY","TOP SCORE");
+                    create_button_pressed(font[0],1,str0,str1,str2);
                 }
             }
             else if(mouse_y>=5*SCREEN_H/8 && mouse_y<= 3*SCREEN_H/4){
@@ -164,7 +199,7 @@ int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_
                     aux=2;
                 }
                 else{
-                    create_button_pressed(font[0],2,"PLAY","DIFICULTY","TOP SCORE");
+                    create_button_pressed(font[0],2,str0,str1,str2);
                 }
             }
             else if (mouse_y>=13*SCREEN_H/16 && mouse_y<= 15*SCREEN_H/16){
@@ -173,7 +208,7 @@ int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_
                     aux=3;
                 }
                 else{
-                    create_button_pressed(font[0],3,"PLAY","DIFICULTY","TOP SCORE");
+                    create_button_pressed(font[0],3,str0,str1,str2);
                 }
             }
             else{
@@ -183,7 +218,7 @@ int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_
             redraw=true;
         }
         if(redraw){
-            create_button_unpressed(font[0],"PLAY","DIFICULTY","TOP SCORE");
+            create_button_unpressed(font[0],str0,str1,str2);
             redraw =false;
         }
         check= false;
@@ -191,7 +226,7 @@ int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_
     
     return aux;
 }
-static uint16_t Difficulty(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[]){
+static uint16_t Difficulty(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[],char *str0,char *str1,char *str2){
 uint8_t do_exit=false, check=false,redraw=false ;
 FILE* fp;
 uint8_t aux=1;

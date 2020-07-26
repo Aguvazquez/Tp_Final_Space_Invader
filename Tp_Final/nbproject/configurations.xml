@@ -28,7 +28,6 @@
       <itemPath>main.c</itemPath>
       <itemPath>menus.c</itemPath>
       <itemPath>move.c</itemPath>
-      <itemPath>pause_menu.c</itemPath>
       <itemPath>play.c</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -105,8 +104,6 @@
       </item>
       <item path="move.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="pause_menu.c" ex="false" tool="0" flavor2="0">
-      </item>
       <item path="play.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="play.h" ex="false" tool="3" flavor2="0">
@@ -161,8 +158,6 @@
       <item path="move.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="move.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="pause_menu.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="play.c" ex="false" tool="0" flavor2="0">
       </item>

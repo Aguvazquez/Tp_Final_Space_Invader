@@ -13,14 +13,14 @@
 #include "move.h"
 
 
-uint8_t play(ALLEGRO_DISPLAY**display,ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIMER **timer,ALLEGRO_BITMAP *display_background[])
+uint8_t play(ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[],ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIMER **timer,ALLEGRO_BITMAP *display_background[])
 {
     uint8_t game[N][N], level=1, difficulty=35;
     //difficulty = leer_archivo();
-    //idea: si es facil, puntaje final x1, medio x2, dificil x3
+    //idea: si es facil, puntaje final x1, medio x2, dificil x3 (Approved)
     while(difficulty != 0)
     {
-        if(!move(display,event_queue,timer,display_background, difficulty))
+        if(!move(display,font,event_queue,timer,display_background, difficulty))
         {
             difficulty -= 1;
             al_rest(1.0);   //mientras no este la pantalla que indica "siguiente nivel"
