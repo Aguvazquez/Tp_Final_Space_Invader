@@ -25,7 +25,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
     ALLEGRO_BITMAP *bloque = NULL;
     
     uint8_t i, check, aux;
-    static uint8_t vida_bloques[4] = {25, 25, 25, 25};
+     uint8_t vida_bloques[4] = {25, 25, 25, 25}; // no puede ser static , porque si no los bloques no respawnean
     float nave_x = SCREEN_W / 2.0 - BASE_SIZE;
     float nave_y = SCREEN_H - BASE_SIZE;
     float bullet_x, bullet_y;
