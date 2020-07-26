@@ -11,6 +11,7 @@
 #include "play.h"
 #include "config.h"
 #include "move.h"
+#include "menus.h"
 
 
 int play(ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[],ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIMER **timer,ALLEGRO_BITMAP *display_background[])
@@ -28,9 +29,8 @@ int play(ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[],ALLEGRO_EVENT_QUEUE **eve
             }
         else if(!aux)
         {
-            
             difficulty -= 1;
-            al_rest(1.0);   //mientras no este la pantalla que indica "siguiente nivel"
+            next_level_animation(font,level++);   //mientras no este la pantalla que indica "siguiente nivel"
             //next_level_pause();
             //if(life<3)
             //  life++;

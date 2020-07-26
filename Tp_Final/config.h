@@ -14,6 +14,8 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+#define ASCII '0'
+
 #define SCREEN_W  800
 #define SCREEN_H  640
 #define SAMPLES  5
@@ -37,6 +39,7 @@
 
 #define CLOSE_DISPLAY  -42
 #define RESET_LEVEL  -22
+
 
 enum{EASY=1,NORMAL,HARD};
 #endif//CONFIG_H

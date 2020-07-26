@@ -41,7 +41,7 @@ int main(void) {
     if(!allegro_ini(&display,&event_queue,&font[0],&samples[0],&timer,&display_background[0])){
         fprintf(stderr,"Something happened, please try again later");
         return -1;
-    };
+    }
     
     if(main_menu(&display,&samples[0],&event_queue,&font[0],&display_background[0],&timer)== -1 ){
         fprintf(stderr,"Something happened, please try again later");

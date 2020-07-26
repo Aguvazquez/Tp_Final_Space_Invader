@@ -35,7 +35,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
         bloques_x[i] = (i+1)*SCREEN_W / 5 - 1.5*BASE_SIZE;
     
     float bloques_y = 3*SCREEN_H / 4 + 1.5*BASE_SIZE;
-    uint8_t cant_aliens = N;
+    uint8_t cant_aliens = 1;
     //uint8_t cant_aliens = 1;    //solo para facilitar debug
     
     //seteo de coordenadas iniciales de los aliens

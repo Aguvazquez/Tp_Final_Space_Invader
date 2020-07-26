@@ -87,6 +87,7 @@ int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_
             break;
             case 2 :{ 
                aux =Difficulty(display,sample,event_queue,font,display_background,"EASY","NORMAL","HARD");
+               flag =false;
                if(!aux){
                    fprintf(stderr,"Hubo un error tato , volve a descargar el archivo , gracias\n");
                    return -1;
@@ -100,6 +101,7 @@ int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_
             break;
             case 3 :{
                 aux =Top_Score(display,sample,event_queue,font,display_background);
+                flag=false;
                if(!aux){
                    fprintf(stderr,"Hubo un error kpo\n");
                    return -1;
@@ -130,7 +132,19 @@ int pause_menu(ALLEGRO_DISPLAY**display ,ALLEGRO_EVENT_QUEUE ** event_queue,ALLE
     }
     return output;
 }
-
+void next_level_animation(ALLEGRO_FONT *font[],int level){
+    char str[]={'L','E','V','E','L',' ',' ',' '};
+    
+    if(level>=10){
+        str[6]=(char)((level/10)+ASCII);
+    }
+    str[7]=(char)((level%10)+ASCII);
+    
+    al_clear_to_color(al_map_rgb(0, 0, 0));
+    al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W / 2, SCREEN_H /4, ALLEGRO_ALIGN_CENTER, str);
+    al_flip_display();
+    al_rest(1.0);
+}
 /**********************Local functions***************/
 
  static int menu_display(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[], char *str0, char*str1, char*str2,char flag){
