@@ -4,7 +4,6 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-      <itemPath>Difficulty.h</itemPath>
       <itemPath>Top_Score.h</itemPath>
       <itemPath>allegro_setup.h</itemPath>
       <itemPath>config.h</itemPath>
@@ -24,13 +23,24 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>Difficulty.c</itemPath>
       <itemPath>Top_Score.c</itemPath>
       <itemPath>allegro_setup.c</itemPath>
       <itemPath>main.c</itemPath>
       <itemPath>main_menu.c</itemPath>
       <itemPath>move.c</itemPath>
+      <itemPath>pause_menu.c</itemPath>
       <itemPath>play.c</itemPath>
+    </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="Test Files"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -71,10 +81,6 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
-      <item path="Difficulty.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="Difficulty.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="Top_Score.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="Top_Score.h" ex="false" tool="3" flavor2="0">
@@ -98,6 +104,8 @@
       <item path="move.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="move.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="pause_menu.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="play.c" ex="false" tool="0" flavor2="0">
       </item>
@@ -130,10 +138,6 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
-      <item path="Difficulty.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="Difficulty.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="Top_Score.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="Top_Score.h" ex="false" tool="3" flavor2="0">
@@ -157,6 +161,8 @@
       <item path="move.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="move.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="pause_menu.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="play.c" ex="false" tool="0" flavor2="0">
       </item>

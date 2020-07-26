@@ -35,12 +35,12 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/Difficulty.o \
 	${OBJECTDIR}/Top_Score.o \
 	${OBJECTDIR}/allegro_setup.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/main_menu.o \
 	${OBJECTDIR}/move.o \
+	${OBJECTDIR}/pause_menu.o \
 	${OBJECTDIR}/play.o
 
 
@@ -68,11 +68,6 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/tp_final: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.c} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/tp_final ${OBJECTFILES} ${LDLIBSOPTIONS}
 
-${OBJECTDIR}/Difficulty.o: Difficulty.c
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Difficulty.o Difficulty.c
-
 ${OBJECTDIR}/Top_Score.o: Top_Score.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -97,6 +92,11 @@ ${OBJECTDIR}/move.o: move.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/move.o move.c
+
+${OBJECTDIR}/pause_menu.o: pause_menu.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/pause_menu.o pause_menu.c
 
 ${OBJECTDIR}/play.o: play.c
 	${MKDIR} -p ${OBJECTDIR}
