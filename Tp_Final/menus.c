@@ -32,9 +32,10 @@
  *          1 first button was pressed.
  *          2 second button was pressed.
  *          3 third button was pressed. 
+ *          -1 if something  gone wrong.
  * @Coment This fuctions doesn't stop the music.
  */
-static uint16_t menu_display(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP* display_background[],char *str0, char*str1, char*str2,char flag);
+static int menu_display(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP* display_background[],char *str0, char*str1, char*str2,char flag);
 
 /*
  * @Brief create the buttons unpressed
@@ -57,7 +58,7 @@ static uint16_t Difficulty(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],AL
 /****************************Global fuctions***********************/
 int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[],ALLEGRO_TIMER **timer){
     uint8_t do_exit=false;
-    uint8_t aux=0;
+    int aux=0;
     while(!do_exit){
     
         switch(aux=menu_display(display,sample,event_queue,font,display_background,"PLAY","DIFFICULTY","TOP SCORE",0)){
@@ -65,7 +66,10 @@ int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_
             break;
             case 1 :{
                 al_stop_samples();
-                play(display,font,event_queue,timer,display_background);
+                aux=play(display,font,event_queue,timer,display_background);
+                if(aux==CLOSE_DISPLAY){
+                    do_exit=true;
+                }
                 //do_exit=true;
             }
             break;
@@ -105,44 +109,19 @@ int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_
     }
     return aux;
 }
-bool pause_menu(ALLEGRO_DISPLAY**display ,ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[]){
-    uint8_t do_exit=false;
-    uint8_t aux=0;
+int pause_menu(ALLEGRO_DISPLAY**display ,ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[]){
+    int output;
     
-    switch(aux=menu_display(display,NULL,event_queue,font,display_background,"RESUME","RESET LEVEL","EXIT",1)){
-            case 0 : do_exit=true;//Exit value 
-            break;
-            case 1 :
-                break; // resume
-                
-            
-            break;
-            case 2 :{ //reset level
-               
-            
-            }
-            break;
-            case 3 :{
-                do_exit=true; // EXIT
-
-               }
-               
-            break;
-            default :{ 
-                fprintf(stderr,"Hubo un error  , volve a descargar el archivo , gracias\n");
-                return -1;
-            }
-            break;
-
-
+    if((output=menu_display(display,NULL,event_queue,font,display_background,"RESUME","RESET LEVEL","EXIT",1))==-1){
+        fprintf(stderr,"Something happened , please try it again latter");
+        return -1;
     }
-    
-    return do_exit;
+    return output;
 }
 
 /**********************Local functions***************/
 
- static uint16_t menu_display(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[], char *str0, char*str1, char*str2,char flag){
+ static int menu_display(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[], char *str0, char*str1, char*str2,char flag){
     
     uint8_t do_exit=false, check=false,redraw=false ;
     uint8_t aux=0;
@@ -152,7 +131,7 @@ bool pause_menu(ALLEGRO_DISPLAY**display ,ALLEGRO_EVENT_QUEUE ** event_queue,ALL
     float mouse_y =0 ;
     
     if(!Create_Top_Score()){ 
-        return 0;
+        return -1;
     }
     
     /**********Title and bakground menu.*********************/

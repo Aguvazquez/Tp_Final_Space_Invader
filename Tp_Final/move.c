@@ -57,6 +57,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
     bool redraw = false;
     bool do_exit = false;
     bool lock = false;
+    bool close_display= false ;
     
     
     if(!create_bitmaps(&bullet,&alien,&bloque,display)){
@@ -102,7 +103,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                 aux++;
             }
             else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
-                do_exit = true;
+                return CLOSE_DISPLAY;
 
             else if (ev.type == ALLEGRO_EVENT_KEY_DOWN) {
                 switch (ev.keyboard.keycode) {
@@ -135,10 +136,30 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                         key_pressed[KEY_RIGHT] = false;
                         break;
                     
-                    case ALLEGRO_KEY_ESCAPE:
-                        do_exit=pause_menu(display,event_queue,font,display_background);
+                    case ALLEGRO_KEY_ESCAPE:{
+                        switch(pause_menu(display,event_queue,font,display_background)){
+                            case 0:{
+                                return CLOSE_DISPLAY;
+                            }
+                            break;
+                            case 1:     //Resume 
+                            break;
+                            case 2:{    //Reset level
+                                
+                            }
+                            break;
+                            case 3:{    //go back to main menu.
+                                do_exit=true;
+                            }
+                            break;
+                            default:{
+                                fprintf(stderr,"Something gone wrong");
+                                return -1;
+                            }
+                            break;
+                        }
                         
-                        break;
+                    }   
                 }
             }
         }

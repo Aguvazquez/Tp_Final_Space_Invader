@@ -35,6 +35,8 @@
 #define ULTIMO_BLOQUE 12
 #define ESPACIO_BLOQUES 3
 
+#define CLOSE_DISPLAY  -42
+
 enum{EASY=1,NORMAL,HARD};
 #endif//CONFIG_H
 
