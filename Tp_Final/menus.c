@@ -15,7 +15,7 @@
 #include <allegro5/allegro_audio.h> 
 #include <allegro5/allegro_acodec.h> 
 #include "config.h"
-#include "main_menu.h"
+#include "menus.h"
 #include "Top_Score.h"
 #include "play.h"
 

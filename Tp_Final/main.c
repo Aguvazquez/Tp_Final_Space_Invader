@@ -26,7 +26,7 @@
  */
 #include "allegro_setup.h"
 #include "config.h"
-#include "main_menu.h"
+#include "menus.h"
 
 int main(void) {
     uint16_t aux=0;

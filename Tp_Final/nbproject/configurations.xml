@@ -7,7 +7,7 @@
       <itemPath>Top_Score.h</itemPath>
       <itemPath>allegro_setup.h</itemPath>
       <itemPath>config.h</itemPath>
-      <itemPath>main_menu.h</itemPath>
+      <itemPath>menus.h</itemPath>
       <itemPath>move.h</itemPath>
       <itemPath>play.h</itemPath>
     </logicalFolder>
@@ -26,7 +26,7 @@
       <itemPath>Top_Score.c</itemPath>
       <itemPath>allegro_setup.c</itemPath>
       <itemPath>main.c</itemPath>
-      <itemPath>main_menu.c</itemPath>
+      <itemPath>menus.c</itemPath>
       <itemPath>move.c</itemPath>
       <itemPath>pause_menu.c</itemPath>
       <itemPath>play.c</itemPath>
@@ -97,9 +97,9 @@
       </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="main_menu.c" ex="false" tool="0" flavor2="0">
+      <item path="menus.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="main_menu.h" ex="false" tool="3" flavor2="0">
+      <item path="menus.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="move.c" ex="false" tool="0" flavor2="0">
       </item>
@@ -154,9 +154,9 @@
       </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="main_menu.c" ex="false" tool="0" flavor2="0">
+      <item path="menus.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="main_menu.h" ex="false" tool="3" flavor2="0">
+      <item path="menus.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="move.c" ex="false" tool="0" flavor2="0">
       </item>
