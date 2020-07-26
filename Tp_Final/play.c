@@ -22,7 +22,8 @@ int play(ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[],ALLEGRO_EVENT_QUEUE **eve
     while(difficulty != 0)
     {
         aux=move(display,font,event_queue,timer,display_background, difficulty);
-        if(aux==CLOSE_DISPLAY){
+        
+        if(aux==CLOSE_DISPLAY||aux==RESET_LEVEL){
                 return aux;
             }
         else if(!aux)

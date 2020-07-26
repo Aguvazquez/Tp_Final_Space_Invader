@@ -145,7 +145,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                             case 1:     //Resume 
                             break;
                             case 2:{    //Reset level
-                                
+                                return RESET_LEVEL;
                             }
                             break;
                             case 3:{    //go back to main menu.

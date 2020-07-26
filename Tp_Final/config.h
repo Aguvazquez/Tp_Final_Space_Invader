@@ -36,6 +36,7 @@
 #define ESPACIO_BLOQUES 3
 
 #define CLOSE_DISPLAY  -42
+#define RESET_LEVEL  -22
 
 enum{EASY=1,NORMAL,HARD};
 #endif//CONFIG_H

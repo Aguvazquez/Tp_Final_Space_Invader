@@ -59,9 +59,9 @@ static uint16_t Difficulty(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],AL
 int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[],ALLEGRO_TIMER **timer){
     uint8_t do_exit=false;
     int aux=0;
+    aux=menu_display(display,sample,event_queue,font,display_background,"PLAY","DIFFICULTY","TOP SCORE",0);
     while(!do_exit){
-    
-        switch(aux=menu_display(display,sample,event_queue,font,display_background,"PLAY","DIFFICULTY","TOP SCORE",0)){
+        switch(aux){
             case 0 : do_exit=true;//Exit value 
             break;
             case 1 :{
@@ -69,6 +69,9 @@ int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_
                 aux=play(display,font,event_queue,timer,display_background);
                 if(aux==CLOSE_DISPLAY){
                     do_exit=true;
+                }
+                else if(aux==RESET_LEVEL){
+                    aux=1;
                 }
                 //do_exit=true;
             }
