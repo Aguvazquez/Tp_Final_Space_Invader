@@ -31,7 +31,7 @@ int play(ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[],ALLEGRO_EVENT_QUEUE **eve
         {
             difficulty -= 1;
             next_level_animation(font,level++);   //mientras no este la pantalla que indica "siguiente nivel"
-            //next_level_pause();
+            
             //if(life<3)
             //  life++;
         }

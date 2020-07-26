@@ -16,6 +16,7 @@
                    projectFiles="true">
       <itemPath>baseshipa.png</itemPath>
       <itemPath>invaders.png</itemPath>
+      <itemPath>saucer2a.png</itemPath>
       <itemPath>space-invaders-logo.png</itemPath>
       <itemPath>space_invaders.ttf</itemPath>
       <itemPath>spaceinvader_theme.wav</itemPath>
@@ -108,6 +109,8 @@
       </item>
       <item path="play.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="saucer2a.png" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="space-invaders-logo.png" ex="false" tool="3" flavor2="0">
       </item>
       <item path="space_invaders.ttf" ex="false" tool="3" flavor2="0">
@@ -162,6 +165,8 @@
       <item path="play.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="play.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="saucer2a.png" ex="false" tool="3" flavor2="0">
       </item>
       <item path="space-invaders-logo.png" ex="false" tool="3" flavor2="0">
       </item>

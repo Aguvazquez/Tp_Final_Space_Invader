@@ -14,7 +14,7 @@
 
 enum MYKEYS {KEY_LEFT, KEY_RIGHT, KEY_SPACE};
 
-static int create_bitmaps(ALLEGRO_BITMAP **bullet, ALLEGRO_BITMAP **alien, ALLEGRO_BITMAP **bloque, ALLEGRO_DISPLAY **display );
+static int create_bitmaps(ALLEGRO_BITMAP **bullet, ALLEGRO_BITMAP **bloque, ALLEGRO_DISPLAY **display );
 
 int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** event_queue, ALLEGRO_TIMER **timer, ALLEGRO_BITMAP *display_background[], uint8_t speed)
 {
@@ -35,7 +35,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
         bloques_x[i] = (i+1)*SCREEN_W / 5 - 1.5*BASE_SIZE;
     
     float bloques_y = 3*SCREEN_H / 4 + 1.5*BASE_SIZE;
-    uint8_t cant_aliens = 1;
+    uint8_t cant_aliens = N;
     //uint8_t cant_aliens = 1;    //solo para facilitar debug
     
     //seteo de coordenadas iniciales de los aliens
@@ -60,7 +60,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
     bool close_display= false ;
     
     
-    if(!create_bitmaps(&bullet,&alien,&bloque,display)){
+    if(!create_bitmaps(&bullet,&bloque,display)){
         fprintf(stderr,"fail to create bitmap");
         return -1;
     }
@@ -167,14 +167,18 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
         if (redraw && al_is_event_queue_empty(*event_queue)) {
             redraw = false;
             al_clear_to_color(al_map_rgb(0, 0, 0));
-            al_draw_bitmap(display_background[2], nave_x, nave_y-BASE_SIZE, 0);
+            al_draw_scaled_bitmap(display_background[2],0, 0, al_get_bitmap_width(display_background[2]), al_get_bitmap_height(display_background[2]), 
+            nave_x, nave_y, 3*BASE_SIZE, 1.5*BASE_SIZE,0);
+            //al_draw_bitmap(display_background[2], nave_x, nave_y-BASE_SIZE, 0);
             for(i=0; i<4; i++)
                 if(vida_bloques[i])
                     al_draw_bitmap(bloque, bloques_x[i], bloques_y, 0);
             for(i=0, check=0; i<N; i++)
             {
                 if(alien_y[i] < SCREEN_H)
-                    al_draw_bitmap(alien, alien_x[i], alien_y[i], 0);   //dibuja cada alien
+                    al_draw_scaled_bitmap(display_background[3],0, 0, al_get_bitmap_width(display_background[3]), al_get_bitmap_height(display_background[3]), 
+             alien_x[i], alien_y[i],2*BASE_SIZE, 2*BASE_SIZE,0); 
+                    //al_draw_bitmap(display_background[3], alien_x[i], alien_y[i], 0);   //dibuja cada alien
                 if(alien_x[i] >= SCREEN_W-2*BASE_SIZE || alien_x[i] <= BASE_SIZE) //revisa que no sobrepasen los extremos
                     check++;
             }
@@ -216,7 +220,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
     return cant_aliens;
 }
 
-static int create_bitmaps(ALLEGRO_BITMAP **bullet,ALLEGRO_BITMAP **alien,ALLEGRO_BITMAP **bloque,ALLEGRO_DISPLAY **display ){
+static int create_bitmaps(ALLEGRO_BITMAP **bullet,ALLEGRO_BITMAP **bloque,ALLEGRO_DISPLAY **display ){
     
     
     *bullet = al_create_bitmap(1, BASE_SIZE);
@@ -225,12 +229,7 @@ static int create_bitmaps(ALLEGRO_BITMAP **bullet,ALLEGRO_BITMAP **alien,ALLEGRO
         return 0;
     }
     
-    *alien = al_create_bitmap(BASE_SIZE, BASE_SIZE);
-    if (!alien) {
-        fprintf(stderr, "failed to create alien bitmap!\n");
-        al_destroy_bitmap(*bullet);
-        return 0;
-    }
+    
 
     *bloque = al_create_bitmap(3*BASE_SIZE, BASE_SIZE);
     if (!bloque) {
@@ -241,8 +240,8 @@ static int create_bitmaps(ALLEGRO_BITMAP **bullet,ALLEGRO_BITMAP **alien,ALLEGRO
     
     al_set_target_bitmap(*bullet);
     al_clear_to_color(al_map_rgb(255, 255, 255));
-    al_set_target_bitmap(*alien);
-    al_clear_to_color(al_map_rgb(0, 255, 0));
+   // al_set_target_bitmap(*alien);
+   // al_clear_to_color(al_map_rgb(0, 255, 0));
     al_set_target_bitmap(*bloque);
     al_clear_to_color(al_map_rgb(255, 0, 0));
     al_set_target_bitmap(al_get_backbuffer(*display));
