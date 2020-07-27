@@ -25,7 +25,8 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
     ALLEGRO_BITMAP *bloque = NULL;
     
     uint8_t i, check, aux;
-     uint8_t vida_bloques[4] = {25, 25, 25, 25}; // no puede ser static , porque si no los bloques no respawnean
+    uint8_t vida_bloques[4] = {25, 25, 25, 25}; // no puede ser static , porque si no los bloques no respawnean
+    bool alien_change=false;
     float nave_x = SCREEN_W / 2.0 - BASE_SIZE;
     float nave_y = SCREEN_H - BASE_SIZE;
     float bullet_x, bullet_y;
@@ -82,6 +83,11 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                 
                 if(aux>=speed)
                 {
+                     if(alien_change)
+                        alien_change=false;
+                    else
+                        alien_change=true;
+            
                     for(i=0, check=0; i<N; i++)
                     {
                         if(alien_y[i] < SCREEN_H)
@@ -175,13 +181,23 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                     al_draw_bitmap(bloque, bloques_x[i], bloques_y, 0);
             for(i=0, check=0; i<N; i++)
             {
-                if(alien_y[i] < SCREEN_H)
+                if(alien_y[i] < SCREEN_H){
+                    if(alien_change){
                     al_draw_scaled_bitmap(display_background[3],0, 0, al_get_bitmap_width(display_background[3]), al_get_bitmap_height(display_background[3]), 
              alien_x[i], alien_y[i],2*BASE_SIZE, 2*BASE_SIZE,0); 
+                    
+                    }
+                    else{
+                        al_draw_scaled_bitmap(display_background[4],0, 0, al_get_bitmap_width(display_background[4]), al_get_bitmap_height(display_background[4]), 
+             alien_x[i], alien_y[i],2*BASE_SIZE, 2*BASE_SIZE,0); 
+                    
+                    }
+                }
                     //al_draw_bitmap(display_background[3], alien_x[i], alien_y[i], 0);   //dibuja cada alien
                 if(alien_x[i] >= SCREEN_W-2*BASE_SIZE || alien_x[i] <= BASE_SIZE) //revisa que no sobrepasen los extremos
                     check++;
             }
+           
             if(lock)
             {
                 al_draw_bitmap(bullet, bullet_x, bullet_y, 0);

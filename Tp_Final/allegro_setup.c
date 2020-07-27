@@ -151,8 +151,9 @@ uint16_t allegro_ini(ALLEGRO_DISPLAY** display,ALLEGRO_EVENT_QUEUE**  event_queu
     display_background[0] = al_load_bitmap("invaders.png");
     display_background[1] = al_load_bitmap("space-invaders-logo.png");
     display_background[2] = al_load_bitmap("baseshipa.png");
-    display_background[3] = al_load_bitmap("saucer2a.png");
-    for(i=0;i<4;i++){
+    display_background[3] = al_load_bitmap("saucer2b.png");
+    display_background[4] = al_load_bitmap("saucer2bb.png");
+    for(i=0;i<5;i++){
     if (!display_background[i]) {
             fprintf(stderr,"background image not loaded!\n");
             al_uninstall_system();
