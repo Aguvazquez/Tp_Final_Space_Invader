@@ -16,10 +16,13 @@
 
 int play(ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[],ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIMER **timer,ALLEGRO_BITMAP *display_background[])
 {
-    uint8_t game[N][N], level=1, difficulty=35;
+    uint8_t game[N][N], level=1, difficulty=30;
     int aux=0;
     //difficulty = leer_archivo();
     //idea: si es facil, puntaje final x1, medio x2, dificil x3 (Approved)
+    
+    next_level_animation(font, level);
+    
     while(difficulty != 0)
     {
         aux=move(display,font,event_queue,timer,display_background, difficulty);

@@ -27,7 +27,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
     ALLEGRO_BITMAP *bloque = NULL;
     
     uint8_t i, check, aux;
-    uint8_t vida_bloques[4] = {25, 25, 25, 25}; // no puede ser static , porque si no los bloques no respawnean
+    static uint8_t vida_bloques[4] = {20, 20, 20, 20};
     bool alien_change=false;
     float nave_x = SCREEN_W / 2.0 - BASE_SIZE;
     float nave_y = SCREEN_H - 2*BASE_SIZE;
@@ -56,6 +56,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                         SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2};
     
     int8_t step = BASE_SIZE/2;
+    uint8_t heart, lifes=3;
     bool key_pressed[3] = {false, false, false};    //estado de teclas, true cuando esta apretada
     bool redraw = false;
     bool do_exit = false;
@@ -80,7 +81,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                 if (key_pressed[KEY_LEFT] && nave_x >= MOVE_RATE)
                     nave_x -= MOVE_RATE;
 
-                if (key_pressed[KEY_RIGHT] && nave_x <= SCREEN_W - 2*BASE_SIZE - MOVE_RATE)
+                if (key_pressed[KEY_RIGHT] && nave_x <= SCREEN_W - 3*BASE_SIZE - MOVE_RATE)
                     nave_x += MOVE_RATE;
                 
                 if(aux>=speed)
@@ -93,7 +94,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                     for(i=0, check=0; i<N; i++)
                     {
                         if(alien_y[i] < SCREEN_H)
-                            if(alien_x[i] >= SCREEN_W-2*BASE_SIZE || alien_x[i] <= BASE_SIZE) //revisa que no sobrepasen los extremos
+                            if(alien_x[i] >= SCREEN_W-2.5*BASE_SIZE || alien_x[i] <= BASE_SIZE/2) //revisa que no sobrepasen los extremos
                                 check++;
                     }
                     if(check)
@@ -126,8 +127,8 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                         
                     case ALLEGRO_KEY_SPACE:
                         if(!lock){
-                            bullet_x = nave_x + BASE_SIZE;    //setea la bala
-                            bullet_y = nave_y - BASE_SIZE;   
+                            bullet_x = nave_x + 1.5*BASE_SIZE;    //setea la bala
+                            bullet_y = nave_y;   
                             lock = true;   // solo dispara si no hay otra bala volando.
                         }
                     break;
@@ -173,13 +174,28 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
         }
 
         if (redraw && al_is_event_queue_empty(*event_queue)) {
+            
             redraw = false;
             al_clear_to_color(al_map_rgb(0, 0, 0));
             al_draw_scaled_bitmap(display_background[2],0, 0, al_get_bitmap_width(display_background[2]), al_get_bitmap_height(display_background[2]), 
-            nave_x, nave_y, 3*BASE_SIZE, 1.5*BASE_SIZE,0);
+            nave_x, nave_y, 3*BASE_SIZE, 1.5*BASE_SIZE, 0);
+            
+            for(i=0, heart=0; i<lifes; i++, heart+=2*BASE_SIZE)
+                al_draw_scaled_bitmap(display_background[5],0, 0, al_get_bitmap_width(display_background[5]), al_get_bitmap_height(display_background[5]), 
+                heart, 0, 2*BASE_SIZE, BASE_SIZE, 0);
+            
             for(i=0; i<4; i++)
-                if(vida_bloques[i])
-                    al_draw_bitmap(bloque, bloques_x[i], bloques_y, 0);
+                if(vida_bloques[i]>=10){
+                    al_draw_filled_rectangle(bloques_x[i], bloques_y, bloques_x[i]+3*BASE_SIZE, bloques_y+BASE_SIZE, al_map_rgb(0, 255, 0));
+                    al_draw_filled_rectangle(bloques_x[i], bloques_y+BASE_SIZE, bloques_x[i]+BASE_SIZE, bloques_y+2*BASE_SIZE, al_map_rgb(0, 255, 0));
+                    al_draw_filled_rectangle(bloques_x[i]+2*BASE_SIZE, bloques_y+BASE_SIZE, bloques_x[i]+3*BASE_SIZE, bloques_y+2*BASE_SIZE, al_map_rgb(0, 255, 0));
+                }
+                else if(vida_bloques[i]){
+                    al_draw_filled_rectangle(bloques_x[i], bloques_y, bloques_x[i]+3*BASE_SIZE, bloques_y+BASE_SIZE, al_map_rgb(255, 255, 0));
+                    al_draw_filled_rectangle(bloques_x[i], bloques_y+BASE_SIZE, bloques_x[i]+BASE_SIZE, bloques_y+2*BASE_SIZE, al_map_rgb(255, 255, 0));
+                    al_draw_filled_rectangle(bloques_x[i]+2*BASE_SIZE, bloques_y+BASE_SIZE, bloques_x[i]+3*BASE_SIZE, bloques_y+2*BASE_SIZE, al_map_rgb(255, 255, 0));
+                }
+                    
             for(i=0, check=0; i<N; i++)
             {
                 if(alien_y[i] < SCREEN_H){
@@ -200,10 +216,11 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
             {
                 al_draw_bitmap(bullet, bullet_x, bullet_y, 0);
                 bullet_y -= 2*MOVE_RATE;        //actualiza la posicion de la bala en cada ciclo
+                if(bullet_y <= bloques_y + BASE_SIZE)
                 for(i=0, check=0; i<4; i++)
                 {
                     if(vida_bloques[i]){
-                        if(nave_x>=bloques_x[i] && nave_x<=bloques_x[i]+3*BASE_SIZE){
+                        if(bullet_x>=bloques_x[i] && bullet_x<=bloques_x[i]+3*BASE_SIZE){
                             vida_bloques[i]--;
                             lock = false;
                         }
@@ -230,8 +247,6 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
         }
     }
 
-    al_destroy_bitmap(alien);
-    al_destroy_bitmap(bloque);
     al_stop_timer(*timer);
     return cant_aliens;
 }
@@ -245,21 +260,10 @@ static int create_bitmaps(ALLEGRO_BITMAP **bullet,ALLEGRO_BITMAP **bloque,ALLEGR
         return 0;
     }
     
-    
-
-    *bloque = al_create_bitmap(3*BASE_SIZE, BASE_SIZE);
-    if (!bloque) {
-        fprintf(stderr, "failed to create alien bitmap!\n");
-        al_destroy_bitmap(*bullet);
-        return 0;
-    }
-    
     al_set_target_bitmap(*bullet);
     al_clear_to_color(al_map_rgb(255, 255, 255));
-    al_set_target_bitmap(*bloque);
-    al_clear_to_color(al_map_rgb(255, 0, 0));
     al_set_target_bitmap(al_get_backbuffer(*display));
-    al_clear_to_color(al_map_rgb(0, 0, 0));
+    //al_clear_to_color(al_map_rgb(0, 0, 0)); no se para que es esta linea
     al_flip_display();
     return 1;
 }

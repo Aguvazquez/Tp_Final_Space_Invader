@@ -153,7 +153,8 @@ uint16_t allegro_ini(ALLEGRO_DISPLAY** display,ALLEGRO_EVENT_QUEUE**  event_queu
     display_background[2] = al_load_bitmap("baseshipa.png");
     display_background[3] = al_load_bitmap("saucer2b.png");
     display_background[4] = al_load_bitmap("saucer2bb.png");
-    for(i=0;i<5;i++){
+    display_background[5] = al_load_bitmap("red-heart.jpg");    
+    for(i=0;i<6;i++){
     if (!display_background[i]) {
             fprintf(stderr,"background image not loaded!\n");
             al_uninstall_system();
@@ -198,8 +199,8 @@ void allegro_shutdown(ALLEGRO_EVENT_QUEUE** event_queue,ALLEGRO_DISPLAY **displa
     al_shutdown_primitives_addon();
     al_shutdown_image_addon();
     al_uninstall_audio();
-  /*  al_destroy_display(*display); // No entiendo porque da segmentation fault , pero son estas dos lineas de codigo
-    al_destroy_event_queue(*event_queue);*/
+    //al_destroy_display(*display); // No entiendo porque da segmentation fault , pero son estas dos lineas de codigo
+    //al_destroy_event_queue(*event_queue);
     al_shutdown_ttf_addon();
     
 }
