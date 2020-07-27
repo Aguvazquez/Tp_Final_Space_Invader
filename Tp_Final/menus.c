@@ -53,11 +53,25 @@ static void create_button_unpressed(ALLEGRO_FONT*font,char *str0,char *str1,char
 
 static void create_button_pressed(ALLEGRO_FONT*font,uint8_t button,char *str0,char *str1,char *str2);
 
+/*
+ * @Brief Create the Difficulty menu. 
+ * @Param param1: pointer to the display.
+ * @Param param2: pointer to samples array.
+ * @Param param3: pointer to the event queue.
+ * @Param param4: pointer to fonts array.
+ * @param param5: pointer to backgrounds array.
+ * @Return  0 close the game.
+ *          1 first button was pressed.
+ *          2 second button was pressed.
+ *          3 third button was pressed. 
+ *          -1 if something  gone wrong.
+ * @Coment This fuctions doesn't stop the music
+ */ 
 static uint16_t Difficulty(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[],char *str0, char*str1, char*str2);
 
 /****************************Global fuctions***********************/
 int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[],ALLEGRO_TIMER **timer){
-    uint8_t do_exit=false;
+    bool do_exit=false;
     int aux=0;
     bool flag = false;
     

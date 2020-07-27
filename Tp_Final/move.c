@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <time.h>
 #include <allegro5/allegro.h>  
 #include <allegro5/allegro_color.h> 
 #include <allegro5/allegro_primitives.h>
@@ -15,6 +16,7 @@
 enum MYKEYS {KEY_LEFT, KEY_RIGHT, KEY_SPACE};
 
 static int create_bitmaps(ALLEGRO_BITMAP **bullet, ALLEGRO_BITMAP **bloque, ALLEGRO_DISPLAY **display );
+static uint16_t alien_shoot(void);
 
 int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** event_queue, ALLEGRO_TIMER **timer, ALLEGRO_BITMAP *display_background[], uint8_t speed)
 {
@@ -58,7 +60,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
     bool redraw = false;
     bool do_exit = false;
     bool lock = false;
-    bool close_display= false ;
+    
     
     
     if(!create_bitmaps(&bullet,&bloque,display)){
@@ -175,7 +177,6 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
             al_clear_to_color(al_map_rgb(0, 0, 0));
             al_draw_scaled_bitmap(display_background[2],0, 0, al_get_bitmap_width(display_background[2]), al_get_bitmap_height(display_background[2]), 
             nave_x, nave_y, 3*BASE_SIZE, 1.5*BASE_SIZE,0);
-            //al_draw_bitmap(display_background[2], nave_x, nave_y-BASE_SIZE, 0);
             for(i=0; i<4; i++)
                 if(vida_bloques[i])
                     al_draw_bitmap(bloque, bloques_x[i], bloques_y, 0);
@@ -193,7 +194,6 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                     
                     }
                 }
-                    //al_draw_bitmap(display_background[3], alien_x[i], alien_y[i], 0);   //dibuja cada alien
                 if(alien_x[i] >= SCREEN_W-2*BASE_SIZE || alien_x[i] <= BASE_SIZE) //revisa que no sobrepasen los extremos
                     check++;
             }
@@ -256,12 +256,20 @@ static int create_bitmaps(ALLEGRO_BITMAP **bullet,ALLEGRO_BITMAP **bloque,ALLEGR
     
     al_set_target_bitmap(*bullet);
     al_clear_to_color(al_map_rgb(255, 255, 255));
-   // al_set_target_bitmap(*alien);
-   // al_clear_to_color(al_map_rgb(0, 255, 0));
     al_set_target_bitmap(*bloque);
     al_clear_to_color(al_map_rgb(255, 0, 0));
     al_set_target_bitmap(al_get_backbuffer(*display));
     al_clear_to_color(al_map_rgb(0, 0, 0));
     al_flip_display();
     return 1;
+}
+static uint16_t alien_shoot(void){
+    
+    static bool i=false ;
+    if(!i){
+        srand(time(NULL));
+        i=true;
+    }
+    return (rand()%100);
+    
 }
