@@ -20,7 +20,7 @@ static uint16_t alien_shoot(void);
 static uint16_t get_rand_num(uint8_t x);
 /*Recibe un entero positivo y devuelve un numero aleatorio menor o igual a dicho numero*/
 
-int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** event_queue, ALLEGRO_TIMER **timer, ALLEGRO_BITMAP *display_background[], uint8_t difficulty, uint8_t lifes)
+int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** event_queue, ALLEGRO_TIMER **timer, ALLEGRO_BITMAP *display_background[], uint8_t difficulty, uint8_t* lifes)
 {
     ALLEGRO_BITMAP *nave = NULL;
     ALLEGRO_BITMAP *bullet = NULL;
@@ -77,7 +77,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
 
     al_start_timer(*timer);
 
-    while (!do_exit && cant_aliens && lifes) {
+    while (!do_exit && cant_aliens && *lifes) {
         ALLEGRO_EVENT ev;
         if (al_get_next_event(*event_queue, &ev)) //toma un evento de la cola.
         {
@@ -208,7 +208,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
             al_draw_scaled_bitmap(display_background[2],0, 0, al_get_bitmap_width(display_background[2]), al_get_bitmap_height(display_background[2]), 
             nave_x, nave_y, 3*BASE_SIZE, 1.5*BASE_SIZE, 0);
             
-            for(i=0; i<lifes; i++)
+            for(i=0; i<*lifes; i++)
                 al_draw_scaled_bitmap(display_background[5],0, 0, al_get_bitmap_width(display_background[5]), al_get_bitmap_height(display_background[5]), 
                 1.5*i*BASE_SIZE, 0, 2*BASE_SIZE, 2*BASE_SIZE, 0);
             
@@ -276,7 +276,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                 
                 for(j=0; j<4; j++){
                     if(vida_bloques[j]){
-                        if(alien_bullets[1][i]>=bloques_y && alien_bullets[1][i]<=bloques_y+BASE_SIZE && alien_bullets[0][i]>=bloques_x[j] && alien_bullets[0][i]<=bloques_x[j]+4*BASE_SIZE){
+                        if((alien_bullets[1][i]+BASE_SIZE)>=bloques_y && (alien_bullets[1][i]+BASE_SIZE)<=bloques_y+BASE_SIZE && alien_bullets[0][i]>=bloques_x[j] && alien_bullets[0][i]<=bloques_x[j]+4*BASE_SIZE){
                             alien_bullets[1][i] = SCREEN_H;
                             vida_bloques[j]--;
                         }
@@ -285,8 +285,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                 
                 if(alien_bullets[1][i]>=nave_y && alien_bullets[1][i]<=nave_y+BASE_SIZE && alien_bullets[0][i]>=nave_x && alien_bullets[0][i]<=nave_x+3*BASE_SIZE){
                     alien_bullets[1][i] = SCREEN_H;
-                    lifes--;
-                    al_rest(0.25);
+                    (*lifes)--;
                 }
                 
                 if(alien_bullets[0][i]>=bullet_x-4 && alien_bullets[0][i]<=bullet_x+6 && alien_bullets[1][i]>=bullet_y && alien_bullets[1][i]<=bullet_y+BASE_SIZE){
