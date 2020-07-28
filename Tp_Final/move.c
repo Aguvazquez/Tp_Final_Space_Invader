@@ -27,7 +27,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
     ALLEGRO_BITMAP *alien = NULL;
     ALLEGRO_BITMAP *bloque = NULL;
     
-    uint8_t i, check, aux, accelerate=0;
+    uint8_t i, j, check, aux, accelerate=0;
     static uint8_t vida_bloques[4] = {30, 30, 30, 30};
     bool alien_change=false;
     float nave_x = SCREEN_W / 2.0 - 1.5*BASE_SIZE;
@@ -122,7 +122,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                             if(alien_y[i]<SCREEN_H){        // si esta vivo
                                 if(!(aux--)){
                                     if(alien_bullets[1][i]>=SCREEN_H){
-                                        alien_bullets[0][i]=alien_x[i]; //coordenada x
+                                        alien_bullets[0][i]=alien_x[i]+BASE_SIZE; //coordenada x
                                         alien_bullets[1][i]=alien_y[i]; //le asigno coordenada y del alien a la bala
                                     }
                                 }
@@ -273,10 +273,20 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                     lock = false;
                     bullet_y = nave_y;
                 }
-                if(alien_y[i]>3*SCREEN_H/4 && alien_y[i]<SCREEN_H)
+                
+                for(j=0; j<4; j++){
+                    if(alien_bullets[1][i]>=bloques_y && alien_bullets[1][i]<=bloques_y+BASE_SIZE && alien_bullets[0][i]>=bloques_x[j] && alien_bullets[0][i]<=bloques_x[j]+4*BASE_SIZE){
+                        alien_bullets[1][i] = SCREEN_H;
+                        vida_bloques[j]--;
+                    }
+                }
+                
+                al_draw_bitmap(bullet, alien_bullets[0][i], alien_bullets[1][i], 0);    //dibujo balas aliens
+                alien_bullets[1][i] += 2*MOVE_RATE;        
+                 
+                if(alien_y[i]>3*SCREEN_H/4 && alien_y[i]<SCREEN_H)  //condicion de derrota
                     do_exit = true;
-                al_draw_bitmap(bullet, alien_bullets[0][i], alien_bullets[1][i], 0);
-                alien_bullets[1][i] += 2*MOVE_RATE;
+                
             }
             al_flip_display();
         }
