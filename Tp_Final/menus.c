@@ -85,10 +85,14 @@ int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_
             case 0 : do_exit=true;//Exit value 
             break;
             case 1 :{
+                
                 al_stop_samples();
                 aux=play(display,font,event_queue,timer,display_background);
                 if(aux==CLOSE_DISPLAY){
                     do_exit=true;
+                }
+                else if(aux==RESET_GAME){
+                    aux=1;
                 }
                 else{
                     flag=false;

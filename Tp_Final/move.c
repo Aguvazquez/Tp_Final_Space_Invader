@@ -37,7 +37,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
         bloques_x[i] = (1.5*i+1)*SCREEN_W / 6.5 - 2*BASE_SIZE;
     
     float bloques_y = 3*SCREEN_H / 4 + 2.5*BASE_SIZE;
-    uint8_t cant_aliens = N;
+    int8_t cant_aliens = N;
     //uint8_t cant_aliens = 1;    //solo para facilitar debug
     
     //seteo de coordenadas iniciales de los aliens
@@ -95,15 +95,18 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                     }
                     if(check)
                     {
+                        if(accelerate >= 4 && difficulty >= 4)
+                            difficulty -= 2;
                         step *= -1;
                         accelerate++;
                         for(i=0; i<N; i++)
                             alien_y[i] += BASE_SIZE;
+                        
                     }
                     for(i=0; i<N; i++)
                         alien_x[i] += step;
-                    if(accelerate >= 4 && difficulty >= 4)
-                        difficulty -= 2;
+                   
+                       
                     aux=0;
                 }
                 
@@ -154,12 +157,12 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                             case 1:     //Resume 
                             break;
                             case 2:{    //Reset level
-                                do_exit = true;
-                                //return RESET_GAME;
+                                cant_aliens= RESET_GAME;
+                                do_exit=true;
+                                
                             }
                             break;
                             case 3:{    //go back to main menu.
-                                cant_aliens = CLOSE_DISPLAY;
                                 do_exit = true;
                             }
                             break;
@@ -256,8 +259,10 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
     }
 
     al_stop_timer(*timer);
+    if(cant_aliens){
     for(i=0; i<4; i++)
         vida_bloques[i]=30;
+    }
     return cant_aliens;
 }
 

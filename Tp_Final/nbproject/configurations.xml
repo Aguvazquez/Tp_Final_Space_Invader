@@ -17,7 +17,7 @@
       <itemPath>baseshipa.png</itemPath>
       <itemPath>fondo.jpeg</itemPath>
       <itemPath>invaders.png</itemPath>
-      <itemPath>red-heart.jpg</itemPath>
+      <itemPath>red-heart.png</itemPath>
       <itemPath>saucer2b.png</itemPath>
       <itemPath>saucer2bb.png</itemPath>
       <itemPath>space-invaders-logo.png</itemPath>
@@ -114,7 +114,7 @@
       </item>
       <item path="play.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="red-heart.jpg" ex="false" tool="3" flavor2="0">
+      <item path="red-heart.png" ex="false" tool="3" flavor2="0">
       </item>
       <item path="saucer2b.png" ex="false" tool="3" flavor2="0">
       </item>
@@ -177,7 +177,7 @@
       </item>
       <item path="play.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="red-heart.jpg" ex="false" tool="3" flavor2="0">
+      <item path="red-heart.png" ex="false" tool="3" flavor2="0">
       </item>
       <item path="saucer2b.png" ex="false" tool="3" flavor2="0">
       </item>
