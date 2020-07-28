@@ -16,8 +16,7 @@
 
 int play(ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[],ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIMER **timer,ALLEGRO_BITMAP *display_background[])
 {
-    uint8_t game[N][N], level=1, difficulty;
-    int aux=0;
+    uint8_t game[N][N], level=1, difficulty, lifes=3, aux=0;
     difficulty = read_difficulty();
     if(difficulty!=EASY){
         if(difficulty!=NORMAL){
@@ -32,20 +31,20 @@ int play(ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[],ALLEGRO_EVENT_QUEUE **eve
     
     next_level_animation(font, level);
     
-    while(difficulty != 0)
+    while(difficulty)
     {
-        aux=move(display,font,event_queue,timer,display_background, difficulty);
+        aux=move(display,font,event_queue,timer,display_background, difficulty, lifes);
         
         if(aux==CLOSE_DISPLAY||aux==RESET_LEVEL){
             return aux;
         }
         else if(!aux)
         {
-            difficulty -= 1;
+            if(difficulty>10)
+                difficulty--;
             next_level_animation(font,++level);   //mientras no este la pantalla que indica "siguiente nivel"
-            
-            //if(life<3)
-            //  life++;
+            if(lifes<3)
+              lifes++;
         }
         else
         {

@@ -18,15 +18,14 @@ enum MYKEYS {KEY_LEFT, KEY_RIGHT, KEY_SPACE};
 static int create_bitmaps(ALLEGRO_BITMAP **bullet, ALLEGRO_BITMAP **bloque, ALLEGRO_DISPLAY **display );
 static uint16_t alien_shoot(void);
 
-int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** event_queue, ALLEGRO_TIMER **timer, ALLEGRO_BITMAP *display_background[], uint8_t speed)
+int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** event_queue, ALLEGRO_TIMER **timer, ALLEGRO_BITMAP *display_background[], uint8_t difficulty, uint8_t lifes)
 {
-    
     ALLEGRO_BITMAP *nave = NULL;
     ALLEGRO_BITMAP *bullet = NULL;
     ALLEGRO_BITMAP *alien = NULL;
     ALLEGRO_BITMAP *bloque = NULL;
     
-    uint8_t i, check, aux;
+    uint8_t i, check, aux, accelerate=0;
     static uint8_t vida_bloques[4] = {30, 30, 30, 30};
     bool alien_change=false;
     float nave_x = SCREEN_W / 2.0 - 1.5*BASE_SIZE;
@@ -56,20 +55,17 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                         SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2};
     
     int8_t step = BASE_SIZE/2;
-    uint8_t heart, lifes=3;
     bool key_pressed[3] = {false, false, false};    //estado de teclas, true cuando esta apretada
     bool redraw = false;
     bool do_exit = false;
     bool lock = false;
-    
-    
+        
     
     if(!create_bitmaps(&bullet,&bloque,display)){
         fprintf(stderr,"fail to create bitmap");
         return -1;
     }
 
-    
     al_start_timer(*timer);
 
     while (!do_exit && cant_aliens) {
@@ -84,9 +80,9 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                 if (key_pressed[KEY_RIGHT] && nave_x <= SCREEN_W - 3*BASE_SIZE - MOVE_RATE)
                     nave_x += MOVE_RATE;
                 
-                if(aux>=speed)
+                if(aux>=difficulty)
                 {
-                     if(alien_change)
+                    if(alien_change)
                         alien_change=false;
                     else
                         alien_change=true;
@@ -100,11 +96,14 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                     if(check)
                     {
                         step *= -1;
+                        accelerate++;
                         for(i=0; i<N; i++)
                             alien_y[i] += BASE_SIZE;
                     }
                     for(i=0; i<N; i++)
                         alien_x[i] += step;
+                    if(accelerate >= 4 && difficulty >= 4)
+                        difficulty -= 2;
                     aux=0;
                 }
                 
@@ -181,9 +180,9 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
             al_draw_scaled_bitmap(display_background[2],0, 0, al_get_bitmap_width(display_background[2]), al_get_bitmap_height(display_background[2]), 
             nave_x, nave_y, 3*BASE_SIZE, 1.5*BASE_SIZE, 0);
             
-            for(i=0, heart=0; i<lifes; i++, heart+=2*BASE_SIZE)
+            for(i=0; i<lifes; i++)
                 al_draw_scaled_bitmap(display_background[5],0, 0, al_get_bitmap_width(display_background[5]), al_get_bitmap_height(display_background[5]), 
-                heart, 0, 2*BASE_SIZE, 2*BASE_SIZE, 0);
+                1.5*i*BASE_SIZE, 0, 2*BASE_SIZE, 2*BASE_SIZE, 0);
             
             for(i=0; i<4; i++)
                 if(vida_bloques[i]>=20){
