@@ -101,7 +101,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                     {
                         step *= -1;
                         for(i=0; i<N; i++)
-                            alien_y[i] += BASE_SIZE/2;
+                            alien_y[i] += BASE_SIZE;
                     }
                     for(i=0; i<N; i++)
                         alien_x[i] += step;
@@ -176,7 +176,8 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
         if (redraw && al_is_event_queue_empty(*event_queue)) {
             
             redraw = false;
-            al_clear_to_color(al_map_rgb(0, 0, 0));
+            al_draw_scaled_bitmap(display_background[6],0, 0, al_get_bitmap_width(display_background[6]), al_get_bitmap_height(display_background[6]), 
+            0, 0, SCREEN_W, SCREEN_H, 0);
             al_draw_scaled_bitmap(display_background[2],0, 0, al_get_bitmap_width(display_background[2]), al_get_bitmap_height(display_background[2]), 
             nave_x, nave_y, 3*BASE_SIZE, 1.5*BASE_SIZE, 0);
             
@@ -221,16 +222,16 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
             {
                 al_draw_bitmap(bullet, bullet_x, bullet_y, 0);
                 bullet_y -= 2*MOVE_RATE;        //actualiza la posicion de la bala en cada ciclo
-                if(bullet_y <= bloques_y + BASE_SIZE)
-                for(i=0, check=0; i<4; i++)
+                if(bullet_y <= bloques_y + BASE_SIZE);
+                /*for(i=0, check=0; i<4; i++)
                 {
                     if(vida_bloques[i]){
-                        if(bullet_x>=bloques_x[i] && bullet_x<=bloques_x[i]+3*BASE_SIZE){
+                        if(bullet_x>=bloques_x[i] && bullet_x<=bloques_x[i]+4*BASE_SIZE){
                             vida_bloques[i]--;
                             lock = false;
                         }
                     }
-                }
+                }*/
             }
             
             if(bullet_y <= MOVE_RATE)           //si pega arriba desaparece la bala

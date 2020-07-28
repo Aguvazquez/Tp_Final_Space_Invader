@@ -15,6 +15,7 @@
                    displayName="Resource Files"
                    projectFiles="true">
       <itemPath>baseshipa.png</itemPath>
+      <itemPath>fondo.jpeg</itemPath>
       <itemPath>invaders.png</itemPath>
       <itemPath>red-heart.jpg</itemPath>
       <itemPath>saucer2b.png</itemPath>
@@ -95,6 +96,8 @@
       </item>
       <item path="config.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="fondo.jpeg" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="invaders.png" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
@@ -155,6 +158,8 @@
       <item path="baseshipa.png" ex="false" tool="3" flavor2="0">
       </item>
       <item path="config.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="fondo.jpeg" ex="false" tool="3" flavor2="0">
       </item>
       <item path="invaders.png" ex="false" tool="3" flavor2="0">
       </item>

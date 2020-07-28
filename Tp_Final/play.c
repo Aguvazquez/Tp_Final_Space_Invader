@@ -18,7 +18,8 @@ int play(ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[],ALLEGRO_EVENT_QUEUE **eve
 {
     uint8_t game[N][N], level=1, difficulty=25;
     int aux=0;
-    //difficulty = leer_archivo();
+    //difficulty = leer_archivo(); 
+    //easy=30, medium=25, hard=20
     //idea: si es facil, puntaje final x1, medio x2, dificil x3 (Approved)
     
     next_level_animation(font, level);
@@ -28,8 +29,8 @@ int play(ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[],ALLEGRO_EVENT_QUEUE **eve
         aux=move(display,font,event_queue,timer,display_background, difficulty);
         
         if(aux==CLOSE_DISPLAY||aux==RESET_LEVEL){
-                return aux;
-            }
+            return aux;
+        }
         else if(!aux)
         {
             difficulty -= 1;
