@@ -10,5 +10,6 @@
 
 int move(ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[],ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIMER **timer,ALLEGRO_BITMAP *display_background[], uint8_t difficulty, uint8_t lifes);
 
+
 #endif /* MOVE_H */
 

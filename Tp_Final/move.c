@@ -17,6 +17,8 @@ enum MYKEYS {KEY_LEFT, KEY_RIGHT, KEY_SPACE};
 
 static int create_bitmaps(ALLEGRO_BITMAP **bullet, ALLEGRO_BITMAP **bloque, ALLEGRO_DISPLAY **display );
 static uint16_t alien_shoot(void);
+static uint16_t get_rand_num(uint8_t x);
+/*Recibe un entero positivo y devuelve un numero aleatorio menor o igual a dicho numero*/
 
 int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** event_queue, ALLEGRO_TIMER **timer, ALLEGRO_BITMAP *display_background[], uint8_t difficulty, uint8_t lifes)
 {
@@ -53,6 +55,13 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                         3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10,  
                         2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5,
                         SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2};
+    
+    float alien_bullets[2][N];
+    
+    for(i=0; i<N; i++)
+    {
+        alien_bullets[1][i]=SCREEN_H;
+    }
     
     int8_t step = BASE_SIZE/2;
     bool key_pressed[3] = {false, false, false};    //estado de teclas, true cuando esta apretada
@@ -103,10 +112,23 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                             alien_y[i] += BASE_SIZE;
                         
                     }
-                    for(i=0; i<N; i++)
+                    for(i=0; i<N; i++){
                         alien_x[i] += step;
-                   
-                       
+                    }
+                    
+                    if(!get_rand_num(3)){               //25% de probabilidad
+                        aux = get_rand_num(cant_aliens);
+                        for(i=0; i<N; i++){          // para cada alien
+                            if(alien_y[i]<SCREEN_H){        // si esta vivo
+                                if(!(aux--)){
+                                    if(alien_bullets[1][i]>=SCREEN_H){
+                                        alien_bullets[0][i]=alien_x[i]; //coordenada x
+                                        alien_bullets[1][i]=alien_y[i]; //le asigno coordenada y del alien a la bala
+                                    }
+                                }
+                            }
+                        }
+                    }
                     aux=0;
                 }
                 
@@ -253,6 +275,8 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                 }
                 if(alien_y[i]>3*SCREEN_H/4 && alien_y[i]<SCREEN_H)
                     do_exit = true;
+                al_draw_bitmap(bullet, alien_bullets[0][i], alien_bullets[1][i], 0);
+                alien_bullets[1][i] += 2*MOVE_RATE;
             }
             al_flip_display();
         }
@@ -282,13 +306,14 @@ static int create_bitmaps(ALLEGRO_BITMAP **bullet,ALLEGRO_BITMAP **bloque,ALLEGR
     al_flip_display();
     return 1;
 }
-static uint16_t alien_shoot(void){
+
+static uint16_t get_rand_num(uint8_t x){
     
     static bool i=false ;
     if(!i){
         srand(time(NULL));
         i=true;
     }
-    return (rand()%100);
+    return (rand()%x);
     
 }
