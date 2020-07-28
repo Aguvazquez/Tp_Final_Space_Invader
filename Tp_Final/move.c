@@ -27,33 +27,33 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
     ALLEGRO_BITMAP *bloque = NULL;
     
     uint8_t i, check, aux;
-    static uint8_t vida_bloques[4] = {20, 20, 20, 20};
+    static uint8_t vida_bloques[4] = {30, 30, 30, 30};
     bool alien_change=false;
-    float nave_x = SCREEN_W / 2.0 - BASE_SIZE;
+    float nave_x = SCREEN_W / 2.0 - 1.5*BASE_SIZE;
     float nave_y = SCREEN_H - 2*BASE_SIZE;
     float bullet_x, bullet_y;
     float bloques_x[4];
     
     for(i=0; i<4; i++)
-        bloques_x[i] = (i+1)*SCREEN_W / 5 - 1.5*BASE_SIZE;
+        bloques_x[i] = (1.5*i+1)*SCREEN_W / 6.5 - 2*BASE_SIZE;
     
-    float bloques_y = 3*SCREEN_H / 4 + 1.5*BASE_SIZE;
+    float bloques_y = 3*SCREEN_H / 4 + 2.5*BASE_SIZE;
     uint8_t cant_aliens = N;
     //uint8_t cant_aliens = 1;    //solo para facilitar debug
     
     //seteo de coordenadas iniciales de los aliens
     
-    float alien_x[N] = {3*SCREEN_W/13, 4*SCREEN_W/13, 5*SCREEN_W/13, 6*SCREEN_W/13, 7*SCREEN_W/13, 8*SCREEN_W/13, 9*SCREEN_W/13, 10*SCREEN_W/13,
-                        3*SCREEN_W/13, 4*SCREEN_W/13, 5*SCREEN_W/13, 6*SCREEN_W/13, 7*SCREEN_W/13, 8*SCREEN_W/13, 9*SCREEN_W/13, 10*SCREEN_W/13,
-                        3*SCREEN_W/13, 4*SCREEN_W/13, 5*SCREEN_W/13, 6*SCREEN_W/13, 7*SCREEN_W/13, 8*SCREEN_W/13, 9*SCREEN_W/13, 10*SCREEN_W/13,
-                        3*SCREEN_W/13, 4*SCREEN_W/13, 5*SCREEN_W/13, 6*SCREEN_W/13, 7*SCREEN_W/13, 8*SCREEN_W/13, 9*SCREEN_W/13, 10*SCREEN_W/13,
-                        3*SCREEN_W/13, 4*SCREEN_W/13, 5*SCREEN_W/13, 6*SCREEN_W/13, 7*SCREEN_W/13, 8*SCREEN_W/13, 9*SCREEN_W/13, 10*SCREEN_W/13,};
+    float alien_x[N] = {3*SCREEN_W/15, 4*SCREEN_W/15, 5*SCREEN_W/15, 6*SCREEN_W/15, 7*SCREEN_W/15, 8*SCREEN_W/15, 9*SCREEN_W/15, 10*SCREEN_W/15, 11*SCREEN_W/15, 12*SCREEN_W/15,
+                        3*SCREEN_W/15, 4*SCREEN_W/15, 5*SCREEN_W/15, 6*SCREEN_W/15, 7*SCREEN_W/15, 8*SCREEN_W/15, 9*SCREEN_W/15, 10*SCREEN_W/15, 11*SCREEN_W/15, 12*SCREEN_W/15,
+                        3*SCREEN_W/15, 4*SCREEN_W/15, 5*SCREEN_W/15, 6*SCREEN_W/15, 7*SCREEN_W/15, 8*SCREEN_W/15, 9*SCREEN_W/15, 10*SCREEN_W/15, 11*SCREEN_W/15, 12*SCREEN_W/15,
+                        3*SCREEN_W/15, 4*SCREEN_W/15, 5*SCREEN_W/15, 6*SCREEN_W/15, 7*SCREEN_W/15, 8*SCREEN_W/15, 9*SCREEN_W/15, 10*SCREEN_W/15, 11*SCREEN_W/15, 12*SCREEN_W/15,
+                        3*SCREEN_W/15, 4*SCREEN_W/15, 5*SCREEN_W/15, 6*SCREEN_W/15, 7*SCREEN_W/15, 8*SCREEN_W/15, 9*SCREEN_W/15, 10*SCREEN_W/15, 11*SCREEN_W/15, 12*SCREEN_W/15};
     
-    float alien_y[N] = {SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, 
-                        SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5,
-                        3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10,  
-                        2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5,
-                        SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2};
+    float alien_y[N] = {SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, 
+                        SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5,
+                        3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10,  
+                        2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5,
+                        SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2};
     
     int8_t step = BASE_SIZE/2;
     uint8_t heart, lifes=3;
@@ -101,7 +101,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                     {
                         step *= -1;
                         for(i=0; i<N; i++)
-                            alien_y[i] += BASE_SIZE;
+                            alien_y[i] += BASE_SIZE/2;
                     }
                     for(i=0; i<N; i++)
                         alien_x[i] += step;
@@ -185,15 +185,20 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                 heart, 0, 2*BASE_SIZE, BASE_SIZE, 0);
             
             for(i=0; i<4; i++)
-                if(vida_bloques[i]>=10){
-                    al_draw_filled_rectangle(bloques_x[i], bloques_y, bloques_x[i]+3*BASE_SIZE, bloques_y+BASE_SIZE, al_map_rgb(0, 255, 0));
+                if(vida_bloques[i]>=20){
+                    al_draw_filled_rectangle(bloques_x[i], bloques_y, bloques_x[i]+4*BASE_SIZE, bloques_y+BASE_SIZE, al_map_rgb(0, 255, 0));
                     al_draw_filled_rectangle(bloques_x[i], bloques_y+BASE_SIZE, bloques_x[i]+BASE_SIZE, bloques_y+2*BASE_SIZE, al_map_rgb(0, 255, 0));
-                    al_draw_filled_rectangle(bloques_x[i]+2*BASE_SIZE, bloques_y+BASE_SIZE, bloques_x[i]+3*BASE_SIZE, bloques_y+2*BASE_SIZE, al_map_rgb(0, 255, 0));
+                    al_draw_filled_rectangle(bloques_x[i]+3*BASE_SIZE, bloques_y+BASE_SIZE, bloques_x[i]+4*BASE_SIZE, bloques_y+2*BASE_SIZE, al_map_rgb(0, 255, 0));
+                }
+                else if(vida_bloques[i]>=10){
+                    al_draw_filled_rectangle(bloques_x[i], bloques_y, bloques_x[i]+4*BASE_SIZE, bloques_y+BASE_SIZE, al_map_rgb(255, 255, 0));
+                    al_draw_filled_rectangle(bloques_x[i], bloques_y+BASE_SIZE, bloques_x[i]+BASE_SIZE, bloques_y+2*BASE_SIZE, al_map_rgb(255, 255, 0));
+                    al_draw_filled_rectangle(bloques_x[i]+3*BASE_SIZE, bloques_y+BASE_SIZE, bloques_x[i]+4*BASE_SIZE, bloques_y+2*BASE_SIZE, al_map_rgb(255, 255, 0));
                 }
                 else if(vida_bloques[i]){
-                    al_draw_filled_rectangle(bloques_x[i], bloques_y, bloques_x[i]+3*BASE_SIZE, bloques_y+BASE_SIZE, al_map_rgb(255, 255, 0));
-                    al_draw_filled_rectangle(bloques_x[i], bloques_y+BASE_SIZE, bloques_x[i]+BASE_SIZE, bloques_y+2*BASE_SIZE, al_map_rgb(255, 255, 0));
-                    al_draw_filled_rectangle(bloques_x[i]+2*BASE_SIZE, bloques_y+BASE_SIZE, bloques_x[i]+3*BASE_SIZE, bloques_y+2*BASE_SIZE, al_map_rgb(255, 255, 0));
+                    al_draw_filled_rectangle(bloques_x[i], bloques_y, bloques_x[i]+4*BASE_SIZE, bloques_y+BASE_SIZE, al_map_rgb(255, 0, 0));
+                    al_draw_filled_rectangle(bloques_x[i], bloques_y+BASE_SIZE, bloques_x[i]+BASE_SIZE, bloques_y+2*BASE_SIZE, al_map_rgb(255, 0, 0));
+                    al_draw_filled_rectangle(bloques_x[i]+3*BASE_SIZE, bloques_y+BASE_SIZE, bloques_x[i]+4*BASE_SIZE, bloques_y+2*BASE_SIZE, al_map_rgb(255, 0, 0));
                 }
                     
             for(i=0, check=0; i<N; i++)

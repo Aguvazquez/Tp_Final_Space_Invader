@@ -23,7 +23,7 @@
 #define FPS    60.0
 #define BASE_SIZE 20
 #define MOVE_RATE  4.0
-#define N 40
+#define N 50
 
 #define ALIEN 1
 #define PRIMERA_FILA 2
