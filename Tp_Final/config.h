@@ -40,8 +40,14 @@
 #define CLOSE_DISPLAY  -42
 #define RESET_LEVEL  -22
 
+#define EASY_CODE "35"
+#define NORMAL_CODE "25"
+#define HARD_CODE "20"
 
-enum{EASY=1,NORMAL,HARD};
+#define EASY 35
+#define NORMAL 25
+#define HARD 20
+
 #endif//CONFIG_H
 
 

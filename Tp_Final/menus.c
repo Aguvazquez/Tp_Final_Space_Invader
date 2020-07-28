@@ -159,6 +159,16 @@ void next_level_animation(ALLEGRO_FONT *font[],int level){
     al_flip_display();
     al_rest(1.0);
 }
+char read_difficulty(void){
+    
+    FILE* fp;
+    char output=0;
+    fp=fopen(".Difficulty.txt","r");
+    output=(fgetc(fp)-ASCII)*10; //Convierto en número.
+    output+=(fgetc(fp)-ASCII);
+    fclose(fp);
+    return output;
+}
 /**********************Local functions***************/
 
  static int menu_display(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[], char *str0, char*str1, char*str2,char flag){
@@ -279,7 +289,7 @@ uint8_t aux=1;
             if(mouse_y>=7*SCREEN_H/16 && mouse_y<= 9*SCREEN_H/16){
                 if(check){
                     do_exit=true;
-                    fputc('1',fp);
+                    fputs(EASY_CODE,fp);
                 }
                 else{
                     create_button_pressed(font[0],1,"EASY","NORMAL","HARD");
@@ -288,7 +298,7 @@ uint8_t aux=1;
             else if(mouse_y>=5*SCREEN_H/8 && mouse_y<= 3*SCREEN_H/4){
                 if(check){
                     do_exit=true;
-                    fputc('2',fp);
+                    fputs(NORMAL_CODE,fp);
                 }
                 else{
                     create_button_pressed(font[0],2,"EASY","NORMAL","HARD");
@@ -297,7 +307,7 @@ uint8_t aux=1;
             else if (mouse_y>=13*SCREEN_H/16 && mouse_y<= 15*SCREEN_H/16){
                 if(check){
                     do_exit=true;
-                    fputc('3',fp);
+                    fputs(HARD_CODE,fp);
                 }
                 else{
                     create_button_pressed(font[0],3,"EASY","NORMAL","HARD");
@@ -317,8 +327,9 @@ uint8_t aux=1;
     }
     if(aux==2){
         fp=fopen(".Difficulty.txt","w"); //En caso de querer cerrar el programa , para evitar problemas dejar predefinido la dificultdad en normal.
-        fputc('2',fp);
+        fputs(NORMAL_CODE,fp);
     }
+    fclose(fp);
     return aux;
 }
 
