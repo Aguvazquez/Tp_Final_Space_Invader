@@ -18,7 +18,15 @@ int play(ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[],ALLEGRO_EVENT_QUEUE **eve
 {
     uint8_t game[N][N], level=1, difficulty;
     int aux=0;
-    difficulty = read_difficulty(); 
+    difficulty = read_difficulty();
+    if(difficulty!=EASY){
+        if(difficulty!=NORMAL){
+            if(difficulty!=HARD){
+                fprintf(stderr,"Something happened, pleasy try it again latter");
+                return CLOSE_DISPLAY;
+            }
+        }
+    }
     //easy=30, medium=25, hard=20
     //idea: si es facil, puntaje final x1, medio x2, dificil x3 (Approved)
     
@@ -34,7 +42,7 @@ int play(ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[],ALLEGRO_EVENT_QUEUE **eve
         else if(!aux)
         {
             difficulty -= 1;
-            next_level_animation(font,level++);   //mientras no este la pantalla que indica "siguiente nivel"
+            next_level_animation(font,++level);   //mientras no este la pantalla que indica "siguiente nivel"
             
             //if(life<3)
             //  life++;

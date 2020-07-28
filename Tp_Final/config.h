@@ -40,11 +40,11 @@
 #define CLOSE_DISPLAY  -42
 #define RESET_LEVEL  -22
 
-#define EASY_CODE "35"
+#define EASY_CODE "30"
 #define NORMAL_CODE "25"
 #define HARD_CODE "20"
 
-#define EASY 35
+#define EASY 30
 #define NORMAL 25
 #define HARD 20
 
