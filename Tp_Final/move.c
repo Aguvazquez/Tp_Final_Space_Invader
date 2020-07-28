@@ -77,7 +77,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
 
     al_start_timer(*timer);
 
-    while (!do_exit && cant_aliens) {
+    while (!do_exit && cant_aliens && lifes) {
         ALLEGRO_EVENT ev;
         if (al_get_next_event(*event_queue, &ev)) //toma un evento de la cola.
         {
@@ -116,7 +116,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                         alien_x[i] += step;
                     }
                     
-                    if(!get_rand_num(3)){               //25% de probabilidad
+                    if(!get_rand_num(3)){               //33% de probabilidad
                         aux = get_rand_num(cant_aliens);
                         for(i=0; i<N; i++){          // para cada alien
                             if(alien_y[i]<SCREEN_H){        // si esta vivo
@@ -275,14 +275,28 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                 }
                 
                 for(j=0; j<4; j++){
-                    if(alien_bullets[1][i]>=bloques_y && alien_bullets[1][i]<=bloques_y+BASE_SIZE && alien_bullets[0][i]>=bloques_x[j] && alien_bullets[0][i]<=bloques_x[j]+4*BASE_SIZE){
-                        alien_bullets[1][i] = SCREEN_H;
-                        vida_bloques[j]--;
+                    if(vida_bloques[j]){
+                        if(alien_bullets[1][i]>=bloques_y && alien_bullets[1][i]<=bloques_y+BASE_SIZE && alien_bullets[0][i]>=bloques_x[j] && alien_bullets[0][i]<=bloques_x[j]+4*BASE_SIZE){
+                            alien_bullets[1][i] = SCREEN_H;
+                            vida_bloques[j]--;
+                        }
                     }
                 }
                 
+                if(alien_bullets[1][i]>=nave_y && alien_bullets[1][i]<=nave_y+BASE_SIZE && alien_bullets[0][i]>=nave_x && alien_bullets[0][i]<=nave_x+3*BASE_SIZE){
+                    alien_bullets[1][i] = SCREEN_H;
+                    lifes--;
+                    al_rest(0.25);
+                }
+                
+                if(alien_bullets[0][i]>=bullet_x-4 && alien_bullets[0][i]<=bullet_x+6 && alien_bullets[1][i]>=bullet_y && alien_bullets[1][i]<=bullet_y+BASE_SIZE){
+                    lock = false;
+                    bullet_y = SCREEN_H;
+                    alien_bullets[1][i] = SCREEN_H;
+                }
+                
                 al_draw_bitmap(bullet, alien_bullets[0][i], alien_bullets[1][i], 0);    //dibujo balas aliens
-                alien_bullets[1][i] += 2*MOVE_RATE;        
+                alien_bullets[1][i] += MOVE_RATE;        
                  
                 if(alien_y[i]>3*SCREEN_H/4 && alien_y[i]<SCREEN_H)  //condicion de derrota
                     do_exit = true;
@@ -303,7 +317,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
 static int create_bitmaps(ALLEGRO_BITMAP **bullet,ALLEGRO_BITMAP **bloque,ALLEGRO_DISPLAY **display ){
     
     
-    *bullet = al_create_bitmap(1, BASE_SIZE);
+    *bullet = al_create_bitmap(2, BASE_SIZE);
     if (!bullet) {
         fprintf(stderr, "failed to create bullet bitmap!\n");
         return 0;
