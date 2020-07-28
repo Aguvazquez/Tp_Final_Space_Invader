@@ -222,8 +222,8 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
             {
                 al_draw_bitmap(bullet, bullet_x, bullet_y, 0);
                 bullet_y -= 2*MOVE_RATE;        //actualiza la posicion de la bala en cada ciclo
-                if(bullet_y <= bloques_y + BASE_SIZE);
-                /*for(i=0, check=0; i<4; i++)
+                if(bullet_y <= bloques_y + BASE_SIZE)
+                for(i=0, check=0; i<4; i++)
                 {
                     if(vida_bloques[i]){
                         if(bullet_x>=bloques_x[i] && bullet_x<=bloques_x[i]+4*BASE_SIZE){
@@ -231,7 +231,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                             lock = false;
                         }
                     }
-                }*/
+                }
             }
             
             if(bullet_y <= MOVE_RATE)           //si pega arriba desaparece la bala
