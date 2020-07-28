@@ -183,7 +183,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
             
             for(i=0, heart=0; i<lifes; i++, heart+=2*BASE_SIZE)
                 al_draw_scaled_bitmap(display_background[5],0, 0, al_get_bitmap_width(display_background[5]), al_get_bitmap_height(display_background[5]), 
-                heart, 0, 2*BASE_SIZE, BASE_SIZE, 0);
+                heart, 0, 2*BASE_SIZE, 2*BASE_SIZE, 0);
             
             for(i=0; i<4; i++)
                 if(vida_bloques[i]>=20){
