@@ -90,9 +90,6 @@ int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_
                 if(aux==CLOSE_DISPLAY){
                     do_exit=true;
                 }
-                else if(aux==RESET_LEVEL){
-                    aux=1;
-                }
                 else{
                     flag=false;
                 }
@@ -140,7 +137,7 @@ int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_
 int pause_menu(ALLEGRO_DISPLAY**display ,ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[]){
     int output;
     
-    if((output=menu_display(display,NULL,event_queue,font,display_background,"RESUME","RESET LEVEL","EXIT",1))==-1){
+    if((output=menu_display(display,NULL,event_queue,font,display_background,"RESUME","RESET GAME","EXIT",1))==-1){
         fprintf(stderr,"Something happened , please try it again latter");
         return -1;
     }
@@ -155,9 +152,9 @@ void next_level_animation(ALLEGRO_FONT *font[],int level){
     str[7]=(char)((level%10)+ASCII);
     
     al_clear_to_color(al_map_rgb(0, 0, 0));
-    al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W / 2, SCREEN_H /4, ALLEGRO_ALIGN_CENTER, str);
+    al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W / 2, SCREEN_H / 3, ALLEGRO_ALIGN_CENTER, str);
     al_flip_display();
-    al_rest(1.0);
+    al_rest(2.0);
 }
 char read_difficulty(void){
     

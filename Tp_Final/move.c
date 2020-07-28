@@ -147,17 +147,20 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                     case ALLEGRO_KEY_ESCAPE:{
                         switch(pause_menu(display,event_queue,font,display_background)){
                             case 0:{
-                                return CLOSE_DISPLAY;
+                                cant_aliens = CLOSE_DISPLAY;
+                                do_exit = true;
                             }
                             break;
                             case 1:     //Resume 
                             break;
                             case 2:{    //Reset level
-                                return RESET_LEVEL;
+                                do_exit = true;
+                                //return RESET_GAME;
                             }
                             break;
                             case 3:{    //go back to main menu.
-                                do_exit=true;
+                                cant_aliens = CLOSE_DISPLAY;
+                                do_exit = true;
                             }
                             break;
                             default:{
@@ -253,6 +256,8 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
     }
 
     al_stop_timer(*timer);
+    for(i=0; i<4; i++)
+        vida_bloques[i]=30;
     return cant_aliens;
 }
 

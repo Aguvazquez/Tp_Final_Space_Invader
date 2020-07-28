@@ -35,9 +35,9 @@ int play(ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[],ALLEGRO_EVENT_QUEUE **eve
     {
         aux=move(display,font,event_queue,timer,display_background, difficulty, lifes);
         
-        if(aux==CLOSE_DISPLAY||aux==RESET_LEVEL){
+        if(aux==CLOSE_DISPLAY)
             return aux;
-        }
+
         else if(!aux)
         {
             if(difficulty>10)

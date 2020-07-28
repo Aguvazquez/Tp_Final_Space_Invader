@@ -38,7 +38,7 @@
 #define ESPACIO_BLOQUES 3
 
 #define CLOSE_DISPLAY  -42
-#define RESET_LEVEL  -22
+//#define RESET_GAME  -22
 
 #define EASY_CODE "30"
 #define NORMAL_CODE "25"
