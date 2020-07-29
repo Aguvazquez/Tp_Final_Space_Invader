@@ -42,9 +42,9 @@
 #define RESET_GAME  -22
 #define FATAL_ERROR -71
 
-#define EASY_CODE "30"
-#define NORMAL_CODE "25"
-#define HARD_CODE "20"
+#define EASY_CODE "35"
+#define NORMAL_CODE "30"
+#define HARD_CODE "25"
 
 #define EASY 30
 #define NORMAL 25

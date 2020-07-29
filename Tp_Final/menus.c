@@ -129,6 +129,17 @@ void next_level_animation(ALLEGRO_FONT *font[],int level){
     al_flip_display();
     al_rest(2.0);
 }
+void lose_animation(ALLEGRO_FONT *font[]){
+    char str1[]={"YOU LOST"};
+    char str2[]={"ENTER YOUR NAME IN 4 LETTERS"};
+    
+    al_clear_to_color(al_map_rgb(0, 0, 0));
+    al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W / 2, SCREEN_H / 5, ALLEGRO_ALIGN_CENTER, str1);
+    al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W / 2, 2*SCREEN_H / 5, ALLEGRO_ALIGN_CENTER, str2);
+    al_draw_filled_rectangle(SCREEN_W/4, 3*SCREEN_H/5, 3*SCREEN_W/4, 4*SCREEN_H/5, al_map_rgb(255,255,255));
+    al_flip_display();
+    al_rest(3.0);
+}
 char read_difficulty(void){
     
     FILE* fp;

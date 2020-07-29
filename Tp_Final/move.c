@@ -105,8 +105,10 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                     }
                     if(check)
                     {
-                        if(accelerate >= 4 && difficulty >= 4)
+                        if(accelerate >= 4 && difficulty > 8){
                             difficulty -= 2;
+                            accelerate = 0;
+                        }
                         step *= -1;
                         accelerate++;
                         for(i=0; i<N; i++)
@@ -289,13 +291,13 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
             
             for(i=0; i<N; i++)
             {
-                if(bullet_y>=alien_y[i] && bullet_y<=alien_y[i]+2*BASE_SIZE && bullet_x>=alien_x[i] && bullet_x<=alien_x[i]+2*BASE_SIZE)
-                {
+                if(bullet_y>=alien_y[i] && bullet_y<=alien_y[i]+2*BASE_SIZE && bullet_x>=alien_x[i] && bullet_x<=alien_x[i]+2*BASE_SIZE){
+
                     alien_y[i] = SCREEN_H;      //mueve el alien muerto fuera de la pantalla 
                     cant_aliens--;
                     lock = false;
                     bullet_y = nave_y;
-                    
+                
                     if(i<=((N/5)-1)){
                         score+=30;
                     }
@@ -342,9 +344,9 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
 
     al_stop_timer(*timer);
     if(cant_aliens){
-    for(i=0; i<4; i++)
-        vida_bloques[i]=30;
-    score=0;
+        for(i=0; i<4; i++)
+            vida_bloques[i]=30;
+        score=0;
     }
     return cant_aliens;
 }
@@ -361,7 +363,7 @@ static int create_bitmaps(ALLEGRO_BITMAP **bullet,ALLEGRO_BITMAP **bloque,ALLEGR
     al_set_target_bitmap(*bullet);
     al_clear_to_color(al_map_rgb(255, 255, 255));
     al_set_target_bitmap(al_get_backbuffer(*display));
-    //al_clear_to_color(al_map_rgb(0, 0, 0)); no se para que es esta linea
+    al_clear_to_color(al_map_rgb(0, 0, 0));  //no se para que es esta linea
     al_flip_display();
     return 1;
 }
@@ -378,15 +380,11 @@ static uint16_t get_rand_num(uint8_t x){
 }
 static void score_to_str(int16_t score,ALLEGRO_FONT**font){
      char str[12]={'S','C','O','R','E',':',' ',' ','0','0','0','0'};
-     char*p=str;
      int16_t aux=0,i,j;
-     for(i=12,j=1;i>8;i--){
+     for(i=11,j=1; i>8; i--,j*=10){
         aux=score/j;
-        str[i-1]=(char)(aux%10+ASCII);
-        j*=10;
-        
-    
+        str[i]=(char)(aux%10+ASCII);        
      }
-     al_draw_text(font[0], al_map_rgb(255,255,255), SCREEN_W / 2, BASE_SIZE, ALLEGRO_ALIGN_CENTER,str);
+     al_draw_text(font[0], al_map_rgb(255,255,255), SCREEN_W / 2, BASE_SIZE, ALLEGRO_ALIGN_CENTER, str);
      
 }

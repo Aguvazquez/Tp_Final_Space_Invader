@@ -41,7 +41,7 @@ int play(ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[],ALLEGRO_EVENT_QUEUE **eve
 
         else if(!aux)
         {
-            if(difficulty>10)
+            if(difficulty>15)
                 difficulty--;
             next_level_animation(font,++level);   //mientras no este la pantalla que indica "siguiente nivel"
             if(lifes<3)
@@ -50,8 +50,7 @@ int play(ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[],ALLEGRO_EVENT_QUEUE **eve
         else
         {
             difficulty = 0;
-            //perdiste_kpo();
-            //guardar_puntaje();
+            lose_animation(font);
         }
     }
     return 0;
