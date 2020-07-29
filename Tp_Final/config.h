@@ -39,6 +39,7 @@
 
 #define CLOSE_DISPLAY  -42
 #define RESET_GAME  -22
+#define FATAL_ERROR -71
 
 #define EASY_CODE "30"
 #define NORMAL_CODE "25"
