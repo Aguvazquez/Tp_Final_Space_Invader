@@ -41,7 +41,7 @@ int play(ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[],ALLEGRO_EVENT_QUEUE **eve
 
         else if(!aux)
         {
-            if(difficulty>15)
+            if(difficulty>13)
                 difficulty--;
             next_level_animation(font,++level);   //mientras no este la pantalla que indica "siguiente nivel"
             if(lifes<3)

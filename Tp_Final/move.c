@@ -106,7 +106,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                     if(check)
                     {
                         if(accelerate >= 4 && difficulty > 8){
-                            difficulty -= 2;
+                            difficulty -= 4;
                             accelerate = 0;
                         }
                         step *= -1;
@@ -289,25 +289,27 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
             if(bullet_y <= MOVE_RATE)           //si pega arriba desaparece la bala
                 lock = false;
             
-            for(i=0; i<N; i++)
-            {
-                if(bullet_y>=alien_y[i] && bullet_y<=alien_y[i]+2*BASE_SIZE && bullet_x>=alien_x[i] && bullet_x<=alien_x[i]+2*BASE_SIZE){
+            for(i=0; i<N; i++){
+                if(alien_y[i] < SCREEN_H){
+                    if(bullet_y>=alien_y[i] && bullet_y<=alien_y[i]+2*BASE_SIZE){
+                        if(bullet_x>=alien_x[i] && bullet_x<=alien_x[i]+2*BASE_SIZE){
 
-                    alien_y[i] = SCREEN_H;      //mueve el alien muerto fuera de la pantalla 
-                    cant_aliens--;
-                    lock = false;
-                    bullet_y = nave_y;
-                
-                    if(i<=((N/5)-1)){
-                        score+=30;
+                            alien_y[i] = SCREEN_H;      //mueve el alien muerto fuera de la pantalla 
+                            cant_aliens--;
+                            lock = false;
+                            bullet_y = nave_y;
+
+                            if(i<=((N/5)-1)){
+                                score+=30;
+                            }
+                            else if(i<=((3*N/5)-1)){
+                                score+=20;
+                            }
+                            else{
+                                score+=10;
+                            }
+                        }
                     }
-                    else if(i<=((3*N/5)-1)){
-                        score+=20;
-                    }
-                    else{
-                        score+=10;
-                    }
-                    
                 }
                 
                 for(j=0; j<4; j++){
