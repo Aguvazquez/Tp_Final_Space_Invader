@@ -19,7 +19,7 @@ static int create_bitmaps(ALLEGRO_BITMAP **bullet, ALLEGRO_BITMAP **bloque, ALLE
 static uint16_t alien_shoot(void);
 static uint16_t get_rand_num(uint8_t x);
 /*Recibe un entero positivo y devuelve un numero aleatorio menor o igual a dicho numero*/
-static char* score_to_str(int16_t score,ALLEGRO_FONT**font);
+static void score_to_str(int16_t score,ALLEGRO_FONT**font);
 
 int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** event_queue, ALLEGRO_TIMER **timer, ALLEGRO_BITMAP *display_background[], uint8_t difficulty, uint8_t* lifes)
 {
@@ -35,7 +35,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
     float nave_y = SCREEN_H - 2*BASE_SIZE;
     float bullet_x, bullet_y;
     float bloques_x[4];
-    int16_t score=0;
+    static int16_t score=0;
     for(i=0; i<4; i++)
         bloques_x[i] = (1.5*i+1)*SCREEN_W / 6.5 - 2*BASE_SIZE;
     
@@ -233,13 +233,35 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
             for(i=0, check=0; i<N; i++)
             {
                 if(alien_y[i] < SCREEN_H){
-                    if(alien_change){
-                        al_draw_scaled_bitmap(display_background[3],0, 0, al_get_bitmap_width(display_background[3]), al_get_bitmap_height(display_background[3]), 
-                        alien_x[i], alien_y[i], 2*BASE_SIZE, 2*BASE_SIZE,0); 
+                        if(alien_change){
+                            if(i<=((N/5)-1)){
+                            al_draw_scaled_bitmap(display_background[8],0, 0, al_get_bitmap_width(display_background[8]), al_get_bitmap_height(display_background[8]), 
+                            alien_x[i], alien_y[i], 2*BASE_SIZE, 2*BASE_SIZE,0); 
+                        }
+                        else if(i<=((3*N/5)-1)){
+                            al_draw_scaled_bitmap(display_background[3],0, 0, al_get_bitmap_width(display_background[3]), al_get_bitmap_height(display_background[3]), 
+                            alien_x[i], alien_y[i], 2*BASE_SIZE, 2*BASE_SIZE,0);
+                        }
+                        else{
+                            al_draw_scaled_bitmap(display_background[9],0, 0, al_get_bitmap_width(display_background[9]), al_get_bitmap_height(display_background[9]), 
+                            alien_x[i], alien_y[i], 2*BASE_SIZE, 2*BASE_SIZE,0);
+                        }
+                        
                     }
                     else{
-                        al_draw_scaled_bitmap(display_background[4],0, 0, al_get_bitmap_width(display_background[4]), al_get_bitmap_height(display_background[4]), 
-                        alien_x[i], alien_y[i], 2*BASE_SIZE, 2*BASE_SIZE,0); 
+                        
+                            if(i<=((N/5)-1)){
+                            al_draw_scaled_bitmap(display_background[7],0, 0, al_get_bitmap_width(display_background[7]), al_get_bitmap_height(display_background[7]), 
+                            alien_x[i], alien_y[i], 2*BASE_SIZE, 2*BASE_SIZE,0); 
+                        }
+                        else if(i<=((3*N/5)-1)){
+                            al_draw_scaled_bitmap(display_background[4],0, 0, al_get_bitmap_width(display_background[4]), al_get_bitmap_height(display_background[4]), 
+                            alien_x[i], alien_y[i], 2*BASE_SIZE, 2*BASE_SIZE,0);
+                        }
+                        else{
+                            al_draw_scaled_bitmap(display_background[10],0, 0, al_get_bitmap_width(display_background[10]), al_get_bitmap_height(display_background[10]), 
+                            alien_x[i], alien_y[i], 2.5*BASE_SIZE, 2.5*BASE_SIZE,0); 
+                        } 
                     }
                 }
                 if(alien_x[i] >= SCREEN_W-2*BASE_SIZE || alien_x[i] <= BASE_SIZE) //revisa que no sobrepasen los extremos
@@ -322,6 +344,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
     if(cant_aliens){
     for(i=0; i<4; i++)
         vida_bloques[i]=30;
+    score=0;
     }
     return cant_aliens;
 }
@@ -353,11 +376,11 @@ static uint16_t get_rand_num(uint8_t x){
     return (rand()%x);
     
 }
-static char* score_to_str(int16_t score,ALLEGRO_FONT**font){
-     char str[4]={'0','0','0','0'};
+static void score_to_str(int16_t score,ALLEGRO_FONT**font){
+     char str[12]={'S','C','O','R','E',':',' ',' ','0','0','0','0'};
      char*p=str;
      int16_t aux=0,i,j;
-     for(i=4,j=1;i>0;i--){
+     for(i=12,j=1;i>8;i--){
         aux=score/j;
         str[i-1]=(char)(aux%10+ASCII);
         j*=10;
@@ -365,5 +388,5 @@ static char* score_to_str(int16_t score,ALLEGRO_FONT**font){
     
      }
      al_draw_text(font[0], al_map_rgb(255,255,255), SCREEN_W / 2, BASE_SIZE, ALLEGRO_ALIGN_CENTER,str);
-     return p;
+     
 }
