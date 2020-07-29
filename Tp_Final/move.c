@@ -15,7 +15,7 @@
 
 enum MYKEYS {KEY_LEFT, KEY_RIGHT, KEY_SPACE};
 
-static int create_bitmaps(ALLEGRO_BITMAP **bullet, ALLEGRO_BITMAP **bloque, ALLEGRO_DISPLAY **display );
+static int create_bitmaps(ALLEGRO_BITMAP **bullet, ALLEGRO_DISPLAY **display );
 static uint16_t alien_shoot(void);
 static uint16_t get_rand_num(uint8_t x);
 /*Recibe un entero positivo y devuelve un numero aleatorio menor o igual a dicho numero*/
@@ -23,14 +23,9 @@ static void score_to_str(int16_t score,ALLEGRO_FONT**font);
 
 int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** event_queue, ALLEGRO_TIMER **timer, ALLEGRO_BITMAP *display_background[], uint8_t difficulty, uint8_t* lifes)
 {
-    ALLEGRO_BITMAP *nave = NULL;
-    ALLEGRO_BITMAP *bullet = NULL;
-    ALLEGRO_BITMAP *alien = NULL;
-    ALLEGRO_BITMAP *bloque = NULL;
-    
     uint8_t i, j, check, aux, accelerate=0;
     static uint8_t vida_bloques[4] = {30, 30, 30, 30};
-    bool alien_change=false;
+    bool alien_change = false;
     float nave_x = SCREEN_W / 2.0 - 1.5*BASE_SIZE;
     float nave_y = SCREEN_H - 2*BASE_SIZE;
     float bullet_x, bullet_y;
@@ -41,7 +36,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
     
     float bloques_y = 3*SCREEN_H / 4 + 2.5*BASE_SIZE;
     int8_t cant_aliens = N;
-    //uint8_t cant_aliens = 1;    //solo para facilitar debug
+    //int8_t cant_aliens = 1;    //solo para facilitar debug
     
     //seteo de coordenadas iniciales de los aliens
     
@@ -69,13 +64,8 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
     bool redraw = false;
     bool do_exit = false;
     bool lock = false;
-        
-    
-    if(!create_bitmaps(&bullet,&bloque,display)){
-        fprintf(stderr,"fail to create bitmap");
-        return -1;
-    }
-
+         
+    al_set_target_bitmap(al_get_backbuffer(*display));
     al_start_timer(*timer);
 
     while (!do_exit && cant_aliens && *lifes) {
@@ -105,12 +95,12 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                     }
                     if(check)
                     {
+                        accelerate++;
                         if(accelerate >= 4 && difficulty > 8){
                             difficulty -= 4;
                             accelerate = 0;
                         }
                         step *= -1;
-                        accelerate++;
                         for(i=0; i<N; i++)
                             alien_y[i] += BASE_SIZE;
                         
@@ -272,7 +262,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
            
             if(lock)
             {
-                al_draw_bitmap(bullet, bullet_x, bullet_y, 0);
+                al_draw_rectangle(bullet_x-1, bullet_y, bullet_x+1, bullet_y+BASE_SIZE, al_map_rgb(255, 0, 0), 0);
                 bullet_y -= 2*MOVE_RATE;        //actualiza la posicion de la bala en cada ciclo
                 if(bullet_y <= bloques_y + BASE_SIZE)
                 for(i=0, check=0; i<4; i++)
@@ -326,13 +316,13 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                     (*lifes)--;
                 }
                 
-                if(alien_bullets[0][i]>=bullet_x-4 && alien_bullets[0][i]<=bullet_x+6 && alien_bullets[1][i]>=bullet_y && alien_bullets[1][i]<=bullet_y+BASE_SIZE){
+                if(alien_bullets[0][i]>=bullet_x-4 && alien_bullets[0][i]<=bullet_x+4 && alien_bullets[1][i]>=bullet_y && alien_bullets[1][i]<=bullet_y+BASE_SIZE){
                     lock = false;
                     bullet_y = SCREEN_H;
                     alien_bullets[1][i] = SCREEN_H;
                 }
                 
-                al_draw_bitmap(bullet, alien_bullets[0][i], alien_bullets[1][i], 0);    //dibujo balas aliens
+                al_draw_rectangle(alien_bullets[0][i]-1, alien_bullets[1][i], alien_bullets[0][i]+1, alien_bullets[1][i]+BASE_SIZE, al_map_rgb(255, 255, 255), 0);    //dibujo balas aliens
                 alien_bullets[1][i] += MOVE_RATE;        
                  
                 if(alien_y[i]>3*SCREEN_H/4 && alien_y[i]<SCREEN_H)  //condicion de derrota
@@ -351,23 +341,6 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
         score=0;
     }
     return cant_aliens;
-}
-
-static int create_bitmaps(ALLEGRO_BITMAP **bullet,ALLEGRO_BITMAP **bloque,ALLEGRO_DISPLAY **display ){
-    
-    
-    *bullet = al_create_bitmap(2, BASE_SIZE);
-    if (!bullet) {
-        fprintf(stderr, "failed to create bullet bitmap!\n");
-        return 0;
-    }
-    
-    al_set_target_bitmap(*bullet);
-    al_clear_to_color(al_map_rgb(255, 255, 255));
-    al_set_target_bitmap(al_get_backbuffer(*display));
-    al_clear_to_color(al_map_rgb(0, 0, 0));  //no se para que es esta linea
-    al_flip_display();
-    return 1;
 }
 
 static uint16_t get_rand_num(uint8_t x){
