@@ -19,8 +19,12 @@
       <itemPath>fondo.jpeg</itemPath>
       <itemPath>invaders.png</itemPath>
       <itemPath>red-heart.png</itemPath>
+      <itemPath>saucer1b.png</itemPath>
+      <itemPath>saucer1bb.png</itemPath>
       <itemPath>saucer2b.png</itemPath>
       <itemPath>saucer2bb.png</itemPath>
+      <itemPath>saucer3b.png</itemPath>
+      <itemPath>saucer3bb.png</itemPath>
       <itemPath>space-invaders-logo.png</itemPath>
       <itemPath>space_invaders.ttf</itemPath>
       <itemPath>spaceinvader_theme.wav</itemPath>
@@ -122,9 +126,17 @@
       </item>
       <item path="red-heart.png" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="saucer1b.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="saucer1bb.png" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="saucer2b.png" ex="false" tool="3" flavor2="0">
       </item>
       <item path="saucer2bb.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="saucer3b.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="saucer3bb.png" ex="false" tool="3" flavor2="0">
       </item>
       <item path="space-invaders-logo.png" ex="false" tool="3" flavor2="0">
       </item>
@@ -189,9 +201,17 @@
       </item>
       <item path="red-heart.png" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="saucer1b.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="saucer1bb.png" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="saucer2b.png" ex="false" tool="3" flavor2="0">
       </item>
       <item path="saucer2bb.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="saucer3b.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="saucer3bb.png" ex="false" tool="3" flavor2="0">
       </item>
       <item path="space-invaders-logo.png" ex="false" tool="3" flavor2="0">
       </item>
