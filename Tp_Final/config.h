@@ -19,7 +19,8 @@
 #define SCREEN_W  800
 #define SCREEN_H  640
 #define SAMPLES  5
-#define FONTS  1
+#define FONTS  2
+#define BACKGROUNDS 7
 #define FPS    60.0
 #define BASE_SIZE 20
 #define MOVE_RATE  4.0

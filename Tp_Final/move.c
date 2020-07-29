@@ -34,7 +34,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
     float nave_y = SCREEN_H - 2*BASE_SIZE;
     float bullet_x, bullet_y;
     float bloques_x[4];
-    
+    int16_t score=0;
     for(i=0; i<4; i++)
         bloques_x[i] = (1.5*i+1)*SCREEN_W / 6.5 - 2*BASE_SIZE;
     

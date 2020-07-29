@@ -155,7 +155,7 @@ uint16_t allegro_ini(ALLEGRO_DISPLAY** display,ALLEGRO_EVENT_QUEUE**  event_queu
     display_background[4] = al_load_bitmap("saucer2bb.png");
     display_background[5] = al_load_bitmap("red-heart.png"); 
     display_background[6] = al_load_bitmap("fondo.jpeg"); 
-    for(i=0;i<7;i++){
+    for(i=0;i<BACKGROUNDS;i++){
     if (!display_background[i]) {
             fprintf(stderr,"background image not loaded!\n");
             al_uninstall_system();

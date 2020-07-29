@@ -124,15 +124,13 @@ int menu_display(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],
 }
 int16_t Difficulty(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[],char *str0,char *str1,char *str2){
     FILE* fp;
-    static bool flag = false;
     int aux=1;
     
-    if(!flag){
-        if(!(fp=fopen(".Difficulty.txt","w"))) //Solo para el primer llamado creo el archivo difficulty en donde guardaremos el nivel de dificultad.
-            return FATAL_ERROR;       
+    
+    if(!(fp=fopen(".Difficulty.txt","w"))) //Solo para el primer llamado creo el archivo difficulty en donde guardaremos el nivel de dificultad.
+         return FATAL_ERROR;       
        
-        flag=true;
-    }
+        
     switch(menu_display(display,sample,event_queue,font,display_background,str0,str1,str2,1)){
         case 0:{
             aux=CLOSE_DISPLAY; 
