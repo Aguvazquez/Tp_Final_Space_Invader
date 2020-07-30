@@ -16,12 +16,11 @@
 enum MYKEYS {KEY_LEFT, KEY_RIGHT, KEY_SPACE};
 
 static int create_bitmaps(ALLEGRO_BITMAP **bullet, ALLEGRO_DISPLAY **display );
-static uint16_t alien_shoot(void);
 static uint16_t get_rand_num(uint8_t x);
-/*Recibe un entero positivo y devuelve un numero aleatorio menor o igual a dicho numero*/
+/*Recibe un entero positivo y devuelve un entero aleatorio menor a dicho numero*/
 static void score_to_str(uint16_t score,ALLEGRO_FONT**font);
 
-int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** event_queue, ALLEGRO_TIMER **timer, ALLEGRO_BITMAP *display_background[], uint8_t difficulty, uint8_t* lifes, uint8_t level)
+int move(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** event_queue, ALLEGRO_TIMER **timer, ALLEGRO_BITMAP *display_background[], uint8_t difficulty, uint8_t* lifes, uint8_t level)
 {
     uint8_t i, j, check, aux, accelerate=0;
     static uint8_t vida_bloques[4] = {30, 30, 30, 30};
@@ -35,8 +34,8 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
         bloques_x[i] = (1.5*i+1)*SCREEN_W / 6.5 - 2*BASE_SIZE;
     
     float bloques_y = 3*SCREEN_H / 4 + 2.5*BASE_SIZE;
-    //int8_t cant_aliens = N;
-    int8_t cant_aliens = 1;    //solo para facilitar debug
+    int8_t cant_aliens = N;
+    //int8_t cant_aliens = 1;    //solo para facilitar debug
     
     //seteo de coordenadas iniciales de los aliens   
     float alien_x[N] = {3*SCREEN_W/15, 4*SCREEN_W/15, 5*SCREEN_W/15, 6*SCREEN_W/15, 7*SCREEN_W/15, 8*SCREEN_W/15, 9*SCREEN_W/15, 10*SCREEN_W/15, 11*SCREEN_W/15, 12*SCREEN_W/15,
@@ -106,7 +105,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                     if(check)
                     {
                         accelerate++;
-                        if(accelerate >= 4 && difficulty > 8){
+                        if(accelerate >= 4 && difficulty >= 8){
                             difficulty -= 4;
                             accelerate = 0;
                         }
@@ -161,6 +160,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                             bullet_x = nave_x + 1.5*BASE_SIZE;    //setea la bala
                             bullet_y = nave_y;   
                             lock = true;   // solo dispara si no hay otra bala volando.
+                            al_play_sample(sample[1], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
                         }
                     break;
                 }
@@ -306,15 +306,16 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                             cant_aliens--;
                             lock = false;
                             bullet_y = nave_y;
+                            al_play_sample(sample[2], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 
                             if(i<=((N/5)-1)){
-                                score+=30;
+                                score+=15;
                             }
                             else if(i<=((3*N/5)-1)){
-                                score+=20;
+                                score+=10;
                             }
                             else{
-                                score+=10;
+                                score+=5;
                             }
                         }
                     }
@@ -341,7 +342,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                 }
                 
                 al_draw_rectangle(alien_bullets[0][i]-1, alien_bullets[1][i], alien_bullets[0][i]+1, alien_bullets[1][i]+BASE_SIZE, al_map_rgb(255, 255, 255), 0);    //dibujo balas aliens
-                alien_bullets[1][i] += MOVE_RATE;        
+                alien_bullets[1][i] += 1.5*MOVE_RATE;        
                  
                 if(alien_y[i]>3*SCREEN_H/4 && alien_y[i]<SCREEN_H)  //condicion de derrota
                     do_exit = true;
@@ -356,7 +357,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                         lock_mystery_ship=false;
                         lock = false;
                         bullet_y = nave_y;
-                        score+=10*get_rand_num(21);       //te puede sumar desde 0 a 200 puntos.
+                        score+=5*get_rand_num(21);       //te puede sumar desde 0 a 100 puntos.
                             
                     }
                 }

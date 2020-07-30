@@ -14,7 +14,7 @@
 #include "menus.h"
 
 
-int play(ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[],ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIMER **timer,ALLEGRO_BITMAP *display_background[])
+int play(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[],ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIMER **timer,ALLEGRO_BITMAP *display_background[])
 {
     uint8_t game[N][N], level=1, difficulty, lifes=3;
     int aux=0;
@@ -34,14 +34,14 @@ int play(ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[],ALLEGRO_EVENT_QUEUE **eve
     
     while(difficulty)
     {
-        aux=move(display,font,event_queue,timer,display_background, difficulty, &lifes, level);
+        aux=move(sample, display,font,event_queue,timer,display_background, difficulty, &lifes, level);
         
         if(aux==CLOSE_DISPLAY||aux==RESET_GAME||aux==EXIT_MENU)
             return aux;
 
         else if(!aux)
         {
-            if(difficulty>13)
+            if(difficulty>12)
                 difficulty--;
             next_level_animation(font,++level);   //mientras no este la pantalla que indica "siguiente nivel"
             if(lifes<3)

@@ -43,13 +43,13 @@
 #define EXIT_MENU -64
 #define FATAL_ERROR -71
 
-#define EASY_CODE "35"
-#define NORMAL_CODE "30"
-#define HARD_CODE "25"
+#define EASY_CODE "27"
+#define NORMAL_CODE "22"
+#define HARD_CODE "17"
 
-#define EASY 35
-#define NORMAL 30
-#define HARD 25
+#define EASY 27
+#define NORMAL 22
+#define HARD 17
 
 #endif//CONFIG_H
 

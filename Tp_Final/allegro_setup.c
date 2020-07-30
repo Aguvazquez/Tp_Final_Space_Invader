@@ -133,6 +133,9 @@ uint16_t allegro_ini(ALLEGRO_DISPLAY** display,ALLEGRO_EVENT_QUEUE**  event_queu
     }
     
     sample[0] = al_load_sample("spaceinvader_theme.wav");
+    sample[1] = al_load_sample("shoot.wav");
+    sample[2] = al_load_sample("invaderkilled.wav");
+    sample[3] = al_load_sample("explosion.wav");
     for(i=0;i<SAMPLES;i++){
         if (!sample) {
             fprintf(stderr,"Audio clip sample not loaded!\n");
