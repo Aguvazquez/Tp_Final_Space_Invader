@@ -136,7 +136,7 @@ int move(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[
                 }
                 
                 if(lock_mystery_ship){
-                        mystery_ship_x-=BASE_SIZE/8;
+                        mystery_ship_x-=MOVE_RATE/2;
                     }
                 redraw = true;
                 aux++;
@@ -257,7 +257,7 @@ int move(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[
                     }
                     else{
                         
-                            if(i<=((N/5)-1)){
+                        if(i<=((N/5)-1)){
                             al_draw_scaled_bitmap(display_background[7],0, 0, al_get_bitmap_width(display_background[7]), al_get_bitmap_height(display_background[7]), 
                             alien_x[i], alien_y[i], 2*BASE_SIZE, 2*BASE_SIZE,0); 
                         }
@@ -274,9 +274,9 @@ int move(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[
                 if(alien_x[i] >= SCREEN_W-2*BASE_SIZE || alien_x[i] <= BASE_SIZE) //revisa que no sobrepasen los extremos
                     check++;
             }
-            if(mystery_ship_y < SCREEN_H)
-                al_draw_scaled_bitmap(display_background[6],0, 0, al_get_bitmap_width(display_background[6]), al_get_bitmap_height(display_background[6]), 
-                                mystery_ship_x,mystery_ship_y, 2*BASE_SIZE, 2*BASE_SIZE,0);
+            
+            al_draw_scaled_bitmap(display_background[6],0, 0, al_get_bitmap_width(display_background[6]), al_get_bitmap_height(display_background[6]), 
+            mystery_ship_x,mystery_ship_y, 2*BASE_SIZE, 2*BASE_SIZE,0);
            
             if(lock)
             {
@@ -352,7 +352,6 @@ int move(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[
                 if(bullet_y>=mystery_ship_y && bullet_y<=mystery_ship_y+2*BASE_SIZE){
                     if(bullet_x>=mystery_ship_x && bullet_x<=mystery_ship_x+2*BASE_SIZE){
 
-                        mystery_ship_y = SCREEN_H;      //mueve el alien muerto fuera de la pantalla
                         mystery_ship_x = SCREEN_W;
                         lock_mystery_ship=false;
                         lock = false;

@@ -21,6 +21,7 @@
       <itemPath>fondo3.jpg</itemPath>
       <itemPath>fondo4.jpg</itemPath>
       <itemPath>fondo5.jpg</itemPath>
+      <itemPath>game.wav</itemPath>
       <itemPath>invaderkilled.wav</itemPath>
       <itemPath>invaders.png</itemPath>
       <itemPath>mysteryb.png</itemPath>
@@ -121,6 +122,8 @@
       </item>
       <item path="fondo5.jpg" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="game.wav" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="invaderkilled.wav" ex="false" tool="3" flavor2="0">
       </item>
       <item path="invaders.png" ex="false" tool="3" flavor2="0">
@@ -213,6 +216,8 @@
       <item path="fondo4.jpg" ex="false" tool="3" flavor2="0">
       </item>
       <item path="fondo5.jpg" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="game.wav" ex="false" tool="3" flavor2="0">
       </item>
       <item path="invaderkilled.wav" ex="false" tool="3" flavor2="0">
       </item>
