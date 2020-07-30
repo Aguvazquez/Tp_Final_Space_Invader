@@ -204,8 +204,8 @@ void allegro_shutdown(ALLEGRO_EVENT_QUEUE** event_queue,ALLEGRO_DISPLAY **displa
     al_shutdown_primitives_addon();
     al_shutdown_image_addon();
     al_uninstall_audio();
-    //al_destroy_display(*display); // No entiendo porque da segmentation fault , pero son estas dos lineas de codigo
-    //al_destroy_event_queue(*event_queue);
+    /*al_destroy_display(*display); // No entiendo porque da segmentation fault , pero son estas dos lineas de codigo
+    al_destroy_event_queue(*event_queue);*/
     al_shutdown_ttf_addon();
     
 }

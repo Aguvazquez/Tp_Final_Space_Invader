@@ -47,9 +47,9 @@
 #define NORMAL_CODE "30"
 #define HARD_CODE "25"
 
-#define EASY 30
-#define NORMAL 25
-#define HARD 20
+#define EASY 35
+#define NORMAL 30
+#define HARD 25
 
 #endif//CONFIG_H
 
