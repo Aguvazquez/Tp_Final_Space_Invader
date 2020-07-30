@@ -38,7 +38,7 @@ static void create_button_pressed(ALLEGRO_FONT*font,uint8_t button,
 int menu_display(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],
                  ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],
                  ALLEGRO_BITMAP*display_background[], char *str0, char*str1,
-                                                           char*str2,char flag){
+                 char*str2,char flag, uint8_t pause){
     
     uint8_t do_exit=false, check=false,redraw=false ;
     uint8_t aux=0;
@@ -52,9 +52,12 @@ int menu_display(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],
     }
     
     /**********Title and bakground menu.*********************/
-    
-    al_draw_scaled_bitmap(display_background[0],0, 0, al_get_bitmap_width(display_background[0]),al_get_bitmap_height(display_background[0]), 
-            0, 0, al_get_display_width(*display), al_get_display_height(*display),0);
+    if(pause)
+        al_draw_scaled_bitmap(display_background[16],0, 0, al_get_bitmap_width(display_background[16]),al_get_bitmap_height(display_background[16]), 
+        0, 0, al_get_display_width(*display), al_get_display_height(*display),0);
+    else
+        al_draw_scaled_bitmap(display_background[0],0, 0, al_get_bitmap_width(display_background[0]),al_get_bitmap_height(display_background[0]), 
+        0, 0, al_get_display_width(*display), al_get_display_height(*display),0);
     al_draw_scaled_bitmap(display_background[1],0, 0, al_get_bitmap_width(display_background[1]), al_get_bitmap_height(display_background[1]), 
             0, 0, al_get_display_width(*display), al_get_display_height(*display)/3,0);
     
@@ -131,7 +134,7 @@ int16_t Difficulty(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EV
          return FATAL_ERROR;       
        
         
-    switch(menu_display(display,sample,event_queue,font,display_background,str0,str1,str2,1)){
+    switch(menu_display(display,sample,event_queue,font,display_background,str0,str1,str2,1,0)){
         case 0:{
             aux=CLOSE_DISPLAY; 
             fputs(NORMAL_CODE,fp);

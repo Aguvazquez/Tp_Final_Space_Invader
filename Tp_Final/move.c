@@ -160,7 +160,7 @@ int move(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[
                             bullet_x = nave_x + 1.5*BASE_SIZE;    //setea la bala
                             bullet_y = nave_y;   
                             lock = true;   // solo dispara si no hay otra bala volando.
-                            al_play_sample(sample[1], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+                            al_play_sample(sample[1], 0.5, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
                         }
                     break;
                 }
