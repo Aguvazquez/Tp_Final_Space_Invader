@@ -42,13 +42,19 @@
 int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[],ALLEGRO_TIMER **timer){
     bool do_exit=false;
     int aux=0;
-    bool flag = false;
+    bool flag = false,dont_play_song=false;
     
     
     while(!do_exit){
         if(!flag){
-        aux=menu_display(display,sample,event_queue,font,display_background,"PLAY","DIFFICULTY","TOP SCORE",0);
+            
+            if(!dont_play_song)
+                aux=menu_display(display,sample,event_queue,font,display_background,"PLAY","DIFFICULTY","TOP SCORE",0);
+            else
+                aux=menu_display(display,sample,event_queue,font,display_background,"PLAY","DIFFICULTY","TOP SCORE",1);
+            
         flag=true;
+        dont_play_song=true;
         }
         switch(aux){
             case 0 : do_exit=true;//Exit value 
@@ -65,13 +71,14 @@ int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_
                 }
                 else{
                     flag=false;
+                    dont_play_song=false;
                 }
-                //do_exit=true;
+                
             }
             break;
             case 2 :{ 
                aux =Difficulty(display,sample,event_queue,font,display_background,"EASY","NORMAL","HARD");
-               flag =false;
+               flag =false;              
                if(!aux){
                    fprintf(stderr,"Hubo un error tato , volve a descargar el archivo , gracias\n");
                    return -1;
