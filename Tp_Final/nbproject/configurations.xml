@@ -18,6 +18,7 @@
       <itemPath>baseshipa.png</itemPath>
       <itemPath>fondo.jpeg</itemPath>
       <itemPath>invaders.png</itemPath>
+      <itemPath>mysteryb.png</itemPath>
       <itemPath>red-heart.png</itemPath>
       <itemPath>saucer1b.png</itemPath>
       <itemPath>saucer1bb.png</itemPath>
@@ -120,6 +121,8 @@
       </item>
       <item path="move.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="mysteryb.png" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="play.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="play.h" ex="false" tool="3" flavor2="0">
@@ -194,6 +197,8 @@
       <item path="move.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="move.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="mysteryb.png" ex="false" tool="3" flavor2="0">
       </item>
       <item path="play.c" ex="false" tool="0" flavor2="0">
       </item>
