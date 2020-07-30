@@ -154,12 +154,16 @@ uint16_t allegro_ini(ALLEGRO_DISPLAY** display,ALLEGRO_EVENT_QUEUE**  event_queu
     display_background[3] = al_load_bitmap("saucer2b.png");
     display_background[4] = al_load_bitmap("saucer2bb.png");
     display_background[5] = al_load_bitmap("red-heart.png"); 
-    display_background[6] = al_load_bitmap("fondo.jpeg");
+    display_background[6] = al_load_bitmap("mysteryb.png");
     display_background[7] = al_load_bitmap("saucer3b.png");
     display_background[8] = al_load_bitmap("saucer3bb.png");
     display_background[9] = al_load_bitmap("saucer1b.png");
     display_background[10] = al_load_bitmap("saucer1bb.png");
-    display_background[11] = al_load_bitmap("mysteryb.png");
+    display_background[11] = al_load_bitmap("fondo1.jpeg");
+    display_background[12] = al_load_bitmap("fondo2.jpg");
+    display_background[13] = al_load_bitmap("fondo3.jpg");
+    display_background[14] = al_load_bitmap("fondo4.jpg");
+    display_background[15] = al_load_bitmap("fondo5.jpg");
     for(i=0;i<BACKGROUNDS;i++){
     if (!display_background[i]) {
             fprintf(stderr,"background image not loaded!\n");

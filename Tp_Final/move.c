@@ -19,9 +19,9 @@ static int create_bitmaps(ALLEGRO_BITMAP **bullet, ALLEGRO_DISPLAY **display );
 static uint16_t alien_shoot(void);
 static uint16_t get_rand_num(uint8_t x);
 /*Recibe un entero positivo y devuelve un numero aleatorio menor o igual a dicho numero*/
-static void score_to_str(int16_t score,ALLEGRO_FONT**font);
+static void score_to_str(uint16_t score,ALLEGRO_FONT**font);
 
-int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** event_queue, ALLEGRO_TIMER **timer, ALLEGRO_BITMAP *display_background[], uint8_t difficulty, uint8_t* lifes)
+int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** event_queue, ALLEGRO_TIMER **timer, ALLEGRO_BITMAP *display_background[], uint8_t difficulty, uint8_t* lifes, uint8_t level)
 {
     uint8_t i, j, check, aux, accelerate=0;
     static uint8_t vida_bloques[4] = {30, 30, 30, 30};
@@ -30,13 +30,13 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
     float nave_y = SCREEN_H - 2*BASE_SIZE;
     float bullet_x, bullet_y;
     float bloques_x[4];
-    static int16_t score=0;
+    static uint16_t score=0;
     for(i=0; i<4; i++)
         bloques_x[i] = (1.5*i+1)*SCREEN_W / 6.5 - 2*BASE_SIZE;
     
     float bloques_y = 3*SCREEN_H / 4 + 2.5*BASE_SIZE;
-    int8_t cant_aliens = N;
-    //int8_t cant_aliens = 1;    //solo para facilitar debug
+    //int8_t cant_aliens = N;
+    int8_t cant_aliens = 1;    //solo para facilitar debug
     
     //seteo de coordenadas iniciales de los aliens   
     float alien_x[N] = {3*SCREEN_W/15, 4*SCREEN_W/15, 5*SCREEN_W/15, 6*SCREEN_W/15, 7*SCREEN_W/15, 8*SCREEN_W/15, 9*SCREEN_W/15, 10*SCREEN_W/15, 11*SCREEN_W/15, 12*SCREEN_W/15,
@@ -211,7 +211,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
         if (redraw && al_is_event_queue_empty(*event_queue)) {
             
             redraw = false;
-            al_draw_scaled_bitmap(display_background[6],0, 0, al_get_bitmap_width(display_background[6]), al_get_bitmap_height(display_background[6]), 
+            al_draw_scaled_bitmap(display_background[11+level%5],0, 0, al_get_bitmap_width(display_background[11+level%5]), al_get_bitmap_height(display_background[11+level%5]), 
             0, 0, SCREEN_W, SCREEN_H, 0);
             al_draw_scaled_bitmap(display_background[2],0, 0, al_get_bitmap_width(display_background[2]), al_get_bitmap_height(display_background[2]), 
             nave_x, nave_y, 3*BASE_SIZE, 1.5*BASE_SIZE, 0);
@@ -275,7 +275,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                     check++;
             }
             if(mystery_ship_y < SCREEN_H)
-                al_draw_scaled_bitmap(display_background[11],0, 0, al_get_bitmap_width(display_background[11]), al_get_bitmap_height(display_background[11]), 
+                al_draw_scaled_bitmap(display_background[6],0, 0, al_get_bitmap_width(display_background[6]), al_get_bitmap_height(display_background[6]), 
                                 mystery_ship_x,mystery_ship_y, 2*BASE_SIZE, 2*BASE_SIZE,0);
            
             if(lock)
@@ -356,7 +356,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                         lock_mystery_ship=false;
                         lock = false;
                         bullet_y = nave_y;
-                        score+=5*get_rand_num(51);       //te puede sumar desde 0 a 200 puntos.
+                        score+=10*get_rand_num(21);       //te puede sumar desde 0 a 200 puntos.
                             
                     }
                 }
@@ -390,13 +390,13 @@ static uint16_t get_rand_num(uint8_t x){
     return (rand()%x);
     
 }
-static void score_to_str(int16_t score,ALLEGRO_FONT**font){
+static void score_to_str(uint16_t score, ALLEGRO_FONT**font){
      char str[13]={'S','C','O','R','E',':',' ',' ','0','0','0','0'};
-     int16_t aux=0,i,j;
+     uint16_t aux=0,i,j;
      for(i=11,j=1; i>7; i--,j*=10){
         aux=score/j;
         str[i]=(char)(aux%10+ASCII);        
      }
-     al_draw_text(font[0], al_map_rgb(255,255,255), SCREEN_W / 2, BASE_SIZE/4, ALLEGRO_ALIGN_CENTER, str);
+     al_draw_text(font[0], al_map_rgb(255,255,255), SCREEN_W, BASE_SIZE/4, ALLEGRO_ALIGN_RIGHT, str);
      
 }
