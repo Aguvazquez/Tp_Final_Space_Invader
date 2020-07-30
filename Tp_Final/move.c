@@ -336,7 +336,7 @@ int move(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[
                 if(alien_bullets[1][i]>=nave_y && alien_bullets[1][i]<=nave_y+BASE_SIZE && alien_bullets[0][i]>=nave_x && alien_bullets[0][i]<=nave_x+3*BASE_SIZE){
                     alien_bullets[1][i] = SCREEN_H;
                     (*lifes)--;
-                    al_play_sample(sample[3], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+                    al_play_sample(sample[3], 0.25, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
                     
                 }
                 
@@ -362,6 +362,7 @@ int move(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[
                         lock = false;
                         bullet_y = nave_y;
                         score+=5*get_rand_num(21);       //te puede sumar desde 0 a 100 puntos.
+                        al_play_sample(sample[2], 0.25, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
                             
                     }
                 }
