@@ -38,8 +38,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
     int8_t cant_aliens = N;
     //int8_t cant_aliens = 1;    //solo para facilitar debug
     
-    //seteo de coordenadas iniciales de los aliens
-    
+    //seteo de coordenadas iniciales de los aliens   
     float alien_x[N] = {3*SCREEN_W/15, 4*SCREEN_W/15, 5*SCREEN_W/15, 6*SCREEN_W/15, 7*SCREEN_W/15, 8*SCREEN_W/15, 9*SCREEN_W/15, 10*SCREEN_W/15, 11*SCREEN_W/15, 12*SCREEN_W/15,
                         3*SCREEN_W/15, 4*SCREEN_W/15, 5*SCREEN_W/15, 6*SCREEN_W/15, 7*SCREEN_W/15, 8*SCREEN_W/15, 9*SCREEN_W/15, 10*SCREEN_W/15, 11*SCREEN_W/15, 12*SCREEN_W/15,
                         3*SCREEN_W/15, 4*SCREEN_W/15, 5*SCREEN_W/15, 6*SCREEN_W/15, 7*SCREEN_W/15, 8*SCREEN_W/15, 9*SCREEN_W/15, 10*SCREEN_W/15, 11*SCREEN_W/15, 12*SCREEN_W/15,
@@ -51,6 +50,9 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                         3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10,  
                         2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5,
                         SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2};
+    
+    float mystery_ship_y=SCREEN_H; 
+    float mystery_ship_x=SCREEN_W; 
     
     float alien_bullets[2][N];
     
@@ -64,6 +66,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
     bool redraw = false;
     bool do_exit = false;
     bool lock = false;
+    bool lock_mystery_ship = false;
          
     al_set_target_bitmap(al_get_backbuffer(*display));
     al_start_timer(*timer);
@@ -86,6 +89,14 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                         alien_change=false;
                     else
                         alien_change=true;
+                    
+                    if(!lock_mystery_ship){
+                        if(!get_rand_num(20)){          //5% de probabilidad.
+                            lock_mystery_ship=true;
+                            mystery_ship_y=2*BASE_SIZE;
+                        }
+                    }
+                        
             
                     for(i=0, check=0; i<N; i++)
                     {
@@ -122,9 +133,12 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                             }
                         }
                     }
+                    
                     aux=0;
                 }
-                
+                if(lock_mystery_ship){
+                        mystery_ship_x-=BASE_SIZE/8;
+                    }
                 redraw = true;
                 aux++;
             }
@@ -260,6 +274,9 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                 if(alien_x[i] >= SCREEN_W-2*BASE_SIZE || alien_x[i] <= BASE_SIZE) //revisa que no sobrepasen los extremos
                     check++;
             }
+            if(mystery_ship_y < SCREEN_H)
+                al_draw_scaled_bitmap(display_background[11],0, 0, al_get_bitmap_width(display_background[11]), al_get_bitmap_height(display_background[11]), 
+                                mystery_ship_x,mystery_ship_y, 2*BASE_SIZE, 2*BASE_SIZE,0);
            
             if(lock)
             {
@@ -329,6 +346,25 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                 if(alien_y[i]>3*SCREEN_H/4 && alien_y[i]<SCREEN_H)  //condicion de derrota
                     do_exit = true;
                 
+            }
+            if(mystery_ship_y < SCREEN_H){
+                if(bullet_y>=mystery_ship_y && bullet_y<=mystery_ship_y+2*BASE_SIZE){
+                    if(bullet_x>=mystery_ship_x && mystery_ship_x+2*BASE_SIZE){
+
+                        mystery_ship_y = SCREEN_H;      //mueve el alien muerto fuera de la pantalla
+                        mystery_ship_x = SCREEN_W;
+                        lock_mystery_ship=false;
+                        lock = false;
+                        bullet_y = nave_y;
+                        score+=get_rand_num(201);       //te puede sumar desde 0 a 200 puntos.
+                            
+                    }
+                }
+            }
+            else if(mystery_ship_x<0){
+                mystery_ship_y = SCREEN_H;      //si la nave se sale de la pantalla , reseteo sus valores.
+                mystery_ship_x = SCREEN_W;
+                lock_mystery_ship=false;
             }
             score_to_str(score,font);
             al_flip_display();
