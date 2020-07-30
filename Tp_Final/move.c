@@ -15,20 +15,20 @@
 
 enum MYKEYS {KEY_LEFT, KEY_RIGHT, KEY_SPACE};
 
-static int create_bitmaps(ALLEGRO_BITMAP **bullet, ALLEGRO_DISPLAY **display );
 static uint16_t get_rand_num(uint8_t x);
 /*Recibe un entero positivo y devuelve un entero aleatorio menor a dicho numero*/
 static void score_to_str(uint16_t score,ALLEGRO_FONT**font);
 
 int move(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** event_queue, ALLEGRO_TIMER **timer, ALLEGRO_BITMAP *display_background[], uint8_t difficulty, uint8_t* lifes, uint8_t level)
 {
-    uint8_t i, j, check, aux, accelerate=0;
+    uint8_t i, j, check, aux, accelerate=0, explosion_time=0;
     static uint8_t vida_bloques[4] = {30, 30, 30, 30};
     bool alien_change = false;
     float nave_x = SCREEN_W / 2.0 - 1.5*BASE_SIZE;
     float nave_y = SCREEN_H - 2*BASE_SIZE;
     float bullet_x, bullet_y;
     float bloques_x[4];
+    float explosion_x, explosion_y;
     static uint16_t score=0;
     for(i=0; i<4; i++)
         bloques_x[i] = (1.5*i+1)*SCREEN_W / 6.5 - 2*BASE_SIZE;
@@ -302,11 +302,14 @@ int move(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[
                     if(bullet_y>=alien_y[i] && bullet_y<=alien_y[i]+2*BASE_SIZE){
                         if(bullet_x>=alien_x[i] && bullet_x<=alien_x[i]+2*BASE_SIZE){
 
-                            alien_y[i] = SCREEN_H;      //mueve el alien muerto fuera de la pantalla 
                             cant_aliens--;
+                            explosion_x = alien_x[i];
+                            explosion_y = alien_y[i];
+                            explosion_time = 10;
+                            alien_y[i] = SCREEN_H;      //mueve el alien muerto fuera de la pantalla 
                             lock = false;
                             bullet_y = nave_y;
-                            al_play_sample(sample[2], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+                            al_play_sample(sample[2], 0.25, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 
                             if(i<=((N/5)-1)){
                                 score+=15;
@@ -333,6 +336,8 @@ int move(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[
                 if(alien_bullets[1][i]>=nave_y && alien_bullets[1][i]<=nave_y+BASE_SIZE && alien_bullets[0][i]>=nave_x && alien_bullets[0][i]<=nave_x+3*BASE_SIZE){
                     alien_bullets[1][i] = SCREEN_H;
                     (*lifes)--;
+                    al_play_sample(sample[3], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+                    
                 }
                 
                 if(alien_bullets[0][i]>=bullet_x-4 && alien_bullets[0][i]<=bullet_x+4 && alien_bullets[1][i]>=bullet_y && alien_bullets[1][i]<=bullet_y+BASE_SIZE){
@@ -365,6 +370,12 @@ int move(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[
                 mystery_ship_y = SCREEN_H;      //si la nave se sale de la pantalla , reseteo sus valores.
                 mystery_ship_x = SCREEN_W;
                 lock_mystery_ship=false;
+            }
+            
+            if(explosion_time){
+                al_draw_scaled_bitmap(display_background[17],0, 0, al_get_bitmap_width(display_background[17]), al_get_bitmap_height(display_background[17]), 
+                explosion_x, explosion_y, 2.5*BASE_SIZE, 2.5*BASE_SIZE,0);
+                explosion_time--;
             }
             score_to_str(score,font);
             al_flip_display();

@@ -141,8 +141,7 @@ void next_level_animation(ALLEGRO_FONT *font[],int level){
 void lose_animation(ALLEGRO_FONT *font[]){
     char str1[]={"GAME OVER"};
     char str2[]={"ENTER YOUR NAME IN 4 LETTERS"};
-    char str[5]={' ',' ',' ',' '};
-    uint8_t i ;
+    //char str[5]={' ',' ',' ',' '};
     al_clear_to_color(al_map_rgb(0, 0, 0));
     al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W / 2, SCREEN_H / 5, ALLEGRO_ALIGN_CENTER, str1);
     al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W / 2, 2*SCREEN_H / 5, ALLEGRO_ALIGN_CENTER, str2);

@@ -16,7 +16,7 @@
 
 int play(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[],ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIMER **timer,ALLEGRO_BITMAP *display_background[])
 {
-    uint8_t game[N][N], level=1, difficulty, lifes=3;
+    uint8_t level=1, difficulty, lifes=3;
     int aux=0;
     difficulty = read_difficulty();
     if(difficulty!=EASY){

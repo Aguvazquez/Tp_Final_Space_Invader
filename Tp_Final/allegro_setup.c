@@ -169,6 +169,7 @@ uint16_t allegro_ini(ALLEGRO_DISPLAY** display,ALLEGRO_EVENT_QUEUE**  event_queu
     display_background[14] = al_load_bitmap("fondo4.jpg");
     display_background[15] = al_load_bitmap("fondo5.jpg");
     display_background[16] = al_load_bitmap("pause.jpeg");
+    display_background[17] = al_load_bitmap("bum.png");
     for(i=0;i<BACKGROUNDS;i++){
     if (!display_background[i]) {
             fprintf(stderr,"background image not loaded!\n");
