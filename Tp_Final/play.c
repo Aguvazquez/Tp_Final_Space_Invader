@@ -36,7 +36,7 @@ int play(ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[],ALLEGRO_EVENT_QUEUE **eve
     {
         aux=move(display,font,event_queue,timer,display_background, difficulty, &lifes);
         
-        if(aux==CLOSE_DISPLAY||aux==RESET_GAME)
+        if(aux==CLOSE_DISPLAY||aux==RESET_GAME||aux==EXIT_MENU)
             return aux;
 
         else if(!aux)

@@ -178,6 +178,7 @@ int move(ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** e
                             }
                             break;
                             case 3:{    //go back to main menu.
+                                cant_aliens=EXIT_MENU;
                                 do_exit = true;
                             }
                             break;
@@ -354,9 +355,9 @@ static uint16_t get_rand_num(uint8_t x){
     
 }
 static void score_to_str(int16_t score,ALLEGRO_FONT**font){
-     char str[12]={'S','C','O','R','E',':',' ',' ','0','0','0','0'};
+     char str[13]={'S','C','O','R','E',':',' ',' ','0','0','0','0'};
      int16_t aux=0,i,j;
-     for(i=11,j=1; i>8; i--,j*=10){
+     for(i=11,j=1; i>7; i--,j*=10){
         aux=score/j;
         str[i]=(char)(aux%10+ASCII);        
      }

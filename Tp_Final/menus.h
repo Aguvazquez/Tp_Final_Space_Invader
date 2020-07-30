@@ -49,6 +49,8 @@ int pause_menu(ALLEGRO_DISPLAY**display ,ALLEGRO_EVENT_QUEUE ** event_queue,ALLE
 void next_level_animation(ALLEGRO_FONT *font[],int level);
 
 char read_difficulty(void);
+void lose_animation(ALLEGRO_FONT *font[]);
+
 #endif
 
 
