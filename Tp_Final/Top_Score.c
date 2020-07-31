@@ -11,7 +11,7 @@
 #include "config.h"
 #include "Top_Score.h"
 
-#define STR_LONG 5
+#define STR_LONG 6
 
 static void get_top_score(ALLEGRO_DISPLAY * display , ALLEGRO_FONT *font);
 static void create_button_unpressed_top_score(ALLEGRO_FONT * font);
@@ -119,14 +119,14 @@ static void create_table_top_score(ALLEGRO_FONT*font){
     al_flip_display();
 }
 /*Cuando guardemos algo en el archivo de top score hay que guardarlo de la siguiente manera
- *                      ssss 
- *                      xxxx
- *                      ssss
- *                      xxxx
- *                      ssss
- *                      xxxx 
+ *                      sssss 
+ *                      xxxxx
+ *                      sssss
+ *                      xxxxx
+ *                      sssss
+ *                      xxxxx
  *         (s de score ,x de nombre) Si el nombre que elige la persona 
- * es menor a 4 letras , rellenar con espacios , es mas facil la programacion asi 
+ * es menor a 5 letras , rellenar con espacios , es mas facil la programacion asi 
  */
 static void get_top_score(ALLEGRO_DISPLAY * display , ALLEGRO_FONT *font){
     static FILE*  fp;

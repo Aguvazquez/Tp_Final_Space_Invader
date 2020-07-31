@@ -17,7 +17,7 @@ enum MYKEYS {KEY_LEFT, KEY_RIGHT, KEY_SPACE};
 
 static uint16_t get_rand_num(uint8_t x);
 /*Recibe un entero positivo y devuelve un entero aleatorio menor a dicho numero*/
-static void score_to_str(uint16_t score,ALLEGRO_FONT**font);
+static void score_to_str(uint32_t score,ALLEGRO_FONT**font);
 
 int move(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** event_queue, ALLEGRO_TIMER **timer, ALLEGRO_BITMAP *display_background[], uint8_t difficulty, uint8_t* lifes, uint8_t level)
 {
@@ -29,7 +29,7 @@ int move(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[
     float bullet_x, bullet_y;
     float bloques_x[4];
     float explosion_x, explosion_y;
-    static uint16_t score=0;
+    static uint32_t score=0;
     for(i=0; i<4; i++)
         bloques_x[i] = (1.5*i+1)*SCREEN_W / 6.5 - 2*BASE_SIZE;
     
@@ -136,7 +136,7 @@ int move(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[
                 }
                 
                 if(lock_mystery_ship){
-                        mystery_ship_x-=MOVE_RATE/2;
+                        mystery_ship_x-=MOVE_RATE/3;
                     }
                 redraw = true;
                 aux++;
@@ -312,13 +312,13 @@ int move(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[
                             al_play_sample(sample[2], 0.25, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 
                             if(i<=((N/5)-1)){
-                                score+=15;
+                                score+=30;
                             }
                             else if(i<=((3*N/5)-1)){
-                                score+=10;
+                                score+=20;
                             }
                             else{
-                                score+=5;
+                                score+=10;
                             }
                         }
                     }
@@ -367,7 +367,7 @@ int move(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[
                     }
                 }
             }
-            if(mystery_ship_x<0){
+            if(mystery_ship_x+2*BASE_SIZE<=0){
                 mystery_ship_y = SCREEN_H;      //si la nave se sale de la pantalla , reseteo sus valores.
                 mystery_ship_x = SCREEN_W;
                 lock_mystery_ship=false;
@@ -402,10 +402,10 @@ static uint16_t get_rand_num(uint8_t x){
     return (rand()%x);
     
 }
-static void score_to_str(uint16_t score, ALLEGRO_FONT**font){
-     char str[13]={'S','C','O','R','E',':',' ',' ','0','0','0','0'};
-     uint16_t aux=0,i,j;
-     for(i=11,j=1; i>7; i--,j*=10){
+static void score_to_str(uint32_t score, ALLEGRO_FONT**font){
+     char str[14]={'S','C','O','R','E',':',' ',' ','0','0','0','0','0'};
+     uint32_t aux=0,i,j;
+     for(i=12,j=1; i>7; i--,j*=10){
         aux=score/j;
         str[i]=(char)(aux%10+ASCII);        
      }
