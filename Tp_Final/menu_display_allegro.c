@@ -52,14 +52,12 @@ int menu_display(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],
     }
     
     /**********Title and bakground menu.*********************/
+    al_draw_scaled_bitmap(display_background[0],0, 0, al_get_bitmap_width(display_background[0]),al_get_bitmap_height(display_background[0]), 
+        0, 0, al_get_display_width(*display), al_get_display_height(*display),0);
     if(pause){
-        al_draw_scaled_bitmap(display_background[16],0, 0, al_get_bitmap_width(display_background[16]),al_get_bitmap_height(display_background[16]), 
-            0, 0, al_get_display_width(*display), al_get_display_height(*display),0);
         al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W / 2, SCREEN_H / 5, ALLEGRO_ALIGN_CENTER, "PAUSE MENU");
     }
     else{
-        al_draw_scaled_bitmap(display_background[0],0, 0, al_get_bitmap_width(display_background[0]),al_get_bitmap_height(display_background[0]), 
-            0, 0, al_get_display_width(*display), al_get_display_height(*display),0);
         al_draw_scaled_bitmap(display_background[1],0, 0, al_get_bitmap_width(display_background[1]), al_get_bitmap_height(display_background[1]), 
             0, 0, al_get_display_width(*display), al_get_display_height(*display)/3,0);
     }

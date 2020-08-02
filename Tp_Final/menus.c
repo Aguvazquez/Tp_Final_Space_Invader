@@ -125,7 +125,7 @@ int pause_menu(ALLEGRO_DISPLAY**display ,ALLEGRO_EVENT_QUEUE ** event_queue,ALLE
     }
     return output;
 }
-void next_level_animation(ALLEGRO_FONT *font[],int level){
+void next_level_animation(ALLEGRO_FONT *font[], uint8_t level){
     char str[]={'L','E','V','E','L',' ',' ',' '};
     
     if(level>=10){
@@ -138,22 +138,22 @@ void next_level_animation(ALLEGRO_FONT *font[],int level){
     al_flip_display();
     al_rest(2.0);
 }
-void lose_animation(ALLEGRO_FONT *font[]){
+void lose_animation(ALLEGRO_FONT *font[], uint32_t score){
     char str1[]={"GAME OVER"};
-    char str2[]={"ENTER YOUR NAME"};
-    char str[6]={' ',' ',' ',' ',' '};
+    char str2[]={"YOUR SCORE IS:"};
+    char str3[6]={' ',' ',' ',' ',' '};
+    uint32_t aux=0,i,j;
+    for(i=5,j=1; i; i--,j*=10){
+        aux=score/j;
+        str3[i]=(char)(aux%10+ASCII);        
+    }
     al_clear_to_color(al_map_rgb(0, 0, 0));
-    al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W / 2, SCREEN_H / 6, ALLEGRO_ALIGN_CENTER, str1);
-    al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W / 2, 2*SCREEN_H / 6, ALLEGRO_ALIGN_CENTER, str2);   
-    al_draw_filled_rectangle(SCREEN_W/5, 3*SCREEN_H/6, 4*SCREEN_W/5, 4*SCREEN_H/6, al_map_rgb(255,255,255));
+    al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W/2, SCREEN_H/4, ALLEGRO_ALIGN_CENTER, str1); 
+    al_draw_text(font[0], al_map_rgb(255, 255, 255), SCREEN_W/2, SCREEN_H/2, ALLEGRO_ALIGN_CENTER, str2); 
     al_flip_display();
-    /*scanf("%s",str);
-    al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W / 2, 4*SCREEN_H / 5, ALLEGRO_ALIGN_CENTER, str);
-    al_flip_display();*/
-    
-    al_rest(5.0);
-      
+    al_rest(2.0);
 }
+
 char read_difficulty(void){
     
     FILE* fp;
@@ -165,11 +165,3 @@ char read_difficulty(void){
     return output;
 }
 /**********************Local functions***************/
-
- 
-
-
-
-
- 
- 

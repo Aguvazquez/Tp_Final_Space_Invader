@@ -46,10 +46,10 @@ int pause_menu(ALLEGRO_DISPLAY**display ,ALLEGRO_EVENT_QUEUE ** event_queue,ALLE
  *@param param2: nivel que se quiere mostrar. 
  * 
  */
-void next_level_animation(ALLEGRO_FONT *font[],int level);
+void next_level_animation(ALLEGRO_FONT *font[], uint8_t level);
 
 char read_difficulty(void);
-void lose_animation(ALLEGRO_FONT *font[]);
+void lose_animation(ALLEGRO_FONT *font[], uint32_t score);
 
 #endif
 

@@ -17,9 +17,9 @@ enum MYKEYS {KEY_LEFT, KEY_RIGHT, KEY_SPACE};
 
 static uint16_t get_rand_num(uint8_t x);
 /*Recibe un entero positivo y devuelve un entero aleatorio menor a dicho numero*/
-static void score_to_str(uint32_t score,ALLEGRO_FONT**font);
+static void score_to_str(uint32_t* score,ALLEGRO_FONT**font);
 
-int move(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** event_queue, ALLEGRO_TIMER **timer, ALLEGRO_BITMAP *display_background[], uint8_t difficulty, uint8_t* lifes, uint8_t level)
+int move(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** event_queue, ALLEGRO_TIMER **timer, ALLEGRO_BITMAP *display_background[], uint8_t difficulty, uint8_t* lifes, uint8_t level, uint32_t* score)
 {
     uint8_t i, j, check, aux, accelerate=0, explosion_time=0;
     static uint8_t vida_bloques[4] = {30, 30, 30, 30};
@@ -29,7 +29,6 @@ int move(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[
     float bullet_x, bullet_y;
     float bloques_x[4];
     float explosion_x, explosion_y;
-    static uint32_t score=0;
     for(i=0; i<4; i++)
         bloques_x[i] = (1.5*i+1)*SCREEN_W / 6.5 - 2*BASE_SIZE;
     
@@ -312,13 +311,13 @@ int move(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[
                             al_play_sample(sample[2], 0.25, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 
                             if(i<=((N/5)-1)){
-                                score+=30;
+                                *score+=30;
                             }
                             else if(i<=((3*N/5)-1)){
-                                score+=20;
+                                *score+=20;
                             }
                             else{
-                                score+=10;
+                                *score+=10;
                             }
                         }
                     }
@@ -361,7 +360,7 @@ int move(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[
                         lock_mystery_ship=false;
                         lock = false;
                         bullet_y = nave_y;
-                        score+=5*get_rand_num(21);       //te puede sumar desde 0 a 100 puntos.
+                        *score+=5*get_rand_num(21);       //te puede sumar desde 0 a 100 puntos.
                         al_play_sample(sample[2], 0.25, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
                             
                     }
@@ -374,7 +373,7 @@ int move(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[
             }
             
             if(explosion_time){
-                al_draw_scaled_bitmap(display_background[17],0, 0, al_get_bitmap_width(display_background[17]), al_get_bitmap_height(display_background[17]), 
+                al_draw_scaled_bitmap(display_background[16],0, 0, al_get_bitmap_width(display_background[17]), al_get_bitmap_height(display_background[17]), 
                 explosion_x, explosion_y, 2.5*BASE_SIZE, 2.5*BASE_SIZE,0);
                 explosion_time--;
             }
@@ -387,11 +386,6 @@ int move(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[
     if(cant_aliens){
         for(i=0; i<4; i++)
             vida_bloques[i]=30;
-        score=0;
-    }
-    else{
-        if(lifes==3)         //pasar de nivel con todas las vidas suma 100 puntos
-            score += 100;
     }
     return cant_aliens;
 }
@@ -406,13 +400,13 @@ static uint16_t get_rand_num(uint8_t x){
     return (rand()%x);
     
 }
-static void score_to_str(uint32_t score, ALLEGRO_FONT**font){
-     char str[14]={'S','C','O','R','E',':',' ',' ','0','0','0','0','0'};
-     uint32_t aux=0,i,j;
-     for(i=12,j=1; i>7; i--,j*=10){
-        aux=score/j;
+static void score_to_str(uint32_t *score, ALLEGRO_FONT**font){
+    char str[14]={'S','C','O','R','E',':',' ',' ','0','0','0','0','0'};
+    uint32_t aux=0,i,j;
+    for(i=12,j=1; i>7; i--,j*=10){
+        aux=*score/j;
         str[i]=(char)(aux%10+ASCII);        
-     }
-     al_draw_text(font[0], al_map_rgb(255,255,255), SCREEN_W, BASE_SIZE/4, ALLEGRO_ALIGN_RIGHT, str);
+    }
+    al_draw_text(font[0], al_map_rgb(255,255,255), SCREEN_W, BASE_SIZE/4, ALLEGRO_ALIGN_RIGHT, str);
      
 }

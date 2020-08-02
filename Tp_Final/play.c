@@ -17,7 +17,8 @@
 int play(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[],ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIMER **timer,ALLEGRO_BITMAP *display_background[])
 {
     uint8_t level=1, difficulty, lifes=3;
-    int aux=0;
+    int8_t aux=0;
+    uint32_t score=0;
     difficulty = read_difficulty();
     if(difficulty!=EASY){
         if(difficulty!=NORMAL){
@@ -34,7 +35,7 @@ int play(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[]
     
     while(difficulty)
     {
-        aux=move(sample, display,font,event_queue,timer,display_background, difficulty, &lifes, level);
+        aux=move(sample, display,font,event_queue,timer,display_background, difficulty, &lifes, level, &score);
         
         if(aux==CLOSE_DISPLAY||aux==RESET_GAME||aux==EXIT_MENU)
             return aux;
@@ -46,12 +47,20 @@ int play(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[]
             next_level_animation(font,++level);   //mientras no este la pantalla que indica "siguiente nivel"
             if(lifes<3)
               lifes++;
+            else
+                score+=100; //pasar de nivel con 3 vidas suma puntos
         }
         else
         {
             difficulty = 0;
-            lose_animation(font);
+//            lose_animation(font, score);
+//            if(get_top_score(score))
+  //              enter_name();
         }
     }
     return 0;
 }
+
+//uint8_t get_top_score(uint32_t score){
+    
+//}

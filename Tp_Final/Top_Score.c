@@ -13,7 +13,7 @@
 
 #define STR_LONG 6
 
-static void get_top_score(ALLEGRO_DISPLAY * display , ALLEGRO_FONT *font);
+static void print_top_score(ALLEGRO_DISPLAY * display , ALLEGRO_FONT *font);
 static void create_button_unpressed_top_score(ALLEGRO_FONT * font);
 static void create_button_pressed_top_score(ALLEGRO_FONT * font);
 static void create_table_top_score();
@@ -31,12 +31,13 @@ uint16_t Top_Score(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EV
     al_draw_scaled_bitmap(display_background[0],0, 0, al_get_bitmap_width(display_background[0]), al_get_bitmap_height(display_background[0]), 
             0, 0, al_get_display_width(*display), al_get_display_height(*display), 
             0);
-    al_draw_scaled_bitmap(display_background[1],0, 0, al_get_bitmap_width(display_background[1]), al_get_bitmap_height(display_background[1]),
+    /*al_draw_scaled_bitmap(display_background[1],0, 0, al_get_bitmap_width(display_background[1]), al_get_bitmap_height(display_background[1]),
             0, 0, al_get_display_width(*display), al_get_display_height(*display)/3,
-            0);
+            0);*/
+    al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W/2, SCREEN_H/6, ALLEGRO_ALIGN_CENTER, "TOP SCORE");
     create_button_unpressed_top_score(font[0]);
     create_table_top_score(font[0]);
-    get_top_score(*display,font[0]);
+    print_top_score(*display,font[0]);
     al_flip_display();
     while(!do_exit){ 
         ALLEGRO_EVENT ev;
@@ -128,7 +129,7 @@ static void create_table_top_score(ALLEGRO_FONT*font){
  *         (s de score ,x de nombre) Si el nombre que elige la persona 
  * es menor a 5 letras , rellenar con espacios , es mas facil la programacion asi 
  */
-static void get_top_score(ALLEGRO_DISPLAY * display , ALLEGRO_FONT *font){
+static void print_top_score(ALLEGRO_DISPLAY * display , ALLEGRO_FONT *font){
     uint8_t i;
     static FILE*  fp;
     char str[STR_LONG];
