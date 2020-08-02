@@ -57,14 +57,14 @@ int play(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[]
             lose_animation(font, score);
             if(aux=get_top_score(score)){
 //                get_name(name);
-//                submit_name(aux);
+//                submit_name(name, score, aux);
             }
         }
     }
     return 0;
 }
 
-uint8_t get_top_score(uint32_t score){
+uint8_t get_top_score(uint32_t score){  //devuelve la posicion del jugador si esta en el top 5, sino un 0
     static FILE* fp;
     char str[STR_LONG];
     uint8_t i;
@@ -79,6 +79,7 @@ uint8_t get_top_score(uint32_t score){
         fgets(str,STR_LONG,fp);
         fgetc(fp);
     }
+    fclose(fp);
     return 0;
 }
 
@@ -88,4 +89,8 @@ uint32_t string_to_number(char str[6]){
         aux += (int8_t)((str[i]-ASCII)*j);
     }
     return aux;
+}
+
+void submit_name(char name[6], uint32_t score, uint8_t posicion){
+    
 }
