@@ -129,53 +129,19 @@ static void create_table_top_score(ALLEGRO_FONT*font){
  * es menor a 5 letras , rellenar con espacios , es mas facil la programacion asi 
  */
 static void get_top_score(ALLEGRO_DISPLAY * display , ALLEGRO_FONT *font){
+    uint8_t i;
     static FILE*  fp;
     char str[STR_LONG];
     fp = fopen(".Top_Score.txt","r"); // Con el punto , se crea el archivo de forma oculta.
-    //PRIMER PUESTO
-        //SCORE
-        fgets(str,STR_LONG,fp);
-        al_draw_text(font, al_map_rgb(255,255,255), 7*SCREEN_W / 16, (7*SCREEN_H /16), ALLEGRO_ALIGN_CENTER, str);
-        fgetc(fp);  // el enter con este tipo de fuente queda raro , entonces "aumento" el fp a la siguiente linea .
-        //NAME
-        fgets(str,STR_LONG,fp);
-        al_draw_text(font, al_map_rgb(255,255,255), 31*SCREEN_W / 48, (7*SCREEN_H /16), ALLEGRO_ALIGN_CENTER, str);
-        fgetc(fp);
-    //SEGUNDO PUESTO    
-        //SCORE
-        fgets(str,STR_LONG,fp);
-        al_draw_text(font, al_map_rgb(255,255,255), 7*SCREEN_W / 16, 25*SCREEN_H / 48, ALLEGRO_ALIGN_CENTER, str);
-        fgetc(fp);
-        //NAME
-        fgets(str,STR_LONG,fp);
-        al_draw_text(font, al_map_rgb(255,255,255), 31*SCREEN_W / 48, 25*SCREEN_H / 48, ALLEGRO_ALIGN_CENTER, str);
-        fgetc(fp);
-    //TERCER PUESTO    
-        //SCORE
-        fgets(str,STR_LONG,fp);
-        al_draw_text(font, al_map_rgb(255,255,255), 7*SCREEN_W / 16, 29*SCREEN_H / 48, ALLEGRO_ALIGN_CENTER, str);
-        fgetc(fp);
-        //NAME
-        fgets(str,STR_LONG,fp);
-        al_draw_text(font, al_map_rgb(255,255,255), 31*SCREEN_W / 48, 29*SCREEN_H / 48, ALLEGRO_ALIGN_CENTER, str);
-        fgetc(fp);
-    //CUARTO PUESTO    
-        //SCORE
-        fgets(str,STR_LONG,fp);
-        al_draw_text(font, al_map_rgb(255,255,255), 7*SCREEN_W / 16, 11*SCREEN_H / 16, ALLEGRO_ALIGN_CENTER, str);
-        fgetc(fp);
-        //NAME
-        fgets(str,STR_LONG,fp);
-        al_draw_text(font, al_map_rgb(255,255,255), 31*SCREEN_W / 48, 11*SCREEN_H / 16, ALLEGRO_ALIGN_CENTER, str);
-        fgetc(fp);
-    //QUINTO PUESTO    
-        //SCORE
-        fgets(str,STR_LONG,fp);
-        al_draw_text(font, al_map_rgb(255,255,255), 7*SCREEN_W / 16, 37*SCREEN_H / 48, ALLEGRO_ALIGN_CENTER, str);
-        fgetc(fp);
-        //NAME
-        fgets(str,STR_LONG,fp);
-        al_draw_text(font, al_map_rgb(255,255,255), 31*SCREEN_W / 48, 37*SCREEN_H / 48, ALLEGRO_ALIGN_CENTER, str);
-        fgetc(fp);
     
+    for(i=0; i<5; i++){
+        //SCORE
+        fgets(str,STR_LONG,fp);
+        al_draw_text(font, al_map_rgb(255,255,255), 7*SCREEN_W/16, (21+4*i)*SCREEN_H/48, ALLEGRO_ALIGN_CENTER, str);
+        fgetc(fp);  // "aumento" el fp a la siguiente linea 
+        //NAME
+        fgets(str,STR_LONG,fp);
+        al_draw_text(font, al_map_rgb(255,255,255), 31*SCREEN_W/48, (21+4*i)*SCREEN_H/48, ALLEGRO_ALIGN_CENTER, str);
+        fgetc(fp);
+    }
 }
