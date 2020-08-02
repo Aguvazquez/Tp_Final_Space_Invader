@@ -400,6 +400,8 @@ static uint16_t get_rand_num(uint8_t x){
     return (rand()%x);
     
 }
+
+//HAY QUE UBICAR ESTA FUNCION EN ALGUN LADO PQ LOSE ANIMATION TMB LA USA PERO DISTINTO
 static void score_to_str(uint32_t *score, ALLEGRO_FONT**font){
     char str[14]={'S','C','O','R','E',':',' ',' ','0','0','0','0','0'};
     uint32_t aux=0,i,j;

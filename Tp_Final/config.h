@@ -15,6 +15,7 @@
 #define CONFIG_H
 
 #define ASCII '0'
+#define STR_LONG 6
 
 #define SCREEN_W  800
 #define SCREEN_H  640

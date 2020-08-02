@@ -19,6 +19,7 @@ int play(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[]
     uint8_t level=1, difficulty, lifes=3;
     int8_t aux=0;
     uint32_t score=0;
+    char name[6];
     difficulty = read_difficulty();
     if(difficulty!=EASY){
         if(difficulty!=NORMAL){
@@ -54,13 +55,37 @@ int play(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[]
         {
             difficulty = 0;
             lose_animation(font, score);
-//            if(get_top_score(score))
-  //              enter_name();
+            if(aux=get_top_score(score)){
+//                get_name(name);
+//                submit_name(aux);
+            }
         }
     }
     return 0;
 }
 
-//uint8_t get_top_score(uint32_t score){
-    
-//}
+uint8_t get_top_score(uint32_t score){
+    static FILE* fp;
+    char str[STR_LONG];
+    uint8_t i;
+    fp = fopen(".Top_Score.txt", "r");
+    for(i=1; i<=5; i++){
+        //SCORE
+        fgets(str,STR_LONG,fp);
+        if(string_to_number(str) < score)
+            return i;
+        fgetc(fp);  // "aumento" el fp a la siguiente linea 
+        //NAME
+        fgets(str,STR_LONG,fp);
+        fgetc(fp);
+    }
+    return 0;
+}
+
+uint32_t string_to_number(char str[6]){
+    int8_t i, j, aux=0;
+    for(i=5, j=1; i>=0; i--, j*=10){
+        aux += (int8_t)((str[i]-ASCII)*j);
+    }
+    return aux;
+}

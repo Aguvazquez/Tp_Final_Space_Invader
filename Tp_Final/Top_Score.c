@@ -11,8 +11,6 @@
 #include "config.h"
 #include "Top_Score.h"
 
-#define STR_LONG 6
-
 static void print_top_score(ALLEGRO_DISPLAY * display , ALLEGRO_FONT *font);
 static void create_button_unpressed_top_score(ALLEGRO_FONT * font);
 static void create_button_pressed_top_score(ALLEGRO_FONT * font);
