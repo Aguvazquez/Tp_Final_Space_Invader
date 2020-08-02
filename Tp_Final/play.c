@@ -37,7 +37,7 @@ int play(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[]
         aux=move(sample, display,font,event_queue,timer,display_background, difficulty, &lifes, level);
         
         if(aux==CLOSE_DISPLAY||aux==RESET_GAME||aux==EXIT_MENU)
-            return aux;
+            return aux; 
 
         else if(!aux)
         {
