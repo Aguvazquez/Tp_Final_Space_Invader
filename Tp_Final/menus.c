@@ -140,18 +140,18 @@ void next_level_animation(ALLEGRO_FONT *font[],int level){
 }
 void lose_animation(ALLEGRO_FONT *font[]){
     char str1[]={"GAME OVER"};
-    char str2[]={"ENTER YOUR NAME IN 5 LETTERS"};
-    //char str[5]={' ',' ',' ',' '};
+    char str2[]={"ENTER YOUR NAME"};
+    char str[6]={' ',' ',' ',' ',' '};
     al_clear_to_color(al_map_rgb(0, 0, 0));
-    al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W / 2, SCREEN_H / 5, ALLEGRO_ALIGN_CENTER, str1);
-    al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W / 2, 2*SCREEN_H / 5, ALLEGRO_ALIGN_CENTER, str2);
-    //al_draw_filled_rectangle(SCREEN_W/4, 3*SCREEN_H/5, 3*SCREEN_W/4, 4*SCREEN_H/5, al_map_rgb(255,255,255));
+    al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W / 2, SCREEN_H / 6, ALLEGRO_ALIGN_CENTER, str1);
+    al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W / 2, 2*SCREEN_H / 6, ALLEGRO_ALIGN_CENTER, str2);   
+    al_draw_filled_rectangle(SCREEN_W/5, 3*SCREEN_H/6, 4*SCREEN_W/5, 4*SCREEN_H/6, al_map_rgb(255,255,255));
     al_flip_display();
     /*scanf("%s",str);
     al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W / 2, 4*SCREEN_H / 5, ALLEGRO_ALIGN_CENTER, str);
     al_flip_display();*/
     
-    al_rest(2.0);
+    al_rest(5.0);
       
 }
 char read_difficulty(void){

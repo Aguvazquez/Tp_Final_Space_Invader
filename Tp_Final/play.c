@@ -27,7 +27,7 @@ int play(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[]
             }
         }
     }
-    //easy=30, medium=25, hard=20
+    
     //idea: si es facil, puntaje final x1, medio x2, dificil x3 (Approved)
     
     next_level_animation(font, level);

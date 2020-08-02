@@ -389,6 +389,10 @@ int move(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[
             vida_bloques[i]=30;
         score=0;
     }
+    else{
+        if(lifes==3)         //pasar de nivel con todas las vidas suma 100 puntos
+            score += 100;
+    }
     return cant_aliens;
 }
 
