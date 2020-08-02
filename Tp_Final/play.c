@@ -31,14 +31,14 @@ int play(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[]
     
     //idea: si es facil, puntaje final x1, medio x2, dificil x3 (Approved)
     
-    next_level_animation(font, level);
+    next_level_animation(font, level);  
     
     while(difficulty)
     {
         aux=move(sample, display,font,event_queue,timer,display_background, difficulty, &lifes, level, &score);
         
         if(aux==CLOSE_DISPLAY||aux==RESET_GAME||aux==EXIT_MENU)
-            return aux;
+            return aux; 
 
         else if(!aux)
         {
