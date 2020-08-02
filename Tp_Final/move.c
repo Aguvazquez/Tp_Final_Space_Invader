@@ -311,13 +311,13 @@ int move(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[
                             al_play_sample(sample[2], 0.25, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 
                             if(i<=((N/5)-1)){
-                                *score+=30;
+                                (*score)+=30;
                             }
                             else if(i<=((3*N/5)-1)){
-                                *score+=20;
+                                (*score)+=20;
                             }
                             else{
-                                *score+=10;
+                                (*score)+=10;
                             }
                         }
                     }
@@ -373,7 +373,7 @@ int move(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[
             }
             
             if(explosion_time){
-                al_draw_scaled_bitmap(display_background[16],0, 0, al_get_bitmap_width(display_background[17]), al_get_bitmap_height(display_background[17]), 
+                al_draw_scaled_bitmap(display_background[16],0, 0, al_get_bitmap_width(display_background[16]), al_get_bitmap_height(display_background[16]), 
                 explosion_x, explosion_y, 2.5*BASE_SIZE, 2.5*BASE_SIZE,0);
                 explosion_time--;
             }

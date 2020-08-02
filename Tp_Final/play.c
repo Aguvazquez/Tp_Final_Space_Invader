@@ -53,7 +53,7 @@ int play(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[]
         else
         {
             difficulty = 0;
-//            lose_animation(font, score);
+            lose_animation(font, score);
 //            if(get_top_score(score))
   //              enter_name();
         }

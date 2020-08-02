@@ -35,7 +35,7 @@ int main(void) {
     ALLEGRO_FONT *font[FONTS]={NULL,NULL};//Para incluir mas de un tipo de letra , es decir mayusculas y bla bla bla
     ALLEGRO_SAMPLE * samples[SAMPLES]={NULL,NULL,NULL,NULL,NULL};//arreglo de canciones , para saber cuantas hay que iniciar.
     ALLEGRO_BITMAP* display_background[BACKGROUNDS]={NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
-                                                     NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL};// arreglo para incluir fondos.
+                                                     NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL};// arreglo para incluir fondos.
     
     if(!allegro_ini(&display,&event_queue,&font[0],&samples[0],&timer,&display_background[0])){
         fprintf(stderr,"Something happened, please try again later");

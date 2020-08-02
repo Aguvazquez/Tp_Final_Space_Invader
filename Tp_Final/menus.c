@@ -140,18 +140,20 @@ void next_level_animation(ALLEGRO_FONT *font[], uint8_t level){
 }
 void lose_animation(ALLEGRO_FONT *font[], uint32_t score){
     char str1[]={"GAME OVER"};
-    char str2[]={"YOUR SCORE IS:"};
+    char str2[]={"YOUR SCORE IS: "};
     char str3[6]={' ',' ',' ',' ',' '};
-    uint32_t aux=0,i,j;
-    for(i=5,j=1; i; i--,j*=10){
+    uint32_t aux=0,j;
+    int8_t i;
+    for(i=4,j=1; i>=0; i--,j*=10){
         aux=score/j;
         str3[i]=(char)(aux%10+ASCII);        
     }
     al_clear_to_color(al_map_rgb(0, 0, 0));
     al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W/2, SCREEN_H/4, ALLEGRO_ALIGN_CENTER, str1); 
-    al_draw_text(font[0], al_map_rgb(255, 255, 255), SCREEN_W/2, SCREEN_H/2, ALLEGRO_ALIGN_CENTER, str2); 
+    al_draw_text(font[0], al_map_rgb(255, 255, 255), 23*SCREEN_W/40, SCREEN_H/2, ALLEGRO_ALIGN_RIGHT, str2); 
+    al_draw_text(font[0], al_map_rgb(255, 255, 255), 23*SCREEN_W/40, SCREEN_H/2, ALLEGRO_ALIGN_LEFT, str3); 
     al_flip_display();
-    al_rest(2.0);
+    al_rest(5.0);
 }
 
 char read_difficulty(void){
