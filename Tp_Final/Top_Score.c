@@ -144,3 +144,56 @@ static void print_top_score(ALLEGRO_DISPLAY * display , ALLEGRO_FONT *font){
         fgetc(fp);
     }
 }
+void put_on_top_score(char score[] , char str[]){
+    FILE* fp;
+    
+    fp= fopen(".Top_Score.txt","a");//Escribo al final del archivo.
+    fputs(score,fp);
+    fputc('\n',fp);
+    fputs(str,fp);
+    //reoerder_top_score();
+    
+}
+void reorder_top_score(void){
+    typedef struct{
+		char score[6];
+        char name[6];
+        
+    }user_t;
+    FILE* fp;
+    bool its_before_enter=0;
+    char c;
+    int all_names=6;
+    user_t users[6];
+    user_t*puser=users;
+    fp=fopen("Top_Score.txt","r");
+    while(all_names>0){   
+        for(int i=0;i<12;i++){
+            c=fgetc(fp);
+            if(c!='\n'){
+                if(!its_before_enter){
+                    puser->score[i]=c;
+                }
+                else{
+                   puser->name[i-6]=c;
+                }
+            }
+            else{
+				if(!its_before_enter){
+					puser->score[i]='\0';
+		            its_before_enter=1;
+				}
+				else{
+					puser->name[i-6]='\0';
+					its_before_enter=0;
+				}
+            }
+        }   
+        ++puser;
+        --all_names;
+		
+    }	
+		fclose(fp);
+		//fprintf(stderr,"%s\n",users[5].score); funciona , puse esta linea para poder probarlo en gedit.
+	
+}
