@@ -148,22 +148,29 @@ static void print_top_score(ALLEGRO_DISPLAY * display , ALLEGRO_FONT *font){
         fgetc(fp);
     }
 }
-void put_on_top_score(char score[] , char str[]){
+void put_on_top_score(uint32_t score , char *str){
     FILE* fp;
-    
+    uint32_t  j, aux=0;
+    int i;
+    char str1[6]={'0','0','0','0','0','\0'};
+    for(i=4,j=1; i>=0; i--,j*=10){
+        aux=score/j;
+        str1[i]=(char)(aux%10+ASCII);        
+    }
     fp= fopen(".Top_Score.txt","a");//Escribo al final del archivo.
-    fputs(score,fp);
+    fputs(str1,fp);
     fputc('\n',fp);
     fputs(str,fp);
     fputc('\n',fp);
+    fclose(fp);
     reorder_top_score();
     
 }
 void reorder_top_score(void){
     typedef struct{
-	char score[6];
-        char name[6];
-        uint32_t score_num;
+	char score[STR_LONG];
+        char name[STR_LONG];
+        int32_t score_num;
         
     }user_t;
     FILE* fp;
@@ -173,6 +180,7 @@ void reorder_top_score(void){
     user_t users[6],user_aux;
     user_t*puser=users;
     fp=fopen(".Top_Score.txt","r");
+    
     while(all_names>0){   
         for(i=0;i<12;i++){
             c=fgetc(fp);
@@ -201,10 +209,12 @@ void reorder_top_score(void){
     }
     for(i=0;i<6;i++){
         users[i].score_num=string_to_number(users[i].score);
+        //fprintf(stderr,"%d\n",users[i].score_num);
+        //fprintf(stderr,"%s\n",users[i].score);
     }
-    for(i=0;i<5;i++){
-        for(j=0+i;j<6;j++){
-            if(users[i].score_num<users[j].score_num){
+    for(i=0;i<6;i++){
+        for(j=1+i;j<6;j++){
+            if((users[i].score_num)<(users[j].score_num)){
                 user_aux=users[i];
                 users[i]=users[j];
                 users[j]=user_aux;
@@ -213,7 +223,7 @@ void reorder_top_score(void){
     }
     fclose(fp);
     fp=fopen(".Top_Score.txt","w");
-    for(i=0;i<6;i++){               // Aca iria comparado con un 5 m para que ultimo no se copie , pero como estoy haciendo pruebas le puse que copie el 6to tmb
+    for(i=0;i<5;i++){               // Aca iria comparado con un 5 m para que ultimo no se copie , pero como estoy haciendo pruebas le puse que copie el 6to tmb
         fputs(users[i].score,fp);   //otro comentario a destacar , solo hay que llamar a esta funcion cuando el jugador ponga su nombre.
         fputc('\n',fp);
         fputs(users[i].name,fp);

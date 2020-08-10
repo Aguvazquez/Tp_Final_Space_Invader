@@ -12,12 +12,12 @@
 #include "config.h"
 #include "move.h"
 #include "menus.h"
-
+#include"Top_Score.h"
 
 int play(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[],ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIMER **timer,ALLEGRO_BITMAP *display_background[])
 {
     ALLEGRO_EVENT ev;
-    uint8_t level=1, difficulty, lifes=3;
+    uint8_t level=1, difficulty, lifes=1;
     int8_t aux=0, i;
     uint32_t score=0;
     char name[STR_LONG]={' ',' ',' ',' ',' ','\0'};
@@ -70,7 +70,7 @@ int play(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[]
 
                             case ALLEGRO_KEY_ENTER:
                                 i=STR_LONG;
-                                name[i]='\n';
+                                //name[i-1]='\0';
                                 break;
 
                             case ALLEGRO_KEY_BACKSPACE:
@@ -91,10 +91,12 @@ int play(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[]
                         }
                     }
                 }
-//                submit_name(name, score, aux);
+                
+                  put_on_top_score(score,name);
             }
         }
     }
+    
     return 0;
 }
 
@@ -108,19 +110,21 @@ uint8_t get_top_score(uint32_t score){  //devuelve la posicion del jugador si es
         fgets(str,STR_LONG,fp);
         if(string_to_number(str) < score)
             return i;
-        //fgetc(fp);  // "aumento" el fp a la siguiente linea 
+        fgetc(fp);  // "aumento" el fp a la siguiente linea 
         //NAME
         fgets(str,STR_LONG,fp);
-        //fgetc(fp);
+        fgetc(fp);
     }
     fclose(fp);
     return 0;
 }
 
-uint32_t string_to_number(char str[STR_LONG]){
-    int8_t i, j, aux=0;
-    for(i=STR_LONG-2, j=1; i>=0; i--, j*=10){
-        aux += (int8_t)((str[i]-ASCII)*j);
+int32_t string_to_number(char str[STR_LONG]){
+    int8_t i;
+    int32_t aux=0,j;
+    for(i=4, j=1; i>=0; i--,j*=10){
+        aux += (((int32_t)str[i]-48)*j);    
+         
     }
     return aux;
 }

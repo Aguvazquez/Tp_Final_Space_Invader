@@ -56,7 +56,7 @@ int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_
         flag=true;
         dont_play_song=true;
         }
-        reorder_top_score();
+        
         switch(aux){
             case 0 : do_exit=true;//Exit value 
             break;

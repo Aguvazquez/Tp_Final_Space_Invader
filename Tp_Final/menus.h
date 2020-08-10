@@ -50,7 +50,7 @@ void next_level_animation(ALLEGRO_FONT *font[], uint8_t level);
 
 char read_difficulty(void);
 void lose_animation(ALLEGRO_FONT *font[], uint32_t score);
-
+char* number_to_str(uint32_t score);
 #endif
 
 
