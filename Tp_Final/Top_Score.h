@@ -17,7 +17,8 @@
 uint16_t Top_Score(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[]);
 
 uint16_t Create_Top_Score();
-
+void put_on_top_score(char score[] , char str[]);
+void reorder_top_score(void);
 #endif
 
 

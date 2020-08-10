@@ -10,15 +10,18 @@
 #include <allegro5/allegro_acodec.h> 
 #include "config.h"
 #include "Top_Score.h"
-
+#include "play.h"
 static void print_top_score(ALLEGRO_DISPLAY * display , ALLEGRO_FONT *font);
 static void create_button_unpressed_top_score(ALLEGRO_FONT * font);
 static void create_button_pressed_top_score(ALLEGRO_FONT * font);
 static void create_table_top_score();
+
 uint16_t Create_Top_Score(){
+    
     if(!fopen(".Top_Score.txt","r+")){ // para la primera vez que se ejecute el programa crea el archivo donde ubicaremos los top scores
     return 0;
     }
+    
     return 1;
 }
 uint16_t Top_Score(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[]){
@@ -26,6 +29,7 @@ uint16_t Top_Score(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EV
     uint8_t aux=0;
     float mouse_x = 0 ;
     float mouse_y =0 ;
+    
     al_draw_scaled_bitmap(display_background[0],0, 0, al_get_bitmap_width(display_background[0]), al_get_bitmap_height(display_background[0]), 
             0, 0, al_get_display_width(*display), al_get_display_height(*display), 
             0);
@@ -151,24 +155,26 @@ void put_on_top_score(char score[] , char str[]){
     fputs(score,fp);
     fputc('\n',fp);
     fputs(str,fp);
-    //reoerder_top_score();
+    fputc('\n',fp);
+    reorder_top_score();
     
 }
 void reorder_top_score(void){
     typedef struct{
-		char score[6];
+	char score[6];
         char name[6];
+        uint32_t score_num;
         
     }user_t;
     FILE* fp;
     bool its_before_enter=0;
     char c;
-    int all_names=6;
-    user_t users[6];
+    int all_names=6, i,j;
+    user_t users[6],user_aux;
     user_t*puser=users;
-    fp=fopen("Top_Score.txt","r");
+    fp=fopen(".Top_Score.txt","r");
     while(all_names>0){   
-        for(int i=0;i<12;i++){
+        for(i=0;i<12;i++){
             c=fgetc(fp);
             if(c!='\n'){
                 if(!its_before_enter){
@@ -179,21 +185,41 @@ void reorder_top_score(void){
                 }
             }
             else{
-				if(!its_before_enter){
-					puser->score[i]='\0';
-		            its_before_enter=1;
-				}
-				else{
-					puser->name[i-6]='\0';
-					its_before_enter=0;
-				}
+		if(!its_before_enter){
+                    puser->score[i]='\0';
+		    its_before_enter=1;
+            	}
+		else{
+                    puser->name[i-6]='\0';
+                    its_before_enter=0;
+		}
             }
         }   
         ++puser;
         --all_names;
 		
-    }	
-		fclose(fp);
-		//fprintf(stderr,"%s\n",users[5].score); funciona , puse esta linea para poder probarlo en gedit.
+    }
+    for(i=0;i<6;i++){
+        users[i].score_num=string_to_number(users[i].score);
+    }
+    for(i=0;i<5;i++){
+        for(j=0+i;j<6;j++){
+            if(users[i].score_num<users[j].score_num){
+                user_aux=users[i];
+                users[i]=users[j];
+                users[j]=user_aux;
+            }
+        }
+    }
+    fclose(fp);
+    fp=fopen(".Top_Score.txt","w");
+    for(i=0;i<6;i++){               // Aca iria comparado con un 5 m para que ultimo no se copie , pero como estoy haciendo pruebas le puse que copie el 6to tmb
+        fputs(users[i].score,fp);   //otro comentario a destacar , solo hay que llamar a esta funcion cuando el jugador ponga su nombre.
+        fputc('\n',fp);
+        fputs(users[i].name,fp);
+        fputc('\n',fp);
+    }
+    fclose(fp);
+    //fprintf(stderr,"%s\n",users[5].score); funciona , puse esta linea para poder probarlo en gedit.
 	
 }

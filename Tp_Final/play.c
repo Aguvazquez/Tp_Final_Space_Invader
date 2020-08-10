@@ -85,7 +85,7 @@ uint8_t get_top_score(uint32_t score){  //devuelve la posicion del jugador si es
 
 uint32_t string_to_number(char str[6]){
     int8_t i, j, aux=0;
-    for(i=5, j=1; i>=0; i--, j*=10){
+    for(i=4, j=1; i>=0; i--, j*=10){
         aux += (int8_t)((str[i]-ASCII)*j);
     }
     return aux;
