@@ -16,10 +16,11 @@
 
 int play(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[],ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIMER **timer,ALLEGRO_BITMAP *display_background[])
 {
+    ALLEGRO_EVENT ev;
     uint8_t level=1, difficulty, lifes=3;
-    int8_t aux=0;
+    int8_t aux=0, i;
     uint32_t score=0;
-    char name[6];
+    char name[STR_LONG]={' ',' ',' ',' ',' ','\0'};
     difficulty = read_difficulty();
     if(difficulty!=EASY){
         if(difficulty!=NORMAL){
@@ -55,8 +56,41 @@ int play(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[]
         {
             difficulty = 0;
             lose_animation(font, score);
-            if(aux=get_top_score(score)){
-//                get_name(name);
+            aux=get_top_score(score);
+            if(aux){
+                //get_name()
+                for(i=0; i<STR_LONG; ){
+                    al_clear_to_color(al_map_rgb(0, 0, 0));
+                    al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W / 2, SCREEN_H / 2, ALLEGRO_ALIGN_CENTER, name);
+                    al_flip_display();
+           
+                    al_wait_for_event(*event_queue, &ev);
+                    if(ev.type == ALLEGRO_EVENT_KEY_DOWN){
+                        switch (ev.keyboard.keycode) {
+
+                            case ALLEGRO_KEY_ENTER:
+                                i=STR_LONG;
+                                name[i]='\n';
+                                break;
+
+                            case ALLEGRO_KEY_BACKSPACE:
+                                name[i]=' ';
+                                if(i) i--;
+                                break;       
+
+                            default:
+                                if(i<STR_LONG-1){
+                                    if(ev.keyboard.keycode>=ALLEGRO_KEY_A && ev.keyboard.keycode<=ALLEGRO_KEY_Z){
+                                        name[i++]=ev.keyboard.keycode-ALLEGRO_KEY_A+'A';
+                                    }
+                                    else if(ev.keyboard.keycode>=ALLEGRO_KEY_0 && ev.keyboard.keycode<=ALLEGRO_KEY_9){
+                                        name[i++]=ev.keyboard.keycode-ALLEGRO_KEY_0+'0';
+                                    }
+                                }
+                            break;
+                        }
+                    }
+                }
 //                submit_name(name, score, aux);
             }
         }
@@ -74,23 +108,23 @@ uint8_t get_top_score(uint32_t score){  //devuelve la posicion del jugador si es
         fgets(str,STR_LONG,fp);
         if(string_to_number(str) < score)
             return i;
-        fgetc(fp);  // "aumento" el fp a la siguiente linea 
+        //fgetc(fp);  // "aumento" el fp a la siguiente linea 
         //NAME
         fgets(str,STR_LONG,fp);
-        fgetc(fp);
+        //fgetc(fp);
     }
     fclose(fp);
     return 0;
 }
 
-uint32_t string_to_number(char str[6]){
+uint32_t string_to_number(char str[STR_LONG]){
     int8_t i, j, aux=0;
-    for(i=4, j=1; i>=0; i--, j*=10){
+    for(i=STR_LONG-2, j=1; i>=0; i--, j*=10){
         aux += (int8_t)((str[i]-ASCII)*j);
     }
     return aux;
 }
 
-void submit_name(char name[6], uint32_t score, uint8_t posicion){
+//void submit_name(char name[6], uint32_t score, uint8_t posicion){
     
-}
+//}

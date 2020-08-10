@@ -154,7 +154,7 @@ void lose_animation(ALLEGRO_FONT *font[], uint32_t score){
     al_draw_text(font[0], al_map_rgb(255, 255, 255), 23*SCREEN_W/40, SCREEN_H/2, ALLEGRO_ALIGN_RIGHT, str2); 
     al_draw_text(font[0], al_map_rgb(255, 255, 255), 23*SCREEN_W/40, SCREEN_H/2, ALLEGRO_ALIGN_LEFT, str3); 
     al_flip_display();
-    al_rest(5.0);
+    al_rest(2.0);
 }
 
 char read_difficulty(void){
