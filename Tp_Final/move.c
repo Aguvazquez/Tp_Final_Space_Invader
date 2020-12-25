@@ -23,6 +23,13 @@ static void logical_move(bool* alien_change, bool* lock_mystery_ship, float* mys
                          float* alien_x, float* alien_y, uint8_t* accelerate, uint8_t* dificulty, float* alien_bullets_x, float* alien_bullets_y, int8_t *step,
                         int8_t cant_aliens, uint8_t* aux );
 
+static bool logical(bool* lock_mystery_ship, float* mystery_ship_x, float* mystery_ship_y,
+                    float* alien_x, float* alien_y,float* alien_bullets_x, float* alien_bullets_y, int8_t *step,int8_t* cant_aliens,
+                    float* bullet_y, float* bullet_x, float* explosion_x, float* explosion_y, uint8_t* explosion_time,
+                    bool* lock, float* nave_y, float* nave_x,uint32_t* score,uint8_t* vida_bloques,float* bloques_y, float* bloques_x,uint8_t* lives,
+                    ALLEGRO_SAMPLE* sample[]);
+
+
 int move(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** event_queue, ALLEGRO_TIMER **timer, ALLEGRO_BITMAP *display_background[], uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score)
 {
     uint8_t i, j, check, aux, accelerate=0, explosion_time=0,dificulty=dificulty;
@@ -231,6 +238,8 @@ int move(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[
                 }
                 if(alien_x[i] >= SCREEN_W-2*BASE_SIZE || alien_x[i] <= BASE_SIZE) //revisa que no sobrepasen los extremos
                     check++;
+                al_draw_rectangle(alien_bullets_x[i]-1, alien_bullets_y[i], alien_bullets_x[i]+1, alien_bullets_y[i]+BASE_SIZE, al_map_rgb(255, 255, 255), 0);    //dibujo balas aliens
+                alien_bullets_y[i] += 1.5*MOVE_RATE;
             }
             
             al_draw_scaled_bitmap(display_background[6],0, 0, al_get_bitmap_width(display_background[6]), al_get_bitmap_height(display_background[6]), 
@@ -252,84 +261,9 @@ int move(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[
                 }
             }
             
-            if(bullet_y <= MOVE_RATE)           //si pega arriba desaparece la bala
-                lock = false;
-            
-            for(i=0; i<N; i++){
-                if(alien_y[i] < SCREEN_H){
-                    if(bullet_y>=alien_y[i] && bullet_y<=alien_y[i]+2*BASE_SIZE){
-                        if(bullet_x>=alien_x[i] && bullet_x<=alien_x[i]+2*BASE_SIZE){
-
-                            cant_aliens--;
-                            explosion_x = alien_x[i];
-                            explosion_y = alien_y[i];
-                            explosion_time = 10;
-                            alien_y[i] = SCREEN_H;      //mueve el alien muerto fuera de la pantalla 
-                            lock = false;
-                            bullet_y = nave_y;
-                            al_play_sample(sample[2], 0.25, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
-
-                            if(i<=((N/5)-1)){
-                                (*score)+=30;
-                            }
-                            else if(i<=((3*N/5)-1)){
-                                (*score)+=20;
-                            }
-                            else{
-                                (*score)+=10;
-                            }
-                        }
-                    }
-                }
-                
-                for(j=0; j<4; j++){
-                    if(vida_bloques[j]){
-                        if((alien_bullets_y[i]+BASE_SIZE)>=bloques_y && (alien_bullets_y[i]+BASE_SIZE)<=bloques_y+BASE_SIZE && alien_bullets_x[i]>=bloques_x[j] && alien_bullets_x[i]<=bloques_x[j]+4*BASE_SIZE){
-                            alien_bullets_y[i] = SCREEN_H;
-                            vida_bloques[j]--;
-                        }
-                    }
-                }
-                
-                if(alien_bullets_y[i]>=nave_y && alien_bullets_y[i]<=nave_y+BASE_SIZE && alien_bullets_x[i]>=nave_x && alien_bullets_x[i]<=nave_x+3*BASE_SIZE){
-                    alien_bullets_y[i] = SCREEN_H;
-                    (*lives)--;
-                    al_play_sample(sample[3], 0.25, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
-                    
-                }
-                
-                if(alien_bullets_x[i]>=bullet_x-4 && alien_bullets_x[i]<=bullet_x+4 && alien_bullets_y[i]>=bullet_y && alien_bullets_y[i]<=bullet_y+BASE_SIZE){
-                    lock = false;
-                    bullet_y = SCREEN_H;
-                    alien_bullets_y[i] = SCREEN_H;
-                }
-                
-                al_draw_rectangle(alien_bullets_x[i]-1, alien_bullets_y[i], alien_bullets_x[i]+1, alien_bullets_y[i]+BASE_SIZE, al_map_rgb(255, 255, 255), 0);    //dibujo balas aliens
-                alien_bullets_y[i] += 1.5*MOVE_RATE;        
-                 
-                if(alien_y[i]>3*SCREEN_H/4 && alien_y[i]<SCREEN_H)  //condicion de derrota
-                    do_exit = true;
-                
-            }
-            if(mystery_ship_x < SCREEN_W){
-                if(bullet_y>=mystery_ship_y && bullet_y<=mystery_ship_y+2*BASE_SIZE){
-                    if(bullet_x>=mystery_ship_x && bullet_x<=mystery_ship_x+2*BASE_SIZE){
-
-                        mystery_ship_x = SCREEN_W;
-                        lock_mystery_ship=false;
-                        lock = false;
-                        bullet_y = nave_y;
-                        *score+=5*get_rand_num(21);       //te puede sumar desde 0 a 100 puntos.
-                        al_play_sample(sample[2], 0.25, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
-                            
-                    }
-                }
-            }
-            if(mystery_ship_x+2*BASE_SIZE<=0){
-                mystery_ship_y = SCREEN_H;      //si la nave se sale de la pantalla , reseteo sus valores.
-                mystery_ship_x = SCREEN_W;
-                lock_mystery_ship=false;
-            }
+            do_exit=logical(&lock_mystery_ship, &mystery_ship_x, &mystery_ship_y,&alien_x[0], &alien_y[0],&alien_bullets_x[0], &alien_bullets_y[0], &step,
+                    &cant_aliens, &bullet_y, &bullet_x, &explosion_x, &explosion_y, &explosion_time, &lock, &nave_y, &nave_x,
+                    score,&vida_bloques[0],&bloques_y, &bloques_x[0], lives, &sample[0]);
             
             if(explosion_time){
                 al_draw_scaled_bitmap(display_background[16],0, 0, al_get_bitmap_width(display_background[16]), al_get_bitmap_height(display_background[16]), 
@@ -423,4 +357,91 @@ static void logical_move(bool* alien_change, bool* lock_mystery_ship, float* mys
             }
         }
     }
+}
+
+static bool logical(bool* lock_mystery_ship, float* mystery_ship_x, float* mystery_ship_y,
+                    float* alien_x, float* alien_y,float* alien_bullets_x, float* alien_bullets_y, int8_t *step,int8_t* cant_aliens,
+                    float* bullet_y, float* bullet_x, float* explosion_x, float* explosion_y, uint8_t* explosion_time,
+                    bool* lock, float* nave_y, float* nave_x,uint32_t* score,uint8_t* vida_bloques,float* bloques_y, float* bloques_x,uint8_t* lives,
+                    ALLEGRO_SAMPLE* sample[]){
+    int i,j;
+    if(*bullet_y <= MOVE_RATE)           //si pega arriba desaparece la bala
+        *lock = false;
+    for(i=0; i<N; i++){
+                if(alien_y[i] < SCREEN_H){
+                    if(*bullet_y>=alien_y[i] && *bullet_y<=alien_y[i]+2*BASE_SIZE){
+                        if(*bullet_x>=alien_x[i] && *bullet_x<=alien_x[i]+2*BASE_SIZE){
+
+                            (*cant_aliens)--;
+                            *explosion_x = alien_x[i];
+                            *explosion_y = alien_y[i];
+                            *explosion_time = 10;
+                            alien_y[i] = SCREEN_H;      //mueve el alien muerto fuera de la pantalla 
+                            *lock = false;
+                            *bullet_y = *nave_y;
+                            //ACA VA LA CONDICION DE COMPILADOR, PARA UNIR LOS PROGRAMAS.
+                            al_play_sample(sample[2], 0.25, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+
+                            if(i<=((N/5)-1)){
+                                (*score)+=30;
+                            }
+                            else if(i<=((3*N/5)-1)){
+                                (*score)+=20;
+                            }
+                            else{
+                                (*score)+=10;
+                            }
+                        }
+                    }
+                }
+                
+                for(j=0; j<4; j++){
+                    if(vida_bloques[j]){
+                        if((alien_bullets_y[i]+BASE_SIZE)>=*bloques_y && (alien_bullets_y[i]+BASE_SIZE)<=*bloques_y+BASE_SIZE && alien_bullets_x[i]>=bloques_x[j] && alien_bullets_x[i]<=bloques_x[j]+4*BASE_SIZE){
+                            alien_bullets_y[i] = SCREEN_H;
+                            vida_bloques[j]--;
+                        }
+                    }
+                }
+                
+                if(alien_bullets_y[i]>=*nave_y && alien_bullets_y[i]<=*nave_y+BASE_SIZE && alien_bullets_x[i]>=*nave_x && alien_bullets_x[i]<=*nave_x+3*BASE_SIZE){
+                    alien_bullets_y[i] = SCREEN_H;
+                    (*lives)--;
+                    al_play_sample(sample[3], 0.25, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+                    
+                }
+                
+                if(alien_bullets_x[i]>=*bullet_x-4 && alien_bullets_x[i]<=*bullet_x+4 && alien_bullets_y[i]>=*bullet_y && alien_bullets_y[i]<=*bullet_y+BASE_SIZE){
+                    *lock = false;
+                    *bullet_y = SCREEN_H;
+                    alien_bullets_y[i] = SCREEN_H;
+                }
+                
+                        
+                 
+                if(alien_y[i]>3*SCREEN_H/4 && alien_y[i]<SCREEN_H)  //condicion de derrota
+                    return true;
+                
+            }
+            if(*mystery_ship_x < SCREEN_W){
+                if(*bullet_y>=*mystery_ship_y && *bullet_y<=*mystery_ship_y+2*BASE_SIZE){
+                    if(*bullet_x>=*mystery_ship_x && *bullet_x<=*mystery_ship_x+2*BASE_SIZE){
+
+                        *mystery_ship_x = SCREEN_W;
+                        *lock_mystery_ship=false;
+                        *lock = false;
+                        *bullet_y = *nave_y;
+                        *score+=5*get_rand_num(21);       //te puede sumar desde 0 a 100 puntos.
+                        //ACA VA LA CONDICION DE COMPILADOR, PARA UNIR LOS PROGRAMAS
+                        al_play_sample(sample[2], 0.25, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+                            
+                    }
+                }
+            }
+            if(*mystery_ship_x+2*BASE_SIZE<=0){
+                *mystery_ship_y = SCREEN_H;      //si la nave se sale de la pantalla , reseteo sus valores.
+                *mystery_ship_x = SCREEN_W;
+                *lock_mystery_ship=false;
+            }
+    return false;
 }
