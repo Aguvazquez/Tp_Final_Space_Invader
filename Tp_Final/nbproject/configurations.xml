@@ -7,14 +7,20 @@
       <itemPath>Top_Score.h</itemPath>
       <itemPath>allegro_setup.h</itemPath>
       <itemPath>config.h</itemPath>
+      <itemPath>disdrv.h</itemPath>
+      <itemPath>joydrv.h</itemPath>
+      <itemPath>libaudio.h</itemPath>
       <itemPath>menu_display_allegro.h</itemPath>
       <itemPath>menus.h</itemPath>
       <itemPath>move.h</itemPath>
       <itemPath>play.h</itemPath>
+      <itemPath>rbp_init.h</itemPath>
+      <itemPath>termlib.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
                    projectFiles="true">
+      <itemPath>disdrv.o</itemPath>
       <itemPath>explosion.wav</itemPath>
       <itemPath>fondo1.jpeg</itemPath>
       <itemPath>fondo2.jpg</itemPath>
@@ -24,6 +30,8 @@
       <itemPath>game.wav</itemPath>
       <itemPath>invaderkilled.wav</itemPath>
       <itemPath>invaders.png</itemPath>
+      <itemPath>joydrv.o</itemPath>
+      <itemPath>libAudioSDL1.o</itemPath>
       <itemPath>mysteryb.png</itemPath>
       <itemPath>pause.jpeg</itemPath>
       <itemPath>red-heart.png</itemPath>
@@ -38,6 +46,7 @@
       <itemPath>space_invaders.ttf</itemPath>
       <itemPath>spaceinvader_theme.wav</itemPath>
       <itemPath>spaceship.png</itemPath>
+      <itemPath>termlib.o</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
@@ -49,6 +58,7 @@
       <itemPath>menus.c</itemPath>
       <itemPath>move.c</itemPath>
       <itemPath>play.c</itemPath>
+      <itemPath>rbp_init.c</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -110,6 +120,10 @@
       </item>
       <item path="config.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="disdrv.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="disdrv.o" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="explosion.wav" ex="false" tool="3" flavor2="0">
       </item>
       <item path="fondo1.jpeg" ex="false" tool="3" flavor2="0">
@@ -127,6 +141,14 @@
       <item path="invaderkilled.wav" ex="false" tool="3" flavor2="0">
       </item>
       <item path="invaders.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="joydrv.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="joydrv.o" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="libAudioSDL1.o" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="libaudio.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
@@ -149,6 +171,10 @@
       <item path="play.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="play.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="rbp_init.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="rbp_init.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="red-heart.png" ex="false" tool="3" flavor2="0">
       </item>
@@ -173,6 +199,10 @@
       <item path="spaceinvader_theme.wav" ex="false" tool="3" flavor2="0">
       </item>
       <item path="spaceship.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="termlib.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="termlib.o" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="1">
@@ -205,6 +235,10 @@
       </item>
       <item path="config.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="disdrv.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="disdrv.o" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="explosion.wav" ex="false" tool="3" flavor2="0">
       </item>
       <item path="fondo1.jpeg" ex="false" tool="3" flavor2="0">
@@ -222,6 +256,14 @@
       <item path="invaderkilled.wav" ex="false" tool="3" flavor2="0">
       </item>
       <item path="invaders.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="joydrv.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="joydrv.o" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="libAudioSDL1.o" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="libaudio.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
@@ -244,6 +286,10 @@
       <item path="play.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="play.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="rbp_init.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="rbp_init.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="red-heart.png" ex="false" tool="3" flavor2="0">
       </item>
@@ -268,6 +314,10 @@
       <item path="spaceinvader_theme.wav" ex="false" tool="3" flavor2="0">
       </item>
       <item path="spaceship.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="termlib.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="termlib.o" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>

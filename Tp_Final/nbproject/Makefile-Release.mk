@@ -41,7 +41,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/menu_display_allegro.o \
 	${OBJECTDIR}/menus.o \
 	${OBJECTDIR}/move.o \
-	${OBJECTDIR}/play.o
+	${OBJECTDIR}/play.o \
+	${OBJECTDIR}/rbp_init.o
 
 
 # C Compiler Flags
@@ -102,6 +103,11 @@ ${OBJECTDIR}/play.o: play.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/play.o play.c
+
+${OBJECTDIR}/rbp_init.o: rbp_init.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/rbp_init.o rbp_init.c
 
 # Subprojects
 .build-subprojects:

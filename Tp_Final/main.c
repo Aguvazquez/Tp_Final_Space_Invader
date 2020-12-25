@@ -29,6 +29,11 @@
 #include "menus.h"
 #include "Top_Score.h"
 int main(void) {
+
+#ifdef RASPBERRY
+    
+    
+#else
     ALLEGRO_DISPLAY * display = NULL;
     ALLEGRO_EVENT_QUEUE * event_queue=NULL;
     ALLEGRO_TIMER * timer=NULL;
@@ -36,7 +41,7 @@ int main(void) {
     ALLEGRO_SAMPLE * samples[SAMPLES]={NULL,NULL,NULL,NULL,NULL};//arreglo de canciones , para saber cuantas hay que iniciar.
     ALLEGRO_BITMAP* display_background[BACKGROUNDS]={NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
                                                      NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL};// arreglo para incluir fondos.
-    
+   
     if(!allegro_ini(&display,&event_queue,&font[0],&samples[0],&timer,&display_background[0])){
         fprintf(stderr,"Something happened, please try again later");
         return -1;
@@ -48,5 +53,7 @@ int main(void) {
     }
     
     allegro_shutdown(&event_queue,&display);
+    
+#endif
     return (EXIT_SUCCESS);
 }
