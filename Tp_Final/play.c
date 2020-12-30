@@ -14,7 +14,7 @@
 #include "menus.h"
 #include"Top_Score.h"
 
-int play(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[],ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIMER **timer,ALLEGRO_BITMAP *display_background[])
+int play(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[],ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIMER **timer,ALLEGRO_BITMAP *display_background[],uint8_t mode)
 {
     ALLEGRO_EVENT ev;
     uint8_t level=1, difficulty, lifes=1;
@@ -32,12 +32,12 @@ int play(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[]
     }
     
     //idea: si es facil, puntaje final x1, medio x2, dificil x3 (Approved)
-    
-    next_level_animation(font, level);  
-    
+    if(!mode){
+        next_level_animation(font, level);  
+    }
     while(difficulty)
     {
-        aux=move(sample, display,font,event_queue,timer,display_background, difficulty, &lifes, level, &score);
+        aux=move(sample, display,font,event_queue,timer,display_background, difficulty, &lifes, level, &score,mode);
         
         if(aux==CLOSE_DISPLAY||aux==RESET_GAME||aux==EXIT_MENU)
             return aux; 
@@ -46,7 +46,9 @@ int play(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[]
         {
             if(difficulty>12)
                 difficulty--;
-            next_level_animation(font,++level);   //mientras no este la pantalla que indica "siguiente nivel"
+            if(!mode){
+                next_level_animation(font,++level);   //mientras no este la pantalla que indica "siguiente nivel"
+            }
             if(lifes<3)
               lifes++;
             else
@@ -55,44 +57,45 @@ int play(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[]
         else
         {
             difficulty = 0;
-            lose_animation(font, score);
             aux=get_top_score(score);
-            if(aux){
-                //get_name()
-                for(i=0; i<STR_LONG; ){
-                    al_clear_to_color(al_map_rgb(0, 0, 0));
-                    al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W / 2, SCREEN_H / 2, ALLEGRO_ALIGN_CENTER, name);
-                    al_flip_display();
-           
-                    al_wait_for_event(*event_queue, &ev);
-                    if(ev.type == ALLEGRO_EVENT_KEY_DOWN){
-                        switch (ev.keyboard.keycode) {
+            if(!mode){
+                lose_animation(font, score);                      
+                if(aux){
+                    //get_name()
+                    for(i=0; i<STR_LONG; ){
+                        al_clear_to_color(al_map_rgb(0, 0, 0));
+                        al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W / 2, SCREEN_H / 2, ALLEGRO_ALIGN_CENTER, name);
+                        al_flip_display();
+                        al_wait_for_event(*event_queue, &ev);
+                        if(ev.type == ALLEGRO_EVENT_KEY_DOWN){
+                            switch (ev.keyboard.keycode) {
 
-                            case ALLEGRO_KEY_ENTER:
-                                i=STR_LONG;
-                                //name[i-1]='\0';
+                                case ALLEGRO_KEY_ENTER:
+                                    i=STR_LONG;
+                                    //name[i-1]='\0';
+                                    break;
+
+                                case ALLEGRO_KEY_BACKSPACE:
+                                    name[i]=' ';
+                                    if(i) i--;
+                                    break;       
+
+                                default:
+                                    if(i<STR_LONG-1){
+                                        if(ev.keyboard.keycode>=ALLEGRO_KEY_A && ev.keyboard.keycode<=ALLEGRO_KEY_Z){
+                                            name[i++]=ev.keyboard.keycode-ALLEGRO_KEY_A+'A';
+                                        }
+                                        else if(ev.keyboard.keycode>=ALLEGRO_KEY_0 && ev.keyboard.keycode<=ALLEGRO_KEY_9){
+                                            name[i++]=ev.keyboard.keycode-ALLEGRO_KEY_0+'0';
+                                        }
+                                    }
                                 break;
-
-                            case ALLEGRO_KEY_BACKSPACE:
-                                name[i]=' ';
-                                if(i) i--;
-                                break;       
-
-                            default:
-                                if(i<STR_LONG-1){
-                                    if(ev.keyboard.keycode>=ALLEGRO_KEY_A && ev.keyboard.keycode<=ALLEGRO_KEY_Z){
-                                        name[i++]=ev.keyboard.keycode-ALLEGRO_KEY_A+'A';
-                                    }
-                                    else if(ev.keyboard.keycode>=ALLEGRO_KEY_0 && ev.keyboard.keycode<=ALLEGRO_KEY_9){
-                                        name[i++]=ev.keyboard.keycode-ALLEGRO_KEY_0+'0';
-                                    }
-                                }
-                            break;
+                            }
                         }
                     }
+
+                      put_on_top_score(score,name);
                 }
-                
-                  put_on_top_score(score,name);
             }
         }
     }

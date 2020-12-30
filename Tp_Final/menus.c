@@ -64,7 +64,7 @@ int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_
                 
                 al_stop_samples();
                 al_play_sample(sample[4], 0.25, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
-                aux=play(sample, display,font,event_queue,timer,display_background);
+                aux=play(sample, display,font,event_queue,timer,display_background,0);
                 al_stop_samples();
                 if(aux==CLOSE_DISPLAY){
                     do_exit=true;

@@ -30,7 +30,7 @@ static bool logical(bool* lock_mystery_ship, float* mystery_ship_x, float* myste
                     ALLEGRO_SAMPLE* sample[]);
 
 
-int move(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** event_queue, ALLEGRO_TIMER **timer, ALLEGRO_BITMAP *display_background[], uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score)
+int move(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[], ALLEGRO_EVENT_QUEUE** event_queue, ALLEGRO_TIMER **timer, ALLEGRO_BITMAP *display_background[], uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score,uint8_t mode)
 {
     uint8_t i, j, check, aux, accelerate=0, explosion_time=0,dificulty=dificulty;
     static uint8_t vida_bloques[4] = {30, 30, 30, 30};

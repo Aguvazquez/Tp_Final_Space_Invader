@@ -16,17 +16,26 @@
 
 #define ASCII '0'
 #define STR_LONG 6
+#ifdef RASPBERRY
+
+#define SCREEN_W 16
+#define SCREEN_H  16
+#define N 24
+
+#else
 
 #define SCREEN_W  800
 #define SCREEN_H  640
+#define N 50
+
+#endif
+
 #define SAMPLES  5
 #define FONTS  2
 #define BACKGROUNDS 17
 #define FPS    60.0
 #define BASE_SIZE 20
 #define MOVE_RATE  4.0
-#define N 50
-
 #define ALIEN 1
 #define PRIMERA_FILA 2
 #define ULTIMA_FILA 7

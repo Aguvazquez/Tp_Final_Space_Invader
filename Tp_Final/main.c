@@ -31,7 +31,9 @@
 int main(void) {
 
 #ifdef RASPBERRY
-    
+    dips_init();
+    joy_init();
+    init_sound();
     
 #else
     ALLEGRO_DISPLAY * display = NULL;
