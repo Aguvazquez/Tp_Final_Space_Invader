@@ -23,7 +23,7 @@ static void score_to_str(uint32_t* score,ALLEGRO_FONT**font);
 
 static void logical_move(bool* alien_change, bool* lock_mystery_ship, float* mystery_ship_x, float* mystery_ship_y,
                          float* alien_x, float* alien_y, uint8_t* accelerate, uint8_t* dificulty, float* alien_bullets_x, float* alien_bullets_y, int8_t *step,
-                        int8_t cant_aliens, uint8_t* aux );
+                        int8_t cant_aliens, uint8_t* aux,uint8_t mode );
 
 static bool logical(bool* lock_mystery_ship, float* mystery_ship_x, float* mystery_ship_y,
                     float* alien_x, float* alien_y,float* alien_bullets_x, float* alien_bullets_y, int8_t *step,int8_t* cant_aliens,
@@ -33,7 +33,7 @@ static bool logical(bool* lock_mystery_ship, float* mystery_ship_x, float* myste
 
 uint8_t TimerTickRBP;
 
-void *thread1(){
+void *Timer_rbp(){
     while(1){
         usleep(1500); //15 ms
         if(TimerTickRBP){
@@ -49,10 +49,8 @@ int move(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[
     static uint8_t vida_bloques[4] = {30, 30, 30, 30};
     float bullet_x, bullet_y,nave_x,nave_y,bloques_x[4], bloques_y,explosion_x, explosion_y,alien_bullets_x[N],alien_bullets_y[N],mystery_ship_x,mystery_ship_y;
     int8_t cant_aliens = N,step;
-    int status;
-    pthread_t tid1;
-    pthread_create(&tid1,NULL,thread1,NULL);
-    pthread_join(tid1,NULL);
+    pthread_t Timer_RBP;
+    pthread_create(&Timer_RBP,NULL,Timer_rbp,NULL);
 #ifdef RASPBERRY
     for(i=0; i<4; i++)
         bloques_x[i] = 1+4*i;
@@ -108,6 +106,7 @@ int move(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[
     bool lock = false;
     bool lock_mystery_ship = false;
     bool alien_change = false;
+    bool redraw_rbp= false;
     if(!mode){     
         al_set_target_bitmap(al_get_backbuffer(*display));
         al_start_timer(*timer);
@@ -128,7 +127,7 @@ int move(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[
                     {
                         logical_move( &alien_change, &lock_mystery_ship, &mystery_ship_x, &mystery_ship_y,
                                       &alien_x[0], &alien_y[0], &accelerate, &dificulty, &alien_bullets_x[0], &alien_bullets_y[0], &step,
-                                      cant_aliens, &aux);
+                                      cant_aliens, &aux,mode);
                         aux=0;
                     }
 
@@ -321,14 +320,14 @@ int move(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[
                     {
                         logical_move( &alien_change, &lock_mystery_ship, &mystery_ship_x, &mystery_ship_y,
                                       &alien_x[0], &alien_y[0], &accelerate, &dificulty, &alien_bullets_x[0], &alien_bullets_y[0], &step,
-                                      cant_aliens, &aux);
+                                      cant_aliens, &aux,mode);
                         aux=0;
                     }
 
                     if(lock_mystery_ship){
-                            mystery_ship_x-=MOVE_RATE/3;
+                            mystery_ship_x-=MOVE_RATE;
                         } 
-                    redraw = true;
+                    redraw_rbp = true;
                     aux++;
         }
     }
@@ -364,7 +363,7 @@ static void score_to_str(uint32_t *score, ALLEGRO_FONT**font){
 
 static void logical_move(bool* alien_change, bool* lock_mystery_ship, float* mystery_ship_x, float* mystery_ship_y,
                          float* alien_x, float* alien_y, uint8_t* accelerate, uint8_t* difficulty,
-                         float* alien_bullets_x, float* alien_bullets_y, int8_t *step,int8_t cant_aliens, uint8_t* aux ){
+                         float* alien_bullets_x, float* alien_bullets_y, int8_t *step,int8_t cant_aliens, uint8_t* aux,uint8_t mode){
     int check,i;
     if(*alien_change)
         *alien_change=false;
@@ -374,15 +373,26 @@ static void logical_move(bool* alien_change, bool* lock_mystery_ship, float* mys
     if(!*lock_mystery_ship){
         if(!get_rand_num(20)){          //5% de probabilidad.
                 *lock_mystery_ship=true;
-                *mystery_ship_y=1.5*BASE_SIZE;
+                if(!mode){
+                    *mystery_ship_y=1.5*BASE_SIZE;
+                }else{
+                    *mystery_ship_y=2*BASE_SIZE;
+                }
+                    
         }
     }
                       
     for(i=0, check=0; i<N; i++)
     {
-        if(alien_y[i] < SCREEN_H)
-            if(alien_x[i] >= SCREEN_W-2.5*BASE_SIZE || alien_x[i] <= BASE_SIZE/2) //revisa que no sobrepasen los extremos
-                    check++;
+        if(alien_y[i] < SCREEN_H){
+            if(!mode){
+                if(alien_x[i] >= SCREEN_W-2.5*BASE_SIZE || alien_x[i] <= BASE_SIZE/2) //revisa que no sobrepasen los extremos
+                        check++;
+            }else{
+                if(alien_x[i] >= SCREEN_W-1|| alien_x[i] <= 0) //revisa que no sobrepasen los extremos
+                        check++;
+            }
+        }
     }
     if(check)
     {
@@ -406,7 +416,10 @@ static void logical_move(bool* alien_change, bool* lock_mystery_ship, float* mys
             if(alien_y[i]<SCREEN_H){        // si esta vivo
                 if(!((*aux)--)){
                         if(alien_bullets_y[i]>=SCREEN_H){
-                            alien_bullets_x[i]=alien_x[i]+BASE_SIZE; //coordenada x
+                            if(!mode)
+                                alien_bullets_x[i]=alien_x[i]+BASE_SIZE; //coordenada x
+                            else
+                                alien_bullets_x[i]=alien_x[i]; //coordenada x
                             alien_bullets_y[i]=alien_y[i]; //le asigno coordenada y del alien a la bala
                         }
                 }

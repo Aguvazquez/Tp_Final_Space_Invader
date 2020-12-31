@@ -46,9 +46,9 @@ int play(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[]
         {
             if(difficulty>12)
                 difficulty--;
-            if(!mode){
-                next_level_animation(font,++level);   //mientras no este la pantalla que indica "siguiente nivel"
-            }
+                if(!mode){
+                    next_level_animation(font,++level);   //mientras no este la pantalla que indica "siguiente nivel"
+                }
             if(lifes<3)
               lifes++;
             else
