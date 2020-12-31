@@ -107,7 +107,9 @@
             <linkerOptionItem>`pkg-config --libs allegro_primitives-5`</linkerOptionItem>
             <linkerOptionItem>`pkg-config --libs allegro_ttf-5`</linkerOptionItem>
             <linkerOptionItem>`pkg-config --libs allegro_video-5`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs pthread-stubs`</linkerOptionItem>
           </linkerLibItems>
+          <commandLine>-lpthread</commandLine>
         </linkerTool>
       </compileType>
       <item path="Top_Score.c" ex="false" tool="0" flavor2="0">
