@@ -22,6 +22,7 @@
 #define SCREEN_H  16
 #define MOVE_RATE  1
 #define N 24
+#define BASE_SIDE 1
 
 #else
 
@@ -32,6 +33,7 @@
 
 #endif
 
+#define TIMERTICKRBP 1
 #define SAMPLES  5
 #define FONTS  2
 #define BACKGROUNDS 17
