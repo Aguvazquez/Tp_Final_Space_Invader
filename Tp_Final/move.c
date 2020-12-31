@@ -34,48 +34,63 @@ int move(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[
 {
     uint8_t i, j, check, aux, accelerate=0, explosion_time=0,dificulty=dificulty;
     static uint8_t vida_bloques[4] = {30, 30, 30, 30};
-    bool alien_change = false;
-    float nave_x = SCREEN_W / 2.0 - 1.5*BASE_SIZE;
-    float nave_y = SCREEN_H - 2*BASE_SIZE;
-    float bullet_x, bullet_y;
-    float bloques_x[4];
-    float explosion_x, explosion_y;
+    float bullet_x, bullet_y,nave_x,nave_y,bloques_x[4], bloques_y,explosion_x, explosion_y,alien_bullets_x[N],alien_bullets_y[N],mystery_ship_x,mystery_ship_y;
+    int8_t cant_aliens = N,step;
+#ifdef RASPBERRY
     for(i=0; i<4; i++)
+        bloques_x[i] = 1+4*i;
+    bloques_y =SCREEN-H - 4;
+    nave_x = SCREEN_W / 2 - 1;
+    nave_y = SCREEN_H-1;
+    //seteo de coordenadas iniciales de los aliens   
+    float alien_x[N] = {3,5,7,9,11,13,
+                        3,5,7,9,11,13,
+                        3,5,7,9,11,13,
+                        3,5,7,9,11,13};
+
+    float alien_y[N] = {2,2,2,2,2,2,
+                        4,4,4,4,4,4,
+                        6,6,6,6,6,6,
+                        8,8,8,8,8,8};
+    step = 1;
+#else    
+   for(i=0; i<4; i++)
         bloques_x[i] = (1.5*i+1)*SCREEN_W / 6.5 - 2*BASE_SIZE;
-    
-    float bloques_y = 3*SCREEN_H / 4 + 2.5*BASE_SIZE;
-    int8_t cant_aliens = N;
+    bloques_y = 3*SCREEN_H / 4 + 2.5*BASE_SIZE;
     //int8_t cant_aliens = 1;    //solo para facilitar debug
-    
+    nave_x = SCREEN_W / 2.0 - 1.5*BASE_SIZE;
+    nave_y = SCREEN_H - 2*BASE_SIZE;
     //seteo de coordenadas iniciales de los aliens   
     float alien_x[N] = {3*SCREEN_W/15, 4*SCREEN_W/15, 5*SCREEN_W/15, 6*SCREEN_W/15, 7*SCREEN_W/15, 8*SCREEN_W/15, 9*SCREEN_W/15, 10*SCREEN_W/15, 11*SCREEN_W/15, 12*SCREEN_W/15,
-                        3*SCREEN_W/15, 4*SCREEN_W/15, 5*SCREEN_W/15, 6*SCREEN_W/15, 7*SCREEN_W/15, 8*SCREEN_W/15, 9*SCREEN_W/15, 10*SCREEN_W/15, 11*SCREEN_W/15, 12*SCREEN_W/15,
-                        3*SCREEN_W/15, 4*SCREEN_W/15, 5*SCREEN_W/15, 6*SCREEN_W/15, 7*SCREEN_W/15, 8*SCREEN_W/15, 9*SCREEN_W/15, 10*SCREEN_W/15, 11*SCREEN_W/15, 12*SCREEN_W/15,
-                        3*SCREEN_W/15, 4*SCREEN_W/15, 5*SCREEN_W/15, 6*SCREEN_W/15, 7*SCREEN_W/15, 8*SCREEN_W/15, 9*SCREEN_W/15, 10*SCREEN_W/15, 11*SCREEN_W/15, 12*SCREEN_W/15,
-                        3*SCREEN_W/15, 4*SCREEN_W/15, 5*SCREEN_W/15, 6*SCREEN_W/15, 7*SCREEN_W/15, 8*SCREEN_W/15, 9*SCREEN_W/15, 10*SCREEN_W/15, 11*SCREEN_W/15, 12*SCREEN_W/15};
-    
+                  3*SCREEN_W/15, 4*SCREEN_W/15, 5*SCREEN_W/15, 6*SCREEN_W/15, 7*SCREEN_W/15, 8*SCREEN_W/15, 9*SCREEN_W/15, 10*SCREEN_W/15, 11*SCREEN_W/15, 12*SCREEN_W/15,
+                  3*SCREEN_W/15, 4*SCREEN_W/15, 5*SCREEN_W/15, 6*SCREEN_W/15, 7*SCREEN_W/15, 8*SCREEN_W/15, 9*SCREEN_W/15, 10*SCREEN_W/15, 11*SCREEN_W/15, 12*SCREEN_W/15,
+                  3*SCREEN_W/15, 4*SCREEN_W/15, 5*SCREEN_W/15, 6*SCREEN_W/15, 7*SCREEN_W/15, 8*SCREEN_W/15, 9*SCREEN_W/15, 10*SCREEN_W/15, 11*SCREEN_W/15, 12*SCREEN_W/15,
+                  3*SCREEN_W/15, 4*SCREEN_W/15, 5*SCREEN_W/15, 6*SCREEN_W/15, 7*SCREEN_W/15, 8*SCREEN_W/15, 9*SCREEN_W/15, 10*SCREEN_W/15, 11*SCREEN_W/15, 12*SCREEN_W/15};
+
     float alien_y[N] = {SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, 
-                        SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5,
-                        3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10,  
-                        2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5,
-                        SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2};
+                  SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5,
+                  3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10,  
+                  2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5,
+                  SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2};
+    step = BASE_SIZE/2;
+#endif       
     
-    float mystery_ship_y=SCREEN_H; 
-    float mystery_ship_x=SCREEN_W; 
+    mystery_ship_y=SCREEN_H; 
+    mystery_ship_x=SCREEN_W; 
     
-    float alien_bullets_x[N],alien_bullets_y[N];
     
     for(i=0; i<N; i++)
     {
         alien_bullets_y[i]=SCREEN_H;
     }
     
-    int8_t step = BASE_SIZE/2;
+    
     bool key_pressed[3] = {false, false, false};    //estado de teclas, true cuando esta apretada
     bool redraw = false;
     bool do_exit = false;
     bool lock = false;
     bool lock_mystery_ship = false;
+    bool alien_change = false;
          
     al_set_target_bitmap(al_get_backbuffer(*display));
     al_start_timer(*timer);
