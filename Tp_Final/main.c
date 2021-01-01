@@ -34,7 +34,7 @@ int main(void) {
     dips_init();
     joy_init();
     init_sound();
-    //prueba
+    //prueba numero 10000
     
 #else
     ALLEGRO_DISPLAY * display = NULL;
