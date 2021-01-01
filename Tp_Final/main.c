@@ -35,6 +35,7 @@ int main(void) {
     joy_init();
     init_sound();
     //prueba
+    
 #else
     ALLEGRO_DISPLAY * display = NULL;
     ALLEGRO_EVENT_QUEUE * event_queue=NULL;
