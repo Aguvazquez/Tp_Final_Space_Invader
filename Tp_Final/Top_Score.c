@@ -1,6 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include "config.h"
+#include "Top_Score.h"
+#include "play.h"
+#include "allegro_setup.h"
+
+#ifndef RASPBERRY
+
 #include <allegro5/allegro.h>  
 #include <allegro5/allegro_color.h> 
 #include <allegro5/allegro_primitives.h>
@@ -8,16 +15,16 @@
 #include <allegro5/allegro_ttf.h> 
 #include <allegro5/allegro_audio.h> 
 #include <allegro5/allegro_acodec.h> 
-#include "config.h"
-#include "Top_Score.h"
-#include "play.h"
-#include "allegro_setup.h"
+
 extern  ALLEGRO_DISPLAY * display;
 extern  ALLEGRO_EVENT_QUEUE * event_queue;
 extern  ALLEGRO_TIMER * timer;
 extern  ALLEGRO_FONT *font[FONTS] ; //Para incluir mas de un tipo de letra , es decir mayusculas y bla bla bla
 extern  ALLEGRO_SAMPLE * samples[SAMPLES]; //arreglo de canciones , para saber cuantas hay que iniciar.
 extern  ALLEGRO_BITMAP* display_background[BACKGROUNDS]; // arreglo para incluir fondos.
+
+#endif
+
 static void print_top_score();
 static void create_button_unpressed_top_score(void);
 static void create_button_pressed_top_score();

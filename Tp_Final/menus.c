@@ -7,6 +7,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include "config.h"
+#include "menus.h"
+#include "Top_Score.h"
+#include "play.h"
+#include "menu_display_allegro.h"
+#include "allegro_setup.h"
+
+#ifndef RASPBERRY
+
 #include <allegro5/allegro.h>  
 #include <allegro5/allegro_color.h> 
 #include <allegro5/allegro_primitives.h>
@@ -14,18 +23,15 @@
 #include <allegro5/allegro_ttf.h> 
 #include <allegro5/allegro_audio.h> 
 #include <allegro5/allegro_acodec.h> 
-#include "config.h"
-#include "menus.h"
-#include "Top_Score.h"
-#include "play.h"
-#include "menu_display_allegro.h"
-#include "allegro_setup.h"
+
 extern  ALLEGRO_DISPLAY * display;
 extern  ALLEGRO_EVENT_QUEUE * event_queue;
 extern  ALLEGRO_TIMER * timer;
 extern  ALLEGRO_FONT *font[FONTS] ; //Para incluir mas de un tipo de letra , es decir mayusculas y bla bla bla
 extern  ALLEGRO_SAMPLE * samples[SAMPLES]; //arreglo de canciones , para saber cuantas hay que iniciar.
 extern  ALLEGRO_BITMAP* display_background[BACKGROUNDS]; // arreglo para incluir fondos.
+
+#endif
 /**********Header of locals fucntions*********/
 
 /*
@@ -67,11 +73,19 @@ int main_menu (void){
             case 0 : do_exit=true;//Exit value 
             break;
             case 1 :{
-                
+#ifndef RASPBERRY                
                 al_stop_samples();
                 al_play_sample(samples[4], 0.25, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
+#else
+                
+#endif
+                
                 aux=play(0);
+#ifndef RASPBERRY
                 al_stop_samples();
+#else
+
+#endif
                 if(aux==CLOSE_DISPLAY){
                     do_exit=true;
                 }
@@ -123,6 +137,7 @@ int main_menu (void){
     }
     return aux;
 }
+#ifndef RASPBERRY
 int pause_menu(){
     int output;
     
@@ -162,7 +177,7 @@ void lose_animation( uint32_t score){
     al_flip_display();
     al_rest(2.0);
 }
-
+#endif
 char read_difficulty(void){
     
     FILE* fp;

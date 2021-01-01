@@ -37,7 +37,7 @@ int main_menu (void);
  *@return Devuelve un -1 si hubo error. 
  * 
  */
-
+#ifndef RASPBERRY
 int pause_menu();
 
 /*
@@ -48,8 +48,12 @@ int pause_menu();
  */
 void next_level_animation( uint8_t level);
 
-char read_difficulty(void);
+
 void lose_animation( uint32_t score);
+#endif
+
+char read_difficulty(void);
+
 char* number_to_str(uint32_t score);
 #endif
 

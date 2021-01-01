@@ -7,6 +7,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include "config.h"
+
+#ifndef RASPBERRY
+
 #include <allegro5/allegro.h>  
 #include <allegro5/allegro_color.h> 
 #include <allegro5/allegro_primitives.h>
@@ -15,7 +19,7 @@
 #include <allegro5/allegro_audio.h> 
 #include <allegro5/allegro_acodec.h> 
 #include <allegro5/allegro_image.h>
-#include "config.h" 
+ 
 extern  ALLEGRO_DISPLAY * display;
 extern  ALLEGRO_EVENT_QUEUE * event_queue;
 extern  ALLEGRO_TIMER * timer;
@@ -224,3 +228,4 @@ void allegro_shutdown(void){
     al_shutdown_ttf_addon();
     
 }
+#endif
