@@ -38,6 +38,7 @@ uint16_t Create_Top_Score(){
     
     return 1;
 }
+#ifndef RASPBERRY
 uint16_t Top_Score(void){
     uint8_t do_exit=false, check=false,redraw=false ;
     uint8_t aux=0;
@@ -162,6 +163,7 @@ static void print_top_score(void){
         fgetc(fp);
     }
 }
+#endif
 void put_on_top_score(uint32_t score , char *str){
     FILE* fp;
     uint32_t  j, aux=0;

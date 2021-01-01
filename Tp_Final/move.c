@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <stdbool.h>
 #include <time.h>
 #include <pthread.h>
 #include <unistd.h>
@@ -32,7 +33,7 @@ enum MYKEYS {LEFT, RIGHT, SPACE_UP,JOY_SWITCH};
 
 static uint16_t get_rand_num(uint8_t x);
 /*Recibe un entero positivo y devuelve un entero aleatorio menor a dicho numero*/
-static void score_to_str(uint32_t* score,ALLEGRO_FONT**font);
+static void score_to_str(uint32_t* score);
 
 static void logical_move(bool* alien_change, bool* lock_mystery_ship, float* mystery_ship_x, float* mystery_ship_y,
                          float* alien_x, float* alien_y, uint8_t* accelerate, uint8_t* dificulty, float* alien_bullets_x, float* alien_bullets_y, int8_t *step,
@@ -101,13 +102,13 @@ int move( uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score,uin
     int8_t cant_aliens = N,step;
 
 #ifdef RASPBERRY
-    jcoord_t coord_nave,coord_bloques,coord_alien;
+    dcoord_t coord_nave,coord_bloques,coord_alien;
     pthread_t Timer_RBP,Joy_Action;
     pthread_create(&Timer_RBP,NULL,Timer_rbp,NULL);
     pthread_create(&Joy_Action,NULL,Joy_action,NULL);
     for(i=0; i<4; i++)
         bloques_x[i] = 1+4*i;
-    bloques_y =SCREEN-H - 4;
+    bloques_y =SCREEN_H - 4;
     nave_x = SCREEN_W / 2 - 1;
     nave_y = SCREEN_H-1;
     //seteo de coordenadas iniciales de los aliens   
@@ -435,7 +436,7 @@ int move( uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score,uin
                         explosion_x, explosion_y, 2.5 * BASE_SIZE, 2.5 * BASE_SIZE, 0);
                 explosion_time--;
             }
-            score_to_str(score, font);
+            score_to_str(score);
             al_flip_display();
         }
     }
@@ -462,7 +463,7 @@ static uint16_t get_rand_num(uint8_t x){
 }
 
 //HAY QUE UBICAR ESTA FUNCION EN ALGUN LADO PQ LOSE ANIMATION TMB LA USA PERO DISTINTO
-static void score_to_str(uint32_t *score, ALLEGRO_FONT**font){
+static void score_to_str(uint32_t *score){
     char str[14]={'S','C','O','R','E',':',' ',' ','0','0','0','0','0'};
     uint32_t aux=0,i,j;
     for(i=12,j=1; i>7; i--,j*=10){

@@ -21,6 +21,7 @@
 #include "disdrv.h"
 #include "joydrv.h"
 #include "libaudio.h"
+#include "play.h"
 
 #ifndef RASPBERRY
 
@@ -52,7 +53,7 @@ ALLEGRO_BITMAP* display_background[BACKGROUNDS] = {NULL, NULL, NULL, NULL, NULL,
 int main(void) {
 
 #ifdef RASPBERRY
-    dips_init();
+    disp_init();
     joy_init();
     init_sound();
     play(1);
