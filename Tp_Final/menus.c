@@ -20,7 +20,12 @@
 #include "play.h"
 #include "menu_display_allegro.h"
 #include "allegro_setup.h"
-
+extern  ALLEGRO_DISPLAY * display;
+extern  ALLEGRO_EVENT_QUEUE * event_queue;
+extern  ALLEGRO_TIMER * timer;
+extern  ALLEGRO_FONT *font[FONTS] ; //Para incluir mas de un tipo de letra , es decir mayusculas y bla bla bla
+extern  ALLEGRO_SAMPLE * samples[SAMPLES]; //arreglo de canciones , para saber cuantas hay que iniciar.
+extern  ALLEGRO_BITMAP* display_background[BACKGROUNDS]; // arreglo para incluir fondos.
 /**********Header of locals fucntions*********/
 
 /*
@@ -64,7 +69,7 @@ int main_menu (void){
             case 1 :{
                 
                 al_stop_samples();
-                al_play_sample(sample[4], 0.25, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
+                al_play_sample(samples[4], 0.25, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
                 aux=play(0);
                 al_stop_samples();
                 if(aux==CLOSE_DISPLAY){

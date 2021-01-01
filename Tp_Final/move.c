@@ -17,6 +17,12 @@
 #include "joydrv.h"
 #include "disdrv.h"
 #include "termlib.h"
+extern  ALLEGRO_DISPLAY * display;
+extern  ALLEGRO_EVENT_QUEUE * event_queue;
+extern  ALLEGRO_TIMER * timer;
+extern  ALLEGRO_FONT *font[FONTS] ; //Para incluir mas de un tipo de letra , es decir mayusculas y bla bla bla
+extern  ALLEGRO_SAMPLE * samples[SAMPLES]; //arreglo de canciones , para saber cuantas hay que iniciar.
+extern  ALLEGRO_BITMAP* display_background[BACKGROUNDS]; // arreglo para incluir fondos.
 enum MYKEYS {LEFT, RIGHT, SPACE_UP,JOY_SWITCH};
 
 static uint16_t get_rand_num(uint8_t x);
@@ -239,11 +245,11 @@ int move( uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score,uin
         }
     }
 #else     
-    al_set_target_bitmap(al_get_backbuffer(*display));
-    al_start_timer(*timer);
+    al_set_target_bitmap(al_get_backbuffer(display));
+    al_start_timer(timer);
     while (!do_exit && cant_aliens && *lives) {
         ALLEGRO_EVENT ev;
-        if (al_get_next_event(*event_queue, &ev)) //toma un evento de la cola.
+        if (al_get_next_event(event_queue, &ev)) //toma un evento de la cola.
         {
             if (ev.type == ALLEGRO_EVENT_TIMER) { //controles de movimiento de la nave
 
@@ -284,7 +290,7 @@ int move( uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score,uin
                             bullet_x = nave_x + 1.5 * BASE_SIZE; //setea la bala
                             bullet_y = nave_y;
                             lock = true; // solo dispara si no hay otra bala volando.
-                            al_play_sample(sample[1], 0.5, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+                            al_play_sample(samples[1], 0.5, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
                         }
                         break;
                 }
@@ -336,7 +342,7 @@ int move( uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score,uin
             }
         }
 
-        if (redraw && al_is_event_queue_empty(*event_queue)) {
+        if (redraw && al_is_event_queue_empty(event_queue)) {
 
             redraw = false;
             al_draw_scaled_bitmap(display_background[11 + level % 5], 0, 0, al_get_bitmap_width(display_background[11 + level % 5]), al_get_bitmap_height(display_background[11 + level % 5]),
@@ -416,7 +422,7 @@ int move( uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score,uin
 
             do_exit = logical(&lock_mystery_ship, &mystery_ship_x, &mystery_ship_y, &alien_x[0], &alien_y[0], &alien_bullets_x[0], &alien_bullets_y[0], &step,
                     &cant_aliens, &bullet_y, &bullet_x, &explosion_x, &explosion_y, &explosion_time, &lock, &nave_y, &nave_x,
-                    score, &vida_bloques[0], &bloques_y, &bloques_x[0], lives, &sample[0],mode);
+                    score, &vida_bloques[0], &bloques_y, &bloques_x[0], lives, &samples[0],mode);
 
             if (explosion_time) {
                 al_draw_scaled_bitmap(display_background[16], 0, 0, al_get_bitmap_width(display_background[16]), al_get_bitmap_height(display_background[16]),
@@ -428,7 +434,7 @@ int move( uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score,uin
         }
     }
 
-    al_stop_timer(*timer);
+    al_stop_timer(timer);
 #endif
     
     if(cant_aliens){

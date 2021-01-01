@@ -34,6 +34,15 @@
 #include "config.h"
 #include "menus.h"
 #include "Top_Score.h"
+
+ALLEGRO_DISPLAY * display = NULL;
+ALLEGRO_EVENT_QUEUE * event_queue = NULL;
+ALLEGRO_TIMER * timer = NULL;
+ALLEGRO_FONT *font[FONTS] = {NULL, NULL}; //Para incluir mas de un tipo de letra , es decir mayusculas y bla bla bla
+ALLEGRO_SAMPLE * samples[SAMPLES] = {NULL, NULL, NULL, NULL, NULL}; //arreglo de canciones , para saber cuantas hay que iniciar.
+ALLEGRO_BITMAP* display_background[BACKGROUNDS] = {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL}; // arreglo para incluir fondos.
+
 int main(void) {
 
 #ifdef RASPBERRY

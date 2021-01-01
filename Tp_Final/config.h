@@ -14,6 +14,9 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+
+
+
 #define ASCII '0'
 #define STR_LONG 6
 #ifdef RASPBERRY
@@ -63,6 +66,7 @@
 #define EASY 27
 #define NORMAL 22
 #define HARD 17
+
 
 #endif//CONFIG_H
 

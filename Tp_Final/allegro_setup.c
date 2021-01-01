@@ -15,16 +15,15 @@
 #include <allegro5/allegro_audio.h> 
 #include <allegro5/allegro_acodec.h> 
 #include <allegro5/allegro_image.h>
- 
-ALLEGRO_DISPLAY * display = NULL;
-ALLEGRO_EVENT_QUEUE * event_queue = NULL;
-ALLEGRO_TIMER * timer = NULL;
-ALLEGRO_FONT *font[FONTS] = {NULL, NULL}; //Para incluir mas de un tipo de letra , es decir mayusculas y bla bla bla
-ALLEGRO_SAMPLE * samples[SAMPLES] = {NULL, NULL, NULL, NULL, NULL}; //arreglo de canciones , para saber cuantas hay que iniciar.
-ALLEGRO_BITMAP* display_background[BACKGROUNDS] = {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL}; // arreglo para incluir fondos.
+#include "config.h" 
+extern  ALLEGRO_DISPLAY * display;
+extern  ALLEGRO_EVENT_QUEUE * event_queue;
+extern  ALLEGRO_TIMER * timer;
+extern  ALLEGRO_FONT *font[FONTS] ; //Para incluir mas de un tipo de letra , es decir mayusculas y bla bla bla
+extern  ALLEGRO_SAMPLE * samples[SAMPLES]; //arreglo de canciones , para saber cuantas hay que iniciar.
+extern  ALLEGRO_BITMAP* display_background[BACKGROUNDS]; // arreglo para incluir fondos.
 
-#include "config.h"  //header with defines 
+  //header with defines 
 
 uint16_t allegro_ini(void)
 {
@@ -115,7 +114,7 @@ uint16_t allegro_ini(void)
         al_uninstall_keyboard();
         al_shutdown_primitives_addon();
         al_uninstall_audio();
-        al_destroy_display(*display);
+        al_destroy_display(display);
         return 0;
     }
     
@@ -138,13 +137,13 @@ uint16_t allegro_ini(void)
         }
     }
     
-    sample[0] = al_load_sample("spaceinvader_theme.wav");
-    sample[1] = al_load_sample("shoot.wav");
-    sample[2] = al_load_sample("invaderkilled.wav");
-    sample[3] = al_load_sample("explosion.wav");
-    sample[4] = al_load_sample("game.wav");
+    samples[0] = al_load_sample("spaceinvader_theme.wav");
+    samples[1] = al_load_sample("shoot.wav");
+    samples[2] = al_load_sample("invaderkilled.wav");
+    samples[3] = al_load_sample("explosion.wav");
+    samples[4] = al_load_sample("game.wav");
     for(i=0;i<SAMPLES;i++){
-        if (!sample) {
+        if (!samples) {
             fprintf(stderr,"Audio clip sample not loaded!\n");
             al_uninstall_system();
             al_shutdown_image_addon();
@@ -199,15 +198,15 @@ uint16_t allegro_ini(void)
             al_uninstall_keyboard();
             al_shutdown_primitives_addon();
             al_uninstall_audio();
-            al_destroy_display(*display);
-            al_destroy_event_queue(*event_queue);
+            al_destroy_display(display);
+            al_destroy_event_queue(event_queue);
             al_shutdown_ttf_addon();
             return 0;
     }
     al_register_event_source(event_queue, al_get_keyboard_event_source());
-    al_register_event_source(event_queue, al_get_display_event_source(*display));
+    al_register_event_source(event_queue, al_get_display_event_source(display));
     al_register_event_source(event_queue, al_get_mouse_event_source());
-    al_register_event_source(event_queue, al_get_timer_event_source(*timer));
+    al_register_event_source(event_queue, al_get_timer_event_source(timer));
     
     
     return 1;
