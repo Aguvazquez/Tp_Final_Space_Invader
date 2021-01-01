@@ -34,7 +34,7 @@ int main(void) {
     dips_init();
     joy_init();
     init_sound();
-    //prueba
+    //prueba 12345
 #else
     ALLEGRO_DISPLAY * display = NULL;
     ALLEGRO_EVENT_QUEUE * event_queue=NULL;
