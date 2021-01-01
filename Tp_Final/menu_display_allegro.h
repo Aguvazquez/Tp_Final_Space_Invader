@@ -28,10 +28,7 @@
  * @Coment This fuctions doesn't stop the music.
  */
 
-int menu_display(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],
-                 ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],
-                 ALLEGRO_BITMAP*display_background[], char *str0, char*str1,
-                                                           char*str2,char flag,uint8_t pause);
-int16_t Difficulty(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[],char *str0,char *str1,char *str2);
+int menu_display(char *str0, char*str1,char*str2,char flag,uint8_t pause);
+int16_t Difficulty(char *str0,char *str1,char *str2);
 #endif /* MENU_DISPLAY_ALLEGRO_H */
 

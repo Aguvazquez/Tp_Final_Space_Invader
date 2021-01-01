@@ -26,7 +26,7 @@
  * 
  */
 
-int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[],ALLEGRO_TIMER**timer);
+int main_menu (void);
 
 /*
  *@brief Funcion que se encarga de crear el menu de pausa.
@@ -38,7 +38,7 @@ int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_
  * 
  */
 
-int pause_menu(ALLEGRO_DISPLAY**display ,ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[]);
+int pause_menu();
 
 /*
  *@brief Funcion que se encarga de la animacion al pasar al siguiente nivel
@@ -46,10 +46,10 @@ int pause_menu(ALLEGRO_DISPLAY**display ,ALLEGRO_EVENT_QUEUE ** event_queue,ALLE
  *@param param2: nivel que se quiere mostrar. 
  * 
  */
-void next_level_animation(ALLEGRO_FONT *font[], uint8_t level);
+void next_level_animation( uint8_t level);
 
 char read_difficulty(void);
-void lose_animation(ALLEGRO_FONT *font[], uint32_t score);
+void lose_animation( uint32_t score);
 char* number_to_str(uint32_t score);
 #endif
 

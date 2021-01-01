@@ -13,8 +13,8 @@
 #include "move.h"
 #include "menus.h"
 #include"Top_Score.h"
-
-int play(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[],ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIMER **timer,ALLEGRO_BITMAP *display_background[],uint8_t mode)
+#include "allegro_setup.h"
+int play(uint8_t mode)
 {
     ALLEGRO_EVENT ev;
     uint8_t level=1, difficulty, lifes=1;
@@ -33,11 +33,11 @@ int play(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[]
     
     //idea: si es facil, puntaje final x1, medio x2, dificil x3 (Approved)
     if(!mode){
-        next_level_animation(font, level);  
+        next_level_animation(level);  
     }
     while(difficulty)
     {
-        aux=move(sample, display,font,event_queue,timer,display_background, difficulty, &lifes, level, &score,mode);
+        aux=move(difficulty, &lifes, level, &score,mode);
         
         if(aux==CLOSE_DISPLAY||aux==RESET_GAME||aux==EXIT_MENU)
             return aux; 
@@ -47,7 +47,7 @@ int play(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[]
             if(difficulty>12)
                 difficulty--;
                 if(!mode){
-                    next_level_animation(font,++level);   //mientras no este la pantalla que indica "siguiente nivel"
+                    next_level_animation(++level);   //mientras no este la pantalla que indica "siguiente nivel"
                 }
             if(lifes<3)
               lifes++;
@@ -59,14 +59,14 @@ int play(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[]
             difficulty = 0;
             aux=get_top_score(score);
             if(!mode){
-                lose_animation(font, score);                      
+                lose_animation( score);                      
                 if(aux){
                     //get_name()
                     for(i=0; i<STR_LONG; ){
                         al_clear_to_color(al_map_rgb(0, 0, 0));
                         al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W / 2, SCREEN_H / 2, ALLEGRO_ALIGN_CENTER, name);
                         al_flip_display();
-                        al_wait_for_event(*event_queue, &ev);
+                        al_wait_for_event(event_queue, &ev);
                         if(ev.type == ALLEGRO_EVENT_KEY_DOWN){
                             switch (ev.keyboard.keycode) {
 

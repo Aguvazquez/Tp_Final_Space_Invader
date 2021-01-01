@@ -24,9 +24,7 @@
  *@return Devuelve un 0 si no se pudo iniciar algo , devuelve un 1 si sale todo bien 
  * 
  */
-uint16_t allegro_ini(ALLEGRO_DISPLAY** display,ALLEGRO_EVENT_QUEUE**  event_queue
-                        ,ALLEGRO_FONT*font[],ALLEGRO_SAMPLE *sample[],ALLEGRO_TIMER **timer,
-                        ALLEGRO_BITMAP* display_background[]);
+uint16_t allegro_ini(void);
 
 /*
  * @brief Funcion que desinstala todas las funciones instaladas en allegro_ini. Siempre llamar antes de finalizar el programa
@@ -34,7 +32,7 @@ uint16_t allegro_ini(ALLEGRO_DISPLAY** display,ALLEGRO_EVENT_QUEUE**  event_queu
  * @param param2 : puntero a puntero a display 
  * 
  */
-void allegro_shutdown(ALLEGRO_EVENT_QUEUE** event_queue,ALLEGRO_DISPLAY **display);
+void allegro_shutdown(void);
     
 #endif
 

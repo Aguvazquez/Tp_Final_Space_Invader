@@ -16,11 +16,17 @@
 #include <allegro5/allegro_acodec.h> 
 #include <allegro5/allegro_image.h>
  
+ALLEGRO_DISPLAY * display = NULL;
+ALLEGRO_EVENT_QUEUE * event_queue = NULL;
+ALLEGRO_TIMER * timer = NULL;
+ALLEGRO_FONT *font[FONTS] = {NULL, NULL}; //Para incluir mas de un tipo de letra , es decir mayusculas y bla bla bla
+ALLEGRO_SAMPLE * samples[SAMPLES] = {NULL, NULL, NULL, NULL, NULL}; //arreglo de canciones , para saber cuantas hay que iniciar.
+ALLEGRO_BITMAP* display_background[BACKGROUNDS] = {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL}; // arreglo para incluir fondos.
+
 #include "config.h"  //header with defines 
 
-uint16_t allegro_ini(ALLEGRO_DISPLAY** display,ALLEGRO_EVENT_QUEUE**  event_queue
-                        ,ALLEGRO_FONT*font[],ALLEGRO_SAMPLE *sample[],ALLEGRO_TIMER **timer,
-                        ALLEGRO_BITMAP* display_background[])
+uint16_t allegro_ini(void)
 {
     uint16_t i;
     if (!al_init()) {
@@ -88,7 +94,7 @@ uint16_t allegro_ini(ALLEGRO_DISPLAY** display,ALLEGRO_EVENT_QUEUE**  event_queu
         return 0;
     }
  
-    *display = al_create_display(SCREEN_W, SCREEN_H); 
+    display = al_create_display(SCREEN_W, SCREEN_H); 
     if (!display) {
         fprintf(stderr, "failed to create display!\n");
         al_uninstall_system();
@@ -100,7 +106,7 @@ uint16_t allegro_ini(ALLEGRO_DISPLAY** display,ALLEGRO_EVENT_QUEUE**  event_queu
         return 0;
     }
     
-    *event_queue = al_create_event_queue();
+    event_queue = al_create_event_queue();
     if (!event_queue) {
         fprintf(stderr, "failed to create event_queue!\n");
         al_uninstall_system();
@@ -126,8 +132,8 @@ uint16_t allegro_ini(ALLEGRO_DISPLAY** display,ALLEGRO_EVENT_QUEUE**  event_queu
             al_uninstall_keyboard();
             al_shutdown_primitives_addon();
             al_uninstall_audio();
-            al_destroy_display(*display);
-            al_destroy_event_queue(*event_queue);
+            al_destroy_display(display);
+            al_destroy_event_queue(event_queue);
             return 0;
         }
     }
@@ -146,8 +152,8 @@ uint16_t allegro_ini(ALLEGRO_DISPLAY** display,ALLEGRO_EVENT_QUEUE**  event_queu
             al_uninstall_keyboard();
             al_shutdown_primitives_addon();
             al_uninstall_audio();
-            al_destroy_display(*display);
-            al_destroy_event_queue(*event_queue);
+            al_destroy_display(display);
+            al_destroy_event_queue(event_queue);
             al_shutdown_ttf_addon();
             return 0;
         }
@@ -178,13 +184,13 @@ uint16_t allegro_ini(ALLEGRO_DISPLAY** display,ALLEGRO_EVENT_QUEUE**  event_queu
             al_uninstall_keyboard();
             al_shutdown_primitives_addon();
             al_uninstall_audio();
-            al_destroy_display(*display);
-            al_destroy_event_queue(*event_queue);
+            al_destroy_display(display);
+            al_destroy_event_queue(event_queue);
             al_shutdown_ttf_addon();
             return 0;
         }
     }
-    *timer = al_create_timer(1.0 / FPS);
+    timer = al_create_timer(1.0 / FPS);
     if (!timer) {
         fprintf(stderr,"Timer error!\n");
             al_uninstall_system();
@@ -198,15 +204,15 @@ uint16_t allegro_ini(ALLEGRO_DISPLAY** display,ALLEGRO_EVENT_QUEUE**  event_queu
             al_shutdown_ttf_addon();
             return 0;
     }
-    al_register_event_source(*event_queue, al_get_keyboard_event_source());
-    al_register_event_source(*event_queue, al_get_display_event_source(*display));
-    al_register_event_source(*event_queue, al_get_mouse_event_source());
-    al_register_event_source(*event_queue, al_get_timer_event_source(*timer));
+    al_register_event_source(event_queue, al_get_keyboard_event_source());
+    al_register_event_source(event_queue, al_get_display_event_source(*display));
+    al_register_event_source(event_queue, al_get_mouse_event_source());
+    al_register_event_source(event_queue, al_get_timer_event_source(*timer));
     
     
     return 1;
 }
-void allegro_shutdown(ALLEGRO_EVENT_QUEUE** event_queue,ALLEGRO_DISPLAY **display){
+void allegro_shutdown(void){
     
     al_uninstall_system();
     al_uninstall_mouse();
@@ -214,8 +220,8 @@ void allegro_shutdown(ALLEGRO_EVENT_QUEUE** event_queue,ALLEGRO_DISPLAY **displa
     al_shutdown_primitives_addon();
     al_shutdown_image_addon();
     al_uninstall_audio();
-    /*al_destroy_display(*display); // No entiendo porque da segmentation fault , pero son estas dos lineas de codigo
-    al_destroy_event_queue(*event_queue);*/
+    al_destroy_display(display); // No entiendo porque da segmentation fault , pero son estas dos lineas de codigo
+    al_destroy_event_queue(event_queue);
     al_shutdown_ttf_addon();
     
 }

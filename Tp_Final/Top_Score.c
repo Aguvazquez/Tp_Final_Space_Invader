@@ -11,9 +11,11 @@
 #include "config.h"
 #include "Top_Score.h"
 #include "play.h"
-static void print_top_score(ALLEGRO_DISPLAY * display , ALLEGRO_FONT *font);
-static void create_button_unpressed_top_score(ALLEGRO_FONT * font);
-static void create_button_pressed_top_score(ALLEGRO_FONT * font);
+#include "allegro_setup.h"
+
+static void print_top_score();
+static void create_button_unpressed_top_score(void);
+static void create_button_pressed_top_score();
 static void create_table_top_score();
 
 uint16_t Create_Top_Score(){
@@ -24,26 +26,26 @@ uint16_t Create_Top_Score(){
     
     return 1;
 }
-uint16_t Top_Score(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[]){
+uint16_t Top_Score(void){
     uint8_t do_exit=false, check=false,redraw=false ;
     uint8_t aux=0;
     float mouse_x = 0 ;
     float mouse_y =0 ;
     
     al_draw_scaled_bitmap(display_background[0],0, 0, al_get_bitmap_width(display_background[0]), al_get_bitmap_height(display_background[0]), 
-            0, 0, al_get_display_width(*display), al_get_display_height(*display), 
+            0, 0, al_get_display_width(display), al_get_display_height(display), 
             0);
     /*al_draw_scaled_bitmap(display_background[1],0, 0, al_get_bitmap_width(display_background[1]), al_get_bitmap_height(display_background[1]),
             0, 0, al_get_display_width(*display), al_get_display_height(*display)/3,
             0);*/
     al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W/2, SCREEN_H/6, ALLEGRO_ALIGN_CENTER, "TOP SCORE");
-    create_button_unpressed_top_score(font[0]);
-    create_table_top_score(font[0]);
-    print_top_score(*display,font[0]);
+    create_button_unpressed_top_score();
+    create_table_top_score();
+    print_top_score();
     al_flip_display();
     while(!do_exit){ 
         ALLEGRO_EVENT ev;
-        if (al_get_next_event(*event_queue, &ev)) //Toma un evento de la cola, VER RETURN EN DOCUMENT.
+        if (al_get_next_event(event_queue, &ev)) //Toma un evento de la cola, VER RETURN EN DOCUMENT.
         {
              if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE ){
                 do_exit = true;
@@ -65,7 +67,7 @@ uint16_t Top_Score(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EV
                     aux=1;
                 }
                 else{
-                    create_button_pressed_top_score(font[0]);
+                    create_button_pressed_top_score();
                 }
          
             }
@@ -76,7 +78,7 @@ uint16_t Top_Score(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EV
             redraw=true;
         }
         if(redraw){
-            create_button_unpressed_top_score(font[0]);
+            create_button_unpressed_top_score();
             redraw =false;
         }
         check= false;
@@ -85,18 +87,18 @@ uint16_t Top_Score(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EV
     
     return aux;
 }
-static void create_button_unpressed_top_score(ALLEGRO_FONT * font){
+static void create_button_unpressed_top_score(){
     al_draw_filled_rectangle(13*SCREEN_W/16, 13*SCREEN_H/16, 15*SCREEN_W/16, 15*SCREEN_H/16, al_color_name("black"));
     al_draw_rectangle(13*SCREEN_W/16, 13*SCREEN_H/16, 15*SCREEN_W/16, 15*SCREEN_H/16, al_color_name("white"),2.0);
-    al_draw_text(font, al_map_rgb(255, 255, 255), 7*SCREEN_W / 8, (171*SCREEN_H / 200), ALLEGRO_ALIGN_CENTER, "EXIT");
+    al_draw_text(font[0], al_map_rgb(255, 255, 255), 7*SCREEN_W / 8, (171*SCREEN_H / 200), ALLEGRO_ALIGN_CENTER, "EXIT");
     al_flip_display();
 }
-static void create_button_pressed_top_score(ALLEGRO_FONT * font){
+static void create_button_pressed_top_score(){
     al_draw_filled_rectangle(13*SCREEN_W/16, 13*SCREEN_H/16, 15*SCREEN_W/16, 15*SCREEN_H/16, al_color_name("grey"));
-    al_draw_text(font, al_map_rgb(255, 255, 255), 7*SCREEN_W / 8, (171*SCREEN_H / 200), ALLEGRO_ALIGN_CENTER, "EXIT");
+    al_draw_text(font[0], al_map_rgb(255, 255, 255), 7*SCREEN_W / 8, (171*SCREEN_H / 200), ALLEGRO_ALIGN_CENTER, "EXIT");
     al_flip_display();
 }
-static void create_table_top_score(ALLEGRO_FONT*font){
+static void create_table_top_score(){
     //RECTANGULO BASE
     al_draw_filled_rectangle(SCREEN_W/4, SCREEN_H/3, 3*SCREEN_W/4, 5*SCREEN_H/6, al_color_name("black"));
     al_draw_rectangle(SCREEN_W/4, SCREEN_H/3, 3*SCREEN_W/4, 5*SCREEN_H/6, al_color_name("white"),2.0);
@@ -108,16 +110,16 @@ static void create_table_top_score(ALLEGRO_FONT*font){
     al_draw_rectangle(SCREEN_W/4, 7*SCREEN_H/12, 3*SCREEN_W/4, 2*SCREEN_H/3, al_color_name("white"),2.0);
     al_draw_rectangle(SCREEN_W/4, 3*SCREEN_H/4, 3*SCREEN_W/4, 5*SCREEN_H/6, al_color_name("white"),2.0);
     //TEXTO
-    al_draw_text(font, al_map_rgb(255,255,255), 29*SCREEN_W / 96, (17*SCREEN_H /48), ALLEGRO_ALIGN_CENTER, "N°");
-    al_draw_text(font, al_map_rgb(255,255,255), 29*SCREEN_W / 96, (7*SCREEN_H /16), ALLEGRO_ALIGN_CENTER, "1");
-    al_draw_text(font, al_map_rgb(255,255,255), 29*SCREEN_W / 96, (25*SCREEN_H /48), ALLEGRO_ALIGN_CENTER, "2");
-    al_draw_text(font, al_map_rgb(255,255,255), 29*SCREEN_W / 96, (29*SCREEN_H /48), ALLEGRO_ALIGN_CENTER, "3");
-    al_draw_text(font, al_map_rgb(255,255,255), 29*SCREEN_W / 96, (11*SCREEN_H /16), ALLEGRO_ALIGN_CENTER, "4");
-    al_draw_text(font, al_map_rgb(255,255,255), 29*SCREEN_W / 96, (37*SCREEN_H /48), ALLEGRO_ALIGN_CENTER, "5");
+    al_draw_text(font[0], al_map_rgb(255,255,255), 29*SCREEN_W / 96, (17*SCREEN_H /48), ALLEGRO_ALIGN_CENTER, "N°");
+    al_draw_text(font[0], al_map_rgb(255,255,255), 29*SCREEN_W / 96, (7*SCREEN_H /16), ALLEGRO_ALIGN_CENTER, "1");
+    al_draw_text(font[0], al_map_rgb(255,255,255), 29*SCREEN_W / 96, (25*SCREEN_H /48), ALLEGRO_ALIGN_CENTER, "2");
+    al_draw_text(font[0], al_map_rgb(255,255,255), 29*SCREEN_W / 96, (29*SCREEN_H /48), ALLEGRO_ALIGN_CENTER, "3");
+    al_draw_text(font[0], al_map_rgb(255,255,255), 29*SCREEN_W / 96, (11*SCREEN_H /16), ALLEGRO_ALIGN_CENTER, "4");
+    al_draw_text(font[0], al_map_rgb(255,255,255), 29*SCREEN_W / 96, (37*SCREEN_H /48), ALLEGRO_ALIGN_CENTER, "5");
     
-    al_draw_text(font, al_map_rgb(255,255,255), 7*SCREEN_W / 16, (17*SCREEN_H /48), ALLEGRO_ALIGN_CENTER, "SCORE");
+    al_draw_text(font[0], al_map_rgb(255,255,255), 7*SCREEN_W / 16, (17*SCREEN_H /48), ALLEGRO_ALIGN_CENTER, "SCORE");
     
-    al_draw_text(font, al_map_rgb(255,255,255), 31*SCREEN_W / 48, (17*SCREEN_H /48), ALLEGRO_ALIGN_CENTER, "NAME");
+    al_draw_text(font[0], al_map_rgb(255,255,255), 31*SCREEN_W / 48, (17*SCREEN_H /48), ALLEGRO_ALIGN_CENTER, "NAME");
     
     al_flip_display();
 }
@@ -131,7 +133,7 @@ static void create_table_top_score(ALLEGRO_FONT*font){
  *         (s de score ,x de nombre) Si el nombre que elige la persona 
  * es menor a 5 letras , rellenar con espacios , es mas facil la programacion asi 
  */
-static void print_top_score(ALLEGRO_DISPLAY * display , ALLEGRO_FONT *font){
+static void print_top_score(void){
     uint8_t i;
     static FILE*  fp;
     char str[STR_LONG];
@@ -140,11 +142,11 @@ static void print_top_score(ALLEGRO_DISPLAY * display , ALLEGRO_FONT *font){
     for(i=0; i<5; i++){
         //SCORE
         fgets(str,STR_LONG,fp);
-        al_draw_text(font, al_map_rgb(255,255,255), 7*SCREEN_W/16, (21+4*i)*SCREEN_H/48, ALLEGRO_ALIGN_CENTER, str);
+        al_draw_text(font[0], al_map_rgb(255,255,255), 7*SCREEN_W/16, (21+4*i)*SCREEN_H/48, ALLEGRO_ALIGN_CENTER, str);
         fgetc(fp);  // "aumento" el fp a la siguiente linea 
         //NAME
         fgets(str,STR_LONG,fp);
-        al_draw_text(font, al_map_rgb(255,255,255), 31*SCREEN_W/48, (21+4*i)*SCREEN_H/48, ALLEGRO_ALIGN_CENTER, str);
+        al_draw_text(font[0], al_map_rgb(255,255,255), 31*SCREEN_W/48, (21+4*i)*SCREEN_H/48, ALLEGRO_ALIGN_CENTER, str);
         fgetc(fp);
     }
 }

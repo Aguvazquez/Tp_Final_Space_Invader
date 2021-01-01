@@ -19,6 +19,7 @@
 #include "Top_Score.h"
 #include "play.h"
 #include "menu_display_allegro.h"
+#include "allegro_setup.h"
 
 /**********Header of locals fucntions*********/
 
@@ -39,7 +40,7 @@
 //static uint16_t Difficulty(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[],char *str0, char*str1, char*str2);
 
 /****************************Global fuctions***********************/
-int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[],ALLEGRO_TIMER **timer){
+int main_menu (void){
     bool do_exit=false;
     int aux=0;
     bool flag = false,dont_play_song=false;
@@ -49,9 +50,9 @@ int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_
         if(!flag){
             
             if(!dont_play_song)
-                aux=menu_display(display,sample,event_queue,font,display_background,"PLAY","DIFFICULTY","TOP SCORE",0,0);
+                aux=menu_display("PLAY","DIFFICULTY","TOP SCORE",0,0);
             else
-                aux=menu_display(display,sample,event_queue,font,display_background,"PLAY","DIFFICULTY","TOP SCORE",1,0);
+                aux=menu_display("PLAY","DIFFICULTY","TOP SCORE",1,0);
             
         flag=true;
         dont_play_song=true;
@@ -64,7 +65,7 @@ int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_
                 
                 al_stop_samples();
                 al_play_sample(sample[4], 0.25, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
-                aux=play(sample, display,font,event_queue,timer,display_background,0);
+                aux=play(0);
                 al_stop_samples();
                 if(aux==CLOSE_DISPLAY){
                     do_exit=true;
@@ -80,7 +81,7 @@ int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_
             }
             break;
             case 2 :{ 
-               aux =Difficulty(display,sample,event_queue,font,display_background,"EASY","NORMAL","HARD");
+               aux =Difficulty("EASY","NORMAL","HARD");
                flag =false;              
                if(!aux){
                    fprintf(stderr,"Hubo un error tato , volve a descargar el archivo , gracias\n");
@@ -94,7 +95,7 @@ int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_
             }
             break;
             case 3 :{
-                aux =Top_Score(display,sample,event_queue,font,display_background);
+                aux =Top_Score();
                 flag=false;
                if(!aux){
                    fprintf(stderr,"Hubo un error kpo\n");
@@ -117,16 +118,16 @@ int main_menu (ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_
     }
     return aux;
 }
-int pause_menu(ALLEGRO_DISPLAY**display ,ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[]){
+int pause_menu(){
     int output;
     
-    if((output=menu_display(display,NULL,event_queue,font,display_background,"RESUME","RESET GAME","EXIT",1,1))==-1){
+    if((output=menu_display("RESUME","RESET GAME","EXIT",1,1))==-1){
         fprintf(stderr,"Something happened , please try it again latter");
         return -1;
     }
     return output;
 }
-void next_level_animation(ALLEGRO_FONT *font[], uint8_t level){
+void next_level_animation(uint8_t level){
     char str[]={'L','E','V','E','L',' ',' ',' '};
     
     if(level>=10){
@@ -139,7 +140,7 @@ void next_level_animation(ALLEGRO_FONT *font[], uint8_t level){
     al_flip_display();
     al_rest(2.0);
 }
-void lose_animation(ALLEGRO_FONT *font[], uint32_t score){
+void lose_animation( uint32_t score){
     char str1[]={"GAME OVER"};
     char str2[]={"YOUR SCORE IS: "};
     char str3[6]={' ',' ',' ',' ',' '};

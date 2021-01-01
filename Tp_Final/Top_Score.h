@@ -14,7 +14,7 @@
 #ifndef TOP_SCORE_H
 #define TOP_SCORE_H
 
-uint16_t Top_Score(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[]);
+uint16_t Top_Score();
 
 uint16_t Create_Top_Score();
 void put_on_top_score(uint32_t score , char *str);
