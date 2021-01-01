@@ -18,6 +18,9 @@
 #include "config.h"
 #include "menus.h"
 #include "Top_Score.h"
+#include "disdrv.h"
+#include "joydrv.h"
+#include "libaudio.h"
 
 #ifndef RASPBERRY
 
@@ -52,6 +55,7 @@ int main(void) {
     dips_init();
     joy_init();
     init_sound();
+    play(1);
 #else
 
    

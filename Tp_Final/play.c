@@ -1,6 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include "play.h"
+#include "config.h"
+#include "move.h"
+#include "menus.h"
+#include"Top_Score.h"
+#include "allegro_setup.h"
+#ifndef RASPBERRY
 #include <allegro5/allegro.h>  
 #include <allegro5/allegro_color.h> 
 #include <allegro5/allegro_primitives.h>
@@ -8,18 +15,15 @@
 #include <allegro5/allegro_ttf.h> 
 #include <allegro5/allegro_audio.h> 
 #include <allegro5/allegro_acodec.h> 
-#include "play.h"
-#include "config.h"
-#include "move.h"
-#include "menus.h"
-#include"Top_Score.h"
-#include "allegro_setup.h"
+
 extern  ALLEGRO_DISPLAY * display;
 extern  ALLEGRO_EVENT_QUEUE * event_queue;
 extern  ALLEGRO_TIMER * timer;
 extern  ALLEGRO_FONT *font[FONTS] ; //Para incluir mas de un tipo de letra , es decir mayusculas y bla bla bla
 extern  ALLEGRO_SAMPLE * samples[SAMPLES]; //arreglo de canciones , para saber cuantas hay que iniciar.
 extern  ALLEGRO_BITMAP* display_background[BACKGROUNDS]; // arreglo para incluir fondos.
+#endif
+
 int play(uint8_t mode)
 {
     ALLEGRO_EVENT ev;
@@ -64,7 +68,7 @@ int play(uint8_t mode)
         {
             difficulty = 0;
             aux=get_top_score(score);
-            if(!mode){
+#ifndef RASPBERRY
                 lose_animation( score);                      
                 if(aux){
                     //get_name()
@@ -102,7 +106,7 @@ int play(uint8_t mode)
 
                       put_on_top_score(score,name);
                 }
-            }
+#endif
         }
     }
     

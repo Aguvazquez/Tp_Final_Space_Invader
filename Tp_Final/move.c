@@ -4,6 +4,13 @@
 #include <time.h>
 #include <pthread.h>
 #include <unistd.h>
+#include "config.h"
+#include "move.h"
+#include "menus.h"
+#include "joydrv.h"
+#include "disdrv.h"
+#include "termlib.h"
+#ifndef RASPBERRY
 #include <allegro5/allegro.h>  
 #include <allegro5/allegro_color.h> 
 #include <allegro5/allegro_primitives.h>
@@ -11,18 +18,16 @@
 #include <allegro5/allegro_ttf.h> 
 #include <allegro5/allegro_audio.h> 
 #include <allegro5/allegro_acodec.h> 
-#include "config.h"
-#include "move.h"
-#include "menus.h"
-#include "joydrv.h"
-#include "disdrv.h"
-#include "termlib.h"
+
+
 extern  ALLEGRO_DISPLAY * display;
 extern  ALLEGRO_EVENT_QUEUE * event_queue;
 extern  ALLEGRO_TIMER * timer;
 extern  ALLEGRO_FONT *font[FONTS] ; //Para incluir mas de un tipo de letra , es decir mayusculas y bla bla bla
 extern  ALLEGRO_SAMPLE * samples[SAMPLES]; //arreglo de canciones , para saber cuantas hay que iniciar.
 extern  ALLEGRO_BITMAP* display_background[BACKGROUNDS]; // arreglo para incluir fondos.
+#endif
+
 enum MYKEYS {LEFT, RIGHT, SPACE_UP,JOY_SWITCH};
 
 static uint16_t get_rand_num(uint8_t x);
@@ -242,6 +247,7 @@ int move( uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score,uin
             do_exit = logical(&lock_mystery_ship, &mystery_ship_x, &mystery_ship_y, &alien_x[0], &alien_y[0], &alien_bullets_x[0], &alien_bullets_y[0], &step,
                     &cant_aliens, &bullet_y, &bullet_x, &explosion_x, &explosion_y, &explosion_time, &lock, &nave_y, &nave_x,
                     score, &vida_bloques[0], &bloques_y, &bloques_x[0], lives,mode);
+            disp_update();
         }
     }
 #else     
