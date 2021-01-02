@@ -114,7 +114,7 @@ int move( uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score,uin
 
 #ifdef RASPBERRY
     int bullet_x, bullet_y,nave_x,nave_y,bloques_x[4], bloques_y,explosion_x, explosion_y,alien_bullets_x[N],alien_bullets_y[N],mystery_ship_x,mystery_ship_y;
-    dcoord_t coord_nave,coord_bloques,coord_alien,coord_mystery_ship;
+    dcoord_t coord_nave,coord_bloques,coord_alien,coord_mystery_ship,coord_bullet;
     pthread_t Timer_RBP,Joy_Action;
     pthread_create(&Timer_RBP,NULL,Timer_rbp,NULL);
     pthread_create(&Joy_Action,NULL,Joy_action,NULL);
@@ -211,6 +211,8 @@ int move( uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score,uin
             coord_bloques.y=bloques_y;
             coord_mystery_ship.x=mystery_ship_x;
             coord_mystery_ship.y=mystery_ship_y;
+            coord_bullet.x=bullet_x;
+            coord_bullet.y=bullet_y;
             redraw_rbp=flase;
             
             for(i=0;i<4;i++){
@@ -249,7 +251,10 @@ int move( uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score,uin
             }
             
             if(coord_mystery_ship.x!=SCREEN_W){
-                
+                disp_write(coord_mystery_ship,D_ON);
+            }
+            if(coord_bullet.y!=SCREEN_H){
+                disp_write(coord_bullet,D_ON);
             }
             if (lock) {
                 bullet_y -= MOVE_RATE; //actualiza la posicion de la bala en cada ciclo

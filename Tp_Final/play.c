@@ -26,7 +26,6 @@ extern  ALLEGRO_BITMAP* display_background[BACKGROUNDS]; // arreglo para incluir
 
 int play(uint8_t mode)
 {
-    ALLEGRO_EVENT ev;
     uint8_t level=1, difficulty, lifes=1;
     int8_t aux=0, i;
     uint32_t score=0;
@@ -42,9 +41,9 @@ int play(uint8_t mode)
     }
     
     //idea: si es facil, puntaje final x1, medio x2, dificil x3 (Approved)
-    if(!mode){
-        next_level_animation(level);  
-    }
+#ifndef RASPBERRY
+        next_level_animation(level);
+#endif
     while(difficulty)
     {
         aux=move(difficulty, &lifes, level, &score,mode);
@@ -56,9 +55,9 @@ int play(uint8_t mode)
         {
             if(difficulty>12)
                 difficulty--;
-                if(!mode){
+#ifndef RASPBERRY
                     next_level_animation(++level);   //mientras no este la pantalla que indica "siguiente nivel"
-                }
+#endif
             if(lifes<3)
               lifes++;
             else
@@ -69,6 +68,7 @@ int play(uint8_t mode)
             difficulty = 0;
             aux=get_top_score(score);
 #ifndef RASPBERRY
+                ALLEGRO_EVENT ev;
                 lose_animation( score);                      
                 if(aux){
                     //get_name()
