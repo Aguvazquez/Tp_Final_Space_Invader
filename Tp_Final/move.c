@@ -27,13 +27,6 @@ extern  ALLEGRO_TIMER * timer;
 extern  ALLEGRO_FONT *font[FONTS] ; //Para incluir mas de un tipo de letra , es decir mayusculas y bla bla bla
 extern  ALLEGRO_SAMPLE * samples[SAMPLES]; //arreglo de canciones , para saber cuantas hay que iniciar.
 extern  ALLEGRO_BITMAP* display_background[BACKGROUNDS]; // arreglo para incluir fondos.
-#endif
-
-enum MYKEYS {LEFT, RIGHT, SPACE_UP,JOY_SWITCH};
-
-static uint16_t get_rand_num(uint8_t x);
-/*Recibe un entero positivo y devuelve un entero aleatorio menor a dicho numero*/
-static void score_to_str(uint32_t* score);
 
 static void logical_move(bool* alien_change, bool* lock_mystery_ship, float* mystery_ship_x, float* mystery_ship_y,
                          float* alien_x, float* alien_y, uint8_t* accelerate, uint8_t* dificulty, float* alien_bullets_x, float* alien_bullets_y, int8_t *step,
@@ -44,6 +37,25 @@ static bool logical(bool* lock_mystery_ship, float* mystery_ship_x, float* myste
                     float* bullet_y, float* bullet_x, float* explosion_x, float* explosion_y, uint8_t* explosion_time,
                     bool* lock, float* nave_y, float* nave_x,uint32_t* score,uint8_t* vida_bloques,float* bloques_y, float* bloques_x,uint8_t* lives,
                     uint8_t mode);
+#else
+static void logical_move(bool* alien_change, bool* lock_mystery_ship, int* mystery_ship_x, int* mystery_ship_y,
+                         int* alien_x, int* alien_y, uint8_t* accelerate, uint8_t* dificulty, int* alien_bullets_x, int* alien_bullets_y, int8_t *step,
+                        int8_t cant_aliens, uint8_t* aux,uint8_t mode );
+
+static bool logical(bool* lock_mystery_ship, int* mystery_ship_x, int* mystery_ship_y,
+                    int* alien_x, int* alien_y,int* alien_bullets_x, int* alien_bullets_y, int8_t *step,int8_t* cant_aliens,
+                    int* bullet_y, int* bullet_x, int* explosion_x, int* explosion_y, uint8_t* explosion_time,
+                    bool* lock, int* nave_y, int* nave_x,uint32_t* score,uint8_t* vida_bloques,int* bloques_y, int* bloques_x,uint8_t* lives,
+                    uint8_t mode);
+#endif
+
+enum MYKEYS {LEFT, RIGHT, SPACE_UP,JOY_SWITCH};
+
+static uint16_t get_rand_num(uint8_t x);
+/*Recibe un entero positivo y devuelve un entero aleatorio menor a dicho numero*/
+static void score_to_str(uint32_t* score);
+
+
 
 uint8_t TimerTickRBP;
 bool key_pressed[4] = {false, false, false, false};    //estado de teclas, true cuando esta apretada
@@ -98,10 +110,10 @@ int move( uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score,uin
 {
     uint8_t i, j, check, aux, accelerate=0, explosion_time=0,dificulty=dificulty;
     static uint8_t vida_bloques[4] = {30, 30, 30, 30};
-    float bullet_x, bullet_y,nave_x,nave_y,bloques_x[4], bloques_y,explosion_x, explosion_y,alien_bullets_x[N],alien_bullets_y[N],mystery_ship_x,mystery_ship_y;
     int8_t cant_aliens = N,step;
 
 #ifdef RASPBERRY
+    int bullet_x, bullet_y,nave_x,nave_y,bloques_x[4], bloques_y,explosion_x, explosion_y,alien_bullets_x[N],alien_bullets_y[N],mystery_ship_x,mystery_ship_y;
     dcoord_t coord_nave,coord_bloques,coord_alien;
     pthread_t Timer_RBP,Joy_Action;
     pthread_create(&Timer_RBP,NULL,Timer_rbp,NULL);
@@ -122,7 +134,8 @@ int move( uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score,uin
                         6,6,6,6,6,6,
                         8,8,8,8,8,8};
     step = 1;
-#else    
+#else 
+   float bullet_x, bullet_y,nave_x,nave_y,bloques_x[4], bloques_y,explosion_x, explosion_y,alien_bullets_x[N],alien_bullets_y[N],mystery_ship_x,mystery_ship_y;
    for(i=0; i<4; i++)
         bloques_x[i] = (1.5*i+1)*SCREEN_W / 6.5 - 2*BASE_SIZE;
     bloques_y = 3*SCREEN_H / 4 + 2.5*BASE_SIZE;
@@ -473,10 +486,18 @@ static void score_to_str(uint32_t *score){
     al_draw_text(font[0], al_map_rgb(255,255,255), SCREEN_W, BASE_SIZE/4, ALLEGRO_ALIGN_RIGHT, str);
      
 }
+#ifndef RASPBERRY
 
 static void logical_move(bool* alien_change, bool* lock_mystery_ship, float* mystery_ship_x, float* mystery_ship_y,
                          float* alien_x, float* alien_y, uint8_t* accelerate, uint8_t* difficulty,
                          float* alien_bullets_x, float* alien_bullets_y, int8_t *step,int8_t cant_aliens, uint8_t* aux,uint8_t mode){
+#else
+
+static void logical_move(bool* alien_change, bool* lock_mystery_ship, int* mystery_ship_x, int* mystery_ship_y,
+        int* alien_x, int* alien_y, uint8_t* accelerate, uint8_t* dificulty, int* alien_bullets_x, int* alien_bullets_y, int8_t *step,
+        int8_t cant_aliens, uint8_t* aux, uint8_t mode) {
+    
+#endif
     int check,i;
     if(*alien_change)
         *alien_change=false;
@@ -540,12 +561,21 @@ static void logical_move(bool* alien_change, bool* lock_mystery_ship, float* mys
         }
     }
 }
+#ifndef RASPBERRY
 
 static bool logical(bool* lock_mystery_ship, float* mystery_ship_x, float* mystery_ship_y,
-                    float* alien_x, float* alien_y,float* alien_bullets_x, float* alien_bullets_y, int8_t *step,int8_t* cant_aliens,
-                    float* bullet_y, float* bullet_x, float* explosion_x, float* explosion_y, uint8_t* explosion_time,
-                    bool* lock, float* nave_y, float* nave_x,uint32_t* score,uint8_t* vida_bloques,float* bloques_y, float* bloques_x,uint8_t* lives,
-                    uint8_t mode){
+        float* alien_x, float* alien_y, float* alien_bullets_x, float* alien_bullets_y, int8_t *step, int8_t* cant_aliens,
+        float* bullet_y, float* bullet_x, float* explosion_x, float* explosion_y, uint8_t* explosion_time,
+        bool* lock, float* nave_y, float* nave_x, uint32_t* score, uint8_t* vida_bloques, float* bloques_y, float* bloques_x, uint8_t* lives,
+        uint8_t mode) {
+#else
+
+static bool logical(bool* lock_mystery_ship, int* mystery_ship_x, int* mystery_ship_y,
+        int* alien_x, int* alien_y, int* alien_bullets_x, int* alien_bullets_y, int8_t *step, int8_t* cant_aliens,
+        int* bullet_y, int* bullet_x, int* explosion_x, int* explosion_y, uint8_t* explosion_time,
+        bool* lock, int* nave_y, int* nave_x, uint32_t* score, uint8_t* vida_bloques, int* bloques_y, int* bloques_x, uint8_t* lives,
+        uint8_t mode) {
+#endif
     int i,j;
     if(*bullet_y <= MOVE_RATE)           //si pega arriba desaparece la bala
         *lock = false;
