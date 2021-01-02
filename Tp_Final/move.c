@@ -213,7 +213,7 @@ int move( uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score,uin
             coord_mystery_ship.y=mystery_ship_y;
             coord_bullet.x=bullet_x;
             coord_bullet.y=bullet_y;
-            redraw_rbp=flase;
+            redraw_rbp=false;
             
             for(i=0;i<4;i++){
                 switch (i){
@@ -493,7 +493,9 @@ static void score_to_str(uint32_t *score){
         aux=*score/j;
         str[i]=(char)(aux%10+ASCII);        
     }
+#ifndef RASPBERRY
     al_draw_text(font[0], al_map_rgb(255,255,255), SCREEN_W, BASE_SIZE/4, ALLEGRO_ALIGN_RIGHT, str);
+#endif
      
 }
 #ifndef RASPBERRY
@@ -504,7 +506,7 @@ static void logical_move(bool* alien_change, bool* lock_mystery_ship, float* mys
 #else
 
 static void logical_move(bool* alien_change, bool* lock_mystery_ship, int* mystery_ship_x, int* mystery_ship_y,
-        int* alien_x, int* alien_y, uint8_t* accelerate, uint8_t* dificulty, int* alien_bullets_x, int* alien_bullets_y, int8_t *step,
+        int* alien_x, int* alien_y, uint8_t* accelerate, uint8_t* difficulty, int* alien_bullets_x, int* alien_bullets_y, int8_t *step,
         int8_t cant_aliens, uint8_t* aux, uint8_t mode) {
     
 #endif

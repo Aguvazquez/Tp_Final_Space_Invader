@@ -55,7 +55,6 @@ int main(void) {
 #ifdef RASPBERRY
     disp_init();
     joy_init();
-    init_sound();
     play(1);
 #else
 
