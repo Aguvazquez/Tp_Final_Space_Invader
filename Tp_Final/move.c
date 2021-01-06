@@ -326,7 +326,7 @@ int move(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY** display,ALLEGRO_FONT *font[
                             default:
                             {
                                 fprintf(stderr, "Something gone wrong");
-                                return -1;
+                                return FATAL_ERROR;
                             }
                                 break;
                         }

@@ -1,16 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/* 
- * File:   config.h
- * Author: aguvazquez
- *
- * Created on 25 de junio de 2020, 12:42
- */
-
 #ifndef CONFIG_H
 #define CONFIG_H
 
@@ -22,7 +9,7 @@
 #define SCREEN_H  16
 #define MOVE_RATE  1
 #define N 24
-#define BASE_SIDE 1
+#define BASE_SIZE 1
 
 #else
 
@@ -36,8 +23,12 @@
 #define TIMERTICKRBP 1
 #define SAMPLES  5
 #define FONTS  2
+#define LITTLE_FONT 10
+#define MEDIUM_FONT 25
+#define LARGE_FONT 50
 #define BACKGROUNDS 17
 #define FPS    60.0
+
 #define BASE_SIZE 20
 #define ALIEN 1
 #define PRIMERA_FILA 2
@@ -51,10 +42,10 @@
 #define ULTIMO_BLOQUE 12
 #define ESPACIO_BLOQUES 3
 
-#define CLOSE_DISPLAY  -42
-#define RESET_GAME  -22
-#define EXIT_MENU -64
-#define FATAL_ERROR -71
+#define RESET_GAME  -1
+#define CLOSE_DISPLAY  -2
+#define EXIT_MENU -3
+#define FATAL_ERROR -4
 
 #define EASY_CODE "27"
 #define NORMAL_CODE "22"
@@ -63,6 +54,9 @@
 #define EASY 27
 #define NORMAL 22
 #define HARD 17
+
+#define TRUE 1
+#define FALSE 0
 
 #endif//CONFIG_H
 

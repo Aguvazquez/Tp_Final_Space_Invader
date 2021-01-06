@@ -12,7 +12,7 @@
 #include "config.h"
 #include "move.h"
 #include "menus.h"
-#include"Top_Score.h"
+#include "Top_Score.h"
 
 int play(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[],ALLEGRO_EVENT_QUEUE **event_queue,ALLEGRO_TIMER **timer,ALLEGRO_BITMAP *display_background[],uint8_t mode)
 {
@@ -99,8 +99,7 @@ int play(ALLEGRO_SAMPLE* sample[], ALLEGRO_DISPLAY**display,ALLEGRO_FONT *font[]
             }
         }
     }
-    
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 uint8_t get_top_score(uint32_t score){  //devuelve la posicion del jugador si esta en el top 5, sino un 0
@@ -119,7 +118,7 @@ uint8_t get_top_score(uint32_t score){  //devuelve la posicion del jugador si es
         fgetc(fp);
     }
     fclose(fp);
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 int32_t string_to_number(char str[STR_LONG]){
@@ -127,7 +126,6 @@ int32_t string_to_number(char str[STR_LONG]){
     int32_t aux=0,j;
     for(i=4, j=1; i>=0; i--,j*=10){
         aux += (((int32_t)str[i]-48)*j);    
-         
     }
     return aux;
 }
