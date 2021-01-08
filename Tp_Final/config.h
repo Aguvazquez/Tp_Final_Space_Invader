@@ -1,25 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/* 
- * File:   config.h
- * Author: aguvazquez
- *
- * Created on 25 de junio de 2020, 12:42
- */
-
 #ifndef CONFIG_H
 #define CONFIG_H
 
-
-
-
-
 #define ASCII '0'
 #define STR_LONG 6
+
 #ifdef RASPBERRY
 
 #define SCREEN_W 16
