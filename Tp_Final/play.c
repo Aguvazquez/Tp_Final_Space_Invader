@@ -7,7 +7,9 @@
 #include "menus.h"
 #include"Top_Score.h"
 #include "allegro_setup.h"
+
 #ifndef RASPBERRY
+
 #include <allegro5/allegro.h>  
 #include <allegro5/allegro_color.h> 
 #include <allegro5/allegro_primitives.h>
@@ -26,15 +28,15 @@ extern  ALLEGRO_BITMAP* display_background[BACKGROUNDS]; // arreglo para incluir
 
 int play(uint8_t mode)
 {
-    uint8_t level=1, difficulty, lifes=1;
+    uint8_t level=1, difficulty, lifes=LIFES;
     int8_t aux=0, i;
     uint32_t score=0;
     char name[STR_LONG]={' ',' ',' ',' ',' ','\0'};
     difficulty = read_difficulty();
-    if(difficulty!=EASY){
-        if(difficulty!=NORMAL){
-            if(difficulty!=HARD){
-                fprintf(stderr,"Something happened, pleasy try it again latter");
+    if(difficulty!= EASY){
+        if(difficulty!= NORMAL){
+            if(difficulty!= HARD){
+                fprintf(stderr,"Hubo un error");
                 return CLOSE_DISPLAY;
             }
         }
@@ -46,19 +48,19 @@ int play(uint8_t mode)
 #endif
     while(difficulty)
     {
-        aux=move(difficulty, &lifes, level, &score,mode);
+        aux=move(difficulty, &lifes, level, &score, mode);
         
         if(aux==CLOSE_DISPLAY||aux==RESET_GAME||aux==EXIT_MENU)
             return aux; 
 
         else if(!aux)
         {
-            if(difficulty>12)
+            if(difficulty>MAX_DIFFICULTY)
                 difficulty--;
 #ifndef RASPBERRY
                     next_level_animation(++level);   //mientras no este la pantalla que indica "siguiente nivel"
 #endif
-            if(lifes<3)
+            if(lifes<LIFES)
               lifes++;
             else
                 score+=100; //pasar de nivel con 3 vidas suma puntos
@@ -67,11 +69,12 @@ int play(uint8_t mode)
         {
             difficulty = 0;
             aux=get_top_score(score);
+            
 #ifndef RASPBERRY
+            
                 ALLEGRO_EVENT ev;
                 lose_animation( score);                      
                 if(aux){
-                    //get_name()
                     for(i=0; i<STR_LONG; ){
                         al_clear_to_color(al_map_rgb(0, 0, 0));
                         al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W / 2, SCREEN_H / 2, ALLEGRO_ALIGN_CENTER, name);

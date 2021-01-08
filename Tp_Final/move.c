@@ -11,7 +11,9 @@
 #include "joydrv.h"
 #include "disdrv.h"
 #include "termlib.h"
+
 #ifndef RASPBERRY
+
 #include <allegro5/allegro.h>  
 #include <allegro5/allegro_color.h> 
 #include <allegro5/allegro_primitives.h>
@@ -19,7 +21,6 @@
 #include <allegro5/allegro_ttf.h> 
 #include <allegro5/allegro_audio.h> 
 #include <allegro5/allegro_acodec.h> 
-
 
 extern  ALLEGRO_DISPLAY * display;
 extern  ALLEGRO_EVENT_QUEUE * event_queue;
@@ -29,7 +30,7 @@ extern  ALLEGRO_SAMPLE * samples[SAMPLES]; //arreglo de canciones , para saber c
 extern  ALLEGRO_BITMAP* display_background[BACKGROUNDS]; // arreglo para incluir fondos.
 
 static void logical_move(bool* alien_change, bool* lock_mystery_ship, float* mystery_ship_x, float* mystery_ship_y,
-                         float* alien_x, float* alien_y, uint8_t* accelerate, uint8_t* dificulty, float* alien_bullets_x, float* alien_bullets_y, int8_t *step,
+                         float* alien_x, float* alien_y, uint8_t* accelerate, uint8_t* difficulty, float* alien_bullets_x, float* alien_bullets_y, int8_t *step,
                         int8_t cant_aliens, uint8_t* aux,uint8_t mode );
 
 static bool logical(bool* lock_mystery_ship, float* mystery_ship_x, float* mystery_ship_y,
@@ -39,7 +40,7 @@ static bool logical(bool* lock_mystery_ship, float* mystery_ship_x, float* myste
                     uint8_t mode);
 #else
 static void logical_move(bool* alien_change, bool* lock_mystery_ship, int* mystery_ship_x, int* mystery_ship_y,
-                         int* alien_x, int* alien_y, uint8_t* accelerate, uint8_t* dificulty, int* alien_bullets_x, int* alien_bullets_y, int8_t *step,
+                         int* alien_x, int* alien_y, uint8_t* accelerate, uint8_t* difficulty, int* alien_bullets_x, int* alien_bullets_y, int8_t *step,
                         int8_t cant_aliens, uint8_t* aux,uint8_t mode );
 
 static bool logical(bool* lock_mystery_ship, int* mystery_ship_x, int* mystery_ship_y,
@@ -54,8 +55,6 @@ enum MYKEYS {LEFT, RIGHT, SPACE_UP,JOY_SWITCH};
 static uint16_t get_rand_num(uint8_t x);
 /*Recibe un entero positivo y devuelve un entero aleatorio menor a dicho numero*/
 static void score_to_str(uint32_t* score);
-
-
 
 uint8_t TimerTickRBP;
 bool key_pressed[4] = {false, false, false, false};    //estado de teclas, true cuando esta apretada
@@ -106,14 +105,14 @@ void *Joy_action(){
 }     
 #endif
 
-int move( uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score,uint8_t mode)
+int move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score,uint8_t mode)
 {
-    uint8_t i, j, check, aux, accelerate=0, explosion_time=0,dificulty=dificulty;
+    uint8_t i, j, check, aux, accelerate=0, explosion_time=0;
     static uint8_t vida_bloques[4] = {30, 30, 30, 30};
-    int8_t cant_aliens = N,step;
+    int8_t cant_aliens = CANT_ALIENS, step;
 
 #ifdef RASPBERRY
-    int bullet_x, bullet_y,nave_x,nave_y,bloques_x[4], bloques_y,explosion_x, explosion_y,alien_bullets_x[N],alien_bullets_y[N],mystery_ship_x,mystery_ship_y;
+    int bullet_x, bullet_y,nave_x,nave_y,bloques_x[4], bloques_y,explosion_x, explosion_y,alien_bullets_x[CANT_ALIENS],alien_bullets_y[CANT_ALIENS],mystery_ship_x,mystery_ship_y;
     dcoord_t coord_nave,coord_bloques,coord_alien,coord_mystery_ship,coord_bullet;
     pthread_t Timer_RBP,Joy_Action;
     pthread_create(&Timer_RBP,NULL,Timer_rbp,NULL);
@@ -124,18 +123,18 @@ int move( uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score,uin
     nave_x = SCREEN_W / 2 - 1;
     nave_y = SCREEN_H-1;
     //seteo de coordenadas iniciales de los aliens   
-    int alien_x[N] = {3,5,7,9,11,13,
+    int alien_x[CANT_ALIENS] = {3,5,7,9,11,13,
                         3,5,7,9,11,13,
                         3,5,7,9,11,13,
                         3,5,7,9,11,13};
 
-    int alien_y[N] = {2,2,2,2,2,2,
+    int alien_y[CANT_ALIENS] = {2,2,2,2,2,2,
                         4,4,4,4,4,4,
                         6,6,6,6,6,6,
                         8,8,8,8,8,8};
     step = 1;
 #else 
-   float bullet_x, bullet_y,nave_x,nave_y,bloques_x[4], bloques_y,explosion_x, explosion_y,alien_bullets_x[N],alien_bullets_y[N],mystery_ship_x,mystery_ship_y;
+   float bullet_x, bullet_y,nave_x,nave_y,bloques_x[4], bloques_y,explosion_x, explosion_y,alien_bullets_x[CANT_ALIENS],alien_bullets_y[CANT_ALIENS],mystery_ship_x,mystery_ship_y;
    for(i=0; i<4; i++)
         bloques_x[i] = (1.5*i+1)*SCREEN_W / 6.5 - 2*BASE_SIZE;
     bloques_y = 3*SCREEN_H / 4 + 2.5*BASE_SIZE;
@@ -143,13 +142,13 @@ int move( uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score,uin
     nave_x = SCREEN_W / 2.0 - 1.5*BASE_SIZE;
     nave_y = SCREEN_H - 2*BASE_SIZE;
     //seteo de coordenadas iniciales de los aliens   
-    float alien_x[N] = {3*SCREEN_W/15, 4*SCREEN_W/15, 5*SCREEN_W/15, 6*SCREEN_W/15, 7*SCREEN_W/15, 8*SCREEN_W/15, 9*SCREEN_W/15, 10*SCREEN_W/15, 11*SCREEN_W/15, 12*SCREEN_W/15,
+    float alien_x[CANT_ALIENS] = {3*SCREEN_W/15, 4*SCREEN_W/15, 5*SCREEN_W/15, 6*SCREEN_W/15, 7*SCREEN_W/15, 8*SCREEN_W/15, 9*SCREEN_W/15, 10*SCREEN_W/15, 11*SCREEN_W/15, 12*SCREEN_W/15,
                   3*SCREEN_W/15, 4*SCREEN_W/15, 5*SCREEN_W/15, 6*SCREEN_W/15, 7*SCREEN_W/15, 8*SCREEN_W/15, 9*SCREEN_W/15, 10*SCREEN_W/15, 11*SCREEN_W/15, 12*SCREEN_W/15,
                   3*SCREEN_W/15, 4*SCREEN_W/15, 5*SCREEN_W/15, 6*SCREEN_W/15, 7*SCREEN_W/15, 8*SCREEN_W/15, 9*SCREEN_W/15, 10*SCREEN_W/15, 11*SCREEN_W/15, 12*SCREEN_W/15,
                   3*SCREEN_W/15, 4*SCREEN_W/15, 5*SCREEN_W/15, 6*SCREEN_W/15, 7*SCREEN_W/15, 8*SCREEN_W/15, 9*SCREEN_W/15, 10*SCREEN_W/15, 11*SCREEN_W/15, 12*SCREEN_W/15,
                   3*SCREEN_W/15, 4*SCREEN_W/15, 5*SCREEN_W/15, 6*SCREEN_W/15, 7*SCREEN_W/15, 8*SCREEN_W/15, 9*SCREEN_W/15, 10*SCREEN_W/15, 11*SCREEN_W/15, 12*SCREEN_W/15};
 
-    float alien_y[N] = {SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, 
+    float alien_y[CANT_ALIENS] = {SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, 
                   SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5,
                   3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10,  
                   2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5,
@@ -161,7 +160,7 @@ int move( uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score,uin
     mystery_ship_x=SCREEN_W; 
     
     
-    for(i=0; i<N; i++)
+    for(i=0; i<CANT_ALIENS; i++)
     {
         alien_bullets_y[i]=SCREEN_H;
     }
@@ -187,7 +186,7 @@ int move( uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score,uin
 
             if (aux >= difficulty) {
                 logical_move(&alien_change, &lock_mystery_ship, &mystery_ship_x, &mystery_ship_y,
-                        &alien_x[0], &alien_y[0], &accelerate, &dificulty, &alien_bullets_x[0], &alien_bullets_y[0], &step,
+                        &alien_x[0], &alien_y[0], &accelerate, &difficulty, &alien_bullets_x[0], &alien_bullets_y[0], &step,
                         cant_aliens, &aux, mode);
                 aux = 0;
             }
@@ -244,7 +243,7 @@ int move( uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score,uin
                 }
             }
             
-            for(i=0;i<N;i++){
+            for(i=0;i<CANT_ALIENS;i++){
                 coord_alien.x=alien_x[i];
                 coord_alien.y=alien_y[i];
                 disp_write(coord_alien,D_ON);
@@ -291,7 +290,7 @@ int move( uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score,uin
 
                 if (aux >= difficulty) {
                     logical_move(&alien_change, &lock_mystery_ship, &mystery_ship_x, &mystery_ship_y,
-                            &alien_x[0], &alien_y[0], &accelerate, &dificulty, &alien_bullets_x[0], &alien_bullets_y[0], &step,
+                            &alien_x[0], &alien_y[0], &accelerate, &difficulty, &alien_bullets_x[0], &alien_bullets_y[0], &step,
                             cant_aliens, &aux, mode);
                     aux = 0;
                 }
@@ -399,13 +398,13 @@ int move( uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score,uin
                     al_draw_filled_rectangle(bloques_x[i] + 3 * BASE_SIZE, bloques_y + BASE_SIZE, bloques_x[i] + 4 * BASE_SIZE, bloques_y + 2 * BASE_SIZE, al_map_rgb(255, 0, 0));
                 }
 
-            for (i = 0, check = 0; i < N; i++) {
+            for (i = 0, check = 0; i < CANT_ALIENS; i++) {
                 if (alien_y[i] < SCREEN_H) {
                     if (alien_change) {
-                        if (i <= ((N / 5) - 1)) {
+                        if (i <= ((CANT_ALIENS / 5) - 1)) {
                             al_draw_scaled_bitmap(display_background[8], 0, 0, al_get_bitmap_width(display_background[8]), al_get_bitmap_height(display_background[8]),
                                     alien_x[i], alien_y[i], 2 * BASE_SIZE, 2 * BASE_SIZE, 0);
-                        } else if (i <= ((3 * N / 5) - 1)) {
+                        } else if (i <= ((3 * CANT_ALIENS / 5) - 1)) {
                             al_draw_scaled_bitmap(display_background[3], 0, 0, al_get_bitmap_width(display_background[3]), al_get_bitmap_height(display_background[3]),
                                     alien_x[i], alien_y[i], 2 * BASE_SIZE, 2 * BASE_SIZE, 0);
                         } else {
@@ -415,10 +414,10 @@ int move( uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score,uin
 
                     } else {
 
-                        if (i <= ((N / 5) - 1)) {
+                        if (i <= ((CANT_ALIENS / 5) - 1)) {
                             al_draw_scaled_bitmap(display_background[7], 0, 0, al_get_bitmap_width(display_background[7]), al_get_bitmap_height(display_background[7]),
                                     alien_x[i], alien_y[i], 2 * BASE_SIZE, 2 * BASE_SIZE, 0);
-                        } else if (i <= ((3 * N / 5) - 1)) {
+                        } else if (i <= ((3 * CANT_ALIENS / 5) - 1)) {
                             al_draw_scaled_bitmap(display_background[4], 0, 0, al_get_bitmap_width(display_background[4]), al_get_bitmap_height(display_background[4]),
                                     alien_x[i], alien_y[i], 2 * BASE_SIZE, 2 * BASE_SIZE, 0);
                         } else {
@@ -528,7 +527,7 @@ static void logical_move(bool* alien_change, bool* lock_mystery_ship, int* myste
         }
     }
                       
-    for(i=0, check=0; i<N; i++)
+    for(i=0, check=0; i<CANT_ALIENS; i++)
     {
         if(alien_y[i] < SCREEN_H){
             if(!mode){
@@ -548,17 +547,17 @@ static void logical_move(bool* alien_change, bool* lock_mystery_ship, int* myste
             *accelerate = 0;
         }
         *step *= -1;
-        for(i=0; i<N; i++)
+        for(i=0; i<CANT_ALIENS; i++)
         alien_y[i] += BASE_SIZE;
                         
     }
-    for(i=0; i<N; i++){
+    for(i=0; i<CANT_ALIENS; i++){
         alien_x[i] += *step;
     }
                     
     if(!get_rand_num(3)){               //33% de probabilidad
         *aux = get_rand_num(cant_aliens);
-        for(i=0; i<N; i++){          // para cada alien
+        for(i=0; i<CANT_ALIENS; i++){          // para cada alien
             if(alien_y[i]<SCREEN_H){        // si esta vivo
                 if(!((*aux)--)){
                         if(alien_bullets_y[i]>=SCREEN_H){
@@ -591,7 +590,7 @@ static bool logical(bool* lock_mystery_ship, int* mystery_ship_x, int* mystery_s
     int i,j;
     if(*bullet_y <= MOVE_RATE)           //si pega arriba desaparece la bala
         *lock = false;
-    for(i=0; i<N; i++) {
+    for(i=0; i<CANT_ALIENS; i++) {
         if (alien_y[i] < SCREEN_H) {
             if (!mode) {
                 if (*bullet_y >= alien_y[i] && *bullet_y <= alien_y[i] + 2 * BASE_SIZE) {
@@ -609,9 +608,9 @@ static bool logical(bool* lock_mystery_ship, int* mystery_ship_x, int* mystery_s
 #else
                         
 #endif
-                        if (i <= ((N / 5) - 1)) {
+                        if (i <= ((CANT_ALIENS / 5) - 1)) {
                             (*score) += 30;
-                        } else if (i <= ((3 * N / 5) - 1)) {
+                        } else if (i <= ((3 * CANT_ALIENS / 5) - 1)) {
                             (*score) += 20;
                         } else {
                             (*score) += 10;
@@ -627,9 +626,9 @@ static bool logical(bool* lock_mystery_ship, int* mystery_ship_x, int* mystery_s
                         *lock = false;
                         *bullet_y = *nave_y;
 
-                        if (i <= ((N / 4) - 1)) {
+                        if (i <= ((CANT_ALIENS / 4) - 1)) {
                             (*score) += 30;
-                        } else if (i <= ((3 * N / 4) - 1)) {
+                        } else if (i <= ((3 * CANT_ALIENS / 4) - 1)) {
                             (*score) += 20;
                         } else {
                             (*score) += 10;

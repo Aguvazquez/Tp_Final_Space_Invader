@@ -45,13 +45,13 @@ int main(void) {
         return FATAL_ERROR;
     }
     
-    if(main_menu()== FATAL_ERROR){
+  /*  if(!main_menu()){
         fprintf(stderr,"Something happened, please try again later");
         return FATAL_ERROR;
-    }
-    
+    }*/
+    main_menu();
     allegro_shutdown();
-    
+    fprintf(stderr, "hola");    
 #endif
     
     return (EXIT_SUCCESS);

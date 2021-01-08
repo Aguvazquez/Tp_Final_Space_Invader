@@ -46,7 +46,7 @@ static void create_button_pressed(uint8_t button,
 
 
 int menu_display(char *str0, char*str1,
-                 char*str2,char flag, uint8_t pause){
+                 char*str2, char flag, uint8_t pause){
     
     uint8_t do_exit=false, check=false,redraw=false ;
     uint8_t aux=0;

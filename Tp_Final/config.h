@@ -9,7 +9,7 @@
 #define SCREEN_W 16
 #define SCREEN_H  16
 #define MOVE_RATE  1
-#define N 24
+#define CANT_ALIENS 24
 #define BASE_SIDE 1
 
 #else
@@ -17,7 +17,7 @@
 #define SCREEN_W  800
 #define SCREEN_H  640
 #define MOVE_RATE  4.0
-#define N 50
+#define CANT_ALIENS 50
 
 #endif
 
@@ -34,15 +34,16 @@
 #define ULTIMA_COLUMNA 12
 #define ESPACIO_ALIENS 1
 #define BLOQUE 25
-#define FILA_BLOQUES N-3
+#define FILA_BLOQUES CANT_ALIENS-3
 #define PRIMER_BLOQUE 2
 #define ULTIMO_BLOQUE 12
 #define ESPACIO_BLOQUES 3
+#define LIFES 3
 
-#define CLOSE_DISPLAY  -42
-#define RESET_GAME  -22
-#define EXIT_MENU -64
-#define FATAL_ERROR -71
+#define CLOSE_DISPLAY  -1
+#define RESET_GAME  -2
+#define EXIT_MENU -3
+#define FATAL_ERROR -4
 
 #define EASY_CODE "27"
 #define NORMAL_CODE "22"
@@ -51,7 +52,7 @@
 #define EASY 27
 #define NORMAL 22
 #define HARD 17
-
+#define MAX_DIFFICULTY 12
 
 #endif//CONFIG_H
 

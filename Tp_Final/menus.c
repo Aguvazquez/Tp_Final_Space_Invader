@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- *
- */
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -33,6 +27,7 @@ extern  ALLEGRO_SAMPLE * samples[SAMPLES]; //arreglo de canciones , para saber c
 extern  ALLEGRO_BITMAP* display_background[BACKGROUNDS]; // arreglo para incluir fondos.
 
 #endif
+
 /**********Header of locals fucntions*********/
 
 /*
@@ -55,25 +50,22 @@ extern  ALLEGRO_BITMAP* display_background[BACKGROUNDS]; // arreglo para incluir
 int main_menu (void){
     bool do_exit=false;
     int aux=0;
-    bool flag = false,dont_play_song=false;
-    
+    bool flag=false, dont_play_song=false;
     
     while(!do_exit){
-        if(!flag){
-            
+        if(!flag){        
             if(!dont_play_song)
                 aux=menu_display("PLAY","DIFFICULTY","TOP SCORE",0,0);
             else
                 aux=menu_display("PLAY","DIFFICULTY","TOP SCORE",1,0);
-            
         flag=true;
         dont_play_song=true;
         }
         
         switch(aux){
-            case 0 : do_exit=true;//Exit value 
-            break;
-            case 1 :{
+            case 0:{ do_exit=true; break;}
+            case 1:{
+                
 #ifndef RASPBERRY                
                 al_stop_samples();
                 al_play_sample(samples[4], 0.25, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
@@ -82,6 +74,7 @@ int main_menu (void){
 #endif
                 
                 aux=play(0);
+                
 #ifndef RASPBERRY
                 al_stop_samples();
 #else
@@ -97,15 +90,14 @@ int main_menu (void){
                     flag=false;
                     dont_play_song=false;
                 }
-                
+                break;
             }
-            break;
             case 2 :{ 
                aux =Difficulty("EASY","NORMAL","HARD");
                flag =false;              
                if(!aux){
-                   fprintf(stderr,"Hubo un error tato , volve a descargar el archivo , gracias\n");
-                   return -1;
+                   fprintf(stderr,"Hubo un error.\n");
+                   return FATAL_ERROR;
 
                }
                else if(aux==CLOSE_DISPLAY) //Si fue un 2 , entonces se apreto la x del display
@@ -118,7 +110,7 @@ int main_menu (void){
                 aux =Top_Score();
                 flag=false;
                if(!aux){
-                   fprintf(stderr,"Hubo un error kpo\n");
+                   fprintf(stderr,"Hubo un error.\n");
                    return -1;
 
                }

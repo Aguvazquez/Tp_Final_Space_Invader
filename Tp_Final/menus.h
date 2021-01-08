@@ -1,16 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/* 
- * File:   main_menu.h
- * Author: aguvazquez
- *
- * Created on 26 de junio de 2020, 16:44
- */
-
 #ifndef MAIN_MENU_H
 #define MAIN_MENU_H
 
@@ -56,8 +43,3 @@ char read_difficulty(void);
 
 char* number_to_str(uint32_t score);
 #endif
-
-
-
-
-

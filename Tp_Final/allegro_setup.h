@@ -1,16 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/* 
- * File:   allegro_setup.h
- * Author: aguvazquez
- *
- * Created on 25 de junio de 2020, 17:51
- */
-
 #ifndef ALLEGRO_SETUP_H
 #define ALLEGRO_SETUP_H
 /*
