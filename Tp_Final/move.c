@@ -181,7 +181,7 @@ int move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score,uint
             if (key_pressed[LEFT] && nave_x >= MOVE_RATE)
                 nave_x -= MOVE_RATE;
 
-            if (key_pressed[RIGHT] && nave_x <= SCREEN_W - 3 * MOVE_RATE)
+            if (key_pressed[RIGHT] && nave_x <= SCREEN_W - 4 * MOVE_RATE)
                 nave_x += MOVE_RATE;
 
             if (aux >= difficulty) {
@@ -197,10 +197,12 @@ int move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score,uint
             redraw_rbp = true;
             aux++;
         }
-        if(!lock) {
-            bullet_x = nave_x + BASE_SIZE; //setea la bala
-            bullet_y = nave_y;
-            lock = true; // solo dispara si no hay otra bala volando.
+        if(key_pressed[SPACE_UP]){
+            if(!lock) {
+                bullet_x = nave_x + BASE_SIZE; //setea la bala
+                bullet_y = nave_y;
+                lock = true; // solo dispara si no hay otra bala volando.
+            }
         }
         if(redraw_rbp){
             
@@ -273,7 +275,9 @@ int move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score,uint
             disp_update();
         }
     }
-#else     
+    
+#else
+    
     al_set_target_bitmap(al_get_backbuffer(display));
     al_start_timer(timer);
     while (!do_exit && cant_aliens && *lives) {
@@ -464,6 +468,7 @@ int move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score,uint
     }
 
     al_stop_timer(timer);
+
 #endif
     
     if(cant_aliens){
@@ -480,11 +485,11 @@ static uint16_t get_rand_num(uint8_t x){
         srand(time(NULL));
         i=true;
     }
-    return (rand()%x);
-    
+    return (rand()%x);    
 }
 
-//HAY QUE UBICAR ESTA FUNCION EN ALGUN LADO PQ LOSE ANIMATION TMB LA USA PERO DISTINTO
+#ifndef RASPBERRY
+
 static void score_to_str(uint32_t *score){
     char str[14]={'S','C','O','R','E',':',' ',' ','0','0','0','0','0'};
     uint32_t aux=0,i,j;
@@ -492,11 +497,11 @@ static void score_to_str(uint32_t *score){
         aux=*score/j;
         str[i]=(char)(aux%10+ASCII);        
     }
-#ifndef RASPBERRY
-    al_draw_text(font[0], al_map_rgb(255,255,255), SCREEN_W, BASE_SIZE/4, ALLEGRO_ALIGN_RIGHT, str);
-#endif
-     
+    al_draw_text(font[0], al_map_rgb(255,255,255), SCREEN_W, BASE_SIZE/4, ALLEGRO_ALIGN_RIGHT, str);     
 }
+
+#endif
+
 #ifndef RASPBERRY
 
 static void logical_move(bool* alien_change, bool* lock_mystery_ship, float* mystery_ship_x, float* mystery_ship_y,

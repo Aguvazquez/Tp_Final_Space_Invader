@@ -174,7 +174,7 @@ void put_on_top_score(uint32_t score , char *str){
         aux=score/j;
         str1[i]=(char)(aux%10+ASCII);        
     }
-    fp= fopen(".Top_Score.txt","a");//Escribo al final del archivo.
+    fp = fopen(".Top_Score.txt","a");//Escribo al final del archivo.
     fputs(str1,fp);
     fputc('\n',fp);
     fputs(str,fp);

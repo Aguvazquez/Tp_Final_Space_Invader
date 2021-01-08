@@ -24,6 +24,7 @@ extern  ALLEGRO_TIMER * timer;
 extern  ALLEGRO_FONT *font[FONTS] ; //Para incluir mas de un tipo de letra , es decir mayusculas y bla bla bla
 extern  ALLEGRO_SAMPLE * samples[SAMPLES]; //arreglo de canciones , para saber cuantas hay que iniciar.
 extern  ALLEGRO_BITMAP* display_background[BACKGROUNDS]; // arreglo para incluir fondos.
+
 #endif
 
 int play(uint8_t mode)
@@ -43,9 +44,13 @@ int play(uint8_t mode)
     }
     
     //idea: si es facil, puntaje final x1, medio x2, dificil x3 (Approved)
+
 #ifndef RASPBERRY
+
         next_level_animation(level);
+
 #endif
+
     while(difficulty)
     {
         aux=move(difficulty, &lifes, level, &score, mode);
@@ -107,7 +112,7 @@ int play(uint8_t mode)
                         }
                     }
 
-                      put_on_top_score(score,name);
+                    put_on_top_score(score, name);
                 }
 #endif
         }
@@ -140,11 +145,6 @@ int32_t string_to_number(char str[STR_LONG]){
     int32_t aux=0,j;
     for(i=4, j=1; i>=0; i--,j*=10){
         aux += (((int32_t)str[i]-48)*j);    
-         
     }
     return aux;
 }
-
-//void submit_name(char name[6], uint32_t score, uint8_t posicion){
-    
-//}
