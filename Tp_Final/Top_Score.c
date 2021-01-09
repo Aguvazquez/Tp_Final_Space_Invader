@@ -31,20 +31,21 @@ static void create_button_unpressed_top_score(void);
 static void create_button_pressed_top_score();
 static void create_table_top_score();
 
-uint16_t Create_Top_Score(){
+uint8_t Create_Top_Score(){
     
     if(!fopen(".Top_Score.txt","r+")){ // para la primera vez que se ejecute el programa crea el archivo donde ubicaremos los top scores
-    return 0;
+        return EXIT_FAILURE;
     }
-    
-    return 1;
+    return EXIT_SUCCESS;
 }
+
 #ifndef RASPBERRY
+
 uint16_t Top_Score(void){
-    uint8_t do_exit=false, check=false,redraw=false ;
+    uint8_t do_exit=false, check=false, redraw=false ;
     uint8_t aux=0;
     float mouse_x = 0 ;
-    float mouse_y =0 ;
+    float mouse_y = 0 ;
     
     al_draw_scaled_bitmap(display_background[0],0, 0, al_get_bitmap_width(display_background[0]), al_get_bitmap_height(display_background[0]), 
             0, 0, al_get_display_width(display), al_get_display_height(display), 
@@ -59,7 +60,7 @@ uint16_t Top_Score(void){
     al_flip_display();
     while(!do_exit){ 
         ALLEGRO_EVENT ev;
-        if (al_get_next_event(event_queue, &ev)) //Toma un evento de la cola, VER RETURN EN DOCUMENT.
+        if (al_get_next_event(event_queue, &ev)) //Toma un evento de la cola
         {
              if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE ){
                 do_exit = true;
@@ -88,17 +89,16 @@ uint16_t Top_Score(void){
             else{
                 redraw=true;
             }
-        }else{
+        }
+        else{
             redraw=true;
         }
         if(redraw){
             create_button_unpressed_top_score();
-            redraw =false;
+            redraw=false;
         }
         check= false;
-        
     }
-    
     return aux;
 }
 static void create_button_unpressed_top_score(){
@@ -164,7 +164,9 @@ static void print_top_score(void){
         fgetc(fp);
     }
 }
+
 #endif
+
 void put_on_top_score(uint32_t score , char *str){
     FILE* fp;
     uint32_t  j, aux=0;
@@ -183,6 +185,7 @@ void put_on_top_score(uint32_t score , char *str){
     reorder_top_score();
     
 }
+
 void reorder_top_score(void){
     typedef struct{
 	char score[STR_LONG];
@@ -248,5 +251,4 @@ void reorder_top_score(void){
     }
     fclose(fp);
     //fprintf(stderr,"%s\n",users[5].score); funciona , puse esta linea para poder probarlo en gedit.
-	
 }

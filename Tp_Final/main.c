@@ -40,18 +40,15 @@ int main(void) {
 
 #else
    
-    if(!allegro_ini()){
-        fprintf(stderr,"Something happened, please try again later");
+    if(!allegro_ini()){     //inicialización de allegro
+        fprintf(stderr, "Hubo un error.\n");
         return FATAL_ERROR;
     }
     
-  /*  if(!main_menu()){
-        fprintf(stderr,"Something happened, please try again later");
-        return FATAL_ERROR;
-    }*/
-    main_menu();
+    main_menu();    //función que ejecuta el juego, hasta que es cerrado.
+    
     allegro_shutdown();
-    fprintf(stderr, "hola");    
+   
 #endif
     
     return (EXIT_SUCCESS);

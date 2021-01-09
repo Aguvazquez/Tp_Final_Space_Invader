@@ -28,7 +28,7 @@ extern  ALLEGRO_BITMAP* display_background[BACKGROUNDS]; // arreglo para incluir
 
 #endif
 
-/**********Header of locals fucntions*********/
+/**********Header of locals functions*********/
 
 /*
  * @Brief Create the Difficulty menu. 
@@ -44,26 +44,31 @@ extern  ALLEGRO_BITMAP* display_background[BACKGROUNDS]; // arreglo para incluir
  *          -1 if something  gone wrong.
  * @Coment This fuctions don't stop the music
  */ 
-//static uint16_t Difficulty(ALLEGRO_DISPLAY**display ,ALLEGRO_SAMPLE *sample[],ALLEGRO_EVENT_QUEUE ** event_queue,ALLEGRO_FONT *font[],ALLEGRO_BITMAP*display_background[],char *str0, char*str1, char*str2);
+
+//static uint16_t Difficulty(ALLEGRO_DISPLAY**display, ALLEGRO_SAMPLE *sample[], ALLEGRO_EVENT_QUEUE **event_queue, 
+//  ALLEGRO_FONT *font[], ALLEGRO_BITMAP *display_background[], char *str0, char*str1, char*str2);
 
 /****************************Global fuctions***********************/
 int main_menu (void){
-    bool do_exit=false;
-    int aux=0;
-    bool flag=false, dont_play_song=false;
+    
+    bool do_exit=false, flag=false, dont_play_song=false;
+    int8_t aux=0;
     
     while(!do_exit){
         if(!flag){        
             if(!dont_play_song)
-                aux=menu_display("PLAY","DIFFICULTY","TOP SCORE",0,0);
+                aux = menu_display("PLAY", "DIFFICULTY", "TOP SCORE", 0, 0);
             else
-                aux=menu_display("PLAY","DIFFICULTY","TOP SCORE",1,0);
+                aux = menu_display("PLAY", "DIFFICULTY", "TOP SCORE", 1, 0);
         flag=true;
         dont_play_song=true;
         }
         
         switch(aux){
-            case 0:{ do_exit=true; break;}
+            case CLOSE_DISPLAY:{ 
+                do_exit=true; 
+                break;
+            }
             case 1:{
                 
 #ifndef RASPBERRY                
@@ -73,7 +78,7 @@ int main_menu (void){
                 
 #endif
                 
-                aux=play(0);
+                aux=play(0);    //aux obtendrá el valor correspondiente al terminar la partida
                 
 #ifndef RASPBERRY
                 al_stop_samples();
@@ -84,7 +89,7 @@ int main_menu (void){
                     do_exit=true;
                 }
                 else if(aux==RESET_GAME){
-                    aux=1;
+                    aux=1;  //como si se oprimiera nuevamente el primer botón "play"
                 }
                 else{
                     flag=false;
@@ -92,45 +97,42 @@ int main_menu (void){
                 }
                 break;
             }
-            case 2 :{ 
-               aux =Difficulty("EASY","NORMAL","HARD");
-               flag =false;              
-               if(!aux){
-                   fprintf(stderr,"Hubo un error.\n");
-                   return FATAL_ERROR;
-
-               }
-               else if(aux==CLOSE_DISPLAY) //Si fue un 2 , entonces se apreto la x del display
-                   do_exit =true;
-                
-            
+            case 2:{ 
+                aux = Difficulty("EASY", "NORMAL", "HARD");
+                flag=false;              
+                if(aux==FATAL_ERROR){
+                    fprintf(stderr,"Hubo un error.\n");
+                    return FATAL_ERROR;
+                }
+                else if(aux==CLOSE_DISPLAY){
+                    do_exit=true;
+                }
+                break;
             }
-            break;
-            case 3 :{
-                aux =Top_Score();
+            case 3:{
+                aux = Top_Score();
                 flag=false;
-               if(!aux){
-                   fprintf(stderr,"Hubo un error.\n");
-                   return -1;
-
-               }
-               else if(aux==2) //Si fue un 2 , entonces se apreto la x del display
-                   do_exit =true;
-               
-
+                if(!aux){
+                    fprintf(stderr,"Hubo un error.\n");
+                    return FATAL_ERROR;
+                }
+                else if(aux==2){ //Si fue un 2, entonces se apreto la x del display
+                    do_exit=true;
+                }
+                break;
             }
-            break;
-            default :{ fprintf(stderr,"Hubo un error  , volve a descargar el archivo , gracias\n");
-                   return -1;
+            default:{ 
+                fprintf(stderr, "Hubo un error.\n");
+                return FATAL_ERROR;
+                break;
             }
-            break;
-
-
         }
     }
     return aux;
 }
+
 #ifndef RASPBERRY
+    
 int pause_menu(){
     int output;
     
@@ -140,6 +142,7 @@ int pause_menu(){
     }
     return output;
 }
+
 void next_level_animation(uint8_t level){
     char str[]={'L','E','V','E','L',' ',' ',' '};
     
@@ -153,6 +156,7 @@ void next_level_animation(uint8_t level){
     al_flip_display();
     al_rest(2.0);
 }
+
 void lose_animation( uint32_t score){
     char str1[]={"GAME OVER"};
     char str2[]={"YOUR SCORE IS: "};
@@ -170,7 +174,9 @@ void lose_animation( uint32_t score){
     al_flip_display();
     al_rest(2.0);
 }
+
 #endif
+
 char read_difficulty(void){
     
     FILE* fp;
