@@ -133,7 +133,7 @@ int move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score,uint
                         4,4,4,4,4,4,
                         6,6,6,6,6,6,
                         8,8,8,8,8,8};
-    step = 1;
+    step = MOVE_RATE;
 #else 
    float bullet_x, bullet_y,nave_x,nave_y,bloques_x[4], bloques_y,explosion_x, explosion_y,alien_bullets_x[CANT_ALIENS],alien_bullets_y[CANT_ALIENS],mystery_ship_x,mystery_ship_y;
    for(i=0; i<4; i++)
@@ -232,36 +232,30 @@ int move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score,uint
                     }
                     break;
                     default:
-                        fprintf(stderr,"Hubo un error");
+                        fprintf(stderr,"Hubo un error en el print de la nave.");
                         
                 }
-                disp_write(coord_nave,D_ON);    
-            }
-            
-            for(i=0;i<4;i++){
                 if(vida_bloques[i]!= 0){
                     coord_bloques.x=bloques_x[i];
                     disp_write(coord_bloques,D_ON);
                     coord_bloques.x++;
                     disp_write(coord_bloques,D_ON);
                 }
+                disp_write(coord_nave,D_ON);    
             }
-            
             for(i=0;i<CANT_ALIENS;i++){
-		fprintf(stderr,"%d ,%d\n",alien_x[i],alien_y[i]);
+		//fprintf(stderr,"%d ,%d\n",alien_x[i],alien_y[i]);
                 coord_alien.x=alien_x[i];
                 coord_alien.y=alien_y[i];
                 if(coord_alien.y<SCREEN_H)
                     disp_write(coord_alien,D_ON);
-            }
-            
-	    for(i=0;i<CANT_ALIENS;i++){
-		coord_alien_bullet.x=alien_bullets_x[i];
+                coord_alien_bullet.x=alien_bullets_x[i];
 		coord_alien_bullet.y=alien_bullets_y[i];
 		if(coord_alien_bullet.y<SCREEN_H && coord_alien_bullet.x<SCREEN_W)
 		    disp_write(coord_alien_bullet,D_ON);
-		alien_bullets_y[i]++;
-	    }
+                if(alien_bullets_y[i]<SCREEN_H)
+                    alien_bullets_y[i]++;
+            }
             if(coord_mystery_ship.x<SCREEN_W){
                 disp_write(coord_mystery_ship,D_ON);
             }
