@@ -79,27 +79,28 @@ void *Joy_action(){
         
         if(coord.x>=JOY_MAX_POS/2){
             key_pressed[RIGHT]=true;
+            event_change=true;
         }
-        else{
-            key_pressed[RIGHT]=false;
-        }
-        if(coord.x<=JOY_MAX_NEG/2){
+        else if(coord.x<=JOY_MAX_NEG/2){
             key_pressed[LEFT]=true;
+            event_change=true;
         }
-        else{
-            key_pressed[LEFT]=false;
-        }
-        if(coord.y>=JOY_MAX_POS/2){
+        else if(coord.y>=JOY_MAX_POS/2){
             key_pressed[SPACE_UP]=true;
+            event_change=true;
+        }
+        else if(joy_switch){
+           key_pressed[JOY_SWITCH]=true;
+           event_change=true;
         }
         else{
-            key_pressed[SPACE_UP]=false;
-        }
-        if(joy_switch){
-           key_pressed[JOY_SWITCH]=true; 
-        }
-        else{
-            key_pressed[JOY_SWITCH]=false;
+            if(event_change){
+                event_change=false;
+                key_pressed[RIGHT]=false;
+                key_pressed[LEFT]=false;
+                key_pressed[SPACE_UP]=false;
+                key_pressed[JOY_SWITCH]=false;
+            }
         }
     }
 }     
@@ -248,13 +249,14 @@ int move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score,uint
             for(i=0;i<CANT_ALIENS;i++){
                 coord_alien.x=alien_x[i];
                 coord_alien.y=alien_y[i];
-                disp_write(coord_alien,D_ON);
+                if(coord_alien.y<SCREEN_H)
+                    disp_write(coord_alien,D_ON);
             }
             
-            if(coord_mystery_ship.x!=SCREEN_W){
+            if(coord_mystery_ship.x<SCREEN_W){
                 disp_write(coord_mystery_ship,D_ON);
             }
-            if(coord_bullet.y!=SCREEN_H){
+            if(coord_bullet.y<SCREEN_H){
                 disp_write(coord_bullet,D_ON);
             }
             if (lock) {
