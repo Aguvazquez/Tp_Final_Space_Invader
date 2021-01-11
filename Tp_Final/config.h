@@ -3,12 +3,13 @@
 
 #define ASCII '0'
 #define STR_LONG 6
+
 #ifdef RASPBERRY
 
 #define SCREEN_W 16
 #define SCREEN_H  16
 #define MOVE_RATE  1
-#define N 24
+#define CANT_ALIENS 24
 #define BASE_SIZE 1
 
 #else
@@ -16,20 +17,16 @@
 #define SCREEN_W  800
 #define SCREEN_H  640
 #define MOVE_RATE  4.0
-#define N 50
+#define CANT_ALIENS 50
+#define BASE_SIZE 20
 
 #endif
 
 #define TIMERTICKRBP 1
 #define SAMPLES  5
 #define FONTS  2
-#define LITTLE_FONT 10
-#define MEDIUM_FONT 25
-#define LARGE_FONT 50
 #define BACKGROUNDS 17
 #define FPS    60.0
-
-#define BASE_SIZE 20
 #define ALIEN 1
 #define PRIMERA_FILA 2
 #define ULTIMA_FILA 7
@@ -37,13 +34,14 @@
 #define ULTIMA_COLUMNA 12
 #define ESPACIO_ALIENS 1
 #define BLOQUE 25
-#define FILA_BLOQUES N-3
+#define FILA_BLOQUES CANT_ALIENS-3
 #define PRIMER_BLOQUE 2
 #define ULTIMO_BLOQUE 12
 #define ESPACIO_BLOQUES 3
+#define LIFES 3
 
-#define RESET_GAME  -1
-#define CLOSE_DISPLAY  -2
+#define CLOSE_DISPLAY  -1
+#define RESET_GAME  -2
 #define EXIT_MENU -3
 #define FATAL_ERROR -4
 
@@ -54,12 +52,9 @@
 #define EASY 27
 #define NORMAL 22
 #define HARD 17
-
-#define TRUE 1
-#define FALSE 0
+#define MAX_DIFFICULTY 12
 
 #endif//CONFIG_H
-
 
 
 
