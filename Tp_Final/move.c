@@ -63,7 +63,7 @@ bool event_change=false;
 #ifdef RASPBERRY
 void *Timer_rbp(){
     while(1){
-        usleep(1500); //15 ms
+        usleep(15000); //15 ms
         if(TimerTickRBP){
             TimerTickRBP--;
         }
