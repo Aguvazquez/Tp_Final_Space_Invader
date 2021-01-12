@@ -133,7 +133,7 @@ int8_t Difficulty(char *str0, char *str1, char *str2){
     FILE* fp=fopen(".Difficulty.txt","w");  //Creo el archivo difficulty en donde guardaremos el nivel de dificultad.
     
     if(!fp){
-         return FATAL_ERROR;    
+        return FATAL_ERROR;    
     }
 
     int8_t aux = menu_display(str0, str1, str2, 1, 0);

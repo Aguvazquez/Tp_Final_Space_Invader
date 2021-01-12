@@ -1,4 +1,3 @@
-
 /************************* Standard libraries **********************************/
 
 #include <stdio.h>
@@ -35,17 +34,17 @@
 
 /****************************Allegro global variables **************************/
 
-extern  ALLEGRO_DISPLAY * display;
-extern  ALLEGRO_EVENT_QUEUE * event_queue;
-extern  ALLEGRO_TIMER * timer;
-extern  ALLEGRO_FONT *font[FONTS] ; 
-extern  ALLEGRO_SAMPLE * samples[SAMPLES]; 
-extern  ALLEGRO_BITMAP* display_background[BACKGROUNDS];
+extern  ALLEGRO_DISPLAY *display;
+extern  ALLEGRO_EVENT_QUEUE *event_queue;
+extern  ALLEGRO_TIMER *timer;
+extern  ALLEGRO_FONT *font[FONTS]; 
+extern  ALLEGRO_SAMPLE *samples[SAMPLES]; 
+extern  ALLEGRO_BITMAP *display_background[BACKGROUNDS];
 
 /*******************************************************************************/
 
 /****************************Global fuctions************************************/
-int main_menu (void){
+int8_t main_menu (void){
     
     bool do_exit=false, flag=false, dont_play_song=false;
     int8_t aux=0;
@@ -102,12 +101,12 @@ int main_menu (void){
             case 3:{                
                 aux = Top_Score();                
                 flag=false;
-                if(!aux){
-                    fprintf(stderr,"Error al abrir top score.\n");
-                    return FATAL_ERROR;
-                }
-                else if(aux==2){ //Si fue un 2 --> se apreto la x del display
+                if(aux==CLOSE_DISPLAY){ //Se apretó la x del display
                     do_exit=true;
+                }
+                else if(aux){   //solo devuelve CLOSE_DISPLAY o 0
+                    fprintf(stderr, "Error al ver top score.\n");
+                    return FATAL_ERROR;
                 }
                 break;
             }
@@ -121,12 +120,11 @@ int main_menu (void){
     return aux;
 }
     
-int pause_menu(){
-    int output;
+int8_t pause_menu(){
+    int8_t output = menu_display("RESUME", "RESET GAME", "EXIT", 1, 1);
     
-    if((output=menu_display("RESUME","RESET GAME","EXIT",1,1))==-1){
-        fprintf(stderr,"Hubo un error en el menù de pausa.");
-        return FATAL_ERROR;
+    if(output == FATAL_ERROR){
+        fprintf(stderr, "Hubo un error en el menú de pausa.");
     }
     return output;
 }
@@ -135,24 +133,24 @@ void next_level_animation(uint8_t level){
     char str[]={'L','E','V','E','L',' ',' ',' '};
     
     if(level>=10){
-        str[6]=(char)((level/10)+ASCII);
+        str[6]=(char)((level/10)+ASCII);    //escribe la decena del nivel en ASCII
     }
-    str[7]=(char)((level%10)+ASCII);
+    str[7]=(char)((level%10)+ASCII);    //escribe la unidad del nivel en ASCII
     
     al_clear_to_color(al_map_rgb(0, 0, 0));
     al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W / 2,
                             SCREEN_H / 3, ALLEGRO_ALIGN_CENTER, str);
     al_flip_display();
-    al_rest(2.0);
+    al_rest(2.0);       //tiempo que dura la animación
 }
 
-void lose_animation( uint32_t score){
+void lose_animation(uint32_t score){
     char str1[]={"GAME OVER"};
     char str2[]={"YOUR SCORE IS: "};
     char str3[6]={' ',' ',' ',' ',' '};
-    uint32_t aux=0,j;
+    uint32_t aux=0, j;
     int8_t i;
-    for(i=4,j=1; i>=0; i--,j*=10){ //Algoritmo int --> char
+    for(i=4,j=1; i>=0; i--, j*=10){ //Algoritmo int --> char
         aux=score/j;
         str3[i]=(char)(aux%10+ASCII);        
     }
@@ -164,18 +162,7 @@ void lose_animation( uint32_t score){
     al_draw_text(font[0], al_map_rgb(255, 255, 255), 23*SCREEN_W/40,
                             SCREEN_H/2, ALLEGRO_ALIGN_LEFT, str3); 
     al_flip_display();
-    al_rest(2.0);
+    al_rest(2.0);   //tiempo que dura la animación
 }
 
 #endif //RASPBERRY
-
-char read_difficulty(void){
-    
-    FILE* fp;
-    char output=0;
-    fp=fopen(".Difficulty.txt","r");
-    output=(fgetc(fp)-ASCII)*10; //Convierto en número.
-    output+=(fgetc(fp)-ASCII);
-    fclose(fp);
-    return output;
-}

@@ -142,9 +142,20 @@ uint8_t get_top_score(uint32_t score){  //devuelve la posicion del jugador si es
 
 int32_t string_to_number(char str[STR_LONG]){
     int8_t i;
-    int32_t aux=0,j;
-    for(i=4, j=1; i>=0; i--,j*=10){
+    int32_t aux=0, j;
+    for(i=4, j=1; i>=0; i--, j*=10){
         aux += (((int32_t)str[i]-48)*j);    
     }
     return aux;
+}
+
+char read_difficulty(void){
+    
+    FILE* fp;
+    char difficulty=0;
+    fp=fopen(".Difficulty.txt","r");
+    difficulty=(fgetc(fp)-ASCII)*10;    //Convierto en la decena
+    difficulty+=(fgetc(fp)-ASCII);      //Le sumo la unidad
+    fclose(fp);
+    return difficulty;
 }

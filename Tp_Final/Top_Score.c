@@ -42,44 +42,41 @@ uint8_t Create_Top_Score(){
 #ifndef RASPBERRY
 
 int8_t Top_Score(void){
-    uint8_t do_exit=false, check=false, redraw=false ;
-    uint8_t aux=0;
-    float mouse_x = 0 ;
-    float mouse_y = 0 ;
+    
+    uint8_t do_exit=false, check=false, redraw=false;
+    int8_t aux=0;
+    float mouse_x=0, mouse_y=0;
     
     al_draw_scaled_bitmap(display_background[0],0, 0, al_get_bitmap_width(display_background[0]), al_get_bitmap_height(display_background[0]), 
-            0, 0, al_get_display_width(display), al_get_display_height(display), 
-            0);
-    /*al_draw_scaled_bitmap(display_background[1],0, 0, al_get_bitmap_width(display_background[1]), al_get_bitmap_height(display_background[1]),
-            0, 0, al_get_display_width(*display), al_get_display_height(*display)/3,
-            0);*/
+            0, 0, al_get_display_width(display), al_get_display_height(display), 0);
+
     al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W/2, SCREEN_H/6, ALLEGRO_ALIGN_CENTER, "TOP SCORE");
+    
     create_button_unpressed_top_score();
     create_table_top_score();
     print_top_score();
     al_flip_display();
+    
     while(!do_exit){ 
         ALLEGRO_EVENT ev;
         if (al_get_next_event(event_queue, &ev)) //Toma un evento de la cola
         {
-             if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE ){
-                do_exit = true;
-                aux=2;
-             }
-
-             else if (ev.type == ALLEGRO_EVENT_MOUSE_AXES) {
+            if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE){
+                do_exit=true;
+                aux=CLOSE_DISPLAY;
+            }
+            else if(ev.type == ALLEGRO_EVENT_MOUSE_AXES){
                 mouse_x = ev.mouse.x;
                 mouse_y = ev.mouse.y;
             }
-            else if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP) {
+            else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP){
                 check=true;
-            }
+           }
         }
         if(mouse_x>=13*SCREEN_W/16.0 && mouse_x<= 15*SCREEN_W/16.0){
             if(mouse_y>=13*SCREEN_H/16 && mouse_y<= 15*SCREEN_H/16){
                 if(check){
                     do_exit=true;
-                    aux=1;
                 }
                 else{
                     create_button_pressed_top_score();
@@ -97,7 +94,7 @@ int8_t Top_Score(void){
             create_button_unpressed_top_score();
             redraw=false;
         }
-        check= false;
+        check=false;
     }
     return aux;
 }

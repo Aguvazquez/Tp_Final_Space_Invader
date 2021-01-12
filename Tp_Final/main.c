@@ -3,7 +3,7 @@
  *                         Trabajo Práctico Final                              *
  *                             Programación I                                  *
  *                                2020Q1                                       *
- * Desarrolladores: Mendizabal Francisco(), Vazquez Agustin(61420)             *
+ * Desarrolladores: Mendizabal Francisco(61454), Vazquez Agustin(61420)        *
  * Todos los derechos reservados.                                              *
  *******************************************************************************/
 
@@ -30,7 +30,7 @@
 /*******************************************************************************/
 
 #ifndef RASPBERRY //Condición de compilación, afecta a las librerias 
-                  // y a las variables.
+                  //y a las variables.
 
 /***************************** Allegro libraries  ******************************/
 
@@ -46,25 +46,25 @@
 
 /****************************Allegro global variables **************************/
 
-ALLEGRO_DISPLAY * display = NULL;
+ALLEGRO_DISPLAY *display = NULL;
 
-ALLEGRO_EVENT_QUEUE * event_queue = NULL;
+ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 
-ALLEGRO_TIMER * timer = NULL;
+ALLEGRO_TIMER *timer = NULL;
 
 ALLEGRO_FONT *font[FONTS] = {NULL, NULL}; 
                                         
-ALLEGRO_SAMPLE * samples[SAMPLES] = {NULL, NULL, NULL, NULL, NULL};
+ALLEGRO_SAMPLE *samples[SAMPLES] = {NULL, NULL, NULL, NULL, NULL};
 
-ALLEGRO_BITMAP* display_background[BACKGROUNDS] = {NULL, NULL, NULL, NULL, NULL,
+ALLEGRO_BITMAP *display_background[BACKGROUNDS] = {NULL, NULL, NULL, NULL, NULL,
          NULL, NULL, NULL, NULL,NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
 
 /*******************************************************************************/
 
-#endif // if not define RASPBERRY
+#endif // if not defined RASPBERRY
 
 /***************************** Main function ***********************************/
-int main(void) {
+int main(void){
 
 #ifdef RASPBERRY
 
