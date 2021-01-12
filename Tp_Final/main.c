@@ -70,7 +70,7 @@ int main(void) {
 
     disp_init();
     joy_init();
-    play(1);
+    play(RBP);
 
 #else //RASPBERRY
    

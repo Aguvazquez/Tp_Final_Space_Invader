@@ -87,7 +87,7 @@ int main_menu (void){
                 
 #endif
                 
-                aux=play(0);    //aux obtendrá el valor correspondiente al terminar la partida
+                aux=play(ALLEG);    //aux obtendrá el valor correspondiente al terminar la partida
                 
 #ifndef RASPBERRY
                 
