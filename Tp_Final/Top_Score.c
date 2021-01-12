@@ -1,13 +1,24 @@
+/************************* Standard libraries **********************************/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdbool.h>
+
+/*******************************************************************************/
+
+/************************* Locals headers **************************************/
+
 #include "config.h"
 #include "Top_Score.h"
 #include "play.h"
 #include "allegro_setup.h"
 
+/*******************************************************************************/
+
 #ifndef RASPBERRY
+
+/***************************** Allegro libraries  ******************************/
 
 #include <allegro5/allegro.h>  
 #include <allegro5/allegro_color.h> 
@@ -17,14 +28,29 @@
 #include <allegro5/allegro_audio.h> 
 #include <allegro5/allegro_acodec.h> 
 
+/*******************************************************************************/
+
+/****************************Local function*************************************/
+
+/*
+ * @brief Al introducir al 6to usuario en ".Top_Score.txt" , esta funcion se 
+ *        encarga de reordenar el archivo en cuestion y eliminar al de menor
+ *        puntaje.
+ */
+static void reorder_top_score(void);
+
+/****************************Allegro global variables **************************/
+
 extern  ALLEGRO_DISPLAY * display;
 extern  ALLEGRO_EVENT_QUEUE * event_queue;
 extern  ALLEGRO_TIMER * timer;
-extern  ALLEGRO_FONT *font[FONTS] ; //Para incluir mas de un tipo de letra , es decir mayusculas y bla bla bla
-extern  ALLEGRO_SAMPLE * samples[SAMPLES]; //arreglo de canciones , para saber cuantas hay que iniciar.
-extern  ALLEGRO_BITMAP* display_background[BACKGROUNDS]; // arreglo para incluir fondos.
+extern  ALLEGRO_FONT *font[FONTS] ; 
+extern  ALLEGRO_SAMPLE * samples[SAMPLES];
+extern  ALLEGRO_BITMAP* display_background[BACKGROUNDS]; 
 
-#endif
+/*******************************************************************************/
+
+#endif//RASPBERRY
 
 void put_on_top_score(uint32_t score, char *str){
     
@@ -39,17 +65,17 @@ void put_on_top_score(uint32_t score, char *str){
     }
     
     fp = fopen(".Top_Score.txt", "a");   //Escribo al final del archivo.
-    fputs(str1,fp);
+    fputs(str1,fp); //SCORE
     fputc('\n',fp);
-    fputs(str,fp);
+    fputs(str,fp);  //NAME
     fputc('\n',fp);
     fclose(fp);
     
     reorder_top_score();
 }
 
-void reorder_top_score(void){
-    
+static void reorder_top_score(void){
+    //otro comentario a destacar , solo hay que llamar a esta funcion cuando el jugador ponga su nombre.
     typedef struct{
 	char score[STR_LONG];
         char name[STR_LONG];
@@ -104,8 +130,8 @@ void reorder_top_score(void){
     }
     fclose(fp);
     fp = fopen(".Top_Score.txt", "w");
-    for(i=0; i<5; i++){               // Aca iria comparado con un 5 m para que ultimo no se copie , pero como estoy haciendo pruebas le puse que copie el 6to tmb
-        fputs(users[i].score, fp);    //otro comentario a destacar , solo hay que llamar a esta funcion cuando el jugador ponga su nombre.
+    for(i=0; i<5; i++){               //Copio los 5 usarios.
+        fputs(users[i].score, fp);    
         fputc('\n', fp);
         fputs(users[i].name, fp);
         fputc('\n',fp);

@@ -65,7 +65,12 @@ ALLEGRO_BITMAP *display_background[BACKGROUNDS] = {NULL, NULL, NULL, NULL, NULL,
 
 /***************************** Main function ***********************************/
 int main(void){
-
+    
+    if(!fopen(".Top_Score.txt", "r+")){     //crea el archivo donde ubicaremos
+                                                //el top score.
+            return EXIT_FAILURE;
+        }
+    
 #ifdef RASPBERRY
 
     disp_init();
@@ -76,10 +81,6 @@ int main(void){
    
     if(allegro_ini()){     //inicialización de Allegro
         fprintf(stderr, "Hubo un error de inicialización.\n");
-        return EXIT_FAILURE;
-    }
-    
-    if(!fopen(".Top_Score.txt", "r+")){     //crea el archivo donde ubicaremos el top score.
         return EXIT_FAILURE;
     }
     

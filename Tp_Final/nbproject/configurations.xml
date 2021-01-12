@@ -152,10 +152,6 @@
       </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="menu_display_allegro.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="menu_display_allegro.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="menus.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="menus.h" ex="false" tool="3" flavor2="0">
@@ -266,10 +262,6 @@
       <item path="libaudio.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="menu_display_allegro.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="menu_display_allegro.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="menus.c" ex="false" tool="0" flavor2="0">
       </item>
