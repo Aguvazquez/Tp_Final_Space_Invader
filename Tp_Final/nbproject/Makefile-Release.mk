@@ -38,7 +38,6 @@ OBJECTFILES= \
 	${OBJECTDIR}/Top_Score.o \
 	${OBJECTDIR}/allegro_setup.o \
 	${OBJECTDIR}/main.o \
-	${OBJECTDIR}/menu_display_allegro.o \
 	${OBJECTDIR}/menus.o \
 	${OBJECTDIR}/move.o \
 	${OBJECTDIR}/play.o \
@@ -83,11 +82,6 @@ ${OBJECTDIR}/main.o: main.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.c
-
-${OBJECTDIR}/menu_display_allegro.o: menu_display_allegro.c
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/menu_display_allegro.o menu_display_allegro.c
 
 ${OBJECTDIR}/menus.o: menus.c
 	${MKDIR} -p ${OBJECTDIR}

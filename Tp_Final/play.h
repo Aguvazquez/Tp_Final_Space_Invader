@@ -20,6 +20,8 @@ int play(uint8_t mode);
 int32_t string_to_number(char str[6]);
 uint8_t get_top_score(uint32_t score);
 char read_difficulty(void);
+void next_level_animation(uint8_t level);
 
+void lose_animation(uint32_t score);
 
 #endif /* PLAY_H */

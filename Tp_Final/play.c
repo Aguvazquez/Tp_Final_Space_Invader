@@ -5,7 +5,7 @@
 #include "config.h"
 #include "move.h"
 #include "menus.h"
-#include"Top_Score.h"
+#include "Top_Score.h"
 #include "allegro_setup.h"
 
 #ifndef RASPBERRY
@@ -158,4 +158,40 @@ char read_difficulty(void){
     difficulty+=(fgetc(fp)-ASCII);      //Le sumo la unidad
     fclose(fp);
     return difficulty;
+}
+
+void next_level_animation(uint8_t level){
+    char str[]={'L','E','V','E','L',' ',' ',' '};
+    
+    if(level>=10){
+        str[6]=(char)((level/10)+ASCII);    //escribe la decena del nivel en ASCII
+    }
+    str[7]=(char)((level%10)+ASCII);    //escribe la unidad del nivel en ASCII
+    
+    al_clear_to_color(al_map_rgb(0, 0, 0));
+    al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W / 2,
+                            SCREEN_H / 3, ALLEGRO_ALIGN_CENTER, str);
+    al_flip_display();
+    al_rest(2.0);       //tiempo que dura la animación
+}
+
+void lose_animation(uint32_t score){
+    char str1[]={"GAME OVER"};
+    char str2[]={"YOUR SCORE IS: "};
+    char str3[6]={' ',' ',' ',' ',' '};
+    uint32_t aux=0, j;
+    int8_t i;
+    for(i=4,j=1; i>=0; i--, j*=10){ //Algoritmo int --> char
+        aux=score/j;
+        str3[i]=(char)(aux%10+ASCII);        
+    }
+    al_clear_to_color(al_map_rgb(0, 0, 0));
+    al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W/2, 
+                            SCREEN_H/4, ALLEGRO_ALIGN_CENTER, str1); 
+    al_draw_text(font[0], al_map_rgb(255, 255, 255), 23*SCREEN_W/40,
+                            SCREEN_H/2, ALLEGRO_ALIGN_RIGHT, str2); 
+    al_draw_text(font[0], al_map_rgb(255, 255, 255), 23*SCREEN_W/40,
+                            SCREEN_H/2, ALLEGRO_ALIGN_LEFT, str3); 
+    al_flip_display();
+    al_rest(2.0);   //tiempo que dura la animación
 }

@@ -79,6 +79,11 @@ int main(void){
         return EXIT_FAILURE;
     }
     
+    if(Create_Top_Score()){
+        fprintf(stderr, "El top score no pudo ser creado.\n");
+        return EXIT_FAILURE;
+    }
+    
     main_menu();    //función que ejecuta el juego, hasta que es cerrado.
     
     allegro_shutdown(); //Finalización de Allegro

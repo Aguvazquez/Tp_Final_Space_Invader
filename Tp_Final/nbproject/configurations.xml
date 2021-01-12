@@ -10,7 +10,6 @@
       <itemPath>disdrv.h</itemPath>
       <itemPath>joydrv.h</itemPath>
       <itemPath>libaudio.h</itemPath>
-      <itemPath>menu_display_allegro.h</itemPath>
       <itemPath>menus.h</itemPath>
       <itemPath>move.h</itemPath>
       <itemPath>play.h</itemPath>
@@ -54,7 +53,6 @@
       <itemPath>Top_Score.c</itemPath>
       <itemPath>allegro_setup.c</itemPath>
       <itemPath>main.c</itemPath>
-      <itemPath>menu_display_allegro.c</itemPath>
       <itemPath>menus.c</itemPath>
       <itemPath>move.c</itemPath>
       <itemPath>play.c</itemPath>

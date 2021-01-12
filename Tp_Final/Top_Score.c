@@ -26,154 +26,22 @@ extern  ALLEGRO_BITMAP* display_background[BACKGROUNDS]; // arreglo para incluir
 
 #endif
 
-static void print_top_score();
-static void create_button_unpressed_top_score(void);
-static void create_button_pressed_top_score();
-static void create_table_top_score();
 
 uint8_t Create_Top_Score(){
     
-    if(!fopen(".Top_Score.txt","r+")){ // para la primera vez que se ejecute el programa crea el archivo donde ubicaremos los top scores
+    if(!fopen(".Top_Score.txt", "r+")){     //crea el archivo donde ubicaremos el top score.
         return EXIT_FAILURE;
     }
     return EXIT_SUCCESS;
 }
 
-#ifndef RASPBERRY
-
-int8_t Top_Score(void){
-    
-    uint8_t do_exit=false, check=false, redraw=false;
-    int8_t aux=0;
-    float mouse_x=0, mouse_y=0;
-    
-    al_draw_scaled_bitmap(display_background[0],0, 0, al_get_bitmap_width(display_background[0]), al_get_bitmap_height(display_background[0]), 
-            0, 0, al_get_display_width(display), al_get_display_height(display), 0);
-
-    al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W/2, SCREEN_H/6, ALLEGRO_ALIGN_CENTER, "TOP SCORE");
-    
-    create_button_unpressed_top_score();
-    create_table_top_score();
-    print_top_score();
-    al_flip_display();
-    
-    while(!do_exit){ 
-        ALLEGRO_EVENT ev;
-        if (al_get_next_event(event_queue, &ev)) //Toma un evento de la cola
-        {
-            if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE){
-                do_exit=true;
-                aux=CLOSE_DISPLAY;
-            }
-            else if(ev.type == ALLEGRO_EVENT_MOUSE_AXES){
-                mouse_x = ev.mouse.x;
-                mouse_y = ev.mouse.y;
-            }
-            else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP){
-                check=true;
-           }
-        }
-        if(mouse_x>=13*SCREEN_W/16.0 && mouse_x<= 15*SCREEN_W/16.0){
-            if(mouse_y>=13*SCREEN_H/16 && mouse_y<= 15*SCREEN_H/16){
-                if(check){
-                    do_exit=true;
-                }
-                else{
-                    create_button_pressed_top_score();
-                }
-         
-            }
-            else{
-                redraw=true;
-            }
-        }
-        else{
-            redraw=true;
-        }
-        if(redraw){
-            create_button_unpressed_top_score();
-            redraw=false;
-        }
-        check=false;
-    }
-    return aux;
-}
-
-static void create_button_unpressed_top_score(){
-    al_draw_filled_rectangle(13*SCREEN_W/16, 13*SCREEN_H/16, 15*SCREEN_W/16, 15*SCREEN_H/16, al_color_name("black"));
-    al_draw_rectangle(13*SCREEN_W/16, 13*SCREEN_H/16, 15*SCREEN_W/16, 15*SCREEN_H/16, al_color_name("white"),2.0);
-    al_draw_text(font[0], al_map_rgb(255, 255, 255), 7*SCREEN_W / 8, (171*SCREEN_H / 200), ALLEGRO_ALIGN_CENTER, "EXIT");
-    al_flip_display();
-}
-
-static void create_button_pressed_top_score(){
-    al_draw_filled_rectangle(13*SCREEN_W/16, 13*SCREEN_H/16, 15*SCREEN_W/16, 15*SCREEN_H/16, al_color_name("grey"));
-    al_draw_text(font[0], al_map_rgb(255, 255, 255), 7*SCREEN_W / 8, (171*SCREEN_H / 200), ALLEGRO_ALIGN_CENTER, "EXIT");
-    al_flip_display();
-}
-
-static void create_table_top_score(){
-    //RECTANGULO BASE
-    al_draw_filled_rectangle(SCREEN_W/4, SCREEN_H/3, 3*SCREEN_W/4, 5*SCREEN_H/6, al_color_name("black"));
-    al_draw_rectangle(SCREEN_W/4, SCREEN_H/3, 3*SCREEN_W/4, 5*SCREEN_H/6, al_color_name("white"),2.0);
-    //LINEAS VERTICALES 
-    al_draw_line(13*SCREEN_W/24, SCREEN_H/3,13*SCREEN_W/24, 5*SCREEN_H/6, al_color_name("white"),2.0);
-    al_draw_line(SCREEN_W/3, SCREEN_H/3,SCREEN_W/3, 5*SCREEN_H/6, al_color_name("white"),2.0);//vertical
-    //SEPARADORES
-    al_draw_rectangle(SCREEN_W/4, 5*SCREEN_H/12,3*SCREEN_W/4, SCREEN_H/2, al_color_name("white"),2.0);
-    al_draw_rectangle(SCREEN_W/4, 7*SCREEN_H/12, 3*SCREEN_W/4, 2*SCREEN_H/3, al_color_name("white"),2.0);
-    al_draw_rectangle(SCREEN_W/4, 3*SCREEN_H/4, 3*SCREEN_W/4, 5*SCREEN_H/6, al_color_name("white"),2.0);
-    //TEXTO
-    al_draw_text(font[0], al_map_rgb(255,255,255), 29*SCREEN_W / 96, (17*SCREEN_H /48), ALLEGRO_ALIGN_CENTER, "N°");
-    al_draw_text(font[0], al_map_rgb(255,255,255), 29*SCREEN_W / 96, (7*SCREEN_H /16), ALLEGRO_ALIGN_CENTER, "1");
-    al_draw_text(font[0], al_map_rgb(255,255,255), 29*SCREEN_W / 96, (25*SCREEN_H /48), ALLEGRO_ALIGN_CENTER, "2");
-    al_draw_text(font[0], al_map_rgb(255,255,255), 29*SCREEN_W / 96, (29*SCREEN_H /48), ALLEGRO_ALIGN_CENTER, "3");
-    al_draw_text(font[0], al_map_rgb(255,255,255), 29*SCREEN_W / 96, (11*SCREEN_H /16), ALLEGRO_ALIGN_CENTER, "4");
-    al_draw_text(font[0], al_map_rgb(255,255,255), 29*SCREEN_W / 96, (37*SCREEN_H /48), ALLEGRO_ALIGN_CENTER, "5");
-    
-    al_draw_text(font[0], al_map_rgb(255,255,255), 7*SCREEN_W / 16, (17*SCREEN_H /48), ALLEGRO_ALIGN_CENTER, "SCORE");
-    
-    al_draw_text(font[0], al_map_rgb(255,255,255), 31*SCREEN_W / 48, (17*SCREEN_H /48), ALLEGRO_ALIGN_CENTER, "NAME");
-    
-    al_flip_display();
-}
-/*Cuando guardemos algo en el archivo de top score hay que guardarlo de la siguiente manera
- *                      sssss 
- *                      xxxxx
- *                      sssss
- *                      xxxxx
- *                      sssss
- *                      xxxxx
- *         (s de score ,x de nombre) Si el nombre que elige la persona 
- * es menor a 5 letras , rellenar con espacios , es mas facil la programacion asi 
- */
-static void print_top_score(void){
-    uint8_t i;
-    static FILE*  fp;
-    char str[STR_LONG];
-    fp = fopen(".Top_Score.txt","r"); // Con el punto , se crea el archivo de forma oculta.
-    
-    for(i=0; i<5; i++){
-        //SCORE
-        fgets(str,STR_LONG,fp);
-        al_draw_text(font[0], al_map_rgb(255,255,255), 7*SCREEN_W/16, (21+4*i)*SCREEN_H/48, ALLEGRO_ALIGN_CENTER, str);
-        fgetc(fp);  // "aumento" el fp a la siguiente linea 
-        //NAME
-        fgets(str,STR_LONG,fp);
-        al_draw_text(font[0], al_map_rgb(255,255,255), 31*SCREEN_W/48, (21+4*i)*SCREEN_H/48, ALLEGRO_ALIGN_CENTER, str);
-        fgetc(fp);
-    }
-}
-
-#endif
-
-void put_on_top_score(uint32_t score , char *str){
+void put_on_top_score(uint32_t score, char *str){
     FILE* fp;
     uint32_t  j, aux=0;
-    int i;
+    uint8_t i;
     char str1[6]={'0','0','0','0','0','\0'};
-    for(i=4,j=1; i>=0; i--,j*=10){
-        aux=score/j;
+    for(i=4, j=1; i>=0; i--,j*=10){
+        aux = score/j;
         str1[i]=(char)(aux%10+ASCII);        
     }
     fp = fopen(".Top_Score.txt","a");//Escribo al final del archivo.
@@ -183,7 +51,6 @@ void put_on_top_score(uint32_t score , char *str){
     fputc('\n',fp);
     fclose(fp);
     reorder_top_score();
-    
 }
 
 void reorder_top_score(void){
