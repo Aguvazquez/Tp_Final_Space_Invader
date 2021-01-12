@@ -346,7 +346,7 @@ int move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score,uint
 
                     case ALLEGRO_KEY_ESCAPE:
                     {
-                        switch (pause_menu(display, event_queue, font, display_background)) {
+                        switch (pause_menu()) {
                             case 0:
                             {
                                 cant_aliens = CLOSE_DISPLAY;

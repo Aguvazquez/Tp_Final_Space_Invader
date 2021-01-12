@@ -37,5 +37,3 @@ void lose_animation( uint32_t score);
 #endif //RASPBERRY
 
 char read_difficulty(void);
-
-char* number_to_str(uint32_t score);
