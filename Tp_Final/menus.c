@@ -90,7 +90,7 @@ int8_t main_menu (void){
                 aux = Difficulty("EASY", "NORMAL", "HARD");
                 flag=false;              
                 if(aux==FATAL_ERROR){
-                    fprintf(stderr,"Error al modificar dificultad.\n");
+                    fprintf(stderr, "Error al modificar dificultad.\n");
                     return FATAL_ERROR;
                 }
                 else if(aux==CLOSE_DISPLAY){
