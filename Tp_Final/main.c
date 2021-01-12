@@ -44,7 +44,7 @@
 
 /*******************************************************************************/
 
-/****************************Allegro global variables **************************/
+/**************************** Allegro global variables *************************/
 
 ALLEGRO_DISPLAY *display = NULL;
 
@@ -61,7 +61,7 @@ ALLEGRO_BITMAP *display_background[BACKGROUNDS] = {NULL, NULL, NULL, NULL, NULL,
 
 /*******************************************************************************/
 
-#endif // if not defined RASPBERRY
+#endif // RASPBERRY
 
 /***************************** Main function ***********************************/
 int main(void){
@@ -79,8 +79,7 @@ int main(void){
         return EXIT_FAILURE;
     }
     
-    if(Create_Top_Score()){
-        fprintf(stderr, "El top score no pudo ser creado.\n");
+    if(!fopen(".Top_Score.txt", "r+")){     //crea el archivo donde ubicaremos el top score.
         return EXIT_FAILURE;
     }
     

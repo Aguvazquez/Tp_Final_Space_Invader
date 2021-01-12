@@ -14,12 +14,12 @@
 #include <allegro5/allegro_acodec.h> 
 #include <allegro5/allegro_image.h>
  
-extern  ALLEGRO_DISPLAY * display;
-extern  ALLEGRO_EVENT_QUEUE * event_queue;
-extern  ALLEGRO_TIMER * timer;
-extern  ALLEGRO_FONT *font[FONTS] ; //Para incluir mas de un tipo de letra , es decir mayusculas y bla bla bla
-extern  ALLEGRO_SAMPLE * samples[SAMPLES]; //arreglo de canciones , para saber cuantas hay que iniciar.
-extern  ALLEGRO_BITMAP* display_background[BACKGROUNDS]; // arreglo para incluir fondos.
+extern  ALLEGRO_DISPLAY *display;
+extern  ALLEGRO_EVENT_QUEUE *event_queue;
+extern  ALLEGRO_TIMER *timer;
+extern  ALLEGRO_FONT *font[FONTS]; 
+extern  ALLEGRO_SAMPLE *samples[SAMPLES]; 
+extern  ALLEGRO_BITMAP *display_background[BACKGROUNDS];
 
   //header with defines 
 
