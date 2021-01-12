@@ -606,7 +606,6 @@ static bool logical(bool* lock_mystery_ship, int* mystery_ship_x, int* mystery_s
             if (!mode) {
                 if (*bullet_y >= alien_y[i] && *bullet_y <= alien_y[i] + 2 * BASE_SIZE) {
                     if (*bullet_x >= alien_x[i] && *bullet_x <= alien_x[i] + 2 * BASE_SIZE) {
-
                         (*cant_aliens)--;
                         *explosion_x = alien_x[i];
                         *explosion_y = alien_y[i];
@@ -630,21 +629,19 @@ static bool logical(bool* lock_mystery_ship, int* mystery_ship_x, int* mystery_s
                 }
             } else {
                 if (*bullet_y == alien_y[i] && *bullet_x == alien_x[i]) {
-                    if (1) {
+                    (*cant_aliens)--;
+                    alien_y[i] = SCREEN_H; //mueve el alien muerto fuera de la pantalla 
+                    *lock = false;
+                    *bullet_y = *nave_y;
 
-                        (*cant_aliens)--;
-                        alien_y[i] = SCREEN_H; //mueve el alien muerto fuera de la pantalla 
-                        *lock = false;
-                        *bullet_y = *nave_y;
-
-                        if (i <= ((CANT_ALIENS / 4) - 1)) {
-                            (*score) += 30;
-                        } else if (i <= ((3 * CANT_ALIENS / 4) - 1)) {
-                            (*score) += 20;
-                        } else {
-                            (*score) += 10;
-                        }
+                    if (i <= ((CANT_ALIENS / 4) - 1)) {
+                        (*score) += 30;
+                    } else if (i <= ((3 * CANT_ALIENS / 4) - 1)) {
+                        (*score) += 20;
+                    } else {
+                        (*score) += 10;
                     }
+                    
                 }
             }
         }
