@@ -136,18 +136,6 @@ int8_t play(uint8_t mode)
     return EXIT_SUCCESS;
 }
 
-int32_t string_to_number(char str[STR_LONG]){
-    
-    int8_t i;
-    int32_t aux=0, j;
-    
-    for(i=4, j=1; i>=0; i--, j*=10){
-        aux += (((int32_t)str[i]-48)*j);    
-    }
-    
-    return aux;
-}
-
 char read_difficulty(void){
     
     FILE* fp=fopen(".Difficulty.txt","r");

@@ -22,7 +22,16 @@
  * @brief Al introducir al 6to usuario en ".Top_Score.txt", esta funcion se 
  *        encarga de reordenar el archivo y eliminar al de menor puntaje.
  */
+
 static void reorder_top_score(void);
+
+/*
+ * @Brief convierte un string en un entero. 
+ * @Param1: string a convertir.
+ * @Return  el valor correspondiente del string recibido.
+ */
+
+static uint32_t string_to_number(char str[6]);
 
 /*******************************************************************************/
 
@@ -170,6 +179,18 @@ static void reorder_top_score(void){
         fputc('\n',fp);
     }
     fclose(fp);
+}
+
+static uint32_t string_to_number(char str[STR_LONG]){
+    
+    int8_t i;
+    uint32_t aux=0, j;
+    
+    for(i = STR_LONG-2, j=1; i>=0; i--, j*=10){ //por estar el uĺtimo dígito en el penúltimo lugar.
+        aux += (((int32_t)str[i]-ASCII)*j);    
+    }
+    
+    return aux;
 }
 
 /****************************** END FILE ***************************************/

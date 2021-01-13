@@ -21,14 +21,6 @@
 int8_t play(uint8_t mode);
 
 /*
- * @Brief convierte un string en un entero. HAY QUE REVISAR POR QUE ES SIGNADO, SI NO HAY MOTIVO ES INEFICIENTE. 
- * @Param1: string a convertir.
- * @Return  el valor correspondiente del string recibido.
- */
-
-int32_t string_to_number(char str[6]);  //no se si podria ser static
-
-/*
  * @Brief lee la dificultad, guardada en el archivo oculto. 
  * @Return  el valor leido.
  *          FATAL_ERROR si hay un error.
