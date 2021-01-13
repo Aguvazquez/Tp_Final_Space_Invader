@@ -136,29 +136,6 @@ int8_t play(uint8_t mode)
     return EXIT_SUCCESS;
 }
 
-uint8_t get_top_score(uint32_t score){  //devuelve la posicion del jugador si esta en el top 5, sino un 0
-    
-    static FILE* fp;
-    char str[STR_LONG];
-    uint8_t i;
-    fp = fopen(".Top_Score.txt", "r");
-    
-    for(i=1; i<=5; i++){
-        //SCORE
-        fgets(str,STR_LONG,fp);
-        if(string_to_number(str) < score)
-            fclose(fp);
-            return i;
-        fgetc(fp);  // "aumento" el fp a la siguiente linea 
-        //NAME
-        fgets(str,STR_LONG,fp);
-        fgetc(fp);
-    }
-    
-    fclose(fp);
-    return 0;
-}
-
 int32_t string_to_number(char str[STR_LONG]){
     
     int8_t i;

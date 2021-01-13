@@ -29,14 +29,6 @@ int8_t play(uint8_t mode);
 int32_t string_to_number(char str[6]);  //no se si podria ser static
 
 /*
- * @Brief revisa si el puntaje obtenido entra o no en el top score. 
- * @Param1: puntaje.
- * @Return  devuelve la posición que obtiene el jugador, o 0 si no entra.
- */
-
-uint8_t get_top_score(uint32_t score);  //no se si podria ser static
-
-/*
  * @Brief lee la dificultad, guardada en el archivo oculto. 
  * @Return  el valor leido.
  *          FATAL_ERROR si hay un error.

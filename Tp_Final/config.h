@@ -5,6 +5,7 @@
 #define STR_LONG 6
 #define RBP 1
 #define ALLEG 0
+#define TOP_PLAYERS 5
 
 #ifdef RASPBERRY
 
