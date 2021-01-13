@@ -4,7 +4,9 @@
 /*
  * @Brief revisa si el puntaje obtenido entra o no en el top score. 
  * @Param1: puntaje.
- * @Return  devuelve la posición que obtiene el jugador, o 0 si no entra.
+ * @Return  devuelve la posición que obtiene el jugador.
+ *          EXIT_SUCCESS si no entra en el top.
+ *          FATAL_ERROR si ocurre un error.
  */
 
 int8_t get_top_score(uint32_t score);  //no se si podria ser static

@@ -31,7 +31,7 @@ static void reorder_top_score(void);
  * @Return  el valor correspondiente del string recibido.
  */
 
-static uint32_t string_to_number(char str[STR_LONG]);
+static uint32_t string_to_int(char str[STR_LONG]);
 
 /*******************************************************************************/
 
@@ -45,13 +45,13 @@ int8_t get_top_score(uint32_t score){  //devuelve la posicion del jugador si est
     fp = fopen(".Top_Score.txt", "r");
     
     if(!fp){
-        fprintf(stderr, "Hubo un error al leer .Top_Score.txt.\n");
+        fprintf(stderr, "Hubo un error al leer el top score.\n");
         return FATAL_ERROR;
     }
     for(i=1; i<=TOP_PLAYERS; i++){
         //SCORE
         fgets(str, STR_LONG, fp);
-        if(string_to_number(str) < score)
+        if(string_to_int(str) < score)
             fclose(fp);
             return i;
         fgetc(fp);  // "aumento" el fp a la siguiente linea 
@@ -64,22 +64,22 @@ int8_t get_top_score(uint32_t score){  //devuelve la posicion del jugador si est
     return EXIT_SUCCESS;
 }
 
-void put_on_top_score(uint32_t score, char *str){
+void put_on_top_score(uint32_t score, char *name_str){
     
     FILE* fp;
     uint32_t  j, aux=0;
     int8_t i;
     
-    char str1[STR_LONG]={'0','0','0','0','0','\0'};
+    char score_str[STR_LONG]={'0','0','0','0','0','\0'};
     for(i = STR_LONG-2, j=1; i>=0; i--, j*=10){ //ya que el último dígito está en penúltima posición
         aux = score/j;
-        str1[i]=(char)((aux%10)+ASCII);        
+        score_str[i]=(char)((aux%10)+ASCII);        
     }
 
     fp = fopen(".Top_Score.txt", "a");   //Escribo al final del archivo.
-    fputs(str1,fp); //SCORE
+    fputs(score_str,fp); //SCORE
     fputc('\n',fp);
-    fputs(str,fp);  //NAME
+    fputs(name_str,fp);  //NAME
     fputc('\n',fp);
     fclose(fp);
     
@@ -158,7 +158,7 @@ static void reorder_top_score(void){
         --all_names;
     }
     for(i=0; i < TOP_PLAYERS+1; i++){
-        users[i].score_num = string_to_number(users[i].score);
+        users[i].score_num = string_to_int(users[i].score);
     }
     for(i=0; i < TOP_PLAYERS+1; i++){
         for(j=1+i; j < TOP_PLAYERS+1; j++){
@@ -180,7 +180,7 @@ static void reorder_top_score(void){
     fclose(fp);
 }
 
-static uint32_t string_to_number(char str[STR_LONG]){
+static uint32_t string_to_int(char str[STR_LONG]){
     
     int8_t i;
     uint32_t aux=0, j;

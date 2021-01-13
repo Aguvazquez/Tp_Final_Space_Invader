@@ -202,10 +202,10 @@ static void lose_animation(uint32_t score){
 
     char str1[]={"GAME OVER"};
     char str2[]={"YOUR SCORE IS: "};
-    char str3[6]={' ',' ',' ',' ',' '};
+    char str3[STR_LONG]={' ',' ',' ',' ',' '};
     uint32_t aux=0, j;
     int8_t i;
-    for(i=4,j=1; i>=0; i--, j*=10){ //Algoritmo int --> char
+    for(i = STR_LONG-2, j=1; i>=0; i--, j*=10){ //Algoritmo int --> string
         aux=score/j;
         str3[i]=(char)(aux%10+ASCII);        
     }
