@@ -16,21 +16,7 @@
 
 /*******************************************************************************/
 
-#ifndef RASPBERRY
-
-/***************************** Allegro libraries  ******************************/
-
-#include <allegro5/allegro.h>  
-#include <allegro5/allegro_color.h> 
-#include <allegro5/allegro_primitives.h>
-#include <allegro5/allegro_font.h> 
-#include <allegro5/allegro_ttf.h> 
-#include <allegro5/allegro_audio.h> 
-#include <allegro5/allegro_acodec.h> 
-
-/*******************************************************************************/
-
-/****************************Local function*************************************/
+/****************************Header of Local function***************************/
 
 /*
  * @brief Al introducir al 6to usuario en ".Top_Score.txt" , esta funcion se 
@@ -39,18 +25,9 @@
  */
 static void reorder_top_score(void);
 
-/****************************Allegro global variables **************************/
-
-extern  ALLEGRO_DISPLAY * display;
-extern  ALLEGRO_EVENT_QUEUE * event_queue;
-extern  ALLEGRO_TIMER * timer;
-extern  ALLEGRO_FONT *font[FONTS] ; 
-extern  ALLEGRO_SAMPLE * samples[SAMPLES];
-extern  ALLEGRO_BITMAP* display_background[BACKGROUNDS]; 
-
 /*******************************************************************************/
 
-#endif//RASPBERRY
+/*************************** Global functions***********************************/
 
 void put_on_top_score(uint32_t score, char *str){
     
@@ -73,9 +50,37 @@ void put_on_top_score(uint32_t score, char *str){
     
     reorder_top_score();
 }
+int8_t create_Top_Score(){
+    
+    if(!fopen(".Top_Score.txt","r")){ //En caso que no lo pueda abrir, es que no
+        int i,j;                      //se creo o se borro .Top_Score.txt
+        FILE* fp;
+        fp=fopen(".Top_Score.txt","w");
+        if(!fp){
+            fprintf(stderr,"Hubo un error en la creación de Top_Score");
+            return EXIT_FAILURE;
+        }
+        for(i=0;i<5;i++){
+            for(j=0;j<5;j++){
+                fputc('0',fp);
+            }
+            fputc('\n',fp);
+            for(j=0;j<5;j++){
+                fputc(' ',fp);
+            }
+            fputc('\n',fp);
+        }
+        fclose(fp);
+    }
+    
+    return EXIT_SUCCESS;
+}
 
+/*******************************************************************************/
+
+/*********************************Local function********************************/
 static void reorder_top_score(void){
-    //otro comentario a destacar , solo hay que llamar a esta funcion cuando el jugador ponga su nombre.
+    //Solo hay que llamar a esta funcion cuando el jugador ponga su nombre.
     typedef struct{
 	char score[STR_LONG];
         char name[STR_LONG];
@@ -116,8 +121,6 @@ static void reorder_top_score(void){
     }
     for(i=0; i<6; i++){
         users[i].score_num=string_to_number(users[i].score);
-        //fprintf(stderr, "%d\n", users[i].score_num);
-        //fprintf(stderr, "%s\n", users[i].score);
     }
     for(i=0; i<6; i++){
         for(j=1+i; j<6; j++){
@@ -137,30 +140,5 @@ static void reorder_top_score(void){
         fputc('\n',fp);
     }
     fclose(fp);
-    //fprintf(stderr,"%s\n",users[5].score); funciona , puse esta linea para poder probarlo en gedit.
 }
-int8_t create_Top_Score(){
-    
-    if(!fopen(".Top_Score.txt","r")){ //En caso que no lo pueda abrir, es que no
-        int i,j;                      //se creo o se borro .Top_Score.txt
-        FILE* fp;
-        fp=fopen(".Top_Score.txt","w");
-        if(!fp){
-            fprintf(stderr,"Hubo un error en la creación de Top_Score");
-            return EXIT_FAILURE;
-        }
-        for(i=0;i<5;i++){
-            for(j=0;j<5;j++){
-                fputc('0',fp);
-            }
-            fputc('\n',fp);
-            for(j=0;j<5;j++){
-                fputc(' ',fp);
-            }
-            fputc('\n',fp);
-        }
-        fclose(fp);
-    }
-    
-    return EXIT_SUCCESS;
-}
+/*******************************END FILE****************************************/
