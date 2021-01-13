@@ -20,26 +20,4 @@
 
 int8_t play(uint8_t mode);
 
-/*
- * @Brief lee la dificultad, guardada en el archivo oculto. 
- * @Return  el valor leido.
- *          FATAL_ERROR si hay un error.
- */
-
-char read_difficulty(void);
-
-/*
- * @Brief crea una animación que indica el nivel que está por empezar. 
- * @Param1: valor del nivel siguiente.
- */
-
-static void next_level_animation(uint8_t level);
-
-/*
- * @Brief indica el final de la partida, y el puntaje total obtenido. 
- * @Param1: puntaje obtenido.
- */
-
-static void lose_animation(uint32_t score);
-
 #endif /* PLAY_H */

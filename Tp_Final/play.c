@@ -42,6 +42,32 @@ extern  ALLEGRO_BITMAP *display_background[BACKGROUNDS];
 
 /*******************************************************************************/
 
+/***************************** Headers of local functions **********************/
+
+/*
+ * @Brief lee la dificultad, guardada en el archivo oculto. 
+ * @Return  el valor leido.
+ *          FATAL_ERROR si hay un error.
+ */
+
+static char read_difficulty(void);
+
+/*
+ * @Brief crea una animación que indica el nivel que está por empezar. 
+ * @Param1: valor del nivel siguiente.
+ */
+
+static void next_level_animation(uint8_t level);
+
+/*
+ * @Brief indica el final de la partida, y el puntaje total obtenido. 
+ * @Param1: puntaje obtenido.
+ */
+
+static void lose_animation(uint32_t score);
+
+/*******************************************************************************/
+
 #endif
 
 /*************************** Global functions **********************************/
@@ -136,7 +162,11 @@ int8_t play(uint8_t mode)
     return EXIT_SUCCESS;
 }
 
-char read_difficulty(void){
+/*******************************************************************************/
+
+/*************************** Local functions ***********************************/
+
+static char read_difficulty(void){
     
     FILE* fp=fopen(".Difficulty.txt","r");
     if(!fp){
@@ -148,8 +178,11 @@ char read_difficulty(void){
     fclose(fp);
     return difficulty;
 }
+
 #ifndef RASPBERRY
+
 static void next_level_animation(uint8_t level){
+
     char str[]={'L','E','V','E','L',' ',' ',' '};
     
     if(level>=10){
@@ -165,6 +198,7 @@ static void next_level_animation(uint8_t level){
 }
 
 static void lose_animation(uint32_t score){
+
     char str1[]={"GAME OVER"};
     char str2[]={"YOUR SCORE IS: "};
     char str3[6]={' ',' ',' ',' ',' '};
@@ -184,4 +218,7 @@ static void lose_animation(uint32_t score){
     al_flip_display();
     al_rest(2.0);   //tiempo que dura la animación
 }
+
 #endif //RASPBERRY
+
+/***************************** END FILE ****************************************/
