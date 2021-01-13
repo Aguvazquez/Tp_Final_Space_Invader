@@ -115,6 +115,7 @@ int move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score,uint
 #ifdef RASPBERRY
     int bullet_x=SCREEN_W, bullet_y,nave_x,nave_y,bloques_x[4], bloques_y,explosion_x, explosion_y,alien_bullets_x[CANT_ALIENS],alien_bullets_y[CANT_ALIENS],mystery_ship_x,mystery_ship_y;
     dcoord_t coord_nave,coord_bloques,coord_alien,coord_mystery_ship,coord_bullet,coord_alien_bullet;
+    char songs[4][]={"game.wav","shoot.wav","invaderkilled.wav","explosion.wav"};
     pthread_t Timer_RBP,Joy_Action;
     pthread_create(&Timer_RBP,NULL,Timer_rbp,NULL);
     pthread_create(&Joy_Action,NULL,Joy_action,NULL);
@@ -176,6 +177,7 @@ int move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score,uint
     bool redraw_rbp= false;
     
 #ifdef RASPBERRY
+    //set_file_to_play(songs[0]);//Musica del juego.
     while (!do_exit && cant_aliens && *lives) {
         if (!TimerTickRBP) {
             TimerTickRBP = TIMERTICKRBP;
@@ -619,7 +621,8 @@ static bool logical(bool* lock_mystery_ship, int* mystery_ship_x, int* mystery_s
 #ifndef RASPBERRY
                         al_play_sample(samples[2], 0.25, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 #else
-                        
+                        set_file_to_play(songs[2]);
+                        play_sound();
 #endif
                         if (i <= ((CANT_ALIENS / 5) - 1)) {
                             (*score) += 30;
@@ -665,7 +668,8 @@ static bool logical(bool* lock_mystery_ship, int* mystery_ship_x, int* mystery_s
 #ifndef RASPBERRY
                 al_play_sample(samples[3], 0.25, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 #else
-                
+                set_file_to_play(songs[3]);
+                play_sound();
 #endif
 
         }
@@ -704,7 +708,8 @@ static bool logical(bool* lock_mystery_ship, int* mystery_ship_x, int* mystery_s
 #ifndef RASPBERRY
                             al_play_sample(samples[2], 0.25, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 #else
-                            
+                            set_file_to_play(songs[2]);
+                            play_sound();
 #endif
                         }
                     }
