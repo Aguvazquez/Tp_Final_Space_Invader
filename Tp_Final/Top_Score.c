@@ -31,7 +31,7 @@ static void reorder_top_score(void);
  * @Return  el valor correspondiente del string recibido.
  */
 
-static uint32_t string_to_number(char str[6]);
+static uint32_t string_to_number(char str[STR_LONG]);
 
 /*******************************************************************************/
 
@@ -86,7 +86,7 @@ void put_on_top_score(uint32_t score, char *str){
     reorder_top_score();
 }
 
-int8_t create_Top_Score(){
+int8_t create_Top_Score(void){
     
     if(!fopen(".Top_Score.txt", "r")){  //En caso de no encontrar .Top_Score.txt
         int i, j;
