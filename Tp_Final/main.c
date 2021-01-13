@@ -75,6 +75,7 @@ int main(void){
 
     disp_init();
     joy_init();
+    init_sound();
     play(RBP);
 
 #else //RASPBERRY

@@ -11,7 +11,7 @@
 #include "joydrv.h"
 #include "disdrv.h"
 #include "termlib.h"
-
+#include "libaudio.h"
 #ifndef RASPBERRY
 
 #include <allegro5/allegro.h>  
@@ -201,9 +201,12 @@ int move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score,uint
         if(key_pressed[SPACE_UP]){
             if(!lock) {
                 bullet_x = nave_x + 1; //setea la bala
-                bullet_y = nave_y;
+                bullet_y = SCREEN_H;
                 lock = true; // solo dispara si no hay otra bala volando.
             }
+        }
+        if(key_pressed[JOY_SWITCH]){
+            do_exit=true;
         }
         if(redraw_rbp){
             //fprintf(stderr,"%d ,%d ,%d ,%d\n ",vida_bloques[0],vida_bloques[1],vida_bloques[2],vida_bloques[3]);
