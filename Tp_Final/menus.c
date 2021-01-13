@@ -53,6 +53,7 @@ extern  ALLEGRO_BITMAP *display_background[BACKGROUNDS];
  * @Param5: indica si es menú de pausa o no.
  * @Comment esta función no detiene la música.
  */
+
 static int8_t menu_display(char *str0, char *str1, char *str2, char flag, uint8_t pause);
 
 /*
@@ -66,6 +67,7 @@ static int8_t menu_display(char *str0, char *str1, char *str2, char flag, uint8_
  *          3 = difícil.
  *          FATAL_ERROR si hubo un error.
  */ 
+
 static int8_t Difficulty(char *str0, char *str1, char *str2);
 
 /*
@@ -74,6 +76,7 @@ static int8_t Difficulty(char *str0, char *str1, char *str2);
  * @Param2: oración del segundo botón.
  * @Param3: oración del tercer botón.
  */
+
 static void create_button_unpressed(char *str0, char *str1, char *str2);
 
 /*
@@ -83,6 +86,7 @@ static void create_button_unpressed(char *str0, char *str1, char *str2);
  * @Param3: oración del segundo botón.
  * @Param4: oración del tercer botón.
  */
+
 static void create_button_pressed(uint8_t button, char *str0, char *str1, char *str2);
 
 /*
@@ -90,19 +94,23 @@ static void create_button_pressed(uint8_t button, char *str0, char *str1, char *
  * @Return CLOSE_DISPLAY si se cierra la pantalla.
  *         0 si se sale del top score.
  */
+
 static int8_t Top_Score(void);
 
 //Crea el botón de salida de top score sin presionar.
+
 static void create_button_unpressed_top_score(void);
 
 //Crea el botón de salida de top score presionado.
+
 static void create_button_pressed_top_score(void);
 
 //Crea la tabla del top score.
+
 static void create_table_top_score(void);
 
-
 //Imprime los nombres y puntajes del top score.
+
 static void print_top_score(void);
 
 /*******************************************************************************/

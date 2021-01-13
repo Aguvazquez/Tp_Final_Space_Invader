@@ -45,7 +45,7 @@ int8_t get_top_score(uint32_t score){  //devuelve la posicion del jugador si est
     fp = fopen(".Top_Score.txt", "r");
     
     if(!fp){
-        fprintf(stderr, "Hubo un error al leer .Top_Score.txt");
+        fprintf(stderr, "Hubo un error al leer .Top_Score.txt.\n");
         return FATAL_ERROR;
     }
     for(i=1; i<=TOP_PLAYERS; i++){
@@ -86,14 +86,14 @@ void put_on_top_score(uint32_t score, char *str){
     reorder_top_score();
 }
 
-int8_t create_Top_Score(void){
+uint8_t create_Top_Score(void){
     
     if(!fopen(".Top_Score.txt", "r")){  //En caso de no encontrar .Top_Score.txt
         int i, j;
         FILE* fp;
         fp = fopen(".Top_Score.txt", "w");
         if(!fp){
-            fprintf(stderr, "Hubo un error en la creación de Top_Score");
+            fprintf(stderr, "Hubo un error en la creación de Top_Score.\n");
             return EXIT_FAILURE;
         }
         //crear reset_top_score()
@@ -109,7 +109,6 @@ int8_t create_Top_Score(void){
         }
         fclose(fp);
     }
-    
     return EXIT_SUCCESS;
 }
 

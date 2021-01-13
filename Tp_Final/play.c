@@ -168,8 +168,9 @@ int8_t play(uint8_t mode)
 
 static char read_difficulty(void){
     
-    FILE* fp=fopen(".Difficulty.txt","r");
+    FILE* fp = fopen(".Difficulty.txt","r");
     if(!fp){
+        fprintf(stderr, "Hubo un error al leer la dificultad.\n");
         return FATAL_ERROR;
     }
     char difficulty=0;
