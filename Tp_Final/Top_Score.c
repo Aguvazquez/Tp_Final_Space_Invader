@@ -56,12 +56,12 @@ void put_on_top_score(uint32_t score, char *str){
     
     FILE* fp;
     uint32_t  j, aux=0;
-    uint8_t i;
+    int8_t i;
     
     char str1[6]={'0','0','0','0','0','\0'};
     for(i=4, j=1; i>=0; i--,j*=10){
         aux = score/j;
-        str1[i]=(char)(aux%10+ASCII);        
+        str1[i]=(char)((aux%10)+ASCII);        
     }
 
     fp = fopen(".Top_Score.txt", "a");   //Escribo al final del archivo.
