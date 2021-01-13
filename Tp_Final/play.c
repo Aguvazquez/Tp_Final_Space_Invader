@@ -183,7 +183,7 @@ char read_difficulty(void){
     fclose(fp);
     return difficulty;
 }
-
+#ifndef RASPBERRY
 static void next_level_animation(uint8_t level){
     char str[]={'L','E','V','E','L',' ',' ',' '};
     
@@ -219,3 +219,4 @@ static void lose_animation(uint32_t score){
     al_flip_display();
     al_rest(2.0);   //tiempo que dura la animación
 }
+#endif //RASPBERRY
