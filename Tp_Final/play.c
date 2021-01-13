@@ -48,7 +48,7 @@ extern  ALLEGRO_BITMAP *display_background[BACKGROUNDS];
 
 int8_t play(uint8_t mode)
 {
-    uint8_t level=1, difficulty, lifes=LIFES;
+    uint8_t level=1, difficulty, lifes=1;
     int8_t aux=0, i;
     uint32_t score=0;
     char name[STR_LONG]={' ',' ',' ',' ',' ','\0'};
@@ -126,7 +126,7 @@ int8_t play(uint8_t mode)
                             }
                         }
                     }
-                    put_on_top_score(score, name);
+                    put_on_top_score(score, name);                  
                 }
 
 #endif

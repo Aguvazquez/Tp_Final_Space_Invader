@@ -66,7 +66,7 @@ ALLEGRO_BITMAP *display_background[BACKGROUNDS] = {NULL, NULL, NULL, NULL, NULL,
 /***************************** Main function ***********************************/
 int main(void){
     
-    if(!fopen(".Top_Score.txt", "r+")){     //crea el archivo donde ubicaremos
+    if(create_Top_Score()){     //crea el archivo donde ubicaremos
                                                 //el top score.
             return EXIT_FAILURE;
         }

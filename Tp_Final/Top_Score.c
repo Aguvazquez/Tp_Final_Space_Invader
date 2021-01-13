@@ -63,7 +63,7 @@ void put_on_top_score(uint32_t score, char *str){
         aux = score/j;
         str1[i]=(char)(aux%10+ASCII);        
     }
-    
+
     fp = fopen(".Top_Score.txt", "a");   //Escribo al final del archivo.
     fputs(str1,fp); //SCORE
     fputc('\n',fp);
@@ -138,4 +138,29 @@ static void reorder_top_score(void){
     }
     fclose(fp);
     //fprintf(stderr,"%s\n",users[5].score); funciona , puse esta linea para poder probarlo en gedit.
+}
+int8_t create_Top_Score(){
+    
+    if(!fopen(".Top_Score.txt","r")){ //En caso que no lo pueda abrir, es que no
+        int i,j;                      //se creo o se borro .Top_Score.txt
+        FILE* fp;
+        fp=fopen(".Top_Score.txt","w");
+        if(!fp){
+            fprintf(stderr,"Hubo un error en la creación de Top_Score");
+            return EXIT_FAILURE;
+        }
+        for(i=0;i<5;i++){
+            for(j=0;j<5;j++){
+                fputc('0',fp);
+            }
+            fputc('\n',fp);
+            for(j=0;j<5;j++){
+                fputc(' ',fp);
+            }
+            fputc('\n',fp);
+        }
+        fclose(fp);
+    }
+    
+    return EXIT_SUCCESS;
 }
