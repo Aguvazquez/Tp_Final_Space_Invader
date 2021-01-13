@@ -16,10 +16,10 @@
 
 /*******************************************************************************/
 
-/****************************Header of Local function***************************/
+/**************************** Header of local functions ************************/
 
 /*
- * @brief Al introducir al 6to usuario en ".Top_Score.txt" , esta funcion se 
+ * @brief Al introducir al 6to usuario en ".Top_Score.txt", esta funcion se 
  *        encarga de reordenar el archivo en cuestion y eliminar al de menor
  *        puntaje.
  */
@@ -50,25 +50,26 @@ void put_on_top_score(uint32_t score, char *str){
     
     reorder_top_score();
 }
+
 int8_t create_Top_Score(){
     
-    if(!fopen(".Top_Score.txt","r")){ //En caso que no lo pueda abrir, es que no
-        int i,j;                      //se creo o se borro .Top_Score.txt
+    if(!fopen(".Top_Score.txt", "r")){  //En caso que no lo pueda abrir, es que no
+        int i, j;                        //se creo o se borro .Top_Score.txt
         FILE* fp;
-        fp=fopen(".Top_Score.txt","w");
+        fp=fopen(".Top_Score.txt", "w");
         if(!fp){
-            fprintf(stderr,"Hubo un error en la creación de Top_Score");
+            fprintf(stderr, "Hubo un error en la creación de Top_Score");
             return EXIT_FAILURE;
         }
-        for(i=0;i<5;i++){
-            for(j=0;j<5;j++){
-                fputc('0',fp);
+        for(i=0; i<5; i++){
+            for(j=0; j<5; j++){
+                fputc('0', fp);
             }
-            fputc('\n',fp);
-            for(j=0;j<5;j++){
-                fputc(' ',fp);
+            fputc('\n', fp);
+            for(j=0; j<5; j++){
+                fputc(' ', fp);
             }
-            fputc('\n',fp);
+            fputc('\n', fp);
         }
         fclose(fp);
     }
@@ -78,7 +79,8 @@ int8_t create_Top_Score(){
 
 /*******************************************************************************/
 
-/*********************************Local function********************************/
+/******************************* Local functions *******************************/
+
 static void reorder_top_score(void){
     //Solo hay que llamar a esta funcion cuando el jugador ponga su nombre.
     typedef struct{
@@ -141,4 +143,5 @@ static void reorder_top_score(void){
     }
     fclose(fp);
 }
-/*******************************END FILE****************************************/
+
+/****************************** END FILE ***************************************/

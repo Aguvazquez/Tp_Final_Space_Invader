@@ -64,6 +64,7 @@ ALLEGRO_BITMAP *display_background[BACKGROUNDS] = {NULL, NULL, NULL, NULL, NULL,
 #endif // RASPBERRY
 
 /***************************** Main function ***********************************/
+
 int main(void){
     
     if(create_Top_Score()){     //crea el archivo donde ubicaremos
@@ -93,4 +94,5 @@ int main(void){
     
     return (EXIT_SUCCESS);
 }
+
 /******************************* END FILE **************************************/

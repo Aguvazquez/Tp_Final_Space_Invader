@@ -42,8 +42,74 @@ extern  ALLEGRO_BITMAP *display_background[BACKGROUNDS];
 
 /*******************************************************************************/
 
-/****************************Global fuctions************************************/
-int8_t main_menu (void){
+/************************ Header of local functions ****************************/
+
+/*
+ * @Brief Crea un menú con 3 botones. 
+ * @Param1: oración del primer botón.
+ * @Param2: oración del segundo botón.
+ * @Param3: oración del tercer botón.
+ * @Param4: ...?
+ * @Param5: indica si es menú de pausa o no.
+ * @Comment esta función no detiene la música.
+ */
+static int8_t menu_display(char *str0, char *str1, char *str2, char flag, uint8_t pause);
+
+/*
+ * @Brief Permite cambiar la dificultad del juego. 
+ * @Param1: oración del primer botón.
+ * @Param2: oración del segundo botón.
+ * @Param3: oración del tercer botón.
+ * @Return  CLOSE_DISPLAY cierra el juego.
+ *          1 = fácil.
+ *          2 = medio.
+ *          3 = difícil.
+ *          FATAL_ERROR si hubo un error.
+ */ 
+static int8_t Difficulty(char *str0, char *str1, char *str2);
+
+/*
+ * @Brief crea los botones sin presionar.
+ * @Param1: oración del primer botón.
+ * @Param2: oración del segundo botón.
+ * @Param3: oración del tercer botón.
+ */
+static void create_button_unpressed(char *str0, char *str1, char *str2);
+
+/*
+ * @Brief crea un botón presionado.
+ * @Param1: botón presionado.
+ * @Param2: oración del primer botón.
+ * @Param3: oración del segundo botón.
+ * @Param4: oración del tercer botón.
+ */
+static void create_button_pressed(uint8_t button, char *str0, char *str1, char *str2);
+
+/*
+ * @Brief muestra el top score en pantalla.
+ * @Return CLOSE_DISPLAY si se cierra la pantalla.
+ *         0 si se sale del top score.
+ */
+static int8_t Top_Score(void);
+
+//Crea el botón de salida de top score sin presionar.
+static void create_button_unpressed_top_score(void);
+
+//Crea el botón de salida de top score presionado.
+static void create_button_pressed_top_score(void);
+
+//Crea la tabla del top score.
+static void create_table_top_score(void);
+
+
+//Imprime los nombres y puntajes del top score.
+static void print_top_score(void);
+
+/*******************************************************************************/
+
+/*************************** Global fuctions ***********************************/
+
+void main_menu (void){
     
     bool do_exit=false, flag=false, dont_play_song=false;
     int8_t aux=0;
@@ -90,7 +156,7 @@ int8_t main_menu (void){
                 flag=false;              
                 if(aux==FATAL_ERROR){
                     fprintf(stderr, "Error al modificar dificultad.\n");
-                    return FATAL_ERROR;
+                    do_exit=true;
                 }
                 else if(aux==CLOSE_DISPLAY){
                     do_exit=true;
@@ -100,26 +166,35 @@ int8_t main_menu (void){
             case 3:{                
                 aux = Top_Score();                
                 flag=false;
-                if(aux==CLOSE_DISPLAY){ //Se apretó la x del display
-                    do_exit=true;
-                }
-                else if(aux){   //solo devuelve CLOSE_DISPLAY o 0
-                    fprintf(stderr, "Error al ver top score.\n");
-                    return FATAL_ERROR;
+                if(aux){
+                    if(aux!=CLOSE_DISPLAY){ //salida inesperada.
+                        fprintf(stderr, "Error al ver top score.\n");
+                    }
+                    do_exit=true;   //sale siempre que devuelva algo distinto de 0.
                 }
                 break;
             }
             default:{ 
                 fprintf(stderr, "Error inesperado.\n");
-                return FATAL_ERROR;
+                do_exit=true;
                 break;
             }
         }
     }
-    return aux;
 }
+
+int8_t pause_menu(void){    
+    int8_t output = menu_display("RESUME", "RESET GAME", "EXIT", 1, 1);
     
-int8_t menu_display(char *str0, char *str1, char *str2, char flag, uint8_t pause){
+    if(output == FATAL_ERROR){
+        fprintf(stderr, "Hubo un error en el menú de pausa.");
+    }
+    return output;
+}
+
+/****************************Local fuctions************************************/
+
+static int8_t menu_display(char *str0, char *str1, char *str2, char flag, uint8_t pause){
     
     bool do_exit=false, check=false, redraw=false;
     int8_t aux=0;
@@ -203,17 +278,6 @@ int8_t menu_display(char *str0, char *str1, char *str2, char flag, uint8_t pause
     }
     return aux;
 }
-
-int8_t pause_menu(void){    
-    int8_t output = menu_display("RESUME", "RESET GAME", "EXIT", 1, 1);
-    
-    if(output == FATAL_ERROR){
-        fprintf(stderr, "Hubo un error en el menú de pausa.");
-    }
-    return output;
-}
-
-/****************************Local fuctions************************************/
 
 static int8_t Difficulty(char *str0, char *str1, char *str2){
     
@@ -415,3 +479,5 @@ static void create_table_top_score(void){
 }
 
 #endif //RASPBERRY
+
+/****************************** END FILE ***************************************/
