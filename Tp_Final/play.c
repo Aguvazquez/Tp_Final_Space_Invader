@@ -81,7 +81,7 @@ static void new_player_in_top(char name[STR_LONG]);
 
 int8_t play(uint8_t mode)
 {
-    uint8_t level=1, lifes=1;
+    uint8_t level=1, lifes=LIFES;
     int8_t aux=0, difficulty;
     uint32_t score=0;
     char name[STR_LONG]={' ',' ',' ',' ',' ','\0'};
@@ -98,16 +98,17 @@ int8_t play(uint8_t mode)
 #endif
 
     while(difficulty){
-        aux=move(difficulty, &lifes, level, &score, mode);
+        aux = move(difficulty, &lifes, level, &score, mode);
         if(aux==CLOSE_DISPLAY || aux==RESET_GAME || aux==EXIT_MENU){
             return aux; 
         }
         else if(!aux){
+
+#ifndef RASPBERRY
+            next_level_animation(++level);
+#endif
             if(difficulty > MAX_DIFFICULTY){
                 difficulty--;
-#ifndef RASPBERRY
-                next_level_animation(++level);
-#endif
             }
             if(lifes < LIFES){
                 lifes++;
@@ -235,6 +236,6 @@ static void new_player_in_top(char name[STR_LONG]){
     }
 }
 
-#endif //RASPBERRY
+#endif
 
 /***************************** END FILE ****************************************/

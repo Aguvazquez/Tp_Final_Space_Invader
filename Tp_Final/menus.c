@@ -45,21 +45,6 @@ extern  ALLEGRO_BITMAP *display_background[BACKGROUNDS];
 /************************ Header of local functions ****************************/
 
 /*
- * @Brief Crea un menú con 3 botones. 
- * @Param1: oración del primer botón.
- * @Param2: oración del segundo botón.
- * @Param3: oración del tercer botón.
- * @Param4: ...?
- * @Param5: indica si es menú de pausa o no.
- * @Return  CLOSE_DISPLAY cierra el juego.
- *          el número del botón oprimido.
- *          FATAL_ERROR si hubo un error.
- * @Comment esta función no detiene la música.
- */
-
-static int8_t menu_display(char *str0, char *str1, char *str2, char flag, uint8_t pause);
-
-/*
  * @Brief Permite cambiar la dificultad del juego. 
  * @Param1: oración del primer botón.
  * @Param2: oración del segundo botón.
@@ -194,18 +179,7 @@ void main_menu (void){
     }
 }
 
-int8_t pause_menu(void){    
-    int8_t output = menu_display("RESUME", "RESET GAME", "EXIT", 1, 1);
-    
-    if(output == FATAL_ERROR){
-        fprintf(stderr, "Hubo un error en el menú de pausa.");
-    }
-    return output;
-}
-
-/****************************Local fuctions************************************/
-
-static int8_t menu_display(char *str0, char *str1, char *str2, char flag, uint8_t pause){
+int8_t menu_display(char *str0, char *str1, char *str2, char flag, uint8_t pause){
     
     bool do_exit=false, check=false, redraw=false;
     int8_t aux=0;
@@ -289,6 +263,8 @@ static int8_t menu_display(char *str0, char *str1, char *str2, char flag, uint8_
     }
     return aux;
 }
+
+/****************************Local fuctions************************************/
 
 static int8_t Difficulty(char *str0, char *str1, char *str2){
     
@@ -385,15 +361,6 @@ static int8_t Top_Score(void){
 
 static void print_top_score(void){
     
-/* Cuando guardemos algo en el archivo de top score hay que guardarlo de la siguiente manera
- *                          score 
- *                          name
- *                          score 
- *                          name
- *                          ...
- * Si el nombre que elige la persona es menor a 5 letras, debe rellenar con espacios. 
- */
-
     uint8_t i;
     static FILE* fp;
     char str[STR_LONG];
@@ -430,6 +397,7 @@ static void create_button_unpressed(char *str0, char *str1, char *str2){
 }
 
 static void create_button_pressed(uint8_t button, char *str0, char *str1, char *str2){
+    
     switch(button){
         case 1:{
             al_draw_filled_rectangle(SCREEN_W/4, 7*SCREEN_H/16, 3*SCREEN_W/4, 9*SCREEN_H/16, al_color_name("grey"));

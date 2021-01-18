@@ -14,13 +14,23 @@
  * @Brief Funcion que se encarga de crear el menú principal.
  * @Return FATAL_ERROR si hubo error.  
  */
+
 void main_menu(void);
 
 /*
- *@Brief Funcion que se encarga de crear el menú de pausa.
- *@Return FATAL_ERROR si hubo error.
+ * @Brief Crea un menú con 3 botones. 
+ * @Param1: oración del primer botón.
+ * @Param2: oración del segundo botón.
+ * @Param3: oración del tercer botón.
+ * @Param4: ...?
+ * @Param5: indica si es menú de pausa o no.
+ * @Return  CLOSE_DISPLAY cierra el juego.
+ *          el número del botón oprimido.
+ *          FATAL_ERROR si hubo un error.
+ * @Comment esta función no detiene la música.
  */
-int8_t pause_menu(void);
+
+int8_t menu_display(char *str0, char *str1, char *str2, char flag, uint8_t pause);
 
 #endif //MENUS_H
 #endif //RASPBERRY
