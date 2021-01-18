@@ -130,8 +130,8 @@ void main_menu (void){
             else{
                 aux = menu_display("PLAY", "DIFFICULTY", "TOP SCORE", 1, 0);
             }    
-        flag=true;
-        dont_play_song=true;
+            flag=true;
+            dont_play_song=true;
         }
         
         switch(aux){
@@ -146,7 +146,7 @@ void main_menu (void){
                 aux=play(ALLEG);    //aux obtendrá el valor correspondiente 
                                     //al terminar la partida.
                 al_stop_samples();
-                if(aux==CLOSE_DISPLAY){
+                if(aux==CLOSE_DISPLAY || aux==FATAL_ERROR){
                     do_exit=true;
                 }
                 else if(aux==RESET_GAME){
@@ -317,6 +317,7 @@ static int8_t Difficulty(char *str0, char *str1, char *str2){
             break;
         }
     }
+
     fclose(fp);
     return aux;    
 }

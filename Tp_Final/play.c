@@ -50,7 +50,7 @@ extern  ALLEGRO_BITMAP *display_background[BACKGROUNDS];
  *          FATAL_ERROR si hay un error.
  */
 
-static char read_difficulty(void);
+static int8_t read_difficulty(void);
 
 /*
  * @Brief crea una animación que indica el nivel que está por empezar. 
@@ -66,6 +66,13 @@ static void next_level_animation(uint8_t level);
 
 static void lose_animation(uint32_t score);
 
+/*
+ * @Brief recibe el nombre del jugador que acaba de entrar en el top score.
+ * @Param1: arreglo donde se almacenará el nombre.
+ */
+
+static void new_player_in_top(char name[STR_LONG]);
+
 /*******************************************************************************/
 
 #endif
@@ -74,8 +81,8 @@ static void lose_animation(uint32_t score);
 
 int8_t play(uint8_t mode)
 {
-    uint8_t level=1, difficulty, lifes=1;
-    int8_t aux=0, i;
+    uint8_t level=1, lifes=1;
+    int8_t aux=0, difficulty;
     uint32_t score=0;
     char name[STR_LONG]={' ',' ',' ',' ',' ','\0'};
     difficulty = read_difficulty();
@@ -109,51 +116,17 @@ int8_t play(uint8_t mode)
                 score+=100; //pasar de nivel con 3 vidas suma puntos
             }
         }
-        else
-        {
+        else{
             difficulty=0;
             aux = get_top_score(score);
             
-#ifndef RASPBERRY   //quizas toda esta parte podria ser una nueva funcion
+#ifndef RASPBERRY
             
-                ALLEGRO_EVENT ev;
-                lose_animation(score);                      
-                if(aux){
-                    for(i=0; i<STR_LONG; ){
-                        al_clear_to_color(al_map_rgb(0, 0, 0));
-                        al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W/2, SCREEN_H/3, ALLEGRO_ALIGN_CENTER, "Escriba su nombre:");
-                        al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W/2, 2*SCREEN_H/3, ALLEGRO_ALIGN_CENTER, name);
-                        al_flip_display();
-                        al_wait_for_event(event_queue, &ev);
-                        if(ev.type == ALLEGRO_EVENT_KEY_DOWN){
-                            switch(ev.keyboard.keycode){
-                                case ALLEGRO_KEY_ENTER:{
-                                    i=STR_LONG;
-                                    break;
-                                }
-                                case ALLEGRO_KEY_BACKSPACE:{
-                                    name[i]=' ';
-                                    if(i){
-                                        i--;
-                                    }
-                                    break;       
-                                }
-                                default:{
-                                    if(i < STR_LONG-1){
-                                        if(ev.keyboard.keycode>=ALLEGRO_KEY_A && ev.keyboard.keycode<=ALLEGRO_KEY_Z){
-                                            name[i++]=ev.keyboard.keycode-ALLEGRO_KEY_A+'A';
-                                        }
-                                        else if(ev.keyboard.keycode>=ALLEGRO_KEY_0 && ev.keyboard.keycode<=ALLEGRO_KEY_9){
-                                            name[i++]=ev.keyboard.keycode-ALLEGRO_KEY_0+'0';
-                                        }
-                                    }
-                                break;
-                                }
-                            }
-                        }
-                    }
-                    put_on_top_score(score, name);                  
-                }
+            lose_animation(score);                      
+            if(aux){
+                new_player_in_top(name);
+                put_on_top_score(score, name);                  
+            }
 
 #endif
 
@@ -166,14 +139,14 @@ int8_t play(uint8_t mode)
 
 /*************************** Local functions ***********************************/
 
-static char read_difficulty(void){
+static int8_t read_difficulty(void){
     
-    FILE* fp = fopen(".Difficulty.txt","r");
+    FILE* fp = fopen(".Difficulty.txt", "r");
     if(!fp){
         fprintf(stderr, "Hubo un error al leer la dificultad.\n");
         return FATAL_ERROR;
     }
-    char difficulty=0;
+    int8_t difficulty;
     difficulty=(fgetc(fp)-ASCII)*10;    //Convierto en la decena
     difficulty+=(fgetc(fp)-ASCII);      //Le sumo la unidad
     fclose(fp);
@@ -218,6 +191,48 @@ static void lose_animation(uint32_t score){
                             SCREEN_H/2, ALLEGRO_ALIGN_LEFT, str3); 
     al_flip_display();
     al_rest(2.0);   //tiempo que dura la animación
+}
+
+static void new_player_in_top(char name[STR_LONG]){
+    
+    ALLEGRO_EVENT ev;
+    uint8_t i;
+
+    for(i=0; i<STR_LONG; ){
+        al_clear_to_color(al_map_rgb(0, 0, 0));
+        al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W/2, SCREEN_H/3, ALLEGRO_ALIGN_CENTER, "Escriba su nombre:");
+        al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W/2, 2*SCREEN_H/3, ALLEGRO_ALIGN_CENTER, name);
+        al_flip_display();
+        al_wait_for_event(event_queue, &ev);
+        if(ev.type == ALLEGRO_EVENT_KEY_DOWN){
+            switch(ev.keyboard.keycode){
+                case ALLEGRO_KEY_ENTER:{
+                    i=STR_LONG;
+                    break;
+                }
+                case ALLEGRO_KEY_BACKSPACE:{
+                    if(i){
+                        name[--i]=' ';
+                    }
+                    else{
+                        name[i]=' ';
+                    }
+                    break;       
+                }
+                default:{
+                    if(i < STR_LONG-1){
+                        if(ev.keyboard.keycode>=ALLEGRO_KEY_A && ev.keyboard.keycode<=ALLEGRO_KEY_Z){
+                            name[i++]=ev.keyboard.keycode-ALLEGRO_KEY_A+'A';
+                        }
+                        else if(ev.keyboard.keycode>=ALLEGRO_KEY_0 && ev.keyboard.keycode<=ALLEGRO_KEY_9){
+                            name[i++]=ev.keyboard.keycode-ALLEGRO_KEY_0+'0';
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+    }
 }
 
 #endif //RASPBERRY

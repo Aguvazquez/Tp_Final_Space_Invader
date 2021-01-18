@@ -65,12 +65,7 @@ ALLEGRO_BITMAP *display_background[BACKGROUNDS] = {NULL, NULL, NULL, NULL, NULL,
 
 /***************************** Main function ***********************************/
 
-int main(void){
-    
-    if(create_Top_Score()){     //crea el archivo donde ubicaremos
-                                                //el top score.
-            return EXIT_FAILURE;
-        }
+uint8_t main(void){
     
 #ifdef RASPBERRY
 
@@ -79,9 +74,14 @@ int main(void){
     init_sound();
     play(RBP);
 
-#else //RASPBERRY
+#else
    
-    if(allegro_ini()){     //inicialización de Allegro
+    if(create_Top_Score()){     //crea el archivo donde ubicaremos el
+                                //top score, en caso de ser necesario.
+        return EXIT_FAILURE;
+    }
+    
+    if(allegro_ini()){      //inicialización de allegro
         fprintf(stderr, "Hubo un error de inicialización.\n");
         return EXIT_FAILURE;
     }
@@ -90,7 +90,7 @@ int main(void){
     
     allegro_shutdown(); //Finalización de Allegro
    
-#endif //RASPBERRY
+#endif
     
     return (EXIT_SUCCESS);
 }
