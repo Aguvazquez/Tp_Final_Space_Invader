@@ -51,6 +51,9 @@ extern  ALLEGRO_BITMAP *display_background[BACKGROUNDS];
  * @Param3: oración del tercer botón.
  * @Param4: ...?
  * @Param5: indica si es menú de pausa o no.
+ * @Return  CLOSE_DISPLAY cierra el juego.
+ *          el número del botón oprimido.
+ *          FATAL_ERROR si hubo un error.
  * @Comment esta función no detiene la música.
  */
 
@@ -230,7 +233,7 @@ static int8_t menu_display(char *str0, char *str1, char *str2, char flag, uint8_
     
     while(!do_exit){ 
         ALLEGRO_EVENT ev;
-        if (al_get_next_event(event_queue, &ev)){ //Toma un evento de la cola.
+        if(al_get_next_event(event_queue, &ev)){ //Toma un evento de la cola.
             if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE){
                 do_exit=true;
                 aux=CLOSE_DISPLAY;
