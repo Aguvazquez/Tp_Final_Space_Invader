@@ -40,7 +40,7 @@
 #include <allegro5/allegro_font.h> 
 #include <allegro5/allegro_ttf.h> 
 #include <allegro5/allegro_audio.h> 
-#include <allegro5/allegro_acodec.h> 
+#include <allegro5/allegro_acodec.h>
 
 /*******************************************************************************/
 
@@ -88,11 +88,11 @@ uint8_t main(void){
     
     main_menu();    //función que ejecuta el juego, hasta que es cerrado.
     
-    allegro_shutdown(); //Finalización de Allegro
+    allegro_shutdown(); //finalización de Allegro
    
 #endif
     
-    return (EXIT_SUCCESS);
+    return EXIT_SUCCESS;
 }
 
 /******************************* END FILE **************************************/

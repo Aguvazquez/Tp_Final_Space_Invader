@@ -1,3 +1,10 @@
+/*******************************************************************************
+ *                                Top score                                    *
+ *                                                                             *
+ * Desarrolladores: Mendizabal Francisco(61454), Vazquez Agustin(61420)        *
+ * Todos los derechos reservados.                                              *
+ *******************************************************************************/
+
 #ifndef TOP_SCORE_H
 #define TOP_SCORE_H
 
