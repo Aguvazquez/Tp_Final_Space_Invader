@@ -135,7 +135,7 @@ void *Joy_action(){
 
 /******************************** Global functions *****************************/
 
-int move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, uint8_t mode)
+int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, uint8_t mode)
 {
     uint8_t i, j, check, aux, accelerate=0, explosion_time=0;
     static uint8_t vida_bloques[4] = {30, 30, 30, 30};
