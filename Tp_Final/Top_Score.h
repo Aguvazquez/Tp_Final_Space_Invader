@@ -1,6 +1,8 @@
 #ifndef TOP_SCORE_H
 #define TOP_SCORE_H
 
+#ifndef RASPBERRY
+
 /*
  * @Brief revisa si el puntaje obtenido entra o no en el top score. 
  * @Param1: puntaje.
@@ -9,7 +11,7 @@
  *          FATAL_ERROR si ocurre un error.
  */
 
-int8_t get_top_score(uint32_t score);  //no se si podria ser static
+int8_t get_top_score(uint32_t score);
 
 /*
  * @Brief coloca al jugador en su lugar correspondiente del top score. 
@@ -26,5 +28,7 @@ void put_on_top_score(uint32_t score, char *str);
  */
 
 uint8_t create_Top_Score(void);
+
+#endif
 
 #endif
