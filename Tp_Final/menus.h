@@ -5,10 +5,10 @@
  * Todos los derechos reservados.                                              *
  *******************************************************************************/
 
-#ifndef RASPBERRY //EN caso de compilar en la Rpi, este header queda vacio.
-
 #ifndef MAIN_MENU_H
 #define MAIN_MENU_H
+
+#ifndef RASPBERRY
 
 /*
  * @Brief Funcion que se encarga de crear el menú principal.
@@ -32,5 +32,6 @@ void main_menu(void);
 
 int8_t menu_display(char *str0, char *str1, char *str2, char flag, uint8_t pause);
 
-#endif //MENUS_H
-#endif //RASPBERRY
+#endif
+
+#endif

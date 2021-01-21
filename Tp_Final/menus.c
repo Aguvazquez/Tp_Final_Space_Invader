@@ -129,17 +129,14 @@ void main_menu (void){
             }
             case 1:{
                 al_stop_samples();
-                al_play_sample(samples[4], 0.25, 0.0, 1.0,
-                                ALLEGRO_PLAYMODE_LOOP, NULL);    
-                aux=play(ALLEG);    //aux obtendrá el valor correspondiente 
-                                    //al terminar la partida.
+                al_play_sample(samples[4], 0.25, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);    
+                aux=play(ALLEG);    //aux obtendrá el valor correspondiente al terminar la partida.
                 al_stop_samples();
                 if(aux==CLOSE_DISPLAY || aux==FATAL_ERROR){
                     do_exit=true;
                 }
                 else if(aux==RESET_GAME){
-                    aux=1;      //como si se oprimiera nuevamente 
-                                //el primer botón "play".
+                    aux=1;      //como si se oprimiera nuevamente el botón "play".
                 }
                 else{
                     flag=false;
@@ -188,14 +185,14 @@ int8_t menu_display(char *str0, char *str1, char *str2, char flag, uint8_t pause
     float mouse_x=0, mouse_y=0;
     
     /**********Title and bakground menu.*********************/
-    al_draw_scaled_bitmap(display_background[0], 0, 0, al_get_bitmap_width(display_background[0]), al_get_bitmap_height(display_background[0]), 
+    al_draw_scaled_bitmap(display_background[0], 0, 0, al_get_bitmap_width(display_background[0]), al_get_bitmap_height(display_background[0]),
         0, 0, al_get_display_width(display), al_get_display_height(display), 0);
     if(pause){
-        al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W / 2, SCREEN_H / 5, ALLEGRO_ALIGN_CENTER, "PAUSE MENU");
+        al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W/2, SCREEN_H/5, ALLEGRO_ALIGN_CENTER, "PAUSE MENU");
     }
     else{
         al_draw_scaled_bitmap(display_background[1], 0, 0, al_get_bitmap_width(display_background[1]), al_get_bitmap_height(display_background[1]), 
-            0, 0, al_get_display_width(display), al_get_display_height(display) / 3, 0);
+            0, 0, al_get_display_width(display), al_get_display_height(display)/3, 0);
     }
     /********************************************************/
     
@@ -307,8 +304,8 @@ static int8_t Top_Score(void){
     int8_t aux=0;
     float mouse_x=0, mouse_y=0;
     
-    al_draw_scaled_bitmap(display_background[0],0, 0, al_get_bitmap_width(display_background[0]), al_get_bitmap_height(display_background[0]), 
-            0, 0, al_get_display_width(display), al_get_display_height(display), 0);
+    al_draw_scaled_bitmap(display_background[0], 0, 0, al_get_bitmap_width(display_background[0]), al_get_bitmap_height(display_background[0]),
+        0, 0, al_get_display_width(display), al_get_display_height(display), 0);
 
     al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W/2, SCREEN_H/6, ALLEGRO_ALIGN_CENTER, "TOP SCORE");
     
@@ -333,8 +330,8 @@ static int8_t Top_Score(void){
                 check=true;
            }
         }
-        if(mouse_x>=13*SCREEN_W/16.0 && mouse_x<= 15*SCREEN_W/16.0){
-            if(mouse_y>=13*SCREEN_H/16 && mouse_y<= 15*SCREEN_H/16){
+        if(mouse_x>=13*SCREEN_W/16 && mouse_x<=15*SCREEN_W/16){
+            if(mouse_y>=13*SCREEN_H/16 && mouse_y<=15*SCREEN_H/16){
                 if(check){
                     do_exit=true;
                 }
@@ -401,17 +398,17 @@ static void create_button_pressed(uint8_t button, char *str0, char *str1, char *
     switch(button){
         case 1:{
             al_draw_filled_rectangle(SCREEN_W/4, 7*SCREEN_H/16, 3*SCREEN_W/4, 9*SCREEN_H/16, al_color_name("grey"));
-            al_draw_text(font[0], al_map_rgb(0,0,0), SCREEN_W / 2, (12*SCREEN_H /25), ALLEGRO_ALIGN_CENTER, str0);
+            al_draw_text(font[0], al_map_rgb(0,0,0), SCREEN_W/2, (12*SCREEN_H /25), ALLEGRO_ALIGN_CENTER, str0);
             break;
         }
         case 2:{
             al_draw_filled_rectangle(SCREEN_W/4, 5*SCREEN_H/8, 3*SCREEN_W/4, 3*SCREEN_H/4, al_color_name("grey"));
-            al_draw_text(font[0], al_map_rgb(0,0,0), SCREEN_W / 2, (267*SCREEN_H / 400), ALLEGRO_ALIGN_CENTER, str1);
+            al_draw_text(font[0], al_map_rgb(0,0,0), SCREEN_W/2, (267*SCREEN_H/400), ALLEGRO_ALIGN_CENTER, str1);
             break;
         }
         case 3:{
             al_draw_filled_rectangle(SCREEN_W/4, 13*SCREEN_H/16, 3*SCREEN_W/4, 15*SCREEN_H/16, al_color_name("grey"));
-            al_draw_text(font[0], al_map_rgb(0,0,0), SCREEN_W / 2, (171*SCREEN_H / 200), ALLEGRO_ALIGN_CENTER, str2);
+            al_draw_text(font[0], al_map_rgb(0,0,0), SCREEN_W/2, (171*SCREEN_H/200), ALLEGRO_ALIGN_CENTER, str2);
             break;
         }
     }
@@ -420,8 +417,8 @@ static void create_button_pressed(uint8_t button, char *str0, char *str1, char *
 
 static void create_button_unpressed_top_score(void){
     al_draw_filled_rectangle(13*SCREEN_W/16, 13*SCREEN_H/16, 15*SCREEN_W/16, 15*SCREEN_H/16, al_color_name("black"));
-    al_draw_rectangle(13*SCREEN_W/16, 13*SCREEN_H/16, 15*SCREEN_W/16, 15*SCREEN_H/16, al_color_name("white"),2.0);
-    al_draw_text(font[0], al_map_rgb(255, 255, 255), 7*SCREEN_W / 8, (171*SCREEN_H / 200), ALLEGRO_ALIGN_CENTER, "EXIT");
+    al_draw_rectangle(13*SCREEN_W/16, 13*SCREEN_H/16, 15*SCREEN_W/16, 15*SCREEN_H/16, al_color_name("white"), 2.0);
+    al_draw_text(font[0], al_map_rgb(255, 255, 255), 7*SCREEN_W / 8, (171*SCREEN_H/200), ALLEGRO_ALIGN_CENTER, "EXIT");
     al_flip_display();
 }
 
