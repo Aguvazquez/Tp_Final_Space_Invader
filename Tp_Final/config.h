@@ -14,7 +14,7 @@
 #define MOVE_RATE   1
 #define BASE_SIZE   1
 
-#define FILAS_ALIENS            4   //es a ojo
+#define FILAS_ALIENS            3   //es a ojo
 #define COLUMNAS_ALIENS         6   //es a ojo
 #define CANT_ALIENS             FILAS_ALIENS*COLUMNAS_ALIENS
 #define PRIMERA_FILA_ALIENS     2   //es a ojo
@@ -29,6 +29,7 @@
 
 #define NAVE_Y      SCREEN_H - BASE_SIZE
 #define NAVE_X      SCREEN_W/2 - BASE_SIZE
+
 #else
 
 #define SCREEN_W    800
@@ -51,7 +52,7 @@
 
 #define NAVE_Y      SCREEN_H - 2*BASE_SIZE
 #define NAVE_X      SCREEN_W/2 - 1.5*BASE_SIZE
-
+#define BULLET_W    8
 #endif
 
 #define TIMERTICKRBP    1
