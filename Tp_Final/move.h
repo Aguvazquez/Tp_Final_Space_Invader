@@ -10,7 +10,7 @@
 
 //defino un tipo de variable que varía según la plataforma, para los elementos del display
 #ifdef RASPBERRY
-	typedef int8_t elements_t;
+	typedef int elements_t;
 #else
         typedef float elements_t;
 #endif

@@ -184,7 +184,7 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
         
     for(i=0; i<CANT_ALIENS; i++)
     {
-        alien_bullets_y[i]=SCREEN_H;
+        alien_bullets_y[i]=SCREEN_H+BASE_SIZE;
     }
     
 #ifdef RASPBERRY
@@ -233,7 +233,7 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
         if(key_pressed[SPACE_UP]){
             if(!lock){
                 bullet_x = nave_x + 1; //setea la bala
-                bullet_y = SCREEN_H;
+                bullet_y = SCREEN_H+BASE_SIZE;
                 lock = true; // solo dispara si no hay otra bala volando.
             }
         }
@@ -712,7 +712,7 @@ static bool logical(bool* lock_mystery_ship, int* mystery_ship_x, int* mystery_s
             if(vida_bloques[j]){
                 if((alien_bullets_y[i]+BASE_SIZE) >= *bloques_y && (alien_bullets_y[i]+BASE_SIZE) <= *bloques_y+BASE_SIZE){
                     if(alien_bullets_x[i] >= bloques_x[j] && alien_bullets_x[i] <= bloques_x[j]+4*BASE_SIZE){
-                        alien_bullets_y[i] = SCREEN_H;
+                        alien_bullets_y[i] = SCREEN_H+BASE_SIZE;
                         vida_bloques[j]--;
                     }
                 }
@@ -735,16 +735,16 @@ static bool logical(bool* lock_mystery_ship, int* mystery_ship_x, int* mystery_s
             if(alien_bullets_x[i] >= *bullet_x-4 && alien_bullets_x[i] <= *bullet_x+4){
                 if(alien_bullets_y[i] >= *bullet_y && alien_bullets_y[i] <= *bullet_y+BASE_SIZE){
                     *lock = false;
-                    *bullet_y = SCREEN_H;
-                    alien_bullets_y[i] = SCREEN_H;
+                    *bullet_y = SCREEN_H+BASE_SIZE;
+                    alien_bullets_y[i] = SCREEN_H+BASE_SIZE;
                 }
             }
         }
         else{
             if(alien_bullets_x[i] == *bullet_x && alien_bullets_y[i]== *bullet_y){
                 *lock = false;
-                *bullet_y = SCREEN_H;
-                alien_bullets_y[i] = SCREEN_H;
+                *bullet_y = SCREEN_H+BASE_SIZE;
+                alien_bullets_y[i] = SCREEN_H+BASE_SIZE;
             }
         }
             

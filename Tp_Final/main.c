@@ -71,7 +71,7 @@ uint8_t main(void){
 
     disp_init();
     joy_init();
-    init_sound();
+    //init_sound();
     play(RBP);
 
 #else
