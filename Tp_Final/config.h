@@ -53,6 +53,7 @@
 #define NAVE_Y      SCREEN_H - 2*BASE_SIZE
 #define NAVE_X      SCREEN_W/2 - 1.5*BASE_SIZE
 #define BULLET_W    8
+
 #endif
 
 #define TIMERTICKRBP    1
@@ -63,24 +64,21 @@
 
 #define ALIEN 1
 
-#define BLOQUE 25
-#define LIFES 3
+#define BLOQUE  25
+#define LIFES   3
 
-#define CLOSE_DISPLAY  -1
-#define RESET_GAME  -2
-#define EXIT_MENU -3
-#define FATAL_ERROR -4
+#define CLOSE_DISPLAY   -1
+#define RESET_GAME      -2
+#define EXIT_MENU       -3
+#define FATAL_ERROR     -4
 
-#define EASY_CODE "27"
+#define EASY_CODE   "27"
 #define NORMAL_CODE "22"
-#define HARD_CODE "17"
+#define HARD_CODE   "17"
 
-#define EASY 27
-#define NORMAL 22
-#define HARD 17
-#define MAX_DIFFICULTY 12
+#define EASY            27
+#define NORMAL          22
+#define HARD            17
+#define MAX_DIFFICULTY  12
 
 #endif//CONFIG_H
-
-
-
