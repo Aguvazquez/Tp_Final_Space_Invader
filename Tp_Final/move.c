@@ -38,12 +38,12 @@
 
 /*************************** Extern variables **********************************/
 
-extern  ALLEGRO_DISPLAY * display;
-extern  ALLEGRO_EVENT_QUEUE * event_queue;
-extern  ALLEGRO_TIMER * timer;
-extern  ALLEGRO_FONT *font[FONTS] ; //Para incluir mas de un tipo de letra , es decir mayusculas y bla bla bla
-extern  ALLEGRO_SAMPLE * samples[SAMPLES]; //arreglo de canciones , para saber cuantas hay que iniciar.
-extern  ALLEGRO_BITMAP* display_background[BACKGROUNDS]; // arreglo para incluir fondos.
+extern  ALLEGRO_DISPLAY *display;
+extern  ALLEGRO_EVENT_QUEUE *event_queue;
+extern  ALLEGRO_TIMER *timer;
+extern  ALLEGRO_FONT *font[FONTS]; 
+extern  ALLEGRO_SAMPLE *samples[SAMPLES];
+extern  ALLEGRO_BITMAP *display_background[BACKGROUNDS];
 
 /*******************************************************************************/
 
@@ -71,8 +71,16 @@ static bool logical(bool* lock_mystery_ship, int* mystery_ship_x, int* mystery_s
 
 #endif
 
-/*Recibe un entero positivo y devuelve un entero aleatorio menor a dicho numero*/
+/*
+ * @Brief recibe un entero positivo
+ * @Return devuelve un entero positivo aleatorio menor a dicho numero
+ */
+
 static uint16_t get_rand_num(uint16_t x);
+
+/*
+ * @Brief escribe el puntaje del jugador en pantalla en todo momento de la partida
+ */
 
 static void score_to_str(uint32_t* score);
 
@@ -137,65 +145,39 @@ void *Joy_action(){
 
 int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, uint8_t mode)
 {
+    //setup
+    
     uint8_t i, j, check, aux, accelerate=0, explosion_time=0;
     static uint8_t vida_bloques[4] = {30, 30, 30, 30};
-    int8_t cant_aliens = CANT_ALIENS, step;
-
-#ifdef RASPBERRY
+    int8_t cant_aliens=CANT_ALIENS, step;
     
-    int bullet_x=SCREEN_W, bullet_y, nave_x, nave_y, bloques_x[4], bloques_y;
-    int explosion_x, explosion_y, alien_bullets_x[CANT_ALIENS], alien_bullets_y[CANT_ALIENS], mystery_ship_x, mystery_ship_y;
+    elements_t bullet_x=SCREEN_W, bullet_y, nave_x, nave_y, bloques_x[4], bloques_y, explosion_x, explosion_y;
+    elements_t alien_bullets_x[CANT_ALIENS], alien_bullets_y[CANT_ALIENS], mystery_ship_x, mystery_ship_y;
     
-    dcoord_t coord_nave, coord_bloques, coord_alien, coord_mystery_ship, coord_bullet, coord_alien_bullet;
-    pthread_t Timer_RBP, Joy_Action;
-    pthread_create(&Timer_RBP, NULL, Timer_rbp, NULL);
-    pthread_create(&Joy_Action, NULL, Joy_action, NULL);
-    
-    for(i=0; i<4; i++){
-        bloques_x[i] = 1+4*i;
+    //bloques
+    for(i=0; i<CANT_BLOQUES; i++){
+        bloques_x[i] = PRIMER_BLOQUE + i*DISTANCIA_BLOQUES;
     }
-    bloques_y = SCREEN_H-4;
-    nave_x = SCREEN_W/2 - 1;
-    nave_y = SCREEN_H-1;
+    bloques_y = BLOQUES_Y;   //hay que reemplazar cada uso de la variable por la constante
     
-    //seteo de coordenadas iniciales de los aliens   
-    int alien_x[CANT_ALIENS] = {3,5,7,9,11,13,
-                                3,5,7,9,11,13,
-                                3,5,7,9,11,13,
-                                3,5,7,9,11,13};
+    //nave
+    nave_x = NAVE_X;
+    nave_y = NAVE_Y; //hay que reemplazar cada uso de la variable por la constante   
 
-    int alien_y[CANT_ALIENS] = {2,2,2,2,2,2,
-                                4,4,4,4,4,4,
-                                6,6,6,6,6,6,
-                                8,8,8,8,8,8};
-    step = MOVE_RATE;
-    
-#else
-    
-    float bullet_x, bullet_y, nave_x, nave_y, bloques_x[4], bloques_y, explosion_x, explosion_y;
-    float alien_bullets_x[CANT_ALIENS], alien_bullets_y[CANT_ALIENS], mystery_ship_x, mystery_ship_y;
-    for(i=0; i<4; i++){
-        bloques_x[i] = (1.5*i+1) * SCREEN_W/6.5 - 2*BASE_SIZE;
+    //aliens
+    elements_t alien_x[CANT_ALIENS];
+    for(i=0; i<FILAS_ALIENS; i++){
+        for(j=0; j<COLUMNAS_ALIENS; j++){
+            alien_x[i*COLUMNAS_ALIENS + j] = PRIMERA_COLUMNA_ALIENS + j*DISTANCIA_ALIENS_X;
+        }
     }
-    bloques_y = 3*SCREEN_H/4 + 2.5*BASE_SIZE;
-    //int8_t cant_aliens = 1;    //solo para facilitar debug
-    nave_x = SCREEN_W/2 - 1.5*BASE_SIZE;
-    nave_y = SCREEN_H - 2*BASE_SIZE;
-    //seteo de coordenadas iniciales de los aliens   
-    float alien_x[CANT_ALIENS] = {3*SCREEN_W/15, 4*SCREEN_W/15, 5*SCREEN_W/15, 6*SCREEN_W/15, 7*SCREEN_W/15, 8*SCREEN_W/15, 9*SCREEN_W/15, 10*SCREEN_W/15, 11*SCREEN_W/15, 12*SCREEN_W/15,
-                                  3*SCREEN_W/15, 4*SCREEN_W/15, 5*SCREEN_W/15, 6*SCREEN_W/15, 7*SCREEN_W/15, 8*SCREEN_W/15, 9*SCREEN_W/15, 10*SCREEN_W/15, 11*SCREEN_W/15, 12*SCREEN_W/15,
-                                  3*SCREEN_W/15, 4*SCREEN_W/15, 5*SCREEN_W/15, 6*SCREEN_W/15, 7*SCREEN_W/15, 8*SCREEN_W/15, 9*SCREEN_W/15, 10*SCREEN_W/15, 11*SCREEN_W/15, 12*SCREEN_W/15,
-                                  3*SCREEN_W/15, 4*SCREEN_W/15, 5*SCREEN_W/15, 6*SCREEN_W/15, 7*SCREEN_W/15, 8*SCREEN_W/15, 9*SCREEN_W/15, 10*SCREEN_W/15, 11*SCREEN_W/15, 12*SCREEN_W/15,
-                                  3*SCREEN_W/15, 4*SCREEN_W/15, 5*SCREEN_W/15, 6*SCREEN_W/15, 7*SCREEN_W/15, 8*SCREEN_W/15, 9*SCREEN_W/15, 10*SCREEN_W/15, 11*SCREEN_W/15, 12*SCREEN_W/15};
-
-    float alien_y[CANT_ALIENS] = {SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, SCREEN_H/10, 
-                                  SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5, SCREEN_H/5,
-                                  3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10, 3*SCREEN_H/10,  
-                                  2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5, 2*SCREEN_H/5,
-                                  SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2, SCREEN_H/2};
-    step = BASE_SIZE/2;
     
-#endif       
+    elements_t alien_y[CANT_ALIENS];
+    for(i=0; i<FILAS_ALIENS; i++){
+        for(j=0; j<COLUMNAS_ALIENS; j++){
+            alien_y[i*COLUMNAS_ALIENS + j] = PRIMERA_FILA_ALIENS + i*DISTANCIA_ALIENS_Y;
+        }
+    }
     
     mystery_ship_y=SCREEN_H; 
     mystery_ship_x=SCREEN_W; 
@@ -205,20 +187,38 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
         alien_bullets_y[i]=SCREEN_H;
     }
     
+#ifdef RASPBERRY
+    
+    dcoord_t coord_nave, coord_bloques, coord_alien, coord_mystery_ship, coord_bullet, coord_alien_bullet;
+    pthread_t Timer_RBP, Joy_Action;
+    pthread_create(&Timer_RBP, NULL, Timer_rbp, NULL);
+    pthread_create(&Joy_Action, NULL, Joy_action, NULL);
+    
+    step = BASE_SIZE;
+    
+#else
+        
+    step = BASE_SIZE/2;
+    
+#endif       
+        
     bool redraw=false, redraw_rbp=false;
     bool do_exit=false, lock=false;
     bool lock_mystery_ship=false, alien_change=false;
+    
+    //game
     
 #ifdef RASPBERRY
 
     while(!do_exit && cant_aliens && *lives){
         if(!TimerTickRBP){
             TimerTickRBP = TIMERTICKRBP;
-            if(key_pressed[LEFT] && nave_x>=MOVE_RATE)
+            if(key_pressed[LEFT] && nave_x>=MOVE_RATE){
                 nave_x -= MOVE_RATE;
-            if(key_pressed[RIGHT] && (nave_x <= SCREEN_W-4*MOVE_RATE))
+            }
+            if(key_pressed[RIGHT] && (nave_x <= SCREEN_W-4*MOVE_RATE)){
                 nave_x += MOVE_RATE;
-
+            }
             if(aux >= difficulty){
                 logical_move(&alien_change, &lock_mystery_ship, &mystery_ship_x, &mystery_ship_y, &alien_x[0], &alien_y[0],
                              &accelerate, &difficulty, &alien_bullets_x[0], &alien_bullets_y[0], &step, cant_aliens, &aux, mode);
@@ -241,8 +241,8 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
             do_exit=true;
         }
         if(redraw_rbp){
-            //fprintf(stderr,"%d ,%d ,%d ,%d\n ",vida_bloques[0],vida_bloques[1],vida_bloques[2],vida_bloques[3]);
-	    //fprintf(stderr,"%d ,%d\n",bullet_x,bullet_y);
+            //fprintf(stderr,"%d ,%d ,%d ,%d\n ", vida_bloques[0], vida_bloques[1], vida_bloques[2], vida_bloques[3]);
+	    //fprintf(stderr,"%d ,%d\n",bullet_x, bullet_y);
             disp_clear();
             coord_nave.x=nave_x;
             coord_nave.y=nave_y;
@@ -278,9 +278,9 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
                 }
                 if(vida_bloques[i]!= 0){
                     coord_bloques.x=bloques_x[i];
-                    disp_write(coord_bloques,D_ON);
+                    disp_write(coord_bloques, D_ON);
                     coord_bloques.x++;
-                    disp_write(coord_bloques,D_ON);
+                    disp_write(coord_bloques, D_ON);
                 }
                 disp_write(coord_nave,D_ON);    
             }

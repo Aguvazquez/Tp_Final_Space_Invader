@@ -1,46 +1,68 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#define ASCII '0'
-#define STR_LONG 6
-#define RBP 1
-#define ALLEG 0
+#define ASCII       '0'
+#define STR_LONG    6
+#define RBP         1
+#define ALLEG       0
 #define TOP_PLAYERS 5
 
 #ifdef RASPBERRY
 
-#define SCREEN_W 16
-#define SCREEN_H  16
-#define MOVE_RATE  1
-#define CANT_ALIENS 24
-#define BASE_SIZE 1
+#define SCREEN_W    16
+#define SCREEN_H    16
+#define MOVE_RATE   1
+#define BASE_SIZE   1
 
+#define FILAS_ALIENS            4   //es a ojo
+#define COLUMNAS_ALIENS         6   //es a ojo
+#define CANT_ALIENS             FILAS_ALIENS*COLUMNAS_ALIENS
+#define PRIMERA_FILA_ALIENS     2   //es a ojo
+#define PRIMERA_COLUMNA_ALIENS  3   //es a ojo
+#define DISTANCIA_ALIENS_X      2   //es a ojo
+#define DISTANCIA_ALIENS_Y      2   //es a ojo
+
+#define CANT_BLOQUES        4
+#define PRIMER_BLOQUE       1   //es a ojo
+#define DISTANCIA_BLOQUES   4   //es a ojo
+#define BLOQUES_Y           12  //es a ojo
+
+#define NAVE_Y      SCREEN_H - BASE_SIZE
+#define NAVE_X      SCREEN_W/2 - BASE_SIZE
 #else
 
-#define SCREEN_W  800
-#define SCREEN_H  640
-#define MOVE_RATE  4.0
-#define CANT_ALIENS 50
-#define BASE_SIZE 20
+#define SCREEN_W    800
+#define SCREEN_H    640
+#define MOVE_RATE   4.0
+#define BASE_SIZE   20
+
+#define FILAS_ALIENS            5   //es a ojo
+#define COLUMNAS_ALIENS         10  //es a ojo
+#define CANT_ALIENS             FILAS_ALIENS*COLUMNAS_ALIENS
+#define PRIMERA_FILA_ALIENS     SCREEN_H/10     //es a ojo
+#define PRIMERA_COLUMNA_ALIENS  3*SCREEN_W/15   //es a ojo
+#define DISTANCIA_ALIENS_X      SCREEN_W/15     //es a ojo
+#define DISTANCIA_ALIENS_Y      SCREEN_H/10     //es a ojo
+
+#define CANT_BLOQUES        4
+#define PRIMER_BLOQUE       SCREEN_W/6.5 - 2*BASE_SIZE      //es a ojo
+#define DISTANCIA_BLOQUES   3*SCREEN_W/13                   //es a ojo
+#define BLOQUES_Y           3*SCREEN_H/4 + 2.5*BASE_SIZE    //es a ojo
+
+#define NAVE_Y      SCREEN_H - 2*BASE_SIZE
+#define NAVE_X      SCREEN_W/2 - 1.5*BASE_SIZE
 
 #endif
 
-#define TIMERTICKRBP 1
-#define SAMPLES  5
-#define FONTS  2
-#define BACKGROUNDS 17
-#define FPS    60.0
+#define TIMERTICKRBP    1
+#define SAMPLES         5
+#define FONTS           2
+#define BACKGROUNDS     17
+#define FPS             60.0
+
 #define ALIEN 1
-#define PRIMERA_FILA 2
-#define ULTIMA_FILA 7
-#define PRIMERA_COLUMNA 2
-#define ULTIMA_COLUMNA 12
-#define ESPACIO_ALIENS 1
+
 #define BLOQUE 25
-#define FILA_BLOQUES (CANT_ALIENS-3)
-#define PRIMER_BLOQUE 2
-#define ULTIMO_BLOQUE 12
-#define ESPACIO_BLOQUES 3
 #define LIFES 3
 
 #define CLOSE_DISPLAY  -1
