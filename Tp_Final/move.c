@@ -574,7 +574,7 @@ static void logical_move(bool* alien_change, bool* lock_mystery_ship, elements_t
 #ifndef RASPBERRY
             if(alien_x[i] >= SCREEN_W-2.5*BASE_SIZE || alien_x[i] <= BASE_SIZE/2){ //revisa que no sobrepasen los extremos
 #else
-            if(alien_x[i] == SCREEN_W || alien_x[i] == 0){ //revisa que no sobrepasen los extremos
+            if(alien_x[i] == SCREEN_W-BASE_SIZE || alien_x[i] == 0){ //revisa que no sobrepasen los extremos
 #endif  //RASPBERRY
                 
                 check++;
