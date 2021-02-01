@@ -641,10 +641,10 @@ static bool logical(bool* lock_mystery_ship, elements_t* mystery_ship_x, element
                     *lock = false;
                     *bullet_y = NAVE_Y + BASE_SIZE;
                     al_play_sample(samples[2], 0.25, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
-                    if(i <= ((CANT_ALIENS/5)-1)){
+                    if(i < (CANT_ALIENS/FILAS_ALIENS)){
                         (*score) += 30*multiplier;
                     } 
-                    else if(i <= ((3*CANT_ALIENS/5)-1)){
+                    else if(i < (3*CANT_ALIENS/FILAS_ALIENS)){
                         (*score) += 20*multiplier;
                     } 
                     else{
@@ -654,7 +654,7 @@ static bool logical(bool* lock_mystery_ship, elements_t* mystery_ship_x, element
             }
 #else
             if(*bullet_y == alien_y[i] && *bullet_x == alien_x[i]){
-                (*cant_aliens)--;
+                (*cant_aliens)--;   //muere un alien
                 alien_y[i] = SCREEN_H; //mueve el alien muerto fuera de la pantalla 
                 *lock = false;
                 *bullet_y = NAVE_Y + BASE_SIZE;
@@ -671,6 +671,7 @@ static bool logical(bool* lock_mystery_ship, elements_t* mystery_ship_x, element
 #endif
             
         }            
+        
         for(j=0; j<CANT_BLOQUES; j++){
             if(vida_bloques[j]){
 #ifndef RASPBERRY
@@ -688,9 +689,8 @@ static bool logical(bool* lock_mystery_ship, elements_t* mystery_ship_x, element
         }
 
 #ifndef RASPBERRY
-        if(alien_bullets_y[i] >= NAVE_Y && alien_bullets_y[i] < NAVE_Y+BASE_SIZE){
-            if(alien_bullets_x[i] >= *nave_x && alien_bullets_x[i] <= *nave_x+3*BASE_SIZE){ //usamos menor para que no utilice otro cuadro en
-                                                                                            //rpi, y mantener el tamaño de la nave en allegro
+        if(alien_bullets_y[i] >= NAVE_Y && alien_bullets_y[i] <= NAVE_Y+BASE_SIZE){
+            if(alien_bullets_x[i] >= *nave_x && alien_bullets_x[i] <= *nave_x+3*BASE_SIZE){
                 al_play_sample(samples[3], 0.25, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 #else
         if(alien_bullets_y[i] == NAVE_Y){
