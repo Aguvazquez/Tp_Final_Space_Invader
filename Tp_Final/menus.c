@@ -130,7 +130,7 @@ void main_menu (void){
             case 1:{
                 al_stop_samples();
                 al_play_sample(samples[4], 0.25, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);    
-                aux=play(ALLEG);    //aux obtendrá el valor correspondiente al terminar la partida.
+                aux=play();     //aux obtendrá el valor correspondiente al terminar la partida.
                 al_stop_samples();
                 if(aux==CLOSE_DISPLAY || aux==FATAL_ERROR){
                     do_exit=true;

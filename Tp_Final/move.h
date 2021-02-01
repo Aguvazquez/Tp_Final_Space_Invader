@@ -21,13 +21,12 @@
  * @Param2: la cantidad de vidas del jugador al iniciar el nivel
  * @Param3: el número de nivel que se va a jugar
  * @Param4: un puntero al puntaje del jugador
- * @Param5: modo de juego (allegro00, raspberry=1)
  * @Return  la cantidad de aliens que quedan en el nivel (0 en caso de pasar al siguiente nivel)
  *          EXIT_MENU en caso de volver al menú principal
  *          RESET_GAME en caso de resetear el juego
  *          FATAL_ERROR si ocurre algún error
  */
 
-int8_t move(uint8_t difficulty, uint8_t* lifes, uint8_t level, uint32_t* score, uint8_t mode, uint8_t multiplier);
+int8_t move(uint8_t difficulty, uint8_t* lifes, uint8_t level, uint32_t* score, uint8_t multiplier);
 
 #endif

@@ -79,7 +79,7 @@ static int8_t read_difficulty(void);
 
 /*************************** Global functions **********************************/
 
-int8_t play(uint8_t mode)
+int8_t play(void)
 {
     uint8_t level=1, lifes=LIFES, multiplier;
     int8_t aux=0, difficulty;
@@ -105,7 +105,7 @@ int8_t play(uint8_t mode)
 #endif
 
     while(difficulty){
-        aux = move(difficulty, &lifes, level, &score, mode, multiplier);
+        aux = move(difficulty, &lifes, level, &score, multiplier);
         if(aux==CLOSE_DISPLAY || aux==RESET_GAME || aux==EXIT_MENU){
             return aux; 
         }
