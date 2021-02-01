@@ -47,29 +47,19 @@ extern  ALLEGRO_BITMAP *display_background[BACKGROUNDS];
 
 /*******************************************************************************/
 
+#endif
+
 /*********************** Headers of local functions ****************************/
 
-static void logical_move(bool* alien_change, bool* lock_mystery_ship, float* mystery_ship_x,
-                        float* alien_x, float* alien_y, uint8_t* accelerate, uint8_t* difficulty, float* alien_bullets_x, 
-                        float* alien_bullets_y, int8_t *step, int8_t cant_aliens, uint8_t* aux, uint8_t mode);
+static void logical_move(bool* alien_change, bool* lock_mystery_ship, elements_t* mystery_ship_x, elements_t* alien_x,
+                        elements_t* alien_y, uint8_t* accelerate, uint8_t* difficulty, elements_t* alien_bullets_x, 
+                        elements_t* alien_bullets_y, int8_t *step, int8_t cant_aliens, uint8_t* aux, uint8_t mode);
 
-static bool logical(bool* lock_mystery_ship, float* mystery_ship_x, float* alien_x, float* alien_y,
-                    float* alien_bullets_x, float* alien_bullets_y, int8_t *step,int8_t* cant_aliens, float* bullet_y, float* bullet_x, 
-                    float* explosion_x, float* explosion_y, uint8_t* explosion_time, bool* lock, float* nave_x, 
-                    uint32_t* score, uint8_t* vida_bloques, float* bloques_x, uint8_t* lives, uint8_t mode);
-
-#else
-
-static void logical_move(bool* alien_change, bool* lock_mystery_ship, int* mystery_ship_x, int* alien_x, 
-                        int* alien_y, uint8_t* accelerate, uint8_t* difficulty, int* alien_bullets_x, int* alien_bullets_y, 
-                        int8_t *step, int8_t cant_aliens, uint8_t* aux,uint8_t mode);
-
-static bool logical(bool* lock_mystery_ship, int* mystery_ship_x, int* alien_x, int* alien_y,
-                    int* alien_bullets_x, int* alien_bullets_y, int8_t *step,int8_t* cant_aliens, int* bullet_y, int* bullet_x,
-                    int* explosion_x, int* explosion_y, uint8_t* explosion_time, bool* lock, int* nave_x,
-                    uint32_t* score,uint8_t* vida_bloques, int* bloques_x, uint8_t* lives, uint8_t mode);
-
-#endif
+static bool logical(bool* lock_mystery_ship, elements_t* mystery_ship_x, elements_t* alien_x, elements_t* alien_y,
+                    elements_t* alien_bullets_x, elements_t* alien_bullets_y, int8_t *step,int8_t* cant_aliens,
+                    elements_t* bullet_y, elements_t* bullet_x, elements_t* explosion_x, elements_t* explosion_y,
+                    uint8_t* explosion_time, bool* lock, elements_t* nave_x, uint32_t* score, uint8_t* vida_bloques,
+                    elements_t* bloques_x, uint8_t* lives, uint8_t mode);
 
 /*
  * @Brief recibe un entero positivo
@@ -557,18 +547,9 @@ static void score_to_str(uint32_t *score){
 
 #endif
 
-#ifndef RASPBERRY
-
-static void logical_move(bool* alien_change, bool* lock_mystery_ship, float* mystery_ship_x,
-                         float* alien_x, float* alien_y, uint8_t* accelerate, uint8_t* difficulty, float* alien_bullets_x, 
-                         float* alien_bullets_y, int8_t *step, int8_t cant_aliens, uint8_t* aux, uint8_t mode){
-#else
-
-static void logical_move(bool* alien_change, bool* lock_mystery_ship, int* mystery_ship_x, int* alien_x, 
-                         int* alien_y, uint8_t* accelerate, uint8_t* difficulty, int* alien_bullets_x, int* alien_bullets_y,
-                         int8_t *step, int8_t cant_aliens, uint8_t* aux, uint8_t mode){
-    
-#endif
+static void logical_move(bool* alien_change, bool* lock_mystery_ship, elements_t* mystery_ship_x, elements_t* alien_x,
+                        elements_t* alien_y, uint8_t* accelerate, uint8_t* difficulty, elements_t* alien_bullets_x, 
+                        elements_t* alien_bullets_y, int8_t *step, int8_t cant_aliens, uint8_t* aux, uint8_t mode){
 
     int8_t check, i;
     if(*alien_change){
@@ -633,21 +614,11 @@ static void logical_move(bool* alien_change, bool* lock_mystery_ship, int* myste
     }
 }
 
-#ifndef RASPBERRY
-
-static bool logical(bool* lock_mystery_ship, float* mystery_ship_x, float* alien_x, float* alien_y, 
-                    float* alien_bullets_x, float* alien_bullets_y, int8_t *step, int8_t* cant_aliens, float* bullet_y, float* bullet_x,
-                    float* explosion_x, float* explosion_y, uint8_t* explosion_time, bool* lock, float* nave_x,
-                    uint32_t* score, uint8_t* vida_bloques, float* bloques_x, uint8_t* lives, uint8_t mode){
-
-#else
-
-static bool logical(bool* lock_mystery_ship, int* mystery_ship_x, int* alien_x, int* alien_y, 
-                    int* alien_bullets_x, int* alien_bullets_y, int8_t *step, int8_t* cant_aliens, int* bullet_y, int* bullet_x,
-                    int* explosion_x, int* explosion_y, uint8_t* explosion_time, bool* lock, int* nave_x, 
-                    uint32_t* score, uint8_t* vida_bloques, int* bloques_x, uint8_t* lives, uint8_t mode){
-                    
-#endif
+static bool logical(bool* lock_mystery_ship, elements_t* mystery_ship_x, elements_t* alien_x, elements_t* alien_y,
+                    elements_t* alien_bullets_x, elements_t* alien_bullets_y, int8_t *step,int8_t* cant_aliens,
+                    elements_t* bullet_y, elements_t* bullet_x, elements_t* explosion_x, elements_t* explosion_y,
+                    uint8_t* explosion_time, bool* lock, elements_t* nave_x, uint32_t* score, uint8_t* vida_bloques,
+                    elements_t* bloques_x, uint8_t* lives, uint8_t mode){
 
     int8_t i, j;
     if(*bullet_y <= MOVE_RATE-2)           //si pega arriba desaparece la bala
