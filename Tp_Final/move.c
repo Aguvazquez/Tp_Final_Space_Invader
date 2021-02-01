@@ -56,7 +56,7 @@ static void logical_move(bool* alien_change, bool* lock_mystery_ship, float* mys
 static bool logical(bool* lock_mystery_ship, float* mystery_ship_x, float* alien_x, float* alien_y,
                     float* alien_bullets_x, float* alien_bullets_y, int8_t *step,int8_t* cant_aliens, float* bullet_y, float* bullet_x, 
                     float* explosion_x, float* explosion_y, uint8_t* explosion_time, bool* lock, float* nave_x, 
-                    uint32_t* score, uint8_t* vida_bloques, float* bloques_y, float* bloques_x, uint8_t* lives, uint8_t mode);
+                    uint32_t* score, uint8_t* vida_bloques, float* bloques_x, uint8_t* lives, uint8_t mode);
 
 #else
 
@@ -67,7 +67,7 @@ static void logical_move(bool* alien_change, bool* lock_mystery_ship, int* myste
 static bool logical(bool* lock_mystery_ship, int* mystery_ship_x, int* alien_x, int* alien_y,
                     int* alien_bullets_x, int* alien_bullets_y, int8_t *step,int8_t* cant_aliens, int* bullet_y, int* bullet_x,
                     int* explosion_x, int* explosion_y, uint8_t* explosion_time, bool* lock, int* nave_x,
-                    uint32_t* score,uint8_t* vida_bloques, int* bloques_y, int* bloques_x, uint8_t* lives, uint8_t mode);
+                    uint32_t* score,uint8_t* vida_bloques, int* bloques_x, uint8_t* lives, uint8_t mode);
 
 #endif
 
@@ -151,14 +151,13 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
     static uint8_t vida_bloques[4] = {30, 30, 30, 30};
     int8_t cant_aliens=CANT_ALIENS, step;
     
-    elements_t bullet_x=SCREEN_W, bullet_y, nave_x, bloques_x[4], bloques_y, explosion_x, explosion_y;
+    elements_t bullet_x=SCREEN_W, bullet_y, nave_x, bloques_x[4], explosion_x, explosion_y;
     elements_t alien_bullets_x[CANT_ALIENS], alien_bullets_y[CANT_ALIENS], mystery_ship_x;
     
     //bloques
     for(i=0; i<CANT_BLOQUES; i++){
         bloques_x[i] = PRIMER_BLOQUE + i*DISTANCIA_BLOQUES;
     }
-    bloques_y = BLOQUES_Y;   //hay que reemplazar cada uso de la variable por la constante
     
     //nave
     nave_x = NAVE_X;
@@ -244,7 +243,7 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
             disp_clear();
             coord_nave.x=nave_x;
             coord_nave.y=NAVE_Y;
-            coord_bloques.y=bloques_y;
+            coord_bloques.y=BLOQUES_Y;
             coord_mystery_ship.x=mystery_ship_x;
             coord_mystery_ship.y=MYSTERY_SHIP_Y;
             coord_bullet.x=bullet_x;
@@ -308,7 +307,7 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
             }
             if(lock){
                 bullet_y -= MOVE_RATE;  //actualiza la posicion de la bala en cada ciclo
-                if(bullet_y == bloques_y){
+                if(bullet_y == BLOQUES_Y){
                     for(i=0, check=0; i<4; i++){
                         if(vida_bloques[i]){
                             if(bullet_x==(bloques_x[i]+1) || bullet_x==bloques_x[i]){
@@ -323,7 +322,7 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
             do_exit = logical(&lock_mystery_ship, &mystery_ship_x, &alien_x[0], &alien_y[0], 
                               &alien_bullets_x[0], &alien_bullets_y[0], &step, &cant_aliens, &bullet_y, &bullet_x, 
                               &explosion_x, &explosion_y, &explosion_time, &lock, NAVE_Y, &nave_x,                    
-                              score, &vida_bloques[0], &bloques_y, &bloques_x[0], lives, mode);
+                              score, &vida_bloques[0], &bloques_x[0], lives, mode);
             disp_update();
         }
     }
@@ -432,19 +431,19 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
             }
             for (i=0; i<4; i++)
                 if(vida_bloques[i] >= 20){
-                    al_draw_filled_rectangle(bloques_x[i], bloques_y, bloques_x[i]+4*BASE_SIZE, bloques_y+BASE_SIZE, al_map_rgb(0, 255, 0));
-                    al_draw_filled_rectangle(bloques_x[i], bloques_y+BASE_SIZE, bloques_x[i]+BASE_SIZE, bloques_y+2*BASE_SIZE, al_map_rgb(0, 255, 0));
-                    al_draw_filled_rectangle(bloques_x[i]+3*BASE_SIZE, bloques_y+BASE_SIZE, bloques_x[i]+4*BASE_SIZE, bloques_y+2*BASE_SIZE, al_map_rgb(0, 255, 0));
+                    al_draw_filled_rectangle(bloques_x[i], BLOQUES_Y, bloques_x[i]+4*BASE_SIZE, BLOQUES_Y+BASE_SIZE, al_map_rgb(0, 255, 0));
+                    al_draw_filled_rectangle(bloques_x[i], BLOQUES_Y+BASE_SIZE, bloques_x[i]+BASE_SIZE, BLOQUES_Y+2*BASE_SIZE, al_map_rgb(0, 255, 0));
+                    al_draw_filled_rectangle(bloques_x[i]+3*BASE_SIZE, BLOQUES_Y+BASE_SIZE, bloques_x[i]+4*BASE_SIZE, BLOQUES_Y+2*BASE_SIZE, al_map_rgb(0, 255, 0));
                 } 
                 else if(vida_bloques[i] >= 10){
-                    al_draw_filled_rectangle(bloques_x[i], bloques_y, bloques_x[i]+4*BASE_SIZE, bloques_y+BASE_SIZE, al_map_rgb(255, 255, 0));
-                    al_draw_filled_rectangle(bloques_x[i], bloques_y+BASE_SIZE, bloques_x[i]+BASE_SIZE, bloques_y+2*BASE_SIZE, al_map_rgb(255, 255, 0));
-                    al_draw_filled_rectangle(bloques_x[i]+3*BASE_SIZE, bloques_y+BASE_SIZE, bloques_x[i]+4*BASE_SIZE, bloques_y+2*BASE_SIZE, al_map_rgb(255, 255, 0));
+                    al_draw_filled_rectangle(bloques_x[i], BLOQUES_Y, bloques_x[i]+4*BASE_SIZE, BLOQUES_Y+BASE_SIZE, al_map_rgb(255, 255, 0));
+                    al_draw_filled_rectangle(bloques_x[i], BLOQUES_Y+BASE_SIZE, bloques_x[i]+BASE_SIZE, BLOQUES_Y+2*BASE_SIZE, al_map_rgb(255, 255, 0));
+                    al_draw_filled_rectangle(bloques_x[i]+3*BASE_SIZE, BLOQUES_Y+BASE_SIZE, bloques_x[i]+4*BASE_SIZE, BLOQUES_Y+2*BASE_SIZE, al_map_rgb(255, 255, 0));
                 } 
                 else if(vida_bloques[i]){
-                    al_draw_filled_rectangle(bloques_x[i], bloques_y, bloques_x[i]+4*BASE_SIZE, bloques_y+BASE_SIZE, al_map_rgb(255, 0, 0));
-                    al_draw_filled_rectangle(bloques_x[i], bloques_y+BASE_SIZE, bloques_x[i]+BASE_SIZE, bloques_y+2*BASE_SIZE, al_map_rgb(255, 0, 0));
-                    al_draw_filled_rectangle(bloques_x[i]+3*BASE_SIZE, bloques_y+BASE_SIZE, bloques_x[i]+4*BASE_SIZE, bloques_y+2*BASE_SIZE, al_map_rgb(255, 0, 0));
+                    al_draw_filled_rectangle(bloques_x[i], BLOQUES_Y, bloques_x[i]+4*BASE_SIZE, BLOQUES_Y+BASE_SIZE, al_map_rgb(255, 0, 0));
+                    al_draw_filled_rectangle(bloques_x[i], BLOQUES_Y+BASE_SIZE, bloques_x[i]+BASE_SIZE, BLOQUES_Y+2*BASE_SIZE, al_map_rgb(255, 0, 0));
+                    al_draw_filled_rectangle(bloques_x[i]+3*BASE_SIZE, BLOQUES_Y+BASE_SIZE, bloques_x[i]+4*BASE_SIZE, BLOQUES_Y+2*BASE_SIZE, al_map_rgb(255, 0, 0));
                 }
             
             for(i=0, check=0; i<CANT_ALIENS; i++){
@@ -493,7 +492,7 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
             if(lock){
                 al_draw_rectangle(bullet_x-1, bullet_y, bullet_x+1, bullet_y+BASE_SIZE, al_map_rgb(255, 0, 0), 0);
                 bullet_y -= 2*MOVE_RATE; //actualiza la posicion de la bala en cada ciclo
-                if(bullet_y <= bloques_y+BASE_SIZE){
+                if(bullet_y <= BLOQUES_Y+BASE_SIZE){
                     for(i=0, check=0; i<4; i++){
                         if(vida_bloques[i]){
                             if(bullet_x >= bloques_x[i] && bullet_x <= bloques_x[i]+4*BASE_SIZE){
@@ -507,7 +506,7 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
 
             do_exit = logical(&lock_mystery_ship, &mystery_ship_x, &alien_x[0], &alien_y[0], &alien_bullets_x[0], 
                     &alien_bullets_y[0], &step, &cant_aliens, &bullet_y, &bullet_x, &explosion_x, &explosion_y, &explosion_time, 
-                    &lock, &nave_x, score, &vida_bloques[0], &bloques_y, &bloques_x[0], lives, mode);
+                    &lock, &nave_x, score, &vida_bloques[0], &bloques_x[0], lives, mode);
 
             if(explosion_time){
                 al_draw_scaled_bitmap(display_background[16], 0, 0, al_get_bitmap_width(display_background[16]), 
@@ -639,14 +638,14 @@ static void logical_move(bool* alien_change, bool* lock_mystery_ship, int* myste
 static bool logical(bool* lock_mystery_ship, float* mystery_ship_x, float* alien_x, float* alien_y, 
                     float* alien_bullets_x, float* alien_bullets_y, int8_t *step, int8_t* cant_aliens, float* bullet_y, float* bullet_x,
                     float* explosion_x, float* explosion_y, uint8_t* explosion_time, bool* lock, float* nave_x,
-                    uint32_t* score, uint8_t* vida_bloques, float* bloques_y, float* bloques_x, uint8_t* lives, uint8_t mode){
+                    uint32_t* score, uint8_t* vida_bloques, float* bloques_x, uint8_t* lives, uint8_t mode){
 
 #else
 
 static bool logical(bool* lock_mystery_ship, int* mystery_ship_x, int* alien_x, int* alien_y, 
                     int* alien_bullets_x, int* alien_bullets_y, int8_t *step, int8_t* cant_aliens, int* bullet_y, int* bullet_x,
                     int* explosion_x, int* explosion_y, uint8_t* explosion_time, bool* lock, int* nave_x, 
-                    uint32_t* score, uint8_t* vida_bloques, int* bloques_y, int* bloques_x, uint8_t* lives, uint8_t mode){
+                    uint32_t* score, uint8_t* vida_bloques, int* bloques_x, uint8_t* lives, uint8_t mode){
                     
 #endif
 
@@ -705,10 +704,10 @@ static bool logical(bool* lock_mystery_ship, int* mystery_ship_x, int* alien_x, 
         for(j=0; j<CANT_BLOQUES; j++){
             if(vida_bloques[j]){
 #ifndef RASPBERRY
-                if((alien_bullets_y[i]+BASE_SIZE) >= *bloques_y && alien_bullets_y[i] <= *bloques_y){
+                if((alien_bullets_y[i]+BASE_SIZE) >= BLOQUES_Y && alien_bullets_y[i] <= BLOQUES_Y){
                     if(alien_bullets_x[i] >= bloques_x[j] && alien_bullets_x[i] <= bloques_x[j]+4*BASE_SIZE){
 #else
-                if((alien_bullets_y[i]) == *bloques_y){
+                if((alien_bullets_y[i]) == BLOQUES_Y){
                     if(alien_bullets_x[i] == bloques_x[j] || alien_bullets_x[i] == bloques_x[j]+BASE_SIZE){
 #endif
                         alien_bullets_y[i] = SCREEN_H + BASE_SIZE;
