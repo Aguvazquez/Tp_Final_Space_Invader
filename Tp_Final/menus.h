@@ -33,5 +33,5 @@ void main_menu(void);
 int8_t menu_display(char *str0, char *str1, char *str2, char flag, uint8_t pause);
 
 #endif
-
+void show_on_terminal(uint8_t lives,uint32_t score);
 #endif

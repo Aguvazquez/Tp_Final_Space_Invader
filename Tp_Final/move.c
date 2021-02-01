@@ -234,6 +234,7 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
         if(redraw){
             //fprintf(stderr,"%d ,%d ,%d ,%d\n ", vida_bloques[0], vida_bloques[1], vida_bloques[2], vida_bloques[3]);
 	    //fprintf(stderr,"%d ,%d\n",bullet_x, bullet_y);
+            show_on_terminal(*lives,*score);
             disp_clear();
             coord_nave.x=nave_x;
             coord_nave.y=NAVE_Y;
@@ -412,7 +413,7 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
         }
 
         if(redraw && al_is_event_queue_empty(event_queue)){
-
+            show_on_terminal(*lives,*score);
             redraw = false;
             al_draw_scaled_bitmap(display_background[11 + level%5], 0, 0, al_get_bitmap_width(display_background[11 + level%5]), 
                     al_get_bitmap_height(display_background[11 + level%5]), 0, 0, SCREEN_W, SCREEN_H, 0);

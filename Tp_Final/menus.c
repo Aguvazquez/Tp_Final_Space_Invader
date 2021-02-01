@@ -14,7 +14,7 @@
 #include "Top_Score.h"
 #include "play.h"
 #include "allegro_setup.h"
-
+#include "termlib.h"
 /*******************************************************************************/
 
 #ifndef RASPBERRY
@@ -456,5 +456,17 @@ static void create_table_top_score(void){
 }
 
 #endif //RASPBERRY
+
+void show_on_terminal(uint8_t lives,uint32_t score){
+    uint8_t i;
+    system("clear");
+    fprintf(stderr,"******************************************");//top side
+    fprintf(stderr,"*\n*\n*\n");
+    fprintf(stderr,"*       Score: %d\n",score);
+    fprintf(stderr,"*\n");
+    fprintf(stderr,"*       Lives: %d\n",lives);
+    fprintf(stderr,"*\n*\n*\n");
+    fprintf(stderr,"******************************************");//bottom side
+}
 
 /****************************** END FILE ***************************************/
