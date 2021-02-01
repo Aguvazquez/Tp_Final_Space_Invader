@@ -27,8 +27,9 @@
 #define DISTANCIA_BLOQUES   4   //es a ojo
 #define BLOQUES_Y           12  //es a ojo
 
-#define NAVE_Y      SCREEN_H - BASE_SIZE
-#define NAVE_X      SCREEN_W/2 - BASE_SIZE
+#define NAVE_Y          SCREEN_H - BASE_SIZE
+#define NAVE_X          SCREEN_W/2 - BASE_SIZE
+#define MYSTERY_SHIP_Y  BASE_SIZE
 
 #else
 
@@ -50,9 +51,10 @@
 #define DISTANCIA_BLOQUES   3*SCREEN_W/13                   //es a ojo
 #define BLOQUES_Y           3*SCREEN_H/4 + 2.5*BASE_SIZE    //es a ojo
 
-#define NAVE_Y      SCREEN_H - 2*BASE_SIZE
-#define NAVE_X      SCREEN_W/2 - 1.5*BASE_SIZE
-#define BULLET_W    8
+#define NAVE_Y          SCREEN_H - 2*BASE_SIZE
+#define NAVE_X          SCREEN_W/2 - 1.5*BASE_SIZE
+#define BULLET_W        8
+#define MYSTERY_SHIP_Y  1.5*BASE_SIZE
 
 #endif
 
