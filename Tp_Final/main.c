@@ -65,7 +65,7 @@ ALLEGRO_BITMAP *display_background[BACKGROUNDS] = {NULL, NULL, NULL, NULL, NULL,
 
 /***************************** Main function ***********************************/
 
-uint8_t main(void){
+int main(void){
     
 #ifdef RASPBERRY
 

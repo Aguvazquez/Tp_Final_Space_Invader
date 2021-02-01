@@ -28,6 +28,6 @@
  *          FATAL_ERROR si ocurre algún error
  */
 
-int8_t move(uint8_t difficulty, uint8_t* lifes, uint8_t level, uint32_t* score, uint8_t mode);
+int8_t move(uint8_t difficulty, uint8_t* lifes, uint8_t level, uint32_t* score, uint8_t mode, uint8_t multiplier);
 
 #endif

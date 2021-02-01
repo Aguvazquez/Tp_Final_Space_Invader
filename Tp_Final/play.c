@@ -105,7 +105,7 @@ int8_t play(uint8_t mode)
 #endif
 
     while(difficulty){
-        aux = move(difficulty, &lifes, level, &score, mode);
+        aux = move(difficulty, &lifes, level, &score, mode, multiplier);
         if(aux==CLOSE_DISPLAY || aux==RESET_GAME || aux==EXIT_MENU){
             return aux; 
         }
@@ -122,13 +122,12 @@ int8_t play(uint8_t mode)
                 lifes++;
             }
             else{
-                score+=100; //pasar de nivel con 3 vidas suma puntos
+                score+=100*multiplier; //pasar de nivel con 3 vidas suma puntos
             }
         }
         else{   //el jugador perdió la partida
             difficulty=0;   //permite salir del ciclo
-            //score *= multiplier;    //multiplica el puntaje según la dificultad de la partida
-                                    //FALTA algo que lo indique durante la partida
+            
 #ifndef RASPBERRY
             
             lose_animation(score);                      

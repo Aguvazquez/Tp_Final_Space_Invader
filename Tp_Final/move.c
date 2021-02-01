@@ -53,13 +53,13 @@ extern  ALLEGRO_BITMAP *display_background[BACKGROUNDS];
 
 static void logical_move(bool* alien_change, bool* lock_mystery_ship, elements_t* mystery_ship_x, elements_t* alien_x,
                         elements_t* alien_y, uint8_t* accelerate, uint8_t* difficulty, elements_t* alien_bullets_x, 
-                        elements_t* alien_bullets_y, int8_t *step, int8_t cant_aliens, uint8_t* aux, uint8_t mode);
+                        elements_t* alien_bullets_y, int8_t *step, int8_t cant_aliens, uint8_t* aux, uint8_t mode, uint8_t multiplier);
 
 static bool logical(bool* lock_mystery_ship, elements_t* mystery_ship_x, elements_t* alien_x, elements_t* alien_y,
-                    elements_t* alien_bullets_x, elements_t* alien_bullets_y, int8_t *step,int8_t* cant_aliens,
+                    elements_t* alien_bullets_x, elements_t* alien_bullets_y, int8_t *step, int8_t* cant_aliens,
                     elements_t* bullet_y, elements_t* bullet_x, elements_t* explosion_x, elements_t* explosion_y,
                     uint8_t* explosion_time, bool* lock, elements_t* nave_x, uint32_t* score, uint8_t* vida_bloques,
-                    elements_t* bloques_x, uint8_t* lives, uint8_t mode);
+                    elements_t* bloques_x, uint8_t* lives, uint8_t mode, uint8_t multiplier);
 
 /*
  * @Brief recibe un entero positivo
@@ -68,11 +68,15 @@ static bool logical(bool* lock_mystery_ship, elements_t* mystery_ship_x, element
 
 static uint16_t get_rand_num(uint16_t x);
 
+#ifndef RASPBERRY
+
 /*
  * @Brief escribe el puntaje del jugador en pantalla en todo momento de la partida
  */
 
 static void score_to_str(uint32_t* score);
+
+#endif
 
 /*******************************************************************************/
 
@@ -133,11 +137,11 @@ void *Joy_action(){
 
 /******************************** Global functions *****************************/
 
-int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, uint8_t mode)
+int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, uint8_t mode, uint8_t multiplier)
 {
     //setup
     
-    uint8_t i, j, check, aux, accelerate=0, explosion_time=0;
+    uint8_t i, j, aux, accelerate=0, explosion_time=0;
     static uint8_t vida_bloques[4] = {30, 30, 30, 30};
     int8_t cant_aliens=CANT_ALIENS, step;
     
@@ -189,7 +193,7 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
     
 #endif       
         
-    bool redraw=false, redraw_rbp=false;
+    bool redraw=false;
     bool do_exit=false, lock=false;
     bool lock_mystery_ship=false, alien_change=false;
     
@@ -208,13 +212,13 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
             }
             if(aux >= difficulty){
                 logical_move(&alien_change, &lock_mystery_ship, &mystery_ship_x, &alien_x[0], &alien_y[0],
-                             &accelerate, &difficulty, &alien_bullets_x[0], &alien_bullets_y[0], &step, cant_aliens, &aux, mode);
+                             &accelerate, &difficulty, &alien_bullets_x[0], &alien_bullets_y[0], &step, cant_aliens, &aux, mode, multiplier);
                 aux = 0;
             }
             if(lock_mystery_ship){
                 mystery_ship_x -= MOVE_RATE;
             }
-            redraw_rbp = true;
+            redraw = true;
             aux++;
         }
         if(key_pressed[SPACE_UP]){
@@ -227,7 +231,7 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
         if(key_pressed[JOY_SWITCH]){
             do_exit=true;
         }
-        if(redraw_rbp){
+        if(redraw){
             //fprintf(stderr,"%d ,%d ,%d ,%d\n ", vida_bloques[0], vida_bloques[1], vida_bloques[2], vida_bloques[3]);
 	    //fprintf(stderr,"%d ,%d\n",bullet_x, bullet_y);
             disp_clear();
@@ -238,7 +242,7 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
             coord_mystery_ship.y=MYSTERY_SHIP_Y;
             coord_bullet.x=bullet_x;
             coord_bullet.y=bullet_y;
-            redraw_rbp=false;
+            redraw=false;
             
             for(i=0; i<4; i++){
                 switch(i){
@@ -298,7 +302,7 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
             if(lock){
                 bullet_y -= MOVE_RATE;  //actualiza la posicion de la bala en cada ciclo
                 if(bullet_y == BLOQUES_Y){
-                    for(i=0, check=0; i<4; i++){
+                    for(i=0; i<4; i++){
                         if(vida_bloques[i]){
                             if(bullet_x==(bloques_x[i]+1) || bullet_x==bloques_x[i]){
                                 vida_bloques[i]--;
@@ -311,8 +315,8 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
             }
             do_exit = logical(&lock_mystery_ship, &mystery_ship_x, &alien_x[0], &alien_y[0], 
                               &alien_bullets_x[0], &alien_bullets_y[0], &step, &cant_aliens, &bullet_y, &bullet_x, 
-                              &explosion_x, &explosion_y, &explosion_time, &lock, NAVE_Y, &nave_x,                    
-                              score, &vida_bloques[0], &bloques_x[0], lives, mode);
+                              &explosion_x, &explosion_y, &explosion_time, &lock, &nave_x,                    
+                              score, &vida_bloques[0], &bloques_x[0], lives, mode, multiplier);
             disp_update();
         }
     }
@@ -333,7 +337,7 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
                 }
                 if(aux >= difficulty){
                     logical_move(&alien_change, &lock_mystery_ship, &mystery_ship_x, &alien_x[0], &alien_y[0], 
-                                 &accelerate, &difficulty, &alien_bullets_x[0], &alien_bullets_y[0], &step, cant_aliens, &aux, mode);
+                                 &accelerate, &difficulty, &alien_bullets_x[0], &alien_bullets_y[0], &step, cant_aliens, &aux, mode, multiplier);
                     aux = 0;
                 }
                 if(lock_mystery_ship){
@@ -436,7 +440,7 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
                     al_draw_filled_rectangle(bloques_x[i]+3*BASE_SIZE, BLOQUES_Y+BASE_SIZE, bloques_x[i]+4*BASE_SIZE, BLOQUES_Y+2*BASE_SIZE, al_map_rgb(255, 0, 0));
                 }
             
-            for(i=0, check=0; i<CANT_ALIENS; i++){
+            for(i=0, j=0; i<CANT_ALIENS; i++){
                 if(alien_y[i] < SCREEN_H){
                     if(alien_change){
                         if(i <= ((CANT_ALIENS/5)-1)){
@@ -468,7 +472,7 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
                     }
                 }
                 if(alien_x[i] >= SCREEN_W-2*BASE_SIZE || alien_x[i] <= BASE_SIZE){ //revisa que no sobrepasen los extremos
-                    check++;
+                    j++;
                 }
                 al_draw_rectangle(alien_bullets_x[i]-1, alien_bullets_y[i], alien_bullets_x[i]+1, 
                         alien_bullets_y[i]+BASE_SIZE, al_map_rgb(255, 255, 255), 0); //dibujo balas de aliens
@@ -483,7 +487,7 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
                 al_draw_rectangle(bullet_x-1, bullet_y, bullet_x+1, bullet_y+BASE_SIZE, al_map_rgb(255, 0, 0), 0);
                 bullet_y -= 2*MOVE_RATE; //actualiza la posicion de la bala en cada ciclo
                 if(bullet_y <= BLOQUES_Y+BASE_SIZE){
-                    for(i=0, check=0; i<4; i++){
+                    for(i=0; i<4; i++){
                         if(vida_bloques[i]){
                             if(bullet_x >= bloques_x[i] && bullet_x <= bloques_x[i]+4*BASE_SIZE){
                                 vida_bloques[i]--;
@@ -496,7 +500,7 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
 
             do_exit = logical(&lock_mystery_ship, &mystery_ship_x, &alien_x[0], &alien_y[0], &alien_bullets_x[0], 
                     &alien_bullets_y[0], &step, &cant_aliens, &bullet_y, &bullet_x, &explosion_x, &explosion_y, &explosion_time, 
-                    &lock, &nave_x, score, &vida_bloques[0], &bloques_x[0], lives, mode);
+                    &lock, &nave_x, score, &vida_bloques[0], &bloques_x[0], lives, mode, multiplier);
 
             if(explosion_time){
                 al_draw_scaled_bitmap(display_background[16], 0, 0, al_get_bitmap_width(display_background[16]), 
@@ -549,7 +553,7 @@ static void score_to_str(uint32_t *score){
 
 static void logical_move(bool* alien_change, bool* lock_mystery_ship, elements_t* mystery_ship_x, elements_t* alien_x,
                         elements_t* alien_y, uint8_t* accelerate, uint8_t* difficulty, elements_t* alien_bullets_x, 
-                        elements_t* alien_bullets_y, int8_t *step, int8_t cant_aliens, uint8_t* aux, uint8_t mode){
+                        elements_t* alien_bullets_y, int8_t *step, int8_t cant_aliens, uint8_t* aux, uint8_t mode, uint8_t multiplier){
 
     int8_t check, i;
     if(*alien_change){
@@ -615,10 +619,10 @@ static void logical_move(bool* alien_change, bool* lock_mystery_ship, elements_t
 }
 
 static bool logical(bool* lock_mystery_ship, elements_t* mystery_ship_x, elements_t* alien_x, elements_t* alien_y,
-                    elements_t* alien_bullets_x, elements_t* alien_bullets_y, int8_t *step,int8_t* cant_aliens,
+                    elements_t* alien_bullets_x, elements_t* alien_bullets_y, int8_t *step, int8_t* cant_aliens,
                     elements_t* bullet_y, elements_t* bullet_x, elements_t* explosion_x, elements_t* explosion_y,
                     uint8_t* explosion_time, bool* lock, elements_t* nave_x, uint32_t* score, uint8_t* vida_bloques,
-                    elements_t* bloques_x, uint8_t* lives, uint8_t mode){
+                    elements_t* bloques_x, uint8_t* lives, uint8_t mode, uint8_t multiplier){
 
     int8_t i, j;
     if(*bullet_y <= MOVE_RATE-2)           //si pega arriba desaparece la bala
@@ -642,13 +646,13 @@ static bool logical(bool* lock_mystery_ship, elements_t* mystery_ship_x, element
 
 #endif
                         if(i <= ((CANT_ALIENS/5)-1)){
-                            (*score) += 30;
+                            (*score) += 30*multiplier;
                         } 
                         else if(i <= ((3*CANT_ALIENS/5)-1)){
-                            (*score) += 20;
+                            (*score) += 20*multiplier;
                         } 
                         else{
-                            (*score) += 10;
+                            (*score) += 10*multiplier;
                         }
                     }
                 }
@@ -660,13 +664,13 @@ static bool logical(bool* lock_mystery_ship, elements_t* mystery_ship_x, element
                     *lock = false;
                     *bullet_y = NAVE_Y + BASE_SIZE;
                     if(i < ((CANT_ALIENS/FILAS_ALIENS))){
-                        (*score) += 30;
+                        (*score) += 30*multiplier;
                     } 
                     else if(i < (2*CANT_ALIENS/FILAS_ALIENS)){
-                        (*score) += 20;
+                        (*score) += 20*multiplier;
                     } 
                     else{
-                        (*score) += 10;
+                        (*score) += 10*multiplier;
                     }
                 }
             }
@@ -737,7 +741,7 @@ static bool logical(bool* lock_mystery_ship, elements_t* mystery_ship_x, element
                 *lock_mystery_ship = false;
                 *lock = false;
                 *bullet_y = NAVE_Y + BASE_SIZE;
-                *score += 5*get_rand_num(21);       //te puede sumar desde 0 a 100 puntos.
+                *score += 5*multiplier*get_rand_num(21);       //te puede sumar desde 0 a 100 puntos.
 
 #ifndef RASPBERRY
                 al_play_sample(samples[2], 0.25, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
