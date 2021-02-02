@@ -263,44 +263,7 @@ int8_t menu_display(char *str0, char *str1, char *str2, char flag, uint8_t pause
 
 /****************************Local fuctions************************************/
 
-static int8_t Difficulty(char *str0, char *str1, char *str2,uint8_t term){
-    int8_t aux;
-    FILE* fp=fopen(".Difficulty.txt", "w");  //Creo el archivo difficulty en donde guardo el nivel de dificultad.
-    
-    if(!fp){
-        return FATAL_ERROR;
-    }
-    if(!term){ //En caso de recibir un term!=0 es que estoy llamando con rpi
-        aux = menu_display(str0, str1, str2, 1, 0);
-    }
-    else{
-        aux=term;
-    }
-    switch(aux){
-        case CLOSE_DISPLAY:{
-            break;
-        }
-        case 1:{
-            fputs(EASY_CODE, fp);
-            break;
-        }
-        case 2:{
-            fputs(NORMAL_CODE, fp);
-            break;
-        }
-        case 3:{
-            fputs(HARD_CODE, fp);
-            break;
-        }
-        default:{
-            aux=FATAL_ERROR;
-            break;
-        }
-    }
 
-    fclose(fp);
-    return aux;    
-}
 
 static int8_t Top_Score(void){
     
@@ -443,7 +406,43 @@ static void create_table_top_score(void){
 }
 
 #endif //RASPBERRY
+static int8_t Difficulty(char *str0, char *str1, char *str2,uint8_t term){
+    int8_t aux;
+    FILE* fp=fopen(".Difficulty.txt", "w");  //Creo el archivo difficulty en donde guardo el nivel de dificultad.
+    
+    if(!fp){
+        return FATAL_ERROR;
+    }
+#ifndef RASPBERRY //En caso de recibir un term!=0 es que estoy llamando con rpi
+        aux = menu_display(str0, str1, str2, 1, 0);
+#else
+        aux=term;
+#endif
+    switch(aux){
+        case CLOSE_DISPLAY:{
+            break;
+        }
+        case 1:{
+            fputs(EASY_CODE, fp);
+            break;
+        }
+        case 2:{
+            fputs(NORMAL_CODE, fp);
+            break;
+        }
+        case 3:{
+            fputs(HARD_CODE, fp);
+            break;
+        }
+        default:{
+            aux=FATAL_ERROR;
+            break;
+        }
+    }
 
+    fclose(fp);
+    return aux;    
+}
 static void print_top_score(void){
     
     uint8_t i;
@@ -457,7 +456,7 @@ static void print_top_score(void){
 #ifndef RASPBERRY
         al_draw_text(font[0], al_map_rgb(255,255,255), 7*SCREEN_W/16, (21+4*i)*SCREEN_H/48, ALLEGRO_ALIGN_CENTER, str);
 #else
-        fprintf(stderr,"%d: %s",i,str);
+        fprintf(stderr,"%d: %s",(i+1),str);
 #endif //RASPBERRY
         fgetc(fp);  // "aumento" el fp a la siguiente linea 
         //NAME
@@ -509,11 +508,13 @@ void main_menu_terminal(void){
                 }
                 if(choice!='1'||choice!='2'||choice!='3'){
                     Difficulty(NULL,NULL,NULL,choice-ASCII);
+                    do_exit=true;
                 }
                 else{
                     fprintf(stderr,"Por favor ingrese un valor valido\n");
                 }
             }
+            do_exit=false;
         }
         else if(choice=='3'){
             print_top_score();
