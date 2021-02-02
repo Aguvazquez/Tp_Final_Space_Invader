@@ -130,7 +130,8 @@ int8_t play(void)
             
 #ifndef RASPBERRY
             
-            lose_animation(score);                      
+            lose_animation(score);
+#endif
             aux = get_top_score(score);
             if(aux == FATAL_ERROR){
                 return FATAL_ERROR;
@@ -140,7 +141,7 @@ int8_t play(void)
                 put_on_top_score(score, name);                  
             }
 
-#endif
+
 
         }
     }
@@ -201,8 +202,10 @@ static void lose_animation(uint32_t score){
     al_rest(2.0);   //tiempo que dura la animación
 }
 
+#endif
+
 static void new_player_in_top(char name[STR_LONG]){
-    
+#ifndef RASPBERRY
     ALLEGRO_EVENT ev;
     uint8_t i;
 
@@ -241,8 +244,26 @@ static void new_player_in_top(char name[STR_LONG]){
             }
         }
     }
+#else
+    uint8_t c,i;
+    system("clear");
+    fprintf(stderr,"Por favor, escriba su nombre(MAX 5 CARACTERES):\n");
+    for(i=0;i<STR_LONG:i++){
+        c=getchar();
+        if(c==127){ // 127 es el ASCII de delete
+           if (i) { //si no es la primera letra
+                name[--i] = ' '; //borra la letra anterior
+            } else {
+                name[i] = ' '; //sino borra la primera
+            }
+        }
+        else if(c=='\n'){
+            break: // se termina el algoritmo, pues el usuario decide mander ese nombre.
+        }
+            name[i]=c;
+    }
+#endif
 }
 
-#endif
 
 /***************************** END FILE ****************************************/
