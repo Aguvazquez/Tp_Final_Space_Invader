@@ -56,7 +56,7 @@ extern  ALLEGRO_BITMAP *display_background[BACKGROUNDS];
  *          FATAL_ERROR si hubo un error.
  */ 
 
-static int8_t Difficulty(char *str0, char *str1, char *str2);
+static int8_t Difficulty(char *str0, char *str1, char *str2,uint8_t term);
 
 /*
  * @Brief crea los botones sin presionar.
@@ -145,7 +145,7 @@ void main_menu (void){
                 break;
             }
             case 2:{
-                aux = Difficulty("EASY", "NORMAL", "HARD");
+                aux = Difficulty("EASY", "NORMAL", "HARD",0);
                 flag=false;              
                 if(aux==FATAL_ERROR){
                     fprintf(stderr, "Error al modificar dificultad.\n");
@@ -263,15 +263,19 @@ int8_t menu_display(char *str0, char *str1, char *str2, char flag, uint8_t pause
 
 /****************************Local fuctions************************************/
 
-static int8_t Difficulty(char *str0, char *str1, char *str2){
-    
+static int8_t Difficulty(char *str0, char *str1, char *str2,uint8_t term){
+    int8_t aux;
     FILE* fp=fopen(".Difficulty.txt", "w");  //Creo el archivo difficulty en donde guardo el nivel de dificultad.
     
     if(!fp){
         return FATAL_ERROR;
     }
-
-    int8_t aux = menu_display(str0, str1, str2, 1, 0);
+    if(!term){ //En caso de recibir un term!=0 es que estoy llamando con rpi
+        aux = menu_display(str0, str1, str2, 1, 0);
+    }
+    else{
+        aux=term;
+    }
     switch(aux){
         case CLOSE_DISPLAY:{
             break;
@@ -356,24 +360,7 @@ static int8_t Top_Score(void){
     return aux;
 }
 
-static void print_top_score(void){
-    
-    uint8_t i;
-    static FILE* fp;
-    char str[STR_LONG];
-    fp = fopen(".Top_Score.txt", "r"); // Con el punto se crea un archivo oculto.
-    
-    for(i=0; i<5; i++){
-        //SCORE
-        fgets(str,STR_LONG,fp);
-        al_draw_text(font[0], al_map_rgb(255,255,255), 7*SCREEN_W/16, (21+4*i)*SCREEN_H/48, ALLEGRO_ALIGN_CENTER, str);
-        fgetc(fp);  // "aumento" el fp a la siguiente linea 
-        //NAME
-        fgets(str,STR_LONG,fp);
-        al_draw_text(font[0], al_map_rgb(255,255,255), 31*SCREEN_W/48, (21+4*i)*SCREEN_H/48, ALLEGRO_ALIGN_CENTER, str);
-        fgetc(fp);
-    }
-}
+
 
 static void create_button_unpressed(char *str0, char *str1, char *str2){
     
@@ -457,6 +444,33 @@ static void create_table_top_score(void){
 
 #endif //RASPBERRY
 
+static void print_top_score(void){
+    
+    uint8_t i;
+    static FILE* fp;
+    char str[STR_LONG];
+    fp = fopen(".Top_Score.txt", "r"); // Con el punto se crea un archivo oculto.
+    
+    for(i=0; i<5; i++){
+        //SCORE
+        fgets(str,STR_LONG,fp);
+#ifndef RASPBERRY
+        al_draw_text(font[0], al_map_rgb(255,255,255), 7*SCREEN_W/16, (21+4*i)*SCREEN_H/48, ALLEGRO_ALIGN_CENTER, str);
+#else
+        fprintf(stderr,"%d: %s",i,str);
+#endif //RASPBERRY
+        fgetc(fp);  // "aumento" el fp a la siguiente linea 
+        //NAME
+        fgets(str,STR_LONG,fp);
+#ifndef RASPBERRY
+        al_draw_text(font[0], al_map_rgb(255,255,255), 31*SCREEN_W/48, (21+4*i)*SCREEN_H/48, ALLEGRO_ALIGN_CENTER, str);
+#else
+        fprintf(stderr,"    %s\n",str);
+#endif //RASPBERRY
+        fgetc(fp);
+    }
+}
+
 void show_on_terminal(uint8_t lives,uint32_t score){
     uint8_t i;
     system("clear");
@@ -468,5 +482,48 @@ void show_on_terminal(uint8_t lives,uint32_t score){
     fprintf(stderr,"*\n*\n*\n");
     fprintf(stderr,"******************************************");//bottom side
 }
-
+void main_menu_terminal(void){
+    uint8_t choice,c;
+    bool do_exit=false;
+    system("clear");
+    fprintf(stderr,"Bienvenido, esperamos que el juego sea de su agrado\n"); 
+    while(do_exit!=true){
+    fprintf(stderr,"Para emepezar a jugar pulse 1\n");
+    fprintf(stderr,"Para elegir la dificultad pulse 2\n");
+    fprintf(stderr,"Para ver el top score pulse 3\n");
+    fprintf(stderr,"Para salir del juego pulse 4\n");
+        while((c=getchar())!='\n'){
+            choice=c;
+        }
+        if(choice=='1'){
+            play();
+        }
+        else if(choice=='2') {
+            while(do_exit!=true){
+                fprintf(stderr, "Elija la dificultad\n");
+                fprintf(stderr, "1: FACIL\n");
+                fprintf(stderr, "2: NORMAL\n");
+                fprintf(stderr, "3: DIFICIL\n");
+                while((c=getchar())!='\n'){
+                    choice=c;
+                }
+                if(choice!='1'||choice!='2'||choice!='3'){
+                    Difficulty(NULL,NULL,NULL,choice-ASCII);
+                }
+                else{
+                    fprintf(stderr,"Por favor ingrese un valor valido\n");
+                }
+            }
+        }
+        else if(choice=='3'){
+            print_top_score();
+        }
+        else if(choice=='4'){
+            do_exit=true;
+        }
+        else{
+            fprintf(stderr,"Por favor, introduzca un numero entre el 1 y el 4.\n");
+        }
+    }
+}
 /****************************** END FILE ***************************************/
