@@ -72,7 +72,7 @@ int main(void){
     disp_init();
     joy_init();
     //init_sound();
-    play();
+    main_menu_terminal();
 
 #else
    

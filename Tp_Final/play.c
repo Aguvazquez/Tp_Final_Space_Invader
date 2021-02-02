@@ -57,7 +57,7 @@ static void next_level_animation(uint8_t level);
  */
 
 static void lose_animation(uint32_t score);
-
+#endif
 /*
  * @Brief recibe el nombre del jugador que acaba de entrar en el top score.
  * @Param1: arreglo donde se almacenará el nombre.
@@ -65,7 +65,7 @@ static void lose_animation(uint32_t score);
 
 static void new_player_in_top(char name[STR_LONG]);
 
-#endif
+
 
 /*
  * @Brief lee la dificultad, guardada en el archivo oculto. 
