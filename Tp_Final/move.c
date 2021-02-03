@@ -413,7 +413,7 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
         }
 
         if(redraw && al_is_event_queue_empty(event_queue)){
-            show_on_terminal(*lives,*score);
+            show_on_terminal(*lives, *score);
             redraw = false;
             al_draw_scaled_bitmap(display_background[11 + level%5], 0, 0, al_get_bitmap_width(display_background[11 + level%5]), 
                     al_get_bitmap_height(display_background[11 + level%5]), 0, 0, SCREEN_W, SCREEN_H, 0);
@@ -585,8 +585,8 @@ static void logical_move(bool* alien_change, bool* lock_mystery_ship, elements_t
 
     if(check){
         (*accelerate)++;
-        if((*accelerate) >= 4 && (*difficulty) >= 8){
-            *difficulty -= 4;
+        if((*accelerate) >= 3 && (*difficulty) >= MAX_DIFFICULTY-6){    //esto para que acelere dos veces
+            *difficulty -= (*accelerate);                               //si se juega con max dificultad
             *accelerate = 0;
         }
         *step *= -1;    //cambia el sentido del movimiento de los aliens
@@ -598,7 +598,7 @@ static void logical_move(bool* alien_change, bool* lock_mystery_ship, elements_t
         alien_x[i] += *step;
     }
                     
-    if(!get_rand_num(3)){               //33% de probabilidad
+    if(!get_rand_num(4)){               //25% de probabilidad
         *aux = get_rand_num(cant_aliens);
         for(i=0; i<CANT_ALIENS; i++){       // para cada alien
             if(alien_y[i]<SCREEN_H){        // si esta vivo
@@ -606,12 +606,12 @@ static void logical_move(bool* alien_change, bool* lock_mystery_ship, elements_t
                     if(alien_bullets_y[i]>=SCREEN_H){   //si no está disparando
 
 #ifndef RASPBERRY
-                        alien_bullets_x[i]=alien_x[i]+BASE_SIZE; //coordenada x
+                        alien_bullets_x[i]=alien_x[i]+BASE_SIZE; //coordenada x de la bala
 #else
-                        alien_bullets_x[i]=alien_x[i]; //coordenada x
+                        alien_bullets_x[i]=alien_x[i]; //coordenada x de la bala
 #endif  //RASPBERRY
                         
-                    alien_bullets_y[i]=alien_y[i]; //le asigno coordenada y del alien a la bala
+                    alien_bullets_y[i]=alien_y[i]; //coordenada y de la bala
                     }
                 }
             }
