@@ -55,7 +55,7 @@ static void logical_move(bool* alien_change, bool* lock_mystery_ship, elements_t
                         uint8_t* difficulty, elements_t* alien_bullets_x, elements_t* alien_bullets_y, 
                         uint8_t* accelerate, int8_t *step, int8_t cant_aliens);
 
-static bool logical(bool* lock_mystery_ship, elements_t* mystery_ship_x, elements_t* alien_x, elements_t* alien_y,
+static bool logic(bool* lock_mystery_ship, elements_t* mystery_ship_x, elements_t* alien_x, elements_t* alien_y,
                     elements_t* alien_bullets_x, elements_t* alien_bullets_y, int8_t* cant_aliens, elements_t* bullet_y,
                     elements_t* bullet_x, elements_t* explosion_x, elements_t* explosion_y, uint8_t* explosion_time, 
                     bool* lock, elements_t* nave_x, uint32_t* score, uint8_t* vida_bloques, elements_t* bloques_x, 
@@ -324,7 +324,7 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
                     }
                 }
             }
-            do_exit = logical(&lock_mystery_ship, &mystery_ship_x, &alien_x[0], &alien_y[0], 
+            do_exit = logic(&lock_mystery_ship, &mystery_ship_x, &alien_x[0], &alien_y[0], 
                               &alien_bullets_x[0], &alien_bullets_y[0], &cant_aliens, &bullet_y, &bullet_x, 
                               &explosion_x, &explosion_y, &explosion_time, &lock, &nave_x,                    
                               score, &vida_bloques[0], &bloques_x[0], lives, multiplier);
@@ -510,7 +510,7 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
                 }
             }
 
-            do_exit = logical(&lock_mystery_ship, &mystery_ship_x, &alien_x[0], &alien_y[0], &alien_bullets_x[0], 
+            do_exit = logic(&lock_mystery_ship, &mystery_ship_x, &alien_x[0], &alien_y[0], &alien_bullets_x[0], 
                     &alien_bullets_y[0], &cant_aliens, &bullet_y, &bullet_x, &explosion_x, &explosion_y, &explosion_time, 
                     &lock, &nave_x, score, &vida_bloques[0], &bloques_x[0], lives, multiplier);
 
@@ -631,7 +631,7 @@ static void logical_move(bool* alien_change, bool* lock_mystery_ship, elements_t
     }
 }
 
-static bool logical(bool* lock_mystery_ship, elements_t* mystery_ship_x, elements_t* alien_x, elements_t* alien_y,
+static bool logic(bool* lock_mystery_ship, elements_t* mystery_ship_x, elements_t* alien_x, elements_t* alien_y,
                     elements_t* alien_bullets_x, elements_t* alien_bullets_y, int8_t* cant_aliens,
                     elements_t* bullet_y, elements_t* bullet_x, elements_t* explosion_x, elements_t* explosion_y,
                     uint8_t* explosion_time, bool* lock, elements_t* nave_x, uint32_t* score, uint8_t* vida_bloques,

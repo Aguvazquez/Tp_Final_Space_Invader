@@ -11,8 +11,6 @@
 
 #include "config.h"
 #include "Top_Score.h"
-#include "play.h"
-#include "allegro_setup.h"
 
 /*******************************************************************************/
 

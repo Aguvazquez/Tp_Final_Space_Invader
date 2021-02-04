@@ -13,8 +13,6 @@
 #include "menus.h"
 #include "Top_Score.h"
 #include "play.h"
-#include "allegro_setup.h"
-#include "termlib.h"
 #include "disdrv.h"
 #include "joydrv.h"
 
