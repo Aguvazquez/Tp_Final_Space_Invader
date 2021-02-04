@@ -234,7 +234,7 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
             }
         }
         if(key_pressed[JOY_SWITCH]){            
-            aux=pause_menu_terminal()
+            aux=pause_menu_terminal();
             if(aux){
                 do_exit=true;
                 cant_aliens=aux;
@@ -527,7 +527,7 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
 
 #endif
     
-    if(cant_aliens){
+    if(cant_aliens){ // Reinicia la vida de los bloques.
         for(i=0; i<4; i++)
             vida_bloques[i]=30;
     }

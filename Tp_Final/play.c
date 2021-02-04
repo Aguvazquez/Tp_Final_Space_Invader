@@ -248,7 +248,7 @@ static void new_player_in_top(char name[STR_LONG]){
     uint8_t c,i;
     system("clear");
     fprintf(stderr,"Por favor, escriba su nombre(MAX 5 CARACTERES):\n");
-    for(i=0;i<STR_LONG:i++){
+    for(i=0;i<STR_LONG;i++){
         c=getchar();
         if(c==127){ // 127 es el ASCII de delete
            if (i) { //si no es la primera letra
@@ -258,7 +258,7 @@ static void new_player_in_top(char name[STR_LONG]){
             }
         }
         else if(c=='\n'){
-            break: // se termina el algoritmo, pues el usuario decide mander ese nombre.
+            break; // se termina el algoritmo, pues el usuario decide mander ese nombre.
         }
             name[i]=c;
     }
