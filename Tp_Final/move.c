@@ -233,8 +233,12 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
                 lock = true; // solo dispara si no hay otra bala volando.
             }
         }
-        if(key_pressed[JOY_SWITCH]){
-            do_exit=true;
+        if(key_pressed[JOY_SWITCH]){            
+            aux=pause_menu_terminal()
+            if(aux){
+                do_exit=true;
+                cant_aliens=aux;
+            }
         }
         if(redraw){
             //fprintf(stderr,"%d ,%d ,%d ,%d\n ", vida_bloques[0], vida_bloques[1], vida_bloques[2], vida_bloques[3]);

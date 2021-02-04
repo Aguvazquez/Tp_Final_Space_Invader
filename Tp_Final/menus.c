@@ -526,5 +526,31 @@ void main_menu_terminal(void){
             }
     }
 }
-
+int pause_menu_terminal(void){
+    uint8_t choice, c, aux=0;
+    bool do_exit=false;
+    system("clear");
+    fprintf(stderr,"\t\tPAUSA.\n"); 
+    
+    while(!do_exit){
+        fprintf(stderr, "Para continuar jugando pulse 1.\n");
+        fprintf(stderr, "Para reiniciar la partida pulse 2.\n");
+        fprintf(stderr, "Para salir del juego pulse 3.\n");
+        while ((c = getchar()) != '\n') {
+            choice = c;
+        }
+        if (choice == '1') {
+            do_exit = true;          
+        } else if (choice == '2') {
+            aux = RESET_GAME;
+            do_exit = true;
+        } else if (choice == '3') {
+            aux = EXIT_MENU;
+            do_exit = true;
+        } else {
+            fprintf(stderr, "Por favor, introduzca un numero valido.\n");
+        }
+    }
+    return aux;
+}
 /****************************** END FILE ***************************************/

@@ -39,5 +39,5 @@ void show_on_terminal(uint8_t lives, uint32_t score);
 
 //Menu de raspberry.
 void main_menu_terminal(void);
-
+int pause_menu_terminal(void);
 #endif
