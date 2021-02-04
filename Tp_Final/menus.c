@@ -15,6 +15,9 @@
 #include "play.h"
 #include "allegro_setup.h"
 #include "termlib.h"
+#include "disdrv.h"
+#include "joydrv.h"
+
 /*******************************************************************************/
 
 #ifndef RASPBERRY
@@ -466,7 +469,7 @@ static void print_top_score(void){
         fgetc(fp);
     }
 }
-
+#ifdef RASPBERRY
 void show_on_terminal(uint8_t lives, uint32_t score){
     uint8_t i;
     system("clear");
@@ -482,6 +485,8 @@ void show_on_terminal(uint8_t lives, uint32_t score){
 void main_menu_terminal(void){
     uint8_t choice=0, c=0;
     bool do_exit = false, reset = false;
+    disp_init();
+    joy_init();
     system("clear");
     fprintf(stderr, "Bienvenido a Space Invaders.\n");
 
@@ -569,4 +574,5 @@ int pause_menu_terminal(void){
     }
     return output;
 }
+#endif
 /****************************** END FILE ***************************************/

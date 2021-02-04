@@ -22,10 +22,6 @@
 #include "config.h"
 #include "menus.h"
 #include "Top_Score.h"
-#include "disdrv.h"
-#include "joydrv.h"
-#include "libaudio.h"
-#include "play.h"
 
 /*******************************************************************************/
 
@@ -67,19 +63,20 @@ ALLEGRO_BITMAP *display_background[BACKGROUNDS] = {NULL, NULL, NULL, NULL, NULL,
 
 int main(void){
     
+    if(create_Top_Score()){     //crea el archivo donde ubicaremos el
+                                //top score, en caso de ser necesario.
+        return EXIT_FAILURE;
+    }
+    
 #ifdef RASPBERRY
 
-    disp_init();
-    joy_init();
+
     //init_sound();
     main_menu_terminal();
 
 #else
    
-    if(create_Top_Score()){     //crea el archivo donde ubicaremos el
-                                //top score, en caso de ser necesario.
-        return EXIT_FAILURE;
-    }
+    
     
     if(allegro_ini()){      //inicialización de allegro
         fprintf(stderr, "Hubo un error de inicialización.\n");

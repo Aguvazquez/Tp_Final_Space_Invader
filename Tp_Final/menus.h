@@ -32,7 +32,7 @@ void main_menu(void);
 
 int8_t menu_display(char *str0, char *str1, char *str2, char flag, uint8_t pause);
 
-#endif
+#else
 
 //Muestra en el terminal la cantidad de vidas y el puntaje de la partida.
 void show_on_terminal(uint8_t lives, uint32_t score);
@@ -40,4 +40,5 @@ void show_on_terminal(uint8_t lives, uint32_t score);
 //Menu de raspberry.
 void main_menu_terminal(void);
 int pause_menu_terminal(void);
+#endif
 #endif

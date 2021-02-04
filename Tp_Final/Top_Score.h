@@ -8,8 +8,6 @@
 #ifndef TOP_SCORE_H
 #define TOP_SCORE_H
 
-#ifndef RASPBERRY
-
 
 
 /*
@@ -20,7 +18,6 @@
 
 uint8_t create_Top_Score(void);
 
-#endif
 /*
  * @Brief revisa si el puntaje obtenido entra o no en el top score. 
  * @Param1: puntaje.
