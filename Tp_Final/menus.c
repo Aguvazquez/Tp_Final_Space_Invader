@@ -481,64 +481,64 @@ void show_on_terminal(uint8_t lives, uint32_t score){
 
 void main_menu_terminal(void){
     uint8_t choice=0, c=0;
-    bool do_exit=false;
+    bool do_exit = false, reset = false;
     system("clear");
-    fprintf(stderr,"Bienvenido a Space Invaders.\n"); 
-    
-    while(!do_exit){
-        if(choice!='1'){
+    fprintf(stderr, "Bienvenido a Space Invaders.\n");
+
+    while (!do_exit) {
+        if (!reset) {
             fprintf(stderr, "Para emepezar a jugar pulse 1.\n");
             fprintf(stderr, "Para elegir la dificultad pulse 2.\n");
             fprintf(stderr, "Para ver el top score pulse 3.\n");
             fprintf(stderr, "Para salir del juego pulse 4.\n");
         }
-            while(c!='\n'){
-                choice=c;
-                c=getchar();               
-            }
-            if(choice=='1'){
-                switch(play()){
-                    case EXIT_MENU:{
-                        break;
-                    }
-                    case RESET_GAME:{
-                        c='\n'; //Para no entrar en el primer enter
-                        break;                       
-                    }
-                    default:{
-                        fprintf(stderr,"Error en menu_terminal\n");
-                        break;
-                    }
+        while (!reset && (c = getchar()) != '\n') {
+
+            choice = c;
+        }
+        reset = false;
+        if (choice == '1') {
+            switch (play()) {
+                
+                case EXIT_MENU:
+                {
+                    break;
+                }
+                case RESET_GAME:
+                {
+                    reset = true; //Para no entrar en el primer enter
+                    break;
+                }
+                default:
+                {
+                    fprintf(stderr, "Error en menu_terminal\n");
+                    break;
                 }
             }
-            else if(choice=='2'){
-                while(!do_exit){
-                    fprintf(stderr, "Elija la dificultad:\n");
-                    fprintf(stderr, "1: FACIL\n");
-                    fprintf(stderr, "2: NORMAL\n");
-                    fprintf(stderr, "3: DIFICIL\n");
-                    while((c=getchar())!='\n'){
-                        choice=c;
-                    }
-                    if(choice!='1'||choice!='2'||choice!='3'){
-                        switch_difficulty(choice-ASCII);
-                        do_exit=true;
-                    }
-                    else{
-                        fprintf(stderr, "Por favor ingrese un numero valido.\n");
-                    }
+        } else if (choice == '2') {
+            while (!do_exit) {
+                fprintf(stderr, "Elija la dificultad:\n");
+                fprintf(stderr, "1: FACIL\n");
+                fprintf(stderr, "2: NORMAL\n");
+                fprintf(stderr, "3: DIFICIL\n");
+                while ((c = getchar()) != '\n') {
+                    choice = c;
                 }
-                do_exit=false;
+                if (choice != '1' || choice != '2' || choice != '3') {
+                    switch_difficulty(choice - ASCII);
+                    do_exit = true;
+                } else {
+                    fprintf(stderr, "Por favor ingrese un numero valido.\n");
+                }
             }
-            else if(choice=='3'){
-                print_top_score();
-            }
-            else if(choice=='4'){
-                do_exit=true;
-            }
-            else{
-                fprintf(stderr, "Por favor, introduzca un numero valido.\n");
-            }
+            do_exit = false;
+        } else if (choice == '3') {
+            print_top_score();
+        } else if (choice == '4') {
+            do_exit = true;
+        } else {
+            fprintf(stderr, "Por favor, introduzca un numero valido.\n");
+        }
     }
 }
 int pause_menu_terminal(void){

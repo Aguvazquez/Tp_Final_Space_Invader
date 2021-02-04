@@ -238,6 +238,7 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
             if(aux){
                 do_exit=true;
                 cant_aliens=aux;
+                redraw = false;
             }
         }
         if(redraw){
@@ -327,8 +328,10 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
                               &alien_bullets_x[0], &alien_bullets_y[0], &cant_aliens, &bullet_y, &bullet_x, 
                               &explosion_x, &explosion_y, &explosion_time, &lock, &nave_x,                    
                               score, &vida_bloques[0], &bloques_x[0], lives, multiplier);
+            
             disp_update();
         }
+        
     }
     
 #else
@@ -718,7 +721,7 @@ static bool logical(bool* lock_mystery_ship, elements_t* mystery_ship_x, element
             if(alien_bullets_y[i] >= *bullet_y && alien_bullets_y[i] < *bullet_y+BASE_SIZE){
 #else
         if(alien_bullets_x[i] == *bullet_x){
-            if(alien_bullets_y[i] == *bullet_y){  
+            if((alien_bullets_y[i] == *bullet_y)||(alien_bullets_y[i] == *bullet_y=BASE_SIZE){  
 #endif
                 *lock = false;
                 *bullet_y = SCREEN_H + BASE_SIZE;
