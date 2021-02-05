@@ -53,7 +53,7 @@ extern  ALLEGRO_BITMAP *display_background[BACKGROUNDS];
 
 static void logical_move(bool* alien_change, bool* lock_mystery_ship, elements_t* alien_x, elements_t* alien_y, 
                         uint8_t* difficulty, elements_t* alien_bullets_x, elements_t* alien_bullets_y, 
-                        uint8_t* accelerate, int8_t *step, int8_t cant_aliens);
+                        uint8_t* accelerate, int8_t cant_aliens);
 
 static bool logic(bool* lock_mystery_ship, elements_t* mystery_ship_x, elements_t* alien_x, elements_t* alien_y,
                     elements_t* alien_bullets_x, elements_t* alien_bullets_y, int8_t* cant_aliens, elements_t* bullet_y,
@@ -143,7 +143,7 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
     
     uint8_t i, j, aux, explosion_time=0, accelerate=0;
     static uint8_t vida_bloques[4] = {30, 30, 30, 30};
-    int8_t cant_aliens=CANT_ALIENS, step;
+    int8_t cant_aliens=CANT_ALIENS;
     
     elements_t bullet_x=SCREEN_W, bullet_y, nave_x, bloques_x[4], explosion_x, explosion_y;
     elements_t alien_bullets_x[CANT_ALIENS], alien_bullets_y[CANT_ALIENS], mystery_ship_x;
@@ -186,11 +186,6 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
     pthread_create(&Joy_Action, NULL, Joy_action, NULL);
 
     int count=0;        //variable que regula el movimiento de nave misteriosa    
-    step = BASE_SIZE;
-    
-#else
-        
-    step = BASE_SIZE/2;
     
 #endif       
         
@@ -213,7 +208,7 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
             }
             if(aux >= difficulty){
                 logical_move(&alien_change, &lock_mystery_ship, &alien_x[0], &alien_y[0], &difficulty, 
-                             &alien_bullets_x[0], &alien_bullets_y[0], &accelerate, &step, cant_aliens);
+                             &alien_bullets_x[0], &alien_bullets_y[0], &accelerate, cant_aliens);
                 aux = 0;
             }
             if(lock_mystery_ship){
@@ -350,7 +345,7 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
                 }
                 if(aux >= difficulty){
                     logical_move(&alien_change, &lock_mystery_ship, &alien_x[0], &alien_y[0], &difficulty, 
-                             &alien_bullets_x[0], &alien_bullets_y[0], &accelerate, &step, cant_aliens);
+                             &alien_bullets_x[0], &alien_bullets_y[0], &accelerate, cant_aliens);
                     aux = 0;
                 }
                 if(lock_mystery_ship){
@@ -565,8 +560,13 @@ static void score_to_str(uint32_t *score){
 
 static void logical_move(bool* alien_change, bool* lock_mystery_ship, elements_t* alien_x, elements_t* alien_y, 
                         uint8_t* difficulty, elements_t* alien_bullets_x, elements_t* alien_bullets_y, 
-                        uint8_t* accelerate, int8_t *step, int8_t cant_aliens){
+                        uint8_t* accelerate, int8_t cant_aliens){
 
+#ifndef RASPBERRY
+    static int8_t step = BASE_SIZE;
+#else
+    static int step = BASE_SIZE/2;
+#endif  
     int8_t check, i, aux;
     
     if(*alien_change){
@@ -601,13 +601,13 @@ static void logical_move(bool* alien_change, bool* lock_mystery_ship, elements_t
             *difficulty -= *accelerate;                               //si se juega con max dificultad
             *accelerate = 0;
         }
-        *step *= -1;    //cambia el sentido del movimiento de los aliens
+        step *= -1;    //cambia el sentido del movimiento de los aliens
         for(i=0; i<CANT_ALIENS; i++)
         alien_y[i] += BASE_SIZE;
     }
 
     for(i=0; i<CANT_ALIENS; i++){
-        alien_x[i] += *step;
+        alien_x[i] += step;
     }
                     
     if(!get_rand_num(4)){               //25% de probabilidad
