@@ -23,7 +23,7 @@
  *         0 si se sale del top score.
  */
 
- int8_t Top_Score(void);
+ int8_t top_score(void);
 #ifndef RASPBERRY
 
 

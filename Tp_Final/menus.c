@@ -178,7 +178,7 @@ int8_t menu_display(char *str0, char *str1, char *str2, char flag, uint8_t pause
 
 
 
- int8_t Top_Score(void){
+ int8_t top_Score(void){
     
     uint8_t do_exit=false, check=false, redraw=false;
     int8_t aux=0;
