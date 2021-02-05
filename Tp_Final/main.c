@@ -277,7 +277,7 @@ static void main_menu_terminal(void) {
             }
             case '3':
             {
-                print_top_score();
+                print_top_Score();
                 break;
             } 
             case '4': 

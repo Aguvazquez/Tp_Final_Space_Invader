@@ -5,9 +5,8 @@
  * Todos los derechos reservados.                                              *
  *******************************************************************************/
 
-#ifndef MAIN_MENU_H
-#define MAIN_MENU_H
-
+#ifndef MENUS_H
+#define MENUS_H
 
 /*
  * @Brief Permite cambiar la dificultad del juego en el archivo. 
@@ -24,9 +23,8 @@
  */
 
  int8_t top_score(void);
+
 #ifndef RASPBERRY
-
-
 
 /*
  * @Brief Crea un menú con 3 botones. 
@@ -43,12 +41,13 @@
 
 int8_t menu_display(char *str0, char *str1, char *str2, char flag, uint8_t pause);
 
-
 #else
 
 //Muestra en el terminal la cantidad de vidas y el puntaje de la partida.
 void show_on_terminal(uint8_t lives, uint32_t score);
 
 int pause_menu_terminal(void);
-#endif
+
+#endif  //RASPBERRY
+
 #endif
