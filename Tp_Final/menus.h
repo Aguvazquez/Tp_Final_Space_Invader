@@ -5,26 +5,17 @@
  * Todos los derechos reservados.                                              *
  *******************************************************************************/
 
-#ifndef MENUS_H
-#define MENUS_H
-
-/*
- * @Brief Permite cambiar la dificultad del juego en el archivo. 
- * @Param1: opción elegida (1=facil, 2=medio, 3=dificil)
- * @Return  EXIT_SUCCESS si no hubo errores.
- *          FATAL_ERROR si hubo un error.
- */ 
- int8_t switch_difficulty(uint8_t option);
-
- /*
- * @Brief muestra el top score en pantalla.
- * @Return CLOSE_DISPLAY si se cierra la pantalla.
- *         0 si se sale del top score.
- */
-
- int8_t top_score(void);
+#ifndef MAIN_MENU_H
+#define MAIN_MENU_H
 
 #ifndef RASPBERRY
+
+/*
+ * @Brief Funcion que se encarga de crear el menú principal.
+ * @Return FATAL_ERROR si hubo error.  
+ */
+
+void main_menu(void);
 
 /*
  * @Brief Crea un menú con 3 botones. 
@@ -41,13 +32,12 @@
 
 int8_t menu_display(char *str0, char *str1, char *str2, char flag, uint8_t pause);
 
-#else
+#endif
 
 //Muestra en el terminal la cantidad de vidas y el puntaje de la partida.
 void show_on_terminal(uint8_t lives, uint32_t score);
 
+//Menu de raspberry.
+void main_menu_terminal(void);
 int pause_menu_terminal(void);
-
-#endif  //RASPBERRY
-
 #endif

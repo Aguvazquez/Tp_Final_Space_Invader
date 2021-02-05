@@ -13,9 +13,8 @@
 #include "menus.h"
 #include "Top_Score.h"
 #include "play.h"
-#include "disdrv.h"
-#include "joydrv.h"
-
+#include "allegro_setup.h"
+#include "termlib.h"
 /*******************************************************************************/
 
 #ifndef RASPBERRY
@@ -45,6 +44,14 @@ extern  ALLEGRO_BITMAP *display_background[BACKGROUNDS];
 
 /************************ Header of local functions ****************************/
 
+/*
+ * @Brief Permite cambiar la dificultad del juego en el archivo. 
+ * @Param1: opción elegida (1=facil, 2=medio, 3=dificil)
+ * @Return  EXIT_SUCCESS si no hubo errores.
+ *          FATAL_ERROR si hubo un error.
+ */ 
+
+static int8_t switch_difficulty(uint8_t option);
 
 /*
  * @Brief crea los botones sin presionar.
@@ -65,7 +72,13 @@ static void create_button_unpressed(char *str0, char *str1, char *str2);
 
 static void create_button_pressed(uint8_t button, char *str0, char *str1, char *str2);
 
+/*
+ * @Brief muestra el top score en pantalla.
+ * @Return CLOSE_DISPLAY si se cierra la pantalla.
+ *         0 si se sale del top score.
+ */
 
+static int8_t Top_Score(void);
 
 //Crea el botón de salida de top score sin presionar.
 
@@ -87,7 +100,79 @@ static void print_top_score(void);
 
 /*************************** Global fuctions ***********************************/
 
-
+void main_menu (void){
+    
+    bool do_exit=false, flag=false, dont_play_song=false;
+    int8_t aux=0;
+    
+    while(!do_exit){
+        if(!flag){   
+            if(!dont_play_song){
+                aux = menu_display("PLAY", "DIFFICULTY", "TOP SCORE", 0, 0);
+            }
+            else{
+                aux = menu_display("PLAY", "DIFFICULTY", "TOP SCORE", 1, 0);
+            }    
+            flag=true;
+            dont_play_song=true;
+        }
+        
+        switch(aux){
+            case CLOSE_DISPLAY:{ 
+                do_exit=true; 
+                break;
+            }
+            case 1:{
+                al_stop_samples();
+                al_play_sample(samples[4], 0.25, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);    
+                aux=play();     //aux obtendrá el valor correspondiente al terminar la partida.
+                al_stop_samples();
+                if(aux==CLOSE_DISPLAY || aux==FATAL_ERROR){
+                    do_exit=true;
+                }
+                else if(aux==RESET_GAME){
+                    aux=1;      //como si se oprimiera nuevamente el botón "play".
+                }
+                else{
+                    flag=false;
+                    dont_play_song=false;
+                }
+                break;
+            }
+            case 2:{
+                aux = menu_display("EASY", "NORMAL", "HARD", 0, 0);
+                flag=false;              
+                if(aux==FATAL_ERROR){
+                    fprintf(stderr, "Error al modificar dificultad.\n");
+                    do_exit=true;
+                }
+                else if(aux==CLOSE_DISPLAY){
+                    do_exit=true;
+                }
+                else{
+                    switch_difficulty(aux);
+                }
+                break;
+            }
+            case 3:{                
+                aux = Top_Score();                
+                flag=false;
+                if(aux){
+                    if(aux!=CLOSE_DISPLAY){ //salida inesperada.
+                        fprintf(stderr, "Error al ver top score.\n");
+                    }
+                    do_exit=true;   //sale siempre que devuelva algo distinto de 0.
+                }
+                break;
+            }
+            default:{ 
+                fprintf(stderr, "Error inesperado.\n");
+                do_exit=true;
+                break;
+            }
+        }
+    }
+}
 
 int8_t menu_display(char *str0, char *str1, char *str2, char flag, uint8_t pause){
     
@@ -178,7 +263,7 @@ int8_t menu_display(char *str0, char *str1, char *str2, char flag, uint8_t pause
 
 
 
- int8_t top_score(void){
+static int8_t Top_Score(void){
     
     uint8_t do_exit=false, check=false, redraw=false;
     int8_t aux=0;
@@ -318,7 +403,7 @@ static void create_table_top_score(void){
 
 #endif //RASPBERRY
 
- int8_t switch_difficulty(uint8_t option){
+static int8_t switch_difficulty(uint8_t option){
 
     FILE* fp=fopen(".Difficulty.txt", "w");  //Creo el archivo difficulty en donde guardo el nivel de dificultad.
     int8_t aux=EXIT_SUCCESS;
@@ -381,7 +466,7 @@ static void print_top_score(void){
         fgetc(fp);
     }
 }
-#ifdef RASPBERRY
+
 void show_on_terminal(uint8_t lives, uint32_t score){
     uint8_t i;
     system("clear");
@@ -394,7 +479,68 @@ void show_on_terminal(uint8_t lives, uint32_t score){
     fprintf(stderr, "******************************************");   //bottom side
 }
 
+void main_menu_terminal(void){
+    uint8_t choice=0, c=0;
+    bool do_exit = false, reset = false;
+    system("clear");
+    fprintf(stderr, "Bienvenido a Space Invaders.\n");
 
+    while (!do_exit) {
+        if (!reset) {
+            fprintf(stderr, "Para emepezar a jugar pulse 1.\n");
+            fprintf(stderr, "Para elegir la dificultad pulse 2.\n");
+            fprintf(stderr, "Para ver el top score pulse 3.\n");
+            fprintf(stderr, "Para salir del juego pulse 4.\n");
+        }
+        while (!reset && (c = getchar()) != '\n') {
+
+            choice = c;
+        }
+        reset = false;
+        if (choice == '1') {
+            switch (play()) {
+                
+                case EXIT_MENU:
+                {
+                    break;
+                }
+                case RESET_GAME:
+                {
+                    reset = true; //Para no entrar en el primer enter
+                    break;
+                }
+                default:
+                {
+                    fprintf(stderr, "Error en menu_terminal\n");
+                    break;
+                }
+            }
+        } else if (choice == '2') {
+            while (!do_exit) {
+                fprintf(stderr, "Elija la dificultad:\n");
+                fprintf(stderr, "1: FACIL\n");
+                fprintf(stderr, "2: NORMAL\n");
+                fprintf(stderr, "3: DIFICIL\n");
+                while ((c = getchar()) != '\n') {
+                    choice = c;
+                }
+                if (choice != '1' || choice != '2' || choice != '3') {
+                    switch_difficulty(choice - ASCII);
+                    do_exit = true;
+                } else {
+                    fprintf(stderr, "Por favor ingrese un numero valido.\n");
+                }
+            }
+            do_exit = false;
+        } else if (choice == '3') {
+            print_top_score();
+        } else if (choice == '4') {
+            do_exit = true;
+        } else {
+            fprintf(stderr, "Por favor, introduzca un numero valido.\n");
+        }
+    }
+}
 int pause_menu_terminal(void){
     uint8_t choice, c;
     int output=0;
@@ -423,5 +569,4 @@ int pause_menu_terminal(void){
     }
     return output;
 }
-#endif
 /****************************** END FILE ***************************************/
