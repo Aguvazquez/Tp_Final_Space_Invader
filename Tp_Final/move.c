@@ -721,7 +721,7 @@ static bool logical(bool* lock_mystery_ship, elements_t* mystery_ship_x, element
             if(alien_bullets_y[i] >= *bullet_y && alien_bullets_y[i] < *bullet_y+BASE_SIZE){
 #else
         if(alien_bullets_x[i] == *bullet_x){
-            if((alien_bullets_y[i] == *bullet_y)||(alien_bullets_y[i] == *bullet_y=BASE_SIZE){  
+            if((alien_bullets_y[i] == *bullet_y)){  
 #endif
                 *lock = false;
                 *bullet_y = SCREEN_H + BASE_SIZE;
