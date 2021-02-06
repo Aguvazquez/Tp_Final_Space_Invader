@@ -388,7 +388,7 @@ static void score_to_str(uint32_t score) {
 #else
 
 void show_on_terminal(uint8_t lives, uint32_t score){
-    uint8_t i;
+
     system("clear");
     fprintf(stderr, "******************************************");   //top side
     fprintf(stderr, "*\n*\n*\n");
@@ -446,13 +446,13 @@ void draw_world_rpi(elements_t nave_x, elements_t* bloques_x, uint8_t* vida_bloq
     //nave
     for (i = 0; i < 4; i++) {
         if(i==3) {
-            coord_nave.y++;
+            coord_nave.y--;
             coord_nave.x -= 2;
             disp_write(coord_nave, D_ON);
         }
         else {
             disp_write(coord_nave, D_ON);
-            coord_nave.x++
+            coord_nave.x++;
         }
     }
     //bloques

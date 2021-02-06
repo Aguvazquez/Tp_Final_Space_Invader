@@ -161,6 +161,7 @@ void main_menu(void) {
 
     while (!do_exit) {
         if (!reset) {
+            disp_clear();
             fprintf(stderr, "Para emepezar a jugar pulse 1.\n");
             fprintf(stderr, "Para elegir la dificultad pulse 2.\n");
             fprintf(stderr, "Para ver el top score pulse 3.\n");
@@ -177,6 +178,7 @@ void main_menu(void) {
                 switch (play()) {
                     case 0: case EXIT_MENU:
                     {
+                        system("clear");
                         break;  //al salir del switch se vuelve directamente al menú
                     }
                     case RESET_GAME:

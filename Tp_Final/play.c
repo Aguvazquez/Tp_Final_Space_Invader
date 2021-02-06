@@ -10,7 +10,7 @@
 
 #include "play.h"
 #include "config.h"
-#include "move.h"
+#include "logic.h"
 #include "GUI.h"
 #include "Top_Score.h"
 #include "allegro_setup.h"

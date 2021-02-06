@@ -41,7 +41,6 @@ OBJECTFILES= \
 	${OBJECTDIR}/logic.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/menus.o \
-	${OBJECTDIR}/move.o \
 	${OBJECTDIR}/play.o
 
 
@@ -98,11 +97,6 @@ ${OBJECTDIR}/menus.o: menus.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/menus.o menus.c
-
-${OBJECTDIR}/move.o: move.c
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/move.o move.c
 
 ${OBJECTDIR}/play.o: play.c
 	${MKDIR} -p ${OBJECTDIR}
