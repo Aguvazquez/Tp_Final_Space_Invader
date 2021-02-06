@@ -565,7 +565,15 @@ static bool logical(bool* lock_mystery_ship, elements_t* mystery_ship_x, element
         if (alien_y[i] >= (3 * SCREEN_H / 4) && alien_y[i] < SCREEN_H) { //condicion de derrota
             return true;
         }
-        alien_bullets_y[i] += 1.5 * MOVE_RATE;
+#ifndef RASPBERRY
+        if(alien_bullets_y[i]<SCREEN_H){
+            alien_bullets_y[i] += 1.5 * MOVE_RATE;
+        }
+#else
+        if (alien_bullets_y[i] < SCREEN_H) {
+            alien_bullets_y[i] += MOVE_RATE;
+        }
+#endif
     }
     if (*lock) {
 #ifndef RASPBERRY

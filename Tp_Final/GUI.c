@@ -567,9 +567,7 @@ void draw_world_rpi(elements_t nave_x, elements_t* bloques_x, uint8_t* vida_bloq
         if (coord_alien_bullet.y < SCREEN_H && coord_alien_bullet.x < SCREEN_W) {
             disp_write(coord_alien_bullet, D_ON);
         }
-        if (alien_bullets_y[i] < SCREEN_H) {
-            alien_bullets_y[i] += MOVE_RATE;
-        }
+        
     }
     if (coord_mystery_ship.x < SCREEN_W) {
         disp_write(coord_mystery_ship, D_ON);
