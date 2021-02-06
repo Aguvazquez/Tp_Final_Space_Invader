@@ -176,7 +176,7 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
 
 #ifdef RASPBERRY
 
-    dcoord_t coord_nave, coord_bloques, coord_alien, coord_mystery_ship, coord_bullet, coord_alien_bullet;
+
     pthread_t Timer_RBP, Joy_Action;
     pthread_create(&Timer_RBP, NULL, Timer_rbp, NULL);
     pthread_create(&Joy_Action, NULL, Joy_action, NULL);
@@ -238,80 +238,11 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
             }
         }
         if (redraw) {
-            //fprintf(stderr,"%d ,%d ,%d ,%d\n ", vida_bloques[0], vida_bloques[1], vida_bloques[2], vida_bloques[3]);
-            //fprintf(stderr,"%d ,%d\n",bullet_x, bullet_y);
-            show_on_terminal(*lives, *score);
-            disp_clear();
-            coord_nave.x = nave_x;
-            coord_nave.y = NAVE_Y;
-            coord_bloques.y = BLOQUES_Y;
-            coord_mystery_ship.x = mystery_ship_x;
-            coord_mystery_ship.y = MYSTERY_SHIP_Y;
-            coord_bullet.x = bullet_x;
-            coord_bullet.y = bullet_y;
             redraw = false;
-
-            for (i = 0; i < 4; i++) {
-                switch (i) {
-                    case 0:
-                    {
-                        break;
-                    }
-                    case 1:
-                    {
-                        coord_nave.x++;
-                        break;
-                    }
-                    case 2:
-                    {
-                        coord_nave.x++;
-                        break;
-                    }
-                    case 3:
-                    {
-                        coord_nave.x--;
-                        coord_nave.y--;
-                        break;
-                    }
-                    default:
-                    {
-                        fprintf(stderr, "Hubo un error al imprimir la nave.\n");
-                        break;
-                    }
-                }
-                disp_write(coord_nave, D_ON);
-            }
-            for (i = 0; i < CANT_BLOQUES; i++) {
-                if (vida_bloques[i] != 0) {
-                    coord_bloques.x = bloques_x[i];
-                    disp_write(coord_bloques, D_ON);
-                    coord_bloques.x++;
-                    disp_write(coord_bloques, D_ON);
-                }
-            }
-            for (i = 0; i < CANT_ALIENS; i++) {
-                //fprintf(stderr,"%d ,%d\n", alien_x[i], alien_y[i]);
-                coord_alien.x = alien_x[i];
-                coord_alien.y = alien_y[i];
-                if (coord_alien.y < SCREEN_H) {
-                    disp_write(coord_alien, D_ON);
-                }
-                coord_alien_bullet.x = alien_bullets_x[i];
-                coord_alien_bullet.y = alien_bullets_y[i];
-                if (coord_alien_bullet.y < SCREEN_H && coord_alien_bullet.x < SCREEN_W) {
-                    disp_write(coord_alien_bullet, D_ON);
-                }
-                if (alien_bullets_y[i] < SCREEN_H) {
-                    alien_bullets_y[i] += MOVE_RATE;
-                }
-            }
-            if (coord_mystery_ship.x < SCREEN_W) {
-                disp_write(coord_mystery_ship, D_ON);
-            }
-            if (coord_bullet.y < SCREEN_H && coord_bullet.x < SCREEN_H) {
-                disp_write(coord_bullet, D_ON);
-            }
-
+            show_on_terminal(*lives, *score);
+            draw_world_rpi( nave_x, &bloques_x[0], &vida_bloques[0],
+                          &alien_x[0], &alien_y[0], &alien_bullets_x[0],
+                          &alien_bullets_y[0], bullet_x, bullet_y,mystery_ship_x);
             do_exit = logical(&lock_mystery_ship, &mystery_ship_x, &alien_x[0], &alien_y[0],
                     &alien_bullets_x[0], &alien_bullets_y[0], &cant_aliens, &bullet_y, &bullet_x,
                     &explosion_x, &explosion_y, &explosion_time, &lock, &nave_x,
@@ -346,8 +277,7 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
                 }
                 redraw = true;
                 aux++;
-            }
-            else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
+            } else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
                 return CLOSE_DISPLAY;
             } else if (ev.type == ALLEGRO_EVENT_KEY_DOWN) {
                 switch (ev.keyboard.keycode) {
@@ -372,8 +302,7 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
                         break;
                     }
                 }
-            }
-            else if (ev.type == ALLEGRO_EVENT_KEY_UP) {
+            } else if (ev.type == ALLEGRO_EVENT_KEY_UP) {
                 switch (ev.keyboard.keycode) {
                     case ALLEGRO_KEY_LEFT:
                     {
@@ -565,11 +494,9 @@ static bool logical(bool* lock_mystery_ship, elements_t* mystery_ship_x, element
                     al_play_sample(samples[2], 0.25, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
                     if (i < (CANT_ALIENS / FILAS_ALIENS)) {
                         (*score) += 30 * multiplier;
-                    }
-                    else if (i < (3 * CANT_ALIENS / FILAS_ALIENS)) {
+                    } else if (i < (3 * CANT_ALIENS / FILAS_ALIENS)) {
                         (*score) += 20 * multiplier;
-                    }
-                    else {
+                    } else {
                         (*score) += 10 * multiplier;
                     }
                 }
@@ -577,16 +504,14 @@ static bool logical(bool* lock_mystery_ship, elements_t* mystery_ship_x, element
 #else
             if (*bullet_y == alien_y[i] && *bullet_x == alien_x[i]) {
                 (*cant_aliens)--; //muere un alien
-                alien_y[i] = SCREEN_H+BASE_SIZE; //mueve el alien muerto fuera de la pantalla 
+                alien_y[i] = SCREEN_H + BASE_SIZE; //mueve el alien muerto fuera de la pantalla 
                 *lock = false;
                 *bullet_y = NAVE_Y + BASE_SIZE;
                 if (i < ((CANT_ALIENS / FILAS_ALIENS))) {
                     (*score) += 30 * multiplier;
-                }
-                else if (i < (2 * CANT_ALIENS / FILAS_ALIENS)) {
+                } else if (i < (2 * CANT_ALIENS / FILAS_ALIENS)) {
                     (*score) += 20 * multiplier;
-                }
-                else {
+                } else {
                     (*score) += 10 * multiplier;
                 }
             }

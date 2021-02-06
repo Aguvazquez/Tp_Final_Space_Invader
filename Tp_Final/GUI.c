@@ -15,6 +15,8 @@
 #include "play.h"
 #include "allegro_setup.h"
 #include "termlib.h"
+#include "disdrv.h"
+
 /*******************************************************************************/
 
 #ifndef RASPBERRY
@@ -458,7 +460,7 @@ void draw_world(uint8_t level,uint8_t lives,uint8_t alien_change,
         fgetc(fp);
     }
 }
-
+#ifdef RASPBERRY
 void show_on_terminal(uint8_t lives, uint32_t score){
     uint8_t i;
     system("clear");
@@ -500,4 +502,82 @@ int pause_menu_terminal(void){
     }
     return output;
 }
+void draw_world_rpi(elements_t nave_x, elements_t* bloques_x, uint8_t* vida_bloques,
+        elements_t* alien_x, elements_t* alien_y, elements_t* alien_bullets_x,
+        elements_t* alien_bullets_y, elements_t bullet_x, elements_t bullet_y, elements_t mystery_ship_x) {
+    dcoord_t coord_nave, coord_bloques, coord_alien, coord_mystery_ship, coord_bullet, coord_alien_bullet;
+    int i;
+    disp_clear();
+    coord_nave.x = nave_x;
+    coord_nave.y = NAVE_Y;
+    coord_bloques.y = BLOQUES_Y;
+    coord_mystery_ship.x = mystery_ship_x;
+    coord_mystery_ship.y = MYSTERY_SHIP_Y;
+    coord_bullet.x = bullet_x;
+    coord_bullet.y = bullet_y;
+
+
+    for (i = 0; i < 4; i++) {
+        switch (i) {
+            case 0:
+            {
+                break;
+            }
+            case 1:
+            {
+                coord_nave.x++;
+                break;
+            }
+            case 2:
+            {
+                coord_nave.x++;
+                break;
+            }
+            case 3:
+            {
+                coord_nave.x--;
+                coord_nave.y--;
+                break;
+            }
+            default:
+            {
+                fprintf(stderr, "Hubo un error al imprimir la nave.\n");
+                break;
+            }
+        }
+        disp_write(coord_nave, D_ON);
+    }
+    for (i = 0; i < CANT_BLOQUES; i++) {
+        if (vida_bloques[i] != 0) {
+            coord_bloques.x = bloques_x[i];
+            disp_write(coord_bloques, D_ON);
+            coord_bloques.x++;
+            disp_write(coord_bloques, D_ON);
+        }
+    }
+    for (i = 0; i < CANT_ALIENS; i++) {
+        //fprintf(stderr,"%d ,%d\n", alien_x[i], alien_y[i]);
+        coord_alien.x = alien_x[i];
+        coord_alien.y = alien_y[i];
+        if (coord_alien.y < SCREEN_H) {
+            disp_write(coord_alien, D_ON);
+        }
+        coord_alien_bullet.x = alien_bullets_x[i];
+        coord_alien_bullet.y = alien_bullets_y[i];
+        if (coord_alien_bullet.y < SCREEN_H && coord_alien_bullet.x < SCREEN_W) {
+            disp_write(coord_alien_bullet, D_ON);
+        }
+        if (alien_bullets_y[i] < SCREEN_H) {
+            alien_bullets_y[i] += MOVE_RATE;
+        }
+    }
+    if (coord_mystery_ship.x < SCREEN_W) {
+        disp_write(coord_mystery_ship, D_ON);
+    }
+    if (coord_bullet.y < SCREEN_H && coord_bullet.x < SCREEN_H) {
+        disp_write(coord_bullet, D_ON);
+    }
+
+}
+#endif
 /****************************** END FILE ***************************************/

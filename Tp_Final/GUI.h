@@ -45,6 +45,10 @@ void show_on_terminal(uint8_t lives, uint32_t score);
 
 
 int pause_menu_terminal(void);
+
+void draw_world_rpi(elements_t nave_x, elements_t* bloques_x, uint8_t* vida_bloques,
+        elements_t* alien_x, elements_t* alien_y, elements_t* alien_bullets_x,
+        elements_t* alien_bullets_y, elements_t bullet_x, elements_t bullet_y, elements_t mystery_ship_x);
 #endif
 
 //Imprime los nombres y puntajes del top score.
