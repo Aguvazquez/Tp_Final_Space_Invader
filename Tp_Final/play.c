@@ -73,8 +73,6 @@ static void new_player_in_top(char name[STR_LONG]);
  *          FATAL_ERROR si hay un error.
  */
 
-static int8_t read_difficulty(void);
-
 /*******************************************************************************/
 
 /*************************** Global functions **********************************/
@@ -151,20 +149,6 @@ int8_t play(void)
 /*******************************************************************************/
 
 /*************************** Local functions ***********************************/
-
-static int8_t read_difficulty(void){
-    
-    FILE* fp = fopen(".Difficulty.txt", "r");
-    if(!fp){
-        fprintf(stderr, "Hubo un error al leer la dificultad.\n");
-        return FATAL_ERROR;
-    }
-    int8_t difficulty;
-    difficulty=(fgetc(fp)-ASCII)*10;    //Convierto en la decena
-    difficulty+=(fgetc(fp)-ASCII);      //Le sumo la unidad
-    fclose(fp);
-    return difficulty;
-}
 
 #ifndef RASPBERRY
 

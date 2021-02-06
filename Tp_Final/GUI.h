@@ -60,13 +60,5 @@ void draw_world_rpi(elements_t nave_x, elements_t* bloques_x, uint8_t* vida_bloq
 //Imprime los nombres y puntajes del top score.
 
 void print_top_score(void);
-/*
- * @Brief Permite cambiar la dificultad del juego en el archivo. 
- * @Param1: opción elegida (1=facil, 2=medio, 3=dificil)
- * @Return  EXIT_SUCCESS si no hubo errores.
- *          FATAL_ERROR si hubo un error.
- */ 
-
-int8_t switch_difficulty(uint8_t option);
 
 #endif

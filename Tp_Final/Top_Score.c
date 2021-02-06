@@ -66,6 +66,39 @@ int8_t get_top_score(uint32_t score) { //devuelve la posicion del jugador si est
     return EXIT_SUCCESS; //si sale del ciclo significa que no entró al top
 }
 
+int8_t switch_difficulty(uint8_t option){
+
+    FILE* fp=fopen(".Difficulty.txt", "w");  //Creo el archivo difficulty en donde guardo el nivel de dificultad.
+    int8_t aux=EXIT_SUCCESS;
+    
+    if(!fp){
+        return FATAL_ERROR;
+    }
+
+    switch(option){
+        case 1:{
+            fputs(EASY_CODE, fp);
+            break;
+        }
+        case 2:{
+            fputs(NORMAL_CODE, fp);
+            break;
+        }
+        case 3:{
+            fputs(HARD_CODE, fp);
+            break;
+        }
+        default:{
+            fprintf(stderr, "Error al cambiar la dificultad.\n");
+            aux=FATAL_ERROR;
+            break;
+        }
+    }
+
+    fclose(fp);
+    return aux;    
+}
+
 void put_on_top_score(uint32_t score, char *name_str) {
 
     FILE* fp;
@@ -86,6 +119,31 @@ void put_on_top_score(uint32_t score, char *name_str) {
     fclose(fp);
 
     reorder_top_score();
+}
+
+int8_t read_difficulty(void){
+    
+    FILE* fp = fopen(".Difficulty.txt", "r");
+    if(!fp){
+        fprintf(stderr, "Hubo un error al leer la dificultad.\n");
+        return FATAL_ERROR;
+    }
+    int8_t difficulty;
+    difficulty=(fgetc(fp)-ASCII)*10;    //Convierto en la decena
+    difficulty+=(fgetc(fp)-ASCII);      //Le sumo la unidad
+    fclose(fp);
+    return difficulty;
+}
+
+int8_t create_difficulty(void){     //agregar devolucion de error   
+    FILE* fp;     
+    if(!(fp=fopen(".Difficulty.txt", "r"))||(read_difficulty()==FATAL_ERROR)){         
+        fclose(fp);         
+        fp=fopen(".Difficulty.txt", "w");         
+        switch_difficulty(2);   //Setea la dificultad en normal, en caso de no encontrar el archivo o que 
+                                //el contenido se haya modificado fraudulentamente.     
+    }          
+    fclose(fp); 
 }
 
 uint8_t create_Top_Score(void) {

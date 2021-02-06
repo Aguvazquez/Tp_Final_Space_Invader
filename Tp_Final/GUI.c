@@ -490,39 +490,6 @@ void draw_world_rpi(elements_t nave_x, elements_t* bloques_x, uint8_t* vida_bloq
 
 #endif //RASPBERRY
 
-int8_t switch_difficulty(uint8_t option){
-
-    FILE* fp=fopen(".Difficulty.txt", "w");  //Creo el archivo difficulty en donde guardo el nivel de dificultad.
-    int8_t aux=EXIT_SUCCESS;
-    
-    if(!fp){
-        return FATAL_ERROR;
-    }
-
-    switch(option){
-        case 1:{
-            fputs(EASY_CODE, fp);
-            break;
-        }
-        case 2:{
-            fputs(NORMAL_CODE, fp);
-            break;
-        }
-        case 3:{
-            fputs(HARD_CODE, fp);
-            break;
-        }
-        default:{
-            fprintf(stderr, "Error al cambiar la dificultad.\n");
-            aux=FATAL_ERROR;
-            break;
-        }
-    }
-
-    fclose(fp);
-    return aux;    
-}
-
 void print_top_score(void){
     
     uint8_t i;
