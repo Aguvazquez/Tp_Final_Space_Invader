@@ -68,6 +68,11 @@ int main(void) {
                                 //top score, en caso de ser necesario.
         return EXIT_FAILURE;
     }
+    if (create_difficulty()) {  //crea el archivo donde ubicaremos la
+                                //dificultad, en caso de ser necesario.
+        return EXIT_FAILURE;
+    }
+
 
 #ifdef RASPBERRY
 

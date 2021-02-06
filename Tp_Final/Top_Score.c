@@ -136,14 +136,18 @@ int8_t read_difficulty(void){
 }
 
 int8_t create_difficulty(void){     //agregar devolucion de error   
+    
     FILE* fp;     
-    if(!(fp=fopen(".Difficulty.txt", "r"))||(read_difficulty()==FATAL_ERROR)){         
-        fclose(fp);         
+    if(!fopen(".Difficulty.txt", "r")){         
         fp=fopen(".Difficulty.txt", "w");         
+        if(!fp){
+            return EXIT_FAILURE;
+        }
         switch_difficulty(2);   //Setea la dificultad en normal, en caso de no encontrar el archivo o que 
-                                //el contenido se haya modificado fraudulentamente.     
-    }          
-    fclose(fp); 
+                                //el contenido se haya modificado fraudulentamente. 
+        fclose(fp);
+    }
+    return EXIT_SUCCESS;
 }
 
 uint8_t create_Top_Score(void) {
