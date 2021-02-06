@@ -5,8 +5,8 @@
  * Todos los derechos reservados.                                              *
  *******************************************************************************/
 
-#ifndef MOVE_H
-#define MOVE_H
+#ifndef LOGIC_H
+#define LOGIC_H
 
 //defino un tipo de variable que varía según la plataforma, para los elementos del display
  
