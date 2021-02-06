@@ -38,6 +38,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/GUI.o \
 	${OBJECTDIR}/Top_Score.o \
 	${OBJECTDIR}/allegro_setup.o \
+	${OBJECTDIR}/logic.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/menus.o \
 	${OBJECTDIR}/move.o \
@@ -82,6 +83,11 @@ ${OBJECTDIR}/allegro_setup.o: allegro_setup.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/allegro_setup.o allegro_setup.c
+
+${OBJECTDIR}/logic.o: logic.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/logic.o logic.c
 
 ${OBJECTDIR}/main.o: main.c
 	${MKDIR} -p ${OBJECTDIR}

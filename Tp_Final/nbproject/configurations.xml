@@ -11,6 +11,7 @@
       <itemPath>disdrv.h</itemPath>
       <itemPath>joydrv.h</itemPath>
       <itemPath>libaudio.h</itemPath>
+      <itemPath>logic.h</itemPath>
       <itemPath>menus.h</itemPath>
       <itemPath>move.h</itemPath>
       <itemPath>play.h</itemPath>
@@ -53,6 +54,7 @@
       <itemPath>GUI.c</itemPath>
       <itemPath>Top_Score.c</itemPath>
       <itemPath>allegro_setup.c</itemPath>
+      <itemPath>logic.c</itemPath>
       <itemPath>main.c</itemPath>
       <itemPath>menus.c</itemPath>
       <itemPath>move.c</itemPath>
@@ -153,6 +155,10 @@
       <item path="libAudioSDL1.o" ex="false" tool="3" flavor2="0">
       </item>
       <item path="libaudio.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="logic.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="logic.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
@@ -264,6 +270,10 @@
       <item path="libAudioSDL1.o" ex="false" tool="3" flavor2="0">
       </item>
       <item path="libaudio.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="logic.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="logic.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>

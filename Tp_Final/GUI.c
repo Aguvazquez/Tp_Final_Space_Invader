@@ -64,6 +64,10 @@ static void create_button_top_score(char *colour);
 
 static void create_table_top_score(void);
 
+//Escribe el puntaje del jugador en pantalla en todo momento de la partida.
+
+static void score_to_str(uint32_t score);
+
 /*******************************************************************************/
 
 /******************************* Global fuctions *******************************/
@@ -281,11 +285,11 @@ static void create_table_top_score(void){
     al_flip_display();
 }
 
-void draw_world(uint8_t level, uint8_t lives, uint8_t alien_change, elements_t nave_x, elements_t* bloques_x,
+void draw_world(uint8_t level, uint32_t score, uint8_t lives, uint8_t alien_change, elements_t nave_x, elements_t* bloques_x,
                 uint8_t* vida_bloques, elements_t* alien_x, elements_t* alien_y, elements_t* alien_bullets_x, 
                 elements_t* alien_bullets_y, elements_t bullet_x, elements_t bullet_y, elements_t mystery_ship_x, 
                 elements_t explosion_x, elements_t explosion_y, uint8_t* explosion_time) {
-    int i,j;
+    int8_t i;
     
     //fondo
     al_draw_scaled_bitmap(display_background[11 + level%5], 0, 0, al_get_bitmap_width(display_background[11 + level%5]),
@@ -299,7 +303,7 @@ void draw_world(uint8_t level, uint8_t lives, uint8_t alien_change, elements_t n
                 al_get_bitmap_height(display_background[5]), 1.5 * i*BASE_SIZE, 0, 2 * BASE_SIZE, 2 * BASE_SIZE, 0);
     }
     //score
-    al_draw_text();
+    score_to_str(score);
     //bloques
     for (i = 0; i < CANT_BLOQUES; i++) {
         if (vida_bloques[i] >= 20) {
@@ -368,6 +372,17 @@ void draw_world(uint8_t level, uint8_t lives, uint8_t alien_change, elements_t n
         al_draw_rectangle(bullet_x-BULLET_W/2, bullet_y, bullet_x+BULLET_W/2, bullet_y+BASE_SIZE, al_map_rgb(255, 0, 0), 0);
     }
     al_flip_display();
+}
+
+static void score_to_str(uint32_t score) {
+    char str[] = {'S', 'C', 'O', 'R', 'E', ':', ' ', ' ', '0', '0', '0', '0', '0'};
+    uint8_t i;
+    uint32_t aux = 0, j;
+    for (i = 12, j = 1; i > 7; i--, j *= 10) {
+        aux = score / j;
+        str[i] = (char) (aux % 10 + ASCII);
+    }
+    al_draw_text(font[0], al_map_rgb(255, 255, 255), SCREEN_W, BASE_SIZE / 4, ALLEGRO_ALIGN_RIGHT, str);
 }
 
 #else
