@@ -426,21 +426,10 @@ int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, 
 
         if(redraw && al_is_event_queue_empty(event_queue)){
             redraw = false;
+            draw_world(level,*lives,alien_change,
+                  nave_x,&bloques_x[0],&vida_bloques[0] ,
+                  &alien_x[0],&alien_y[0],&alien_bullets_x[0],&alien_bullets_y[0],bullet_x,bullet_y,mystery_ship_x, explosion_x,explosion_y, &explosion_time);
             
-            if(lock){
-                al_draw_rectangle(bullet_x-1, bullet_y, bullet_x+1, bullet_y+BASE_SIZE, al_map_rgb(255, 0, 0), 0);
-                bullet_y -= 2*MOVE_RATE; //actualiza la posicion de la bala en cada ciclo
-                if(bullet_y <= BLOQUES_Y+BASE_SIZE){
-                    for(i=0; i<4; i++){
-                        if(vida_bloques[i]){
-                            if(bullet_x >= bloques_x[i] && bullet_x <= bloques_x[i]+4*BASE_SIZE){
-                                vida_bloques[i]--;
-                                lock = false;
-                            }
-                        }
-                    }
-                }
-            }
 
             do_exit = logical(&lock_mystery_ship, &mystery_ship_x, &alien_x[0], &alien_y[0], &alien_bullets_x[0], 
                     &alien_bullets_y[0], &cant_aliens, &bullet_y, &bullet_x, &explosion_x, &explosion_y, &explosion_time, 
@@ -656,8 +645,22 @@ static bool logical(bool* lock_mystery_ship, elements_t* mystery_ship_x, element
         if(alien_y[i] >= (3*SCREEN_H/4) && alien_y[i] < SCREEN_H){ //condicion de derrota
             return true;
         }
+        alien_bullets_y[i] += 1.5 * MOVE_RATE;
     }
-    
+    if(*lock){
+                *bullet_y -= 2*MOVE_RATE; //actualiza la posicion de la bala en cada ciclo
+                if(*bullet_y <= BLOQUES_Y+BASE_SIZE){
+                    for(i=0; i<4; i++){
+                        if(vida_bloques[i]){
+                            if(*bullet_x >= bloques_x[i] && *bullet_x <= bloques_x[i]+4*BASE_SIZE){
+                                vida_bloques[i]--;
+                                *lock = false;
+                                *bullet_y = NAVE_Y + BASE_SIZE;
+                            }
+                        }
+                    }
+                }
+            }
     if(*mystery_ship_x < SCREEN_W){
 
 #ifndef RASPBERRY
@@ -692,80 +695,3 @@ static bool logical(bool* lock_mystery_ship, elements_t* mystery_ship_x, element
     return false;
 }
 /********************************* END FILE ************************************/
-void redraw_world(uint8_t level,uint8_t lives,uint8_t alien_change, elements_t nave_x,elements_t bloques_x,uint8_t vida_bloques ,elements_t alien_x,elements_t alien_y,elements_t alien_bullets_x, elements_t alien_bullets_y) {
-    int i,j;
-    al_draw_scaled_bitmap(display_background[11 + level % 5], 0, 0, al_get_bitmap_width(display_background[11 + level % 5]),
-            al_get_bitmap_height(display_background[11 + level % 5]), 0, 0, SCREEN_W, SCREEN_H, 0);
-    al_draw_scaled_bitmap(display_background[2], 0, 0, al_get_bitmap_width(display_background[2]),
-            al_get_bitmap_height(display_background[2]), nave_x, NAVE_Y, 3 * BASE_SIZE, 1.5 * BASE_SIZE, 0);
-
-    for (i = 0; i < (*lives); i++) {
-        al_draw_scaled_bitmap(display_background[5], 0, 0, al_get_bitmap_width(display_background[5]),
-                al_get_bitmap_height(display_background[5]), 1.5 * i*BASE_SIZE, 0, 2 * BASE_SIZE, 2 * BASE_SIZE, 0);
-    }
-    for (i = 0; i < 4; i++)
-        if (vida_bloques[i] >= 20) {
-            al_draw_filled_rectangle(bloques_x[i], BLOQUES_Y, bloques_x[i] + 4 * BASE_SIZE, BLOQUES_Y + BASE_SIZE, al_map_rgb(0, 255, 0));
-            al_draw_filled_rectangle(bloques_x[i], BLOQUES_Y + BASE_SIZE, bloques_x[i] + BASE_SIZE, BLOQUES_Y + 2 * BASE_SIZE, al_map_rgb(0, 255, 0));
-            al_draw_filled_rectangle(bloques_x[i] + 3 * BASE_SIZE, BLOQUES_Y + BASE_SIZE, bloques_x[i] + 4 * BASE_SIZE, BLOQUES_Y + 2 * BASE_SIZE, al_map_rgb(0, 255, 0));
-        }
-        else if (vida_bloques[i] >= 10) {
-            al_draw_filled_rectangle(bloques_x[i], BLOQUES_Y, bloques_x[i] + 4 * BASE_SIZE, BLOQUES_Y + BASE_SIZE, al_map_rgb(255, 255, 0));
-            al_draw_filled_rectangle(bloques_x[i], BLOQUES_Y + BASE_SIZE, bloques_x[i] + BASE_SIZE, BLOQUES_Y + 2 * BASE_SIZE, al_map_rgb(255, 255, 0));
-            al_draw_filled_rectangle(bloques_x[i] + 3 * BASE_SIZE, BLOQUES_Y + BASE_SIZE, bloques_x[i] + 4 * BASE_SIZE, BLOQUES_Y + 2 * BASE_SIZE, al_map_rgb(255, 255, 0));
-        }
-        else if (vida_bloques[i]) {
-            al_draw_filled_rectangle(bloques_x[i], BLOQUES_Y, bloques_x[i] + 4 * BASE_SIZE, BLOQUES_Y + BASE_SIZE, al_map_rgb(255, 0, 0));
-            al_draw_filled_rectangle(bloques_x[i], BLOQUES_Y + BASE_SIZE, bloques_x[i] + BASE_SIZE, BLOQUES_Y + 2 * BASE_SIZE, al_map_rgb(255, 0, 0));
-            al_draw_filled_rectangle(bloques_x[i] + 3 * BASE_SIZE, BLOQUES_Y + BASE_SIZE, bloques_x[i] + 4 * BASE_SIZE, BLOQUES_Y + 2 * BASE_SIZE, al_map_rgb(255, 0, 0));
-        }
-
-    for (i = 0, j = 0; i < CANT_ALIENS; i++) {
-        if (alien_y[i] < SCREEN_H) {
-            if (alien_change) {
-                if (i <= ((CANT_ALIENS / 5) - 1)) {
-                    al_draw_scaled_bitmap(display_background[8], 0, 0, al_get_bitmap_width(display_background[8]),
-                            al_get_bitmap_height(display_background[8]), alien_x[i], alien_y[i], 2 * BASE_SIZE, 2 * BASE_SIZE, 0);
-                }
-                else if (i <= ((3 * CANT_ALIENS / 5) - 1)) {
-                    al_draw_scaled_bitmap(display_background[3], 0, 0, al_get_bitmap_width(display_background[3]),
-                            al_get_bitmap_height(display_background[3]), alien_x[i], alien_y[i], 2 * BASE_SIZE, 2 * BASE_SIZE, 0);
-                }
-                else {
-                    al_draw_scaled_bitmap(display_background[9], 0, 0, al_get_bitmap_width(display_background[9]),
-                            al_get_bitmap_height(display_background[9]), alien_x[i], alien_y[i], 2 * BASE_SIZE, 2 * BASE_SIZE, 0);
-                }
-            }
-            else {
-                if (i <= ((CANT_ALIENS / 5) - 1)) {
-                    al_draw_scaled_bitmap(display_background[7], 0, 0, al_get_bitmap_width(display_background[7]),
-                            al_get_bitmap_height(display_background[7]), alien_x[i], alien_y[i], 2 * BASE_SIZE, 2 * BASE_SIZE, 0);
-                }
-                else if (i <= ((3 * CANT_ALIENS / 5) - 1)) {
-                    al_draw_scaled_bitmap(display_background[4], 0, 0, al_get_bitmap_width(display_background[4]),
-                            al_get_bitmap_height(display_background[4]), alien_x[i], alien_y[i], 2 * BASE_SIZE, 2 * BASE_SIZE, 0);
-                }
-                else {
-                    al_draw_scaled_bitmap(display_background[10], 0, 0, al_get_bitmap_width(display_background[10]),
-                            al_get_bitmap_height(display_background[10]), alien_x[i], alien_y[i], 2.5 * BASE_SIZE, 2.5 * BASE_SIZE, 0);
-                }
-            }
-        }
-        if (alien_x[i] >= SCREEN_W - 2 * BASE_SIZE || alien_x[i] <= BASE_SIZE) { //revisa que no sobrepasen los extremos
-            j++;
-        }
-        al_draw_rectangle(alien_bullets_x[i] - 1, alien_bullets_y[i], alien_bullets_x[i] + 1,
-                alien_bullets_y[i] + BASE_SIZE, al_map_rgb(255, 255, 255), 0); //dibujo balas de aliens
-
-        alien_bullets_y[i] += 1.5 * MOVE_RATE;
-    }
-
-    al_draw_scaled_bitmap(display_background[6], 0, 0, al_get_bitmap_width(display_background[6]),
-            al_get_bitmap_height(display_background[6]), mystery_ship_x, MYSTERY_SHIP_Y, 2 * BASE_SIZE, 2 * BASE_SIZE, 0);
-    
-    if(explosion_time){
-                al_draw_scaled_bitmap(display_background[16], 0, 0, al_get_bitmap_width(display_background[16]), 
-                    al_get_bitmap_height(display_background[16]), explosion_x, explosion_y, 2.5*BASE_SIZE, 2.5*BASE_SIZE, 0);
-                explosion_time--;
-            }
-    }

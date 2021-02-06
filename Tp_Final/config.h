@@ -1,11 +1,14 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+
 #define ASCII       '0'
 #define STR_LONG    6
 #define TOP_PLAYERS 5
 
 #ifdef RASPBERRY
+
+typedef int elements_t;
 
 #define SCREEN_W    16
 #define SCREEN_H    16
@@ -30,6 +33,8 @@
 #define MYSTERY_SHIP_Y  BASE_SIZE
 
 #else
+
+typedef float elements_t;
 
 #define SCREEN_W    800
 #define SCREEN_H    640

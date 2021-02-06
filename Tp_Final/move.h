@@ -9,12 +9,7 @@
 #define MOVE_H
 
 //defino un tipo de variable que varía según la plataforma, para los elementos del display
-#ifdef RASPBERRY
-	typedef int elements_t;
-#else
-        typedef float elements_t;
-#endif
-        
+ 
 /*
  * @Brief se encarga del movimiento de los distintos elementos del juego
  * @Param1: dificultad del nivel que está por jugarse
