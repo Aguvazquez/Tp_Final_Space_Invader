@@ -246,25 +246,27 @@ static void create_button(uint8_t button, char *str0, char *str1, char *str2, ch
 }
 
 static void create_button_top_score(char *colour){
+
     al_draw_filled_rectangle(13*SCREEN_W/16, 13*SCREEN_H/16, 15*SCREEN_W/16, 15*SCREEN_H/16, al_color_name(colour));
     al_draw_rectangle(13*SCREEN_W/16, 13*SCREEN_H/16, 15*SCREEN_W/16, 15*SCREEN_H/16, al_color_name("white"), 2.0);
     al_draw_text(font[0], al_map_rgb(255, 255, 255), 7*SCREEN_W/8, 171*SCREEN_H/200, ALLEGRO_ALIGN_CENTER, "EXIT");
     al_flip_display();
+
 }
 
 static void create_table_top_score(void){
     //RECTANGULO BASE
     al_draw_filled_rectangle(SCREEN_W/4, SCREEN_H/3, 3*SCREEN_W/4, 5*SCREEN_H/6, al_color_name("black"));
-    al_draw_rectangle(SCREEN_W/4, SCREEN_H/3, 3*SCREEN_W/4, 5*SCREEN_H/6, al_color_name("white"),2.0);
+    al_draw_rectangle(SCREEN_W/4, SCREEN_H/3, 3*SCREEN_W/4, 5*SCREEN_H/6, al_color_name("white"), 2.0);
     
     //LINEAS VERTICALES 
-    al_draw_line(13*SCREEN_W/24, SCREEN_H/3,13*SCREEN_W/24, 5*SCREEN_H/6, al_color_name("white"),2.0);
-    al_draw_line(SCREEN_W/3, SCREEN_H/3,SCREEN_W/3, 5*SCREEN_H/6, al_color_name("white"),2.0);//vertical
+    al_draw_line(13*SCREEN_W/24, SCREEN_H/3,13*SCREEN_W/24, 5*SCREEN_H/6, al_color_name("white"), 2.0);
+    al_draw_line(SCREEN_W/3, SCREEN_H/3,SCREEN_W/3, 5*SCREEN_H/6, al_color_name("white"), 2.0);//vertical
     
     //SEPARADORES
-    al_draw_rectangle(SCREEN_W/4, 5*SCREEN_H/12,3*SCREEN_W/4, SCREEN_H/2, al_color_name("white"),2.0);
-    al_draw_rectangle(SCREEN_W/4, 7*SCREEN_H/12, 3*SCREEN_W/4, 2*SCREEN_H/3, al_color_name("white"),2.0);
-    al_draw_rectangle(SCREEN_W/4, 3*SCREEN_H/4, 3*SCREEN_W/4, 5*SCREEN_H/6, al_color_name("white"),2.0);
+    al_draw_rectangle(SCREEN_W/4, 5*SCREEN_H/12,3*SCREEN_W/4, SCREEN_H/2, al_color_name("white"), 2.0);
+    al_draw_rectangle(SCREEN_W/4, 7*SCREEN_H/12, 3*SCREEN_W/4, 2*SCREEN_H/3, al_color_name("white"), 2.0);
+    al_draw_rectangle(SCREEN_W/4, 3*SCREEN_H/4, 3*SCREEN_W/4, 5*SCREEN_H/6, al_color_name("white"), 2.0);
     
     //TEXTO
     al_draw_text(font[0], al_map_rgb(255,255,255), 29*SCREEN_W / 96, (17*SCREEN_H /48), ALLEGRO_ALIGN_CENTER, "N°");
@@ -279,21 +281,27 @@ static void create_table_top_score(void){
     al_flip_display();
 }
 
-void draw_world(uint8_t level,uint8_t lives,uint8_t alien_change,
-                  elements_t nave_x,elements_t* bloques_x,uint8_t* vida_bloques ,
-                  elements_t* alien_x,elements_t* alien_y,elements_t* alien_bullets_x,
-                  elements_t* alien_bullets_y, elements_t bullet_x,elements_t bullet_y,elements_t mystery_ship_x,elements_t explosion_x,elements_t explosion_y,uint8_t* explosion_time) {
+void draw_world(uint8_t level, uint8_t lives, uint8_t alien_change, elements_t nave_x, elements_t* bloques_x,
+                uint8_t* vida_bloques, elements_t* alien_x, elements_t* alien_y, elements_t* alien_bullets_x, 
+                elements_t* alien_bullets_y, elements_t bullet_x, elements_t bullet_y, elements_t mystery_ship_x, 
+                elements_t explosion_x, elements_t explosion_y, uint8_t* explosion_time) {
     int i,j;
-    al_draw_scaled_bitmap(display_background[11 + level % 5], 0, 0, al_get_bitmap_width(display_background[11 + level % 5]),
-            al_get_bitmap_height(display_background[11 + level % 5]), 0, 0, SCREEN_W, SCREEN_H, 0);
+    
+    //fondo
+    al_draw_scaled_bitmap(display_background[11 + level%5], 0, 0, al_get_bitmap_width(display_background[11 + level%5]),
+            al_get_bitmap_height(display_background[11 + level%5]), 0, 0, SCREEN_W, SCREEN_H, 0);
+    //nave
     al_draw_scaled_bitmap(display_background[2], 0, 0, al_get_bitmap_width(display_background[2]),
-            al_get_bitmap_height(display_background[2]), nave_x, NAVE_Y, 3 * BASE_SIZE, 1.5 * BASE_SIZE, 0);
-
+            al_get_bitmap_height(display_background[2]), nave_x, NAVE_Y, 3*BASE_SIZE, 1.5*BASE_SIZE, 0);
+    //vidas
     for (i = 0; i < (lives); i++) {
         al_draw_scaled_bitmap(display_background[5], 0, 0, al_get_bitmap_width(display_background[5]),
                 al_get_bitmap_height(display_background[5]), 1.5 * i*BASE_SIZE, 0, 2 * BASE_SIZE, 2 * BASE_SIZE, 0);
     }
-    for (i = 0; i < 4; i++)
+    //score
+    al_draw_text();
+    //bloques
+    for (i = 0; i < CANT_BLOQUES; i++) {
         if (vida_bloques[i] >= 20) {
             al_draw_filled_rectangle(bloques_x[i], BLOQUES_Y, bloques_x[i] + 4 * BASE_SIZE, BLOQUES_Y + BASE_SIZE, al_map_rgb(0, 255, 0));
             al_draw_filled_rectangle(bloques_x[i], BLOQUES_Y + BASE_SIZE, bloques_x[i] + BASE_SIZE, BLOQUES_Y + 2 * BASE_SIZE, al_map_rgb(0, 255, 0));
@@ -309,15 +317,16 @@ void draw_world(uint8_t level,uint8_t lives,uint8_t alien_change,
             al_draw_filled_rectangle(bloques_x[i], BLOQUES_Y + BASE_SIZE, bloques_x[i] + BASE_SIZE, BLOQUES_Y + 2 * BASE_SIZE, al_map_rgb(255, 0, 0));
             al_draw_filled_rectangle(bloques_x[i] + 3 * BASE_SIZE, BLOQUES_Y + BASE_SIZE, bloques_x[i] + 4 * BASE_SIZE, BLOQUES_Y + 2 * BASE_SIZE, al_map_rgb(255, 0, 0));
         }
-
-    for (i = 0, j = 0; i < CANT_ALIENS; i++) {
+    }
+    for (i = 0; i < CANT_ALIENS; i++) {
+        //aliens
         if (alien_y[i] < SCREEN_H) {
             if (alien_change) {
-                if (i <= ((CANT_ALIENS / 5) - 1)) {
+                if (i < (CANT_ALIENS/5)) {
                     al_draw_scaled_bitmap(display_background[8], 0, 0, al_get_bitmap_width(display_background[8]),
                             al_get_bitmap_height(display_background[8]), alien_x[i], alien_y[i], 2 * BASE_SIZE, 2 * BASE_SIZE, 0);
                 }
-                else if (i <= ((3 * CANT_ALIENS / 5) - 1)) {
+                else if (i < (3 * CANT_ALIENS / 5)) {
                     al_draw_scaled_bitmap(display_background[3], 0, 0, al_get_bitmap_width(display_background[3]),
                             al_get_bitmap_height(display_background[3]), alien_x[i], alien_y[i], 2 * BASE_SIZE, 2 * BASE_SIZE, 0);
                 }
@@ -327,11 +336,11 @@ void draw_world(uint8_t level,uint8_t lives,uint8_t alien_change,
                 }
             }
             else {
-                if (i <= ((CANT_ALIENS / 5) - 1)) {
+                if (i <= (CANT_ALIENS / 5)) {
                     al_draw_scaled_bitmap(display_background[7], 0, 0, al_get_bitmap_width(display_background[7]),
                             al_get_bitmap_height(display_background[7]), alien_x[i], alien_y[i], 2 * BASE_SIZE, 2 * BASE_SIZE, 0);
                 }
-                else if (i <= ((3 * CANT_ALIENS / 5) - 1)) {
+                else if (i < (3 * CANT_ALIENS / 5)) {
                     al_draw_scaled_bitmap(display_background[4], 0, 0, al_get_bitmap_width(display_background[4]),
                             al_get_bitmap_height(display_background[4]), alien_x[i], alien_y[i], 2 * BASE_SIZE, 2 * BASE_SIZE, 0);
                 }
@@ -341,31 +350,132 @@ void draw_world(uint8_t level,uint8_t lives,uint8_t alien_change,
                 }
             }
         }
-        if (alien_x[i] >= SCREEN_W - 2 * BASE_SIZE || alien_x[i] <= BASE_SIZE) { //revisa que no sobrepasen los extremos
-            j++;
-        }
-        al_draw_rectangle(alien_bullets_x[i] - 1, alien_bullets_y[i], alien_bullets_x[i] + 1,
-                alien_bullets_y[i] + BASE_SIZE, al_map_rgb(255, 255, 255), 0); //dibujo balas de aliens
-
-        
+       //balas de aliens
+        al_draw_rectangle(alien_bullets_x[i] - BULLET_W/2, alien_bullets_y[i], alien_bullets_x[i] + BULLET_W/2,
+                alien_bullets_y[i] + BASE_SIZE, al_map_rgb(255, 255, 255), 0); 
     }
-
+    //nave misteriosa
     al_draw_scaled_bitmap(display_background[6], 0, 0, al_get_bitmap_width(display_background[6]),
             al_get_bitmap_height(display_background[6]), mystery_ship_x, MYSTERY_SHIP_Y, 2 * BASE_SIZE, 2 * BASE_SIZE, 0);
-    
+    //explosiones
     if(*explosion_time){
                 al_draw_scaled_bitmap(display_background[16], 0, 0, al_get_bitmap_width(display_background[16]), 
                     al_get_bitmap_height(display_background[16]), explosion_x, explosion_y, 2.5*BASE_SIZE, 2.5*BASE_SIZE, 0);
                 (*explosion_time)--;
             }
+    //bala
     if(bullet_y<NAVE_Y){
-        al_draw_rectangle(bullet_x-1, bullet_y, bullet_x+1, bullet_y+BASE_SIZE, al_map_rgb(255, 0, 0), 0);
+        al_draw_rectangle(bullet_x-BULLET_W/2, bullet_y, bullet_x+BULLET_W/2, bullet_y+BASE_SIZE, al_map_rgb(255, 0, 0), 0);
     }
     al_flip_display();
 }
+
+#else
+
+void show_on_terminal(uint8_t lives, uint32_t score){
+    uint8_t i;
+    system("clear");
+    fprintf(stderr, "******************************************");   //top side
+    fprintf(stderr, "*\n*\n*\n");
+    fprintf(stderr, "*       Score: %d\n", score);
+    fprintf(stderr, "*\n");
+    fprintf(stderr, "*       Lives: %d\n", lives);
+    fprintf(stderr, "*\n*\n*\n");
+    fprintf(stderr, "******************************************");   //bottom side
+}
+
+int pause_menu_terminal(void){
+    uint8_t choice, c;
+    int output=0;
+    bool do_exit=false;
+    system("clear");
+    fprintf(stderr,"\t\tPAUSA.\n"); 
+    
+    while(!do_exit){
+        fprintf(stderr, "Para continuar jugando pulse 1.\n");
+        fprintf(stderr, "Para reiniciar la partida pulse 2.\n");
+        fprintf(stderr, "Para salir del juego pulse 3.\n");
+        while ((c = getchar()) != '\n') {
+            choice = c;
+        }
+        if (choice == '1') {
+            do_exit = true;          
+        } else if (choice == '2') {
+            output = RESET_GAME;
+            do_exit = true;
+        } else if (choice == '3') {
+            output = EXIT_MENU;
+            do_exit = true;
+        } else {
+            fprintf(stderr, "Por favor, introduzca un numero valido.\n");
+        }
+    }
+    return output;
+}
+
+void draw_world_rpi(elements_t nave_x, elements_t* bloques_x, uint8_t* vida_bloques, elements_t* alien_x, 
+                    elements_t* alien_y, elements_t* alien_bullets_x, elements_t* alien_bullets_y, 
+                    elements_t bullet_x, elements_t bullet_y, elements_t mystery_ship_x) {
+    
+    dcoord_t coord_nave, coord_bloques, coord_alien, coord_mystery_ship, coord_bullet, coord_alien_bullet;
+    int i;
+    disp_clear();
+    coord_nave.x = nave_x;
+    coord_nave.y = NAVE_Y;
+    coord_bloques.y = BLOQUES_Y;
+    coord_mystery_ship.x = mystery_ship_x;
+    coord_mystery_ship.y = MYSTERY_SHIP_Y;
+    coord_bullet.x = bullet_x;
+    coord_bullet.y = bullet_y;
+
+    //nave
+    for (i = 0; i < 4; i++) {
+        if(i==3) {
+            coord_nave.y++;
+            coord_nave.x -= 2;
+            disp_write(coord_nave, D_ON);
+        }
+        else {
+            disp_write(coord_nave, D_ON);
+            coord_nave.x++
+        }
+    }
+    //bloques
+    for (i = 0; i < CANT_BLOQUES; i++) {
+        if (vida_bloques[i] != 0) {
+            coord_bloques.x = bloques_x[i];
+            disp_write(coord_bloques, D_ON);
+            coord_bloques.x++;
+            disp_write(coord_bloques, D_ON);
+        }
+    }
+    for (i = 0; i < CANT_ALIENS; i++) {
+        //aliens
+        coord_alien.x = alien_x[i];
+        coord_alien.y = alien_y[i];
+        if (coord_alien.y < SCREEN_H) {
+            disp_write(coord_alien, D_ON);
+        }
+        //balas de aliens
+        coord_alien_bullet.x = alien_bullets_x[i];
+        coord_alien_bullet.y = alien_bullets_y[i];
+        if (coord_alien_bullet.y < SCREEN_H && coord_alien_bullet.x < SCREEN_W) {
+            disp_write(coord_alien_bullet, D_ON);
+        }
+    }
+    //nave misteriosa
+    if (coord_mystery_ship.x < SCREEN_W) {
+        disp_write(coord_mystery_ship, D_ON);
+    }
+    //bala
+    if (coord_bullet.y < SCREEN_H && coord_bullet.x < SCREEN_H) {
+        disp_write(coord_bullet, D_ON);
+    }
+}
+
 #endif //RASPBERRY
 
- int8_t switch_difficulty(uint8_t option){
+int8_t switch_difficulty(uint8_t option){
 
     FILE* fp=fopen(".Difficulty.txt", "w");  //Creo el archivo difficulty en donde guardo el nivel de dificultad.
     int8_t aux=EXIT_SUCCESS;
@@ -373,6 +483,7 @@ void draw_world(uint8_t level,uint8_t lives,uint8_t alien_change,
     if(!fp){
         return FATAL_ERROR;
     }
+
     switch(option){
         case 1:{
             fputs(EASY_CODE, fp);
@@ -387,7 +498,7 @@ void draw_world(uint8_t level,uint8_t lives,uint8_t alien_change,
             break;
         }
         default:{
-            fprintf(stderr, "Dificultad mal configurada.\n");
+            fprintf(stderr, "Error al cambiar la dificultad.\n");
             aux=FATAL_ERROR;
             break;
         }
@@ -397,7 +508,7 @@ void draw_world(uint8_t level,uint8_t lives,uint8_t alien_change,
     return aux;    
 }
 
- void print_top_score(void){
+void print_top_score(void){
     
     uint8_t i;
     static FILE* fp;
@@ -428,122 +539,5 @@ void draw_world(uint8_t level,uint8_t lives,uint8_t alien_change,
         fgetc(fp);
     }
 }
-#ifdef RASPBERRY
-void show_on_terminal(uint8_t lives, uint32_t score){
-    uint8_t i;
-    system("clear");
-    fprintf(stderr, "******************************************");   //top side
-    fprintf(stderr, "*\n*\n*\n");
-    fprintf(stderr, "*       Score: %d\n", score);
-    fprintf(stderr, "*\n");
-    fprintf(stderr, "*       Lives: %d\n", lives);
-    fprintf(stderr, "*\n*\n*\n");
-    fprintf(stderr, "******************************************");   //bottom side
-}
 
-
-int pause_menu_terminal(void){
-    uint8_t choice, c;
-    int output=0;
-    bool do_exit=false;
-    system("clear");
-    fprintf(stderr,"\t\tPAUSA.\n"); 
-    
-    while(!do_exit){
-        fprintf(stderr, "Para continuar jugando pulse 1.\n");
-        fprintf(stderr, "Para reiniciar la partida pulse 2.\n");
-        fprintf(stderr, "Para salir del juego pulse 3.\n");
-        while ((c = getchar()) != '\n') {
-            choice = c;
-        }
-        if (choice == '1') {
-            do_exit = true;          
-        } else if (choice == '2') {
-            output = RESET_GAME;
-            do_exit = true;
-        } else if (choice == '3') {
-            output = EXIT_MENU;
-            do_exit = true;
-        } else {
-            fprintf(stderr, "Por favor, introduzca un numero valido.\n");
-        }
-    }
-    return output;
-}
-void draw_world_rpi(elements_t nave_x, elements_t* bloques_x, uint8_t* vida_bloques,
-        elements_t* alien_x, elements_t* alien_y, elements_t* alien_bullets_x,
-        elements_t* alien_bullets_y, elements_t bullet_x, elements_t bullet_y, elements_t mystery_ship_x) {
-    dcoord_t coord_nave, coord_bloques, coord_alien, coord_mystery_ship, coord_bullet, coord_alien_bullet;
-    int i;
-    disp_clear();
-    coord_nave.x = nave_x;
-    coord_nave.y = NAVE_Y;
-    coord_bloques.y = BLOQUES_Y;
-    coord_mystery_ship.x = mystery_ship_x;
-    coord_mystery_ship.y = MYSTERY_SHIP_Y;
-    coord_bullet.x = bullet_x;
-    coord_bullet.y = bullet_y;
-
-
-    for (i = 0; i < 4; i++) {
-        switch (i) {
-            case 0:
-            {
-                break;
-            }
-            case 1:
-            {
-                coord_nave.x++;
-                break;
-            }
-            case 2:
-            {
-                coord_nave.x++;
-                break;
-            }
-            case 3:
-            {
-                coord_nave.x--;
-                coord_nave.y--;
-                break;
-            }
-            default:
-            {
-                fprintf(stderr, "Hubo un error al imprimir la nave.\n");
-                break;
-            }
-        }
-        disp_write(coord_nave, D_ON);
-    }
-    for (i = 0; i < CANT_BLOQUES; i++) {
-        if (vida_bloques[i] != 0) {
-            coord_bloques.x = bloques_x[i];
-            disp_write(coord_bloques, D_ON);
-            coord_bloques.x++;
-            disp_write(coord_bloques, D_ON);
-        }
-    }
-    for (i = 0; i < CANT_ALIENS; i++) {
-        //fprintf(stderr,"%d ,%d\n", alien_x[i], alien_y[i]);
-        coord_alien.x = alien_x[i];
-        coord_alien.y = alien_y[i];
-        if (coord_alien.y < SCREEN_H) {
-            disp_write(coord_alien, D_ON);
-        }
-        coord_alien_bullet.x = alien_bullets_x[i];
-        coord_alien_bullet.y = alien_bullets_y[i];
-        if (coord_alien_bullet.y < SCREEN_H && coord_alien_bullet.x < SCREEN_W) {
-            disp_write(coord_alien_bullet, D_ON);
-        }
-        
-    }
-    if (coord_mystery_ship.x < SCREEN_W) {
-        disp_write(coord_mystery_ship, D_ON);
-    }
-    if (coord_bullet.y < SCREEN_H && coord_bullet.x < SCREEN_H) {
-        disp_write(coord_bullet, D_ON);
-    }
-
-}
-#endif
 /****************************** END FILE ***************************************/
