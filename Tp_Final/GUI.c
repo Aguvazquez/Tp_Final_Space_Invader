@@ -1,4 +1,4 @@
-/************************* Standard libraries **********************************/
+/***************************** Standard libraries ******************************/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -7,7 +7,7 @@
 
 /*******************************************************************************/
 
-/************************* Locals headers **************************************/
+/******************************* Locals headers ********************************/
 
 #include "config.h"
 #include "GUI.h"
@@ -21,7 +21,7 @@
 
 #ifndef RASPBERRY
 
-/***************************** Allegro libraries  ******************************/
+/***************************** Allegro libraries *******************************/
 
 #include <allegro5/allegro.h>  
 #include <allegro5/allegro_color.h> 
@@ -33,7 +33,7 @@
 
 /*******************************************************************************/
 
-/****************************Allegro global variables **************************/
+/************************** Allegro global variables ***************************/
 
 extern  ALLEGRO_DISPLAY *display;
 extern  ALLEGRO_EVENT_QUEUE *event_queue;
@@ -44,76 +44,60 @@ extern  ALLEGRO_BITMAP *display_background[BACKGROUNDS];
 
 /*******************************************************************************/
 
-/************************ Header of local functions ****************************/
+/************************* Header of local functions ***************************/
 
 /*
- * @Brief crea los botones sin presionar.
+ * @Brief crea los botones del menú (diseñado para 3 botones).
  * @Param1: oración del primer botón.
  * @Param2: oración del segundo botón.
  * @Param3: oración del tercer botón.
+ * @Param4: color del botón.
  */
 
-static void create_button_unpressed(char *str0, char *str1, char *str2);
+static void create_button(uint8_t button, char *str0, char *str1, char *str2, char *colour);
 
-/*
- * @Brief crea un botón presionado.
- * @Param1: botón presionado.
- * @Param2: oración del primer botón.
- * @Param3: oración del segundo botón.
- * @Param4: oración del tercer botón.
- */
+//Crea el botón de salida de top score del color requerido
 
-static void create_button_pressed(uint8_t button, char *str0, char *str1, char *str2);
-
-
-
-//Crea el botón de salida de top score sin presionar.
-
-static void create_button_unpressed_top_score(void);
-
-//Crea el botón de salida de top score presionado.
-
-static void create_button_pressed_top_score(void);
+static void create_button_top_score(char *colour);
 
 //Crea la tabla del top score.
 
 static void create_table_top_score(void);
 
-
-
 /*******************************************************************************/
 
-/*************************** Global fuctions ***********************************/
+/******************************* Global fuctions *******************************/
 
 int8_t menu_display(char *str0, char *str1, char *str2, char flag, uint8_t pause){
     
     bool do_exit=false, check=false, redraw=false;
-    int8_t aux=0;
+    int8_t aux=0, i;
+    ALLEGRO_EVENT ev;
     
-    /***********Mouse axes**********/
+    //Mouse axes
     float mouse_x=0, mouse_y=0;
     
-    /**********Title and bakground menu.*********************/
-    al_draw_scaled_bitmap(display_background[0], 0, 0, al_get_bitmap_width(display_background[0]), al_get_bitmap_height(display_background[0]),
-        0, 0, al_get_display_width(display), al_get_display_height(display), 0);
+    //Title and bakground menu
+    al_draw_scaled_bitmap(display_background[0], 0, 0, al_get_bitmap_width(display_background[0]),
+                        al_get_bitmap_height(display_background[0]), 0, 0, SCREEN_W, SCREEN_H, 0);
     if(pause){
         al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W/2, SCREEN_H/5, ALLEGRO_ALIGN_CENTER, "PAUSE MENU");
     }
     else{
-        al_draw_scaled_bitmap(display_background[1], 0, 0, al_get_bitmap_width(display_background[1]), al_get_bitmap_height(display_background[1]), 
-            0, 0, al_get_display_width(display), al_get_display_height(display)/3, 0);
+        al_draw_scaled_bitmap(display_background[1], 0, 0, al_get_bitmap_width(display_background[1]),
+                            al_get_bitmap_height(display_background[1]), 0, 0, SCREEN_W, SCREEN_H/3, 0);
     }
-    /********************************************************/
     
     if(!flag){
         al_play_sample(samples[0], 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL); 
     }
-    create_button_unpressed(str0, str1, str2);
+    for(i=1; i<=3; i++){
+        create_button(i, str0, str1, str2, "black");
+    }
     al_flip_display();
     
     while(!do_exit){ 
-        ALLEGRO_EVENT ev;
-        if(al_get_next_event(event_queue, &ev)){ //Toma un evento de la cola.
+        if(al_get_next_event(event_queue, &ev)){
             if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE){
                 do_exit=true;
                 aux=CLOSE_DISPLAY;
@@ -133,7 +117,7 @@ int8_t menu_display(char *str0, char *str1, char *str2, char flag, uint8_t pause
                     aux=1;  //primer botón
                 }
                 else{
-                    create_button_pressed(1, str0, str1, str2);
+                    create_button(1, str0, str1, str2, "grey");
                 }
             }
             else if(mouse_y >= 5*SCREEN_H/8 && mouse_y <= 3*SCREEN_H/4){
@@ -142,7 +126,7 @@ int8_t menu_display(char *str0, char *str1, char *str2, char flag, uint8_t pause
                     aux=2;  //segundo botón
                 }
                 else{
-                    create_button_pressed(2, str0, str1, str2);
+                    create_button(2, str0, str1, str2, "grey");
                 }
             }
             else if (mouse_y >= 13*SCREEN_H/16 && mouse_y <= 15*SCREEN_H/16){
@@ -151,7 +135,7 @@ int8_t menu_display(char *str0, char *str1, char *str2, char flag, uint8_t pause
                     aux=3;  //tercer botón
                 }
                 else{
-                    create_button_pressed(3, str0, str1, str2);
+                    create_button(3, str0, str1, str2, "grey");
                 }
             }
             else{
@@ -162,7 +146,9 @@ int8_t menu_display(char *str0, char *str1, char *str2, char flag, uint8_t pause
             redraw=true;
         }
         if(redraw){
-            create_button_unpressed(str0, str1, str2);
+            for(i=1; i<=3; i++){
+                create_button(i, str0, str1, str2, "black");
+            }
             redraw=false;
         }
         check=false;
@@ -170,30 +156,27 @@ int8_t menu_display(char *str0, char *str1, char *str2, char flag, uint8_t pause
     return aux;
 }
 
-/****************************Local fuctions************************************/
-
-
+/******************************* Local fuctions ********************************/
 
  int8_t Top_Score(void){
     
     uint8_t do_exit=false, check=false, redraw=false;
     int8_t aux=0;
+    ALLEGRO_EVENT ev;
     float mouse_x=0, mouse_y=0;
     
-    al_draw_scaled_bitmap(display_background[0], 0, 0, al_get_bitmap_width(display_background[0]), al_get_bitmap_height(display_background[0]),
-        0, 0, al_get_display_width(display), al_get_display_height(display), 0);
+    al_draw_scaled_bitmap(display_background[0], 0, 0, al_get_bitmap_width(display_background[0]), 
+                        al_get_bitmap_height(display_background[0]), 0, 0, SCREEN_W, SCREEN_H, 0);
 
     al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W/2, SCREEN_H/6, ALLEGRO_ALIGN_CENTER, "TOP SCORE");
     
-    create_button_unpressed_top_score();
+    create_button_top_score("black");
     create_table_top_score();
     print_top_score();
     al_flip_display();
     
     while(!do_exit){ 
-        ALLEGRO_EVENT ev;
-        if (al_get_next_event(event_queue, &ev)) //Toma un evento de la cola
-        {
+        if (al_get_next_event(event_queue, &ev)){
             if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE){
                 do_exit=true;
                 aux=CLOSE_DISPLAY;
@@ -212,7 +195,7 @@ int8_t menu_display(char *str0, char *str1, char *str2, char flag, uint8_t pause
                     do_exit=true;
                 }
                 else{
-                    create_button_pressed_top_score();
+                    create_button_top_score("grey");
                 }
          
             }
@@ -224,7 +207,7 @@ int8_t menu_display(char *str0, char *str1, char *str2, char flag, uint8_t pause
             redraw=true;
         }
         if(redraw){
-            create_button_unpressed_top_score();
+            create_button_top_score("black");
             redraw=false;
         }
         check=false;
@@ -232,56 +215,40 @@ int8_t menu_display(char *str0, char *str1, char *str2, char flag, uint8_t pause
     return aux;
 }
 
-static void create_button_unpressed(char *str0, char *str1, char *str2){
-    
-        al_draw_filled_rectangle(SCREEN_W/4, 7*SCREEN_H/16, 3*SCREEN_W/4, 9*SCREEN_H/16, al_color_name("black"));
-        al_draw_rectangle(SCREEN_W/4, 7*SCREEN_H/16, 3*SCREEN_W/4, 9*SCREEN_H/16, al_color_name("white"),2.0);
-        al_draw_text(font[0], al_map_rgb(255, 255, 255), SCREEN_W / 2, (12*SCREEN_H /25), ALLEGRO_ALIGN_CENTER, str0);
-        
-        al_draw_filled_rectangle(SCREEN_W/4, 5*SCREEN_H/8, 3*SCREEN_W/4, 3*SCREEN_H/4, al_color_name("black"));
-        al_draw_rectangle(SCREEN_W/4, 5*SCREEN_H/8, 3*SCREEN_W/4, 3*SCREEN_H/4, al_color_name("white"),2.0);
-        al_draw_text(font[0], al_map_rgb(255, 255, 255), SCREEN_W / 2, (267*SCREEN_H / 400), ALLEGRO_ALIGN_CENTER, str1);
-        
-        al_draw_filled_rectangle(SCREEN_W/4, 13*SCREEN_H/16, 3*SCREEN_W/4, 15*SCREEN_H/16, al_color_name("black"));
-        al_draw_rectangle(SCREEN_W/4, 13*SCREEN_H/16, 3*SCREEN_W/4, 15*SCREEN_H/16, al_color_name("white"),2.0);
-        al_draw_text(font[0], al_map_rgb(255, 255, 255), SCREEN_W / 2, (171*SCREEN_H / 200), ALLEGRO_ALIGN_CENTER, str2);
-        
-        al_flip_display();
-    
-}
-
-static void create_button_pressed(uint8_t button, char *str0, char *str1, char *str2){
+static void create_button(uint8_t button, char *str0, char *str1, char *str2, char *colour){
     
     switch(button){
-        case 1:{
-            al_draw_filled_rectangle(SCREEN_W/4, 7*SCREEN_H/16, 3*SCREEN_W/4, 9*SCREEN_H/16, al_color_name("grey"));
-            al_draw_text(font[0], al_map_rgb(0,0,0), SCREEN_W/2, (12*SCREEN_H /25), ALLEGRO_ALIGN_CENTER, str0);
+        case 1:
+        {
+            al_draw_filled_rectangle(SCREEN_W/4, 7*SCREEN_H/16, 3*SCREEN_W/4, 9*SCREEN_H/16, al_color_name(colour));
+            al_draw_rectangle(SCREEN_W/4, 7*SCREEN_H/16, 3*SCREEN_W/4, 9*SCREEN_H/16, al_color_name("white"), 2.0);
+            al_draw_text(font[0], al_map_rgb(255, 255, 255), SCREEN_W/2, 12*SCREEN_H/25, ALLEGRO_ALIGN_CENTER, str0);
             break;
         }
-        case 2:{
-            al_draw_filled_rectangle(SCREEN_W/4, 5*SCREEN_H/8, 3*SCREEN_W/4, 3*SCREEN_H/4, al_color_name("grey"));
-            al_draw_text(font[0], al_map_rgb(0,0,0), SCREEN_W/2, (267*SCREEN_H/400), ALLEGRO_ALIGN_CENTER, str1);
+        case 2:
+        {
+            al_draw_filled_rectangle(SCREEN_W/4, 5*SCREEN_H/8, 3*SCREEN_W/4, 3*SCREEN_H/4, al_color_name(colour));
+            al_draw_rectangle(SCREEN_W/4, 5*SCREEN_H/8, 3*SCREEN_W/4, 3*SCREEN_H/4, al_color_name("white"), 2.0);
+            al_draw_text(font[0], al_map_rgb(255, 255, 255), SCREEN_W/2, 267*SCREEN_H/400, ALLEGRO_ALIGN_CENTER, str1);
             break;
         }
-        case 3:{
-            al_draw_filled_rectangle(SCREEN_W/4, 13*SCREEN_H/16, 3*SCREEN_W/4, 15*SCREEN_H/16, al_color_name("grey"));
-            al_draw_text(font[0], al_map_rgb(0,0,0), SCREEN_W/2, (171*SCREEN_H/200), ALLEGRO_ALIGN_CENTER, str2);
+        case 3:
+        {
+            al_draw_filled_rectangle(SCREEN_W/4, 13*SCREEN_H/16, 3*SCREEN_W/4, 15*SCREEN_H/16, al_color_name(colour));
+            al_draw_rectangle(SCREEN_W/4, 13*SCREEN_H/16, 3*SCREEN_W/4, 15*SCREEN_H/16, al_color_name("white"), 2.0);
+            al_draw_text(font[0], al_map_rgb(255, 255, 255), SCREEN_W/2, 171*SCREEN_H/200, ALLEGRO_ALIGN_CENTER, str2);
             break;
         }
     }
+    
     al_flip_display();
+    
 }
 
-static void create_button_unpressed_top_score(void){
-    al_draw_filled_rectangle(13*SCREEN_W/16, 13*SCREEN_H/16, 15*SCREEN_W/16, 15*SCREEN_H/16, al_color_name("black"));
+static void create_button_top_score(char *colour){
+    al_draw_filled_rectangle(13*SCREEN_W/16, 13*SCREEN_H/16, 15*SCREEN_W/16, 15*SCREEN_H/16, al_color_name(colour));
     al_draw_rectangle(13*SCREEN_W/16, 13*SCREEN_H/16, 15*SCREEN_W/16, 15*SCREEN_H/16, al_color_name("white"), 2.0);
-    al_draw_text(font[0], al_map_rgb(255, 255, 255), 7*SCREEN_W / 8, (171*SCREEN_H/200), ALLEGRO_ALIGN_CENTER, "EXIT");
-    al_flip_display();
-}
-
-static void create_button_pressed_top_score(void){
-    al_draw_filled_rectangle(13*SCREEN_W/16, 13*SCREEN_H/16, 15*SCREEN_W/16, 15*SCREEN_H/16, al_color_name("grey"));
-    al_draw_text(font[0], al_map_rgb(255, 255, 255), 7*SCREEN_W / 8, (171*SCREEN_H / 200), ALLEGRO_ALIGN_CENTER, "EXIT");
+    al_draw_text(font[0], al_map_rgb(255, 255, 255), 7*SCREEN_W/8, 171*SCREEN_H/200, ALLEGRO_ALIGN_CENTER, "EXIT");
     al_flip_display();
 }
 
@@ -311,6 +278,7 @@ static void create_table_top_score(void){
     
     al_flip_display();
 }
+
 void draw_world(uint8_t level,uint8_t lives,uint8_t alien_change,
                   elements_t nave_x,elements_t* bloques_x,uint8_t* vida_bloques ,
                   elements_t* alien_x,elements_t* alien_y,elements_t* alien_bullets_x,
