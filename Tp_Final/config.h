@@ -56,7 +56,7 @@ typedef float elements_t;
 
 #define NAVE_Y          SCREEN_H - 2*BASE_SIZE
 #define NAVE_X          SCREEN_W/2 - 1.5*BASE_SIZE
-#define BULLET_W        8
+#define BULLET_W        2
 #define MYSTERY_SHIP_Y  1.5*BASE_SIZE
 
 #endif
