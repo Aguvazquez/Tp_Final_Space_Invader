@@ -4,13 +4,13 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>GUI.h</itemPath>
       <itemPath>Top_Score.h</itemPath>
       <itemPath>allegro_setup.h</itemPath>
       <itemPath>config.h</itemPath>
       <itemPath>disdrv.h</itemPath>
       <itemPath>joydrv.h</itemPath>
       <itemPath>libaudio.h</itemPath>
-      <itemPath>menus.h</itemPath>
       <itemPath>move.h</itemPath>
       <itemPath>play.h</itemPath>
       <itemPath>termlib.h</itemPath>
@@ -49,10 +49,10 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>GUI.c</itemPath>
       <itemPath>Top_Score.c</itemPath>
       <itemPath>allegro_setup.c</itemPath>
       <itemPath>main.c</itemPath>
-      <itemPath>menus.c</itemPath>
       <itemPath>move.c</itemPath>
       <itemPath>play.c</itemPath>
     </logicalFolder>
@@ -108,6 +108,10 @@
           <commandLine>-lpthread</commandLine>
         </linkerTool>
       </compileType>
+      <item path="GUI.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="GUI.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Top_Score.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="Top_Score.h" ex="false" tool="3" flavor2="0">
@@ -149,10 +153,6 @@
       <item path="libaudio.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="menus.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="menus.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="move.c" ex="false" tool="0" flavor2="0">
       </item>
@@ -215,6 +215,10 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="GUI.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="GUI.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Top_Score.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="Top_Score.h" ex="false" tool="3" flavor2="0">
@@ -256,10 +260,6 @@
       <item path="libaudio.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="menus.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="menus.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="move.c" ex="false" tool="0" flavor2="0">
       </item>

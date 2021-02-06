@@ -11,7 +11,7 @@
 #include "play.h"
 #include "config.h"
 #include "move.h"
-#include "menus.h"
+#include "GUI.h"
 #include "Top_Score.h"
 #include "allegro_setup.h"
 
