@@ -1,14 +1,14 @@
 /*******************************************************************************
- *                            Space Invaders                                   *
- *                         Trabajo Práctico Final                              *
- *                             Programación I                                  *
- *                                2020Q1                                       *
+ *                               Space Invaders                                *
+ *                           Trabajo Práctico Final                            *
+ *                               Programación I                                *
+ *                                   2020Q1                                    *
  * Desarrolladores: Mendizabal Francisco(61454), Vazquez Agustin(61420)        *
  * Todos los derechos reservados.                                              *
  *******************************************************************************/
 
 
-/************************* Standard libraries **********************************/
+/***************************** Standard libraries ******************************/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,7 +17,7 @@
 
 /*******************************************************************************/
 
-/************************* Locals headers **************************************/
+/******************************* Locals headers ********************************/
 
 #include "allegro_setup.h"
 #include "config.h"
@@ -29,7 +29,7 @@
 #ifndef RASPBERRY //Condición de compilación, afecta a las librerias 
                   //y a las variables.
 
-/***************************** Allegro libraries  ******************************/
+/***************************** Allegro libraries *******************************/
 
 #include <allegro5/allegro.h>  
 #include <allegro5/allegro_color.h> 
@@ -41,7 +41,7 @@
 
 /*******************************************************************************/
 
-/**************************** Allegro global variables *************************/
+/************************** Allegro global variables ***************************/
 
 ALLEGRO_DISPLAY *display = NULL;
 
@@ -60,7 +60,7 @@ ALLEGRO_BITMAP *display_background[BACKGROUNDS] = {NULL, NULL, NULL, NULL, NULL,
 
 #endif  //RASPBERRY
 
-/***************************** Main function ***********************************/
+/******************************* Main function *********************************/
 
 int main(void) {
 
@@ -90,4 +90,4 @@ int main(void) {
     return EXIT_SUCCESS;
 }
 
-/******************************* END FILE **************************************/
+/********************************** END FILE ***********************************/
