@@ -76,7 +76,6 @@ int main(void) {
 
 #ifdef RASPBERRY
 
-    //init_sound();
     main_menu();
 
 #else

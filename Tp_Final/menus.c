@@ -15,7 +15,7 @@
 #include "joydrv.h"
 #include "disdrv.h"
 #include "logic.h"
-
+#include "libaudio.h"
 /*******************************************************************************/
 
 #ifndef RASPBERRY //Condición de compilación, afecta a las librerias 
@@ -153,13 +153,18 @@ void main_menu(void) {
 void main_menu(void) {
 
     uint8_t choice = 0, c = 0;
-    bool do_exit = false, reset = false;
+    bool do_exit = false, reset = false,dont_play_song=false;
     disp_init();
     joy_init();
+    init_sound();
     system("clear");
     fprintf(stderr, "Bienvenido a Space Invaders.\n");
 
     while (!do_exit) {
+        if(!dont_play_song){
+            set_file_to_play("spaceinvader_theme.wav");
+            play_sound();
+        }
         if (!reset) {
             disp_clear();
             fprintf(stderr, "Para emepezar a jugar pulse 1.\n");
@@ -173,8 +178,10 @@ void main_menu(void) {
         reset = false;          //cancela la condicion de reset en caso
                                 //que luego se desee volver al menú
         switch (choice) {
+            dont_play_song=true;
             case '1': 
             {
+                stop_sound();
                 switch (play()) {
                     case 0: case EXIT_MENU:
                     {
@@ -190,8 +197,9 @@ void main_menu(void) {
                     {
                         fprintf(stderr, "Hubo un error en la partida.\n");
                         break;
-                    }
+                    }                    
                 }
+                dont_play_song=false;
                 break;
             } 
             case '2':
