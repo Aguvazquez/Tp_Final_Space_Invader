@@ -13,7 +13,6 @@
       <itemPath>libaudio.h</itemPath>
       <itemPath>logic.h</itemPath>
       <itemPath>menus.h</itemPath>
-      <itemPath>play.h</itemPath>
       <itemPath>termlib.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -56,7 +55,6 @@
       <itemPath>logic.c</itemPath>
       <itemPath>main.c</itemPath>
       <itemPath>menus.c</itemPath>
-      <itemPath>play.c</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -168,10 +166,6 @@
       </item>
       <item path="pause.jpeg" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="play.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="play.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="red-heart.png" ex="false" tool="3" flavor2="0">
       </item>
       <item path="saucer1b.png" ex="false" tool="3" flavor2="0">
@@ -278,10 +272,6 @@
       <item path="mysteryb.png" ex="false" tool="3" flavor2="0">
       </item>
       <item path="pause.jpeg" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="play.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="play.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="red-heart.png" ex="false" tool="3" flavor2="0">
       </item>

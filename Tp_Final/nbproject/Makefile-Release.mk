@@ -40,8 +40,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/back_end.o \
 	${OBJECTDIR}/logic.o \
 	${OBJECTDIR}/main.o \
-	${OBJECTDIR}/menus.o \
-	${OBJECTDIR}/play.o
+	${OBJECTDIR}/menus.o
 
 
 # C Compiler Flags
@@ -97,11 +96,6 @@ ${OBJECTDIR}/menus.o: menus.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/menus.o menus.c
-
-${OBJECTDIR}/play.o: play.c
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/play.o play.c
 
 # Subprojects
 .build-subprojects:
