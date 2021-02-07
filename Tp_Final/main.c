@@ -22,7 +22,7 @@
 #include "allegro_setup.h"
 #include "config.h"
 #include "menus.h"
-#include "Top_Score.h"
+#include "back_end.h"
 
 /*******************************************************************************/
 

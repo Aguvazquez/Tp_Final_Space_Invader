@@ -11,10 +11,10 @@
 
 #include "config.h"
 #include "GUI.h"
-#include "Top_Score.h"
+#include "back_end.h"
 #include "joydrv.h"
 #include "disdrv.h"
-#include "play.h"
+#include "logic.h"
 
 /*******************************************************************************/
 

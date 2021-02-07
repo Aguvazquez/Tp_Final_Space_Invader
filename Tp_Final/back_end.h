@@ -33,7 +33,15 @@ int8_t get_top_score(uint32_t score);
  */
 
 void put_on_top_score(uint32_t score, char *str);
+
+/*
+ * @Brief lee la dificultad, guardada en el archivo oculto. 
+ * @Return  el valor leido.
+ *          FATAL_ERROR si hay un error.
+ */
+
 int8_t read_difficulty(void);
+
 int8_t create_difficulty(void);
 
 /*

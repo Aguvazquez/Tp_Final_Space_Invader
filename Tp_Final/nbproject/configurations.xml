@@ -5,8 +5,8 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>GUI.h</itemPath>
-      <itemPath>Top_Score.h</itemPath>
       <itemPath>allegro_setup.h</itemPath>
+      <itemPath>back_end.h</itemPath>
       <itemPath>config.h</itemPath>
       <itemPath>disdrv.h</itemPath>
       <itemPath>joydrv.h</itemPath>
@@ -51,8 +51,8 @@
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>GUI.c</itemPath>
-      <itemPath>Top_Score.c</itemPath>
       <itemPath>allegro_setup.c</itemPath>
+      <itemPath>back_end.c</itemPath>
       <itemPath>logic.c</itemPath>
       <itemPath>main.c</itemPath>
       <itemPath>menus.c</itemPath>
@@ -114,13 +114,13 @@
       </item>
       <item path="GUI.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="Top_Score.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="Top_Score.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="allegro_setup.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="allegro_setup.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="back_end.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="back_end.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="config.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -225,13 +225,13 @@
       </item>
       <item path="GUI.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="Top_Score.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="Top_Score.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="allegro_setup.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="allegro_setup.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="back_end.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="back_end.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="config.h" ex="false" tool="3" flavor2="0">
       </item>

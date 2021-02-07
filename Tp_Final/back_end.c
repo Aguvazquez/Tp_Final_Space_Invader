@@ -10,9 +10,7 @@
 /******************************* Locals headers ********************************/
 
 #include "config.h"
-#include "Top_Score.h"
-#include "play.h"
-#include "allegro_setup.h"
+#include "back_end.h"
 
 /*******************************************************************************/
 
@@ -174,6 +172,8 @@ uint8_t create_Top_Score(void) {
     }
     return EXIT_SUCCESS;
 }
+
+
 
 /*******************************************************************************/
 

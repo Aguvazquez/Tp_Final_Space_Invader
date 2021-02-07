@@ -11,10 +11,6 @@
 
 #include "config.h"
 #include "GUI.h"
-#include "Top_Score.h"
-#include "play.h"
-#include "allegro_setup.h"
-#include "termlib.h"
 #include "disdrv.h"
 
 /*******************************************************************************/
@@ -384,6 +380,40 @@ static void score_to_str(uint32_t score) {
     }
     al_draw_text(font[0], al_map_rgb(255, 255, 255), SCREEN_W, BASE_SIZE / 4, ALLEGRO_ALIGN_RIGHT, str);
 }
+void next_level_animation(uint8_t level){
+
+    char str[]={'L','E','V','E','L',' ',' ',' '};
+    
+    if(level>=10){
+        str[6]=(char)((level/10)+ASCII);    //escribe la decena del nivel en ASCII
+    }
+    str[7]=(char)((level%10)+ASCII);    //escribe la unidad del nivel en ASCII
+    
+    al_clear_to_color(al_map_rgb(0, 0, 0));
+    al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W/2, 2*SCREEN_H/5, ALLEGRO_ALIGN_CENTER, str);
+    al_flip_display();
+    al_rest(2.0);       //tiempo que dura la animación
+}
+
+void lose_animation(uint32_t score){
+
+    char str1[]={"GAME OVER"};
+    char str2[]={"YOUR SCORE IS: "};
+    char str3[STR_LONG]={' ',' ',' ',' ',' '};
+    uint32_t aux=0, j;
+    int8_t i;
+    for(i = STR_LONG-2, j=1; i>=0; i--, j*=10){ //ya que el último dígito esta en la penúltima posición.
+        aux=score/j;                            //Algoritmo int -> string
+        str3[i]=(char)(aux%10+ASCII);        
+    }
+    al_clear_to_color(al_map_rgb(0, 0, 0));
+    al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W/2, SCREEN_H/3, ALLEGRO_ALIGN_CENTER, str1); 
+    al_draw_text(font[0], al_map_rgb(255, 255, 255), 23*SCREEN_W/40, SCREEN_H/2, ALLEGRO_ALIGN_RIGHT, str2); 
+    al_draw_text(font[0], al_map_rgb(255, 255, 255), 23*SCREEN_W/40, SCREEN_H/2, ALLEGRO_ALIGN_LEFT, str3); 
+    al_flip_display();
+    al_rest(2.0);   //tiempo que dura la animación
+}
+
 
 #else
 
@@ -490,6 +520,66 @@ void draw_world_rpi(elements_t nave_x, elements_t* bloques_x, uint8_t* vida_bloq
 
 #endif //RASPBERRY
 
+void new_player_in_top(char name[STR_LONG]){
+#ifndef RASPBERRY
+    ALLEGRO_EVENT ev;
+    uint8_t i;
+
+    for(i=0; i<STR_LONG; ){
+        al_clear_to_color(al_map_rgb(0, 0, 0));
+        al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W/2, SCREEN_H/3, ALLEGRO_ALIGN_CENTER, "Escriba su nombre:");
+        al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W/2, SCREEN_H/2, ALLEGRO_ALIGN_CENTER, name);
+        al_flip_display();
+        al_wait_for_event(event_queue, &ev);
+        if(ev.type == ALLEGRO_EVENT_KEY_DOWN){
+            switch(ev.keyboard.keycode){
+                case ALLEGRO_KEY_ENTER:{
+                    i=STR_LONG; //para salir del ciclo
+                    break;
+                }
+                case ALLEGRO_KEY_BACKSPACE:{
+                    if(i){               //si no es la primera letra
+                        name[--i]=' ';   //borra la letra anterior
+                    }
+                    else{
+                        name[i]=' ';     //sino borra la primera
+                    }
+                    break;       
+                }
+                default:{
+                    if(i < STR_LONG-1){
+                        if(ev.keyboard.keycode>=ALLEGRO_KEY_A && ev.keyboard.keycode<=ALLEGRO_KEY_Z){
+                            name[i++]=ev.keyboard.keycode-ALLEGRO_KEY_A+'A';
+                        }
+                        else if(ev.keyboard.keycode>=ALLEGRO_KEY_0 && ev.keyboard.keycode<=ALLEGRO_KEY_9){
+                            name[i++]=ev.keyboard.keycode-ALLEGRO_KEY_0+'0';
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+    }
+#else
+    uint8_t c,i;
+    system("clear");
+    fprintf(stderr,"Por favor, escriba su nombre(MAX 5 CARACTERES):\n");
+    for(i=0;i<STR_LONG;i++){
+        c=getchar();
+        if(c==127){ // 127 es el ASCII de delete
+           if (i) { //si no es la primera letra
+                name[--i] = ' '; //borra la letra anterior
+            } else {
+                name[i] = ' '; //sino borra la primera
+            }
+        }
+        else if(c=='\n'){
+            break; // se termina el algoritmo, pues el usuario decide mander ese nombre.
+        }
+            name[i]=c;
+    }
+#endif
+}
 void print_top_score(void){
     
     uint8_t i;

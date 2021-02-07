@@ -10,18 +10,14 @@
 
 //defino un tipo de variable que varía según la plataforma, para los elementos del display
  
+
 /*
- * @Brief se encarga del movimiento de los distintos elementos del juego
- * @Param1: dificultad del nivel que está por jugarse
- * @Param2: la cantidad de vidas del jugador al iniciar el nivel
- * @Param3: el número de nivel que se va a jugar
- * @Param4: un puntero al puntaje del jugador
- * @Return  la cantidad de aliens que quedan en el nivel (0 en caso de pasar al siguiente nivel)
- *          EXIT_MENU en caso de volver al menú principal
- *          RESET_GAME en caso de resetear el juego
- *          FATAL_ERROR si ocurre algún error
+ * @Brief ejecuta el juego, administrando parámetros como el puntaje, las vidas y la dificultad. 
+ * @Return  CLOSE_DISPLAY cierra el juego.
+ *          RESET_GAME reinicia el juego.
+ *          EXIT_SUCCESS cuando termina la partida.
+ *          FATAL_ERROR si hay un error.
  */
 
-int8_t move(uint8_t difficulty, uint8_t* lifes, uint8_t level, uint32_t* score, uint8_t multiplier);
-
+int8_t play(void);
 #endif

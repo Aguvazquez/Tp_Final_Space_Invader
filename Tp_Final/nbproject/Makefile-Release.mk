@@ -36,8 +36,8 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/GUI.o \
-	${OBJECTDIR}/Top_Score.o \
 	${OBJECTDIR}/allegro_setup.o \
+	${OBJECTDIR}/back_end.o \
 	${OBJECTDIR}/logic.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/menus.o \
@@ -73,15 +73,15 @@ ${OBJECTDIR}/GUI.o: GUI.c
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GUI.o GUI.c
 
-${OBJECTDIR}/Top_Score.o: Top_Score.c
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Top_Score.o Top_Score.c
-
 ${OBJECTDIR}/allegro_setup.o: allegro_setup.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/allegro_setup.o allegro_setup.c
+
+${OBJECTDIR}/back_end.o: back_end.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/back_end.o back_end.c
 
 ${OBJECTDIR}/logic.o: logic.c
 	${MKDIR} -p ${OBJECTDIR}

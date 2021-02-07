@@ -39,6 +39,23 @@ void draw_world(uint8_t level, uint32_t score, uint8_t lives, uint8_t alien_chan
                 uint8_t* vida_bloques, elements_t* alien_x, elements_t* alien_y, elements_t* alien_bullets_x, 
                 elements_t* alien_bullets_y, elements_t bullet_x, elements_t bullet_y, elements_t mystery_ship_x,
                 elements_t explosion_x, elements_t explosion_y, uint8_t* explosion_time);
+
+/*
+ * @Brief crea una animación que indica el nivel que está por empezar. 
+ * @Param1: valor del nivel siguiente.
+ */
+
+void next_level_animation(uint8_t level);
+
+/*
+ * @Brief indica el final de la partida, y el puntaje total obtenido. 
+ * @Param1: puntaje obtenido.
+ */
+
+void lose_animation(uint32_t score);
+
+
+
  
 #else
 
@@ -56,6 +73,12 @@ void draw_world_rpi(elements_t nave_x, elements_t* bloques_x, uint8_t* vida_bloq
                     elements_t bullet_x, elements_t bullet_y, elements_t mystery_ship_x);
 
 #endif  //RASPBERRY
+/*
+ * @Brief recibe el nombre del jugador que acaba de entrar en el top score.
+ * @Param1: arreglo donde se almacenará el nombre.
+ */
+
+void new_player_in_top(char name[STR_LONG]);
 
 //Imprime los nombres y puntajes del top score.
 

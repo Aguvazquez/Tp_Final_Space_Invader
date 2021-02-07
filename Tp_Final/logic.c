@@ -15,10 +15,9 @@
 #include "config.h"
 #include "logic.h"
 #include "GUI.h"
+#include "back_end.h"
 #include "joydrv.h"
-#include "disdrv.h"
-#include "termlib.h"
-#include "libaudio.h"
+
 
 /*******************************************************************************/
 
@@ -67,14 +66,29 @@ static bool move_bullets(bool* lock_mystery_ship, elements_t* mystery_ship_x, el
  */
 
 static uint16_t get_rand_num(uint16_t x);
+/*
+ * @Brief se encarga del movimiento de los distintos elementos del juego
+ * @Param1: dificultad del nivel que está por jugarse
+ * @Param2: la cantidad de vidas del jugador al iniciar el nivel
+ * @Param3: el número de nivel que se va a jugar
+ * @Param4: un puntero al puntaje del jugador
+ * @Return  la cantidad de aliens que quedan en el nivel (0 en caso de pasar al siguiente nivel)
+ *          EXIT_MENU en caso de volver al menú principal
+ *          RESET_GAME en caso de resetear el juego
+ *          FATAL_ERROR si ocurre algún error
+ */
+
+static int8_t move(uint8_t difficulty, uint8_t* lifes, uint8_t level, uint32_t* score, uint8_t multiplier);
 
 /*******************************************************************************/
 
+ /***************Global scope variables****************************************/
 enum MYKEYS {LEFT, RIGHT, SPACE_UP, JOY_SWITCH};
 
 uint8_t TimerTickRBP;
 bool key_pressed[4] = {false, false, false, false}; //estado de teclas, true cuando esta apretada
-bool event_change = false;
+
+/*******************************************************************************/
 
 #ifdef RASPBERRY
 
@@ -90,6 +104,7 @@ void *Timer_rbp() {
 void *Joy_action() {
     jcoord_t coord;
     jswitch_t joy_switch;
+    bool event_change = false;
     while (1) {
         joy_update();
         coord = joy_get_coord();
@@ -123,7 +138,77 @@ void *Joy_action() {
 
 /******************************** Global functions *****************************/
 
-int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, uint8_t multiplier) {
+
+int8_t play(void)
+{
+    uint8_t level=1, lifes=LIFES, multiplier;
+    int8_t aux=0, difficulty;
+    uint32_t score=0;
+    char name[STR_LONG]={' ',' ',' ',' ',' ','\0'};
+    difficulty = read_difficulty();
+    if(difficulty==EASY){
+        multiplier=1;
+    }
+    else if(difficulty==NORMAL){
+        multiplier=2;
+    }
+    else if(difficulty==HARD){
+        multiplier=3;
+    }
+    else{
+        fprintf(stderr, "Dificultad mal configurada.\n");
+        return FATAL_ERROR;
+    }
+
+#ifndef RASPBERRY
+    next_level_animation(level);
+#endif
+
+    while(difficulty){
+        aux = move(difficulty, &lifes, level, &score, multiplier);
+        if(aux==CLOSE_DISPLAY || aux==RESET_GAME || aux==EXIT_MENU){
+            return aux; 
+        }
+        else if(!aux){  //no quedaron aliens vivos, entonces pasa al siguiente nivel
+
+#ifndef RASPBERRY
+            next_level_animation(++level);
+#endif
+            
+            if(difficulty > MAX_DIFFICULTY){
+                difficulty--;
+            }
+            if(lifes < LIFES){
+                lifes++;
+            }
+            else{
+                score+=100*multiplier; //pasar de nivel con 3 vidas suma puntos
+            }
+        }
+        else{   //el jugador perdió la partida
+            difficulty=0;   //permite salir del ciclo
+            
+#ifndef RASPBERRY
+            
+            lose_animation(score);
+#endif
+            aux = get_top_score(score);
+            if(aux == FATAL_ERROR){
+                return FATAL_ERROR;
+            }
+            else if(aux){   //si consiguió lugar en el top score
+                new_player_in_top(name);
+                put_on_top_score(score, name);                  
+            }
+
+
+
+        }
+    }
+    return EXIT_SUCCESS;
+}
+
+static int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, uint8_t multiplier) {
 
     uint8_t i, j, aux, explosion_time = 0, accelerate = 0;
     static uint8_t vida_bloques[4] = {30, 30, 30, 30};
