@@ -177,8 +177,8 @@ void main_menu(void) {
         }
         reset = false;          //cancela la condicion de reset en caso
                                 //que luego se desee volver al menú
-        switch (choice) {
-            dont_play_song=true;
+        dont_play_song=true;
+        switch (choice) {            
             case '1': 
             {
                 stop_sound();

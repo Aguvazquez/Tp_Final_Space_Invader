@@ -516,6 +516,7 @@ void draw_world_rpi(elements_t nave_x, elements_t* bloques_x, uint8_t* vida_bloq
     if (coord_bullet.y < SCREEN_H && coord_bullet.x < SCREEN_H) {
         disp_write(coord_bullet, D_ON);
     }
+    disp_update();
 }
 
 #endif //RASPBERRY

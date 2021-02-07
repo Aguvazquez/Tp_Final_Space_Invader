@@ -85,13 +85,38 @@ static int8_t move(uint8_t difficulty, uint8_t* lifes, uint8_t level, uint32_t* 
  /***************Global scope variables****************************************/
 enum MYKEYS {LEFT, RIGHT, SPACE_UP, JOY_SWITCH};
 
-uint8_t TimerTickRBP;
+uint8_t TimerTickRBP,efect_sound;
 bool key_pressed[4] = {false, false, false, false}; //estado de teclas, true cuando esta apretada
 
 /*******************************************************************************/
 
 #ifdef RASPBERRY
-
+void* Stop_Sound(){
+    while(1){
+        switch(efect_sound){
+            case 0:{
+                if(player_status()==STOPPED || player_status()==FINISHED){
+                    stop_sound();
+                }
+                break;
+            }   
+            case 1:{
+                set_file_to_play("invaderkilled.wav");
+                play_sound();
+                efect_sound=0;
+                break;
+            }
+            case 2:{
+                set_file_to_play("shoot.wav");
+                play_sound();
+                efect_sound=0;
+                break;
+            }
+            
+        }
+        
+    }
+}
 void *Timer_rbp() {
     while (1) {
         usleep(15000); //Para conseguir 60 FPS
@@ -248,10 +273,10 @@ static int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* 
 #ifdef RASPBERRY
 
 
-    pthread_t Timer_RBP, Joy_Action;
+    pthread_t Timer_RBP, Joy_Action,Stop_SOUND;
     pthread_create(&Timer_RBP, NULL, Timer_rbp, NULL);
     pthread_create(&Joy_Action, NULL, Joy_action, NULL);
-
+    pthread_create(&Stop_SOUND,NULL,Stop_Sound,NULL);
     int count = 0; //variable que regula el movimiento de nave misteriosa    
 
 #endif       
@@ -293,6 +318,7 @@ static int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* 
                 bullet_x = nave_x + BASE_SIZE; //setea la bala
                 bullet_y = NAVE_Y;
                 lock = true; // solo dispara si no hay otra bala volando.
+                efect_sound=2;
             }
         }
         if (key_pressed[JOY_SWITCH]) {
@@ -313,7 +339,7 @@ static int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* 
                     &explosion_x, &explosion_y, &explosion_time, &lock, &nave_x,
                     score, &vida_bloques[0], &bloques_x[0], lives, multiplier);
 
-            disp_update();
+            
         }
 
     }
@@ -462,6 +488,7 @@ static void move_elements(bool* alien_change, bool* lock_mystery_ship, elements_
     
 #ifdef RASPBERRY
     static int step = BASE_SIZE;
+    
 #else
     static int8_t step = BASE_SIZE/2;
 #endif
@@ -581,6 +608,7 @@ static bool move_bullets(bool* lock_mystery_ship, elements_t* mystery_ship_x, el
                 alien_y[i] = SCREEN_H + BASE_SIZE; //mueve el alien muerto fuera de la pantalla 
                 *lock = false;
                 *bullet_y = NAVE_Y + BASE_SIZE;
+                efect_sound=1;
                 if (i < ((CANT_ALIENS / FILAS_ALIENS))) {
                     (*score) += 30 * multiplier;
                 } else if (i < (2 * CANT_ALIENS / FILAS_ALIENS)) {
