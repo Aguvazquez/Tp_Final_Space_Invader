@@ -351,21 +351,21 @@ void draw_world(uint8_t level, uint32_t score, uint8_t lives, uint8_t alien_chan
             }
         }
        //balas de aliens
-        al_draw_rectangle(alien_bullets_x[i] - BULLET_W/2, alien_bullets_y[i], alien_bullets_x[i] + BULLET_W/2,
-                alien_bullets_y[i] + BASE_SIZE, al_map_rgb(255, 255, 255), 0); 
+        al_draw_filled_rectangle(alien_bullets_x[i] - BULLET_W/2, alien_bullets_y[i], alien_bullets_x[i] + BULLET_W/2,
+                                 alien_bullets_y[i] + BASE_SIZE, al_map_rgb(255, 255, 255)); 
     }
     //nave misteriosa
     al_draw_scaled_bitmap(display_background[6], 0, 0, al_get_bitmap_width(display_background[6]),
             al_get_bitmap_height(display_background[6]), mystery_ship_x, MYSTERY_SHIP_Y, 2 * BASE_SIZE, 2 * BASE_SIZE, 0);
     //explosiones
     if(*explosion_time){
-                al_draw_scaled_bitmap(display_background[16], 0, 0, al_get_bitmap_width(display_background[16]), 
-                    al_get_bitmap_height(display_background[16]), explosion_x, explosion_y, 2.5*BASE_SIZE, 2.5*BASE_SIZE, 0);
-                (*explosion_time)--;
-            }
+        al_draw_scaled_bitmap(display_background[16], 0, 0, al_get_bitmap_width(display_background[16]), 
+            al_get_bitmap_height(display_background[16]), explosion_x, explosion_y, 2.5*BASE_SIZE, 2.5*BASE_SIZE, 0);
+        (*explosion_time)--;
+    }
     //bala
     if(bullet_y<NAVE_Y){
-        al_draw_rectangle(bullet_x-BULLET_W/2, bullet_y, bullet_x+BULLET_W/2, bullet_y+BASE_SIZE, al_map_rgb(255, 0, 0), 0);
+        al_draw_filled_rectangle(bullet_x-BULLET_W/2, bullet_y, bullet_x+BULLET_W/2, bullet_y+BASE_SIZE, al_map_rgb(255, 0, 0));
     }
     al_flip_display();
 }

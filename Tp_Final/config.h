@@ -56,7 +56,7 @@ typedef float elements_t;
 
 #define NAVE_Y          SCREEN_H - 2*BASE_SIZE
 #define NAVE_X          SCREEN_W/2 - 1.5*BASE_SIZE
-#define BULLET_W        2
+#define BULLET_W        3
 #define MYSTERY_SHIP_Y  1.5*BASE_SIZE
 
 #endif
@@ -70,7 +70,7 @@ typedef float elements_t;
 #define ALIEN 1
 
 #define BLOQUE  25
-#define LIFES   3
+#define LIVES   3
 
 #define CLOSE_DISPLAY   -1
 #define RESET_GAME      -2
