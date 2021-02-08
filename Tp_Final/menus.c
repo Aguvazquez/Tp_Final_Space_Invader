@@ -16,6 +16,7 @@
 #include "disdrv.h"
 #include "logic.h"
 #include "libaudio.h"
+
 /*******************************************************************************/
 
 #ifndef RASPBERRY //Condición de compilación, afecta a las librerias 
@@ -107,9 +108,7 @@ void main_menu(void) {
                 switch (aux) {
                     case 1: case 2: case 3:
                     {
-                        if (switch_difficulty(aux)) {
-                            fprintf(stderr, "Hubo un error al modificar la dificultad.\n");
-                        }
+                        switch_difficulty(aux);
                         break;
                     }
                     case CLOSE_DISPLAY:
@@ -148,7 +147,7 @@ void main_menu(void) {
     }
 }
 
-
+#else
 
 void main_menu(void) {
 
@@ -213,9 +212,7 @@ void main_menu(void) {
                         choice = c;
                     }
                     if (choice == '1' || choice == '2' || choice == '3') {
-                        if (switch_difficulty(choice - ASCII)) {
-                            fprintf(stderr, "Hubo un error al modificar la dificultad.\n");
-                        }
+                        switch_difficulty(choice - ASCII);
                         do_exit = true; //para salir del menú de dificultad
                     } else {
                         fprintf(stderr, "Por favor ingrese un numero valido.\n");

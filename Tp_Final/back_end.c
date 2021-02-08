@@ -116,16 +116,16 @@ void put_on_top_score(uint32_t score, char *name_str) {
     }
 }
 
-uint8_t create_difficulty(void){     //agregar devolucion de error   
+uint8_t create_difficulty(void){
     
     FILE* fp;     
     if(!fopen(".Difficulty.txt", "r")){         
         fp=fopen(".Difficulty.txt", "w");         
-        if(!fp){
+        if (!fp) {
+            fprintf(stderr, "Hubo un error en la creación del archivo de dificultad.\n");
             return EXIT_FAILURE;
         }
-        switch_difficulty(2);   //Setea la dificultad en normal, en caso de no encontrar el archivo o que 
-                                //el contenido se haya modificado fraudulentamente. 
+        switch_difficulty(2);   //Setea la dificultad en normal, en caso de no encontrar el archivo
         fclose(fp);
     }
     return EXIT_SUCCESS;
@@ -145,37 +145,38 @@ int8_t read_difficulty(void){
     return difficulty;
 }
 
-int8_t switch_difficulty(uint8_t option){
+void switch_difficulty(uint8_t option){
 
-    FILE* fp=fopen(".Difficulty.txt", "w");  //Creo el archivo difficulty en donde guardo el nivel de dificultad.
-    int8_t aux=EXIT_SUCCESS;
+    FILE* fp=fopen(".Difficulty.txt", "w");  //Abro el archivo donde guardo el nivel de dificultad.
     
-    if(!fp){
-        return FATAL_ERROR;
+    if (!fp) {
+        fprintf(stderr, "Hubo un error al modificar la dificultad.\n");
     }
-
-    switch(option){
-        case 1:{
-            fputs(EASY_CODE, fp);
-            break;
+    else {
+        switch(option) {
+            case 1:
+            {
+                fputs(EASY_CODE, fp);
+                break;
+            }
+            case 2:
+            {
+                fputs(NORMAL_CODE, fp);
+                break;
+            }
+            case 3:
+            {
+                fputs(HARD_CODE, fp);
+                break;
+            }
+            default:
+            {
+                fprintf(stderr, "La dificultad elegida está mal configurada.\n");
+                break;
+            }
         }
-        case 2:{
-            fputs(NORMAL_CODE, fp);
-            break;
-        }
-        case 3:{
-            fputs(HARD_CODE, fp);
-            break;
-        }
-        default:{
-            fprintf(stderr, "Error al cambiar la dificultad.\n");
-            aux=FATAL_ERROR;
-            break;
-        }
+        fclose(fp);
     }
-
-    fclose(fp);
-    return aux;    
 }
 
 /*******************************************************************************/
