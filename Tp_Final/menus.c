@@ -53,7 +53,7 @@ void main_menu(void) {
 
     while (!do_exit) {
         if (!flag) {
-            if (!play_song) {
+            if (play_song) {
                 aux = menu_display("PLAY", "DIFFICULTY", "TOP SCORE", 0, 0);
             } else {
                 aux = menu_display("PLAY", "DIFFICULTY", "TOP SCORE", 1, 0);
