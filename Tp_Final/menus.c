@@ -48,18 +48,18 @@ extern  ALLEGRO_BITMAP *display_background[BACKGROUNDS];
 
 void main_menu(void) {
 
-    bool do_exit = false, flag = false, dont_play_song = false;
+    bool do_exit = false, flag = false, play_song = true;
     int8_t aux = 0;
 
     while (!do_exit) {
         if (!flag) {
-            if (!dont_play_song) {
+            if (!play_song) {
                 aux = menu_display("PLAY", "DIFFICULTY", "TOP SCORE", 0, 0);
             } else {
                 aux = menu_display("PLAY", "DIFFICULTY", "TOP SCORE", 1, 0);
             }
             flag = true;
-            dont_play_song = true;
+            play_song = false;
         }
 
         switch (aux) {
@@ -78,7 +78,7 @@ void main_menu(void) {
                     case 0: case EXIT_MENU:
                     {
                         flag = false;
-                        dont_play_song = false;
+                        play_song = true;
                         break;
                     }
                     case CLOSE_DISPLAY:
@@ -148,12 +148,12 @@ void main_menu(void) {
     }
 }
 
-#else
+
 
 void main_menu(void) {
 
     uint8_t choice = 0, c = 0;
-    bool do_exit = false, reset = false,dont_play_song=false;
+    bool do_exit = false, reset = false, play_song = true;
     disp_init();
     joy_init();
     init_sound();
@@ -161,7 +161,7 @@ void main_menu(void) {
     fprintf(stderr, "Bienvenido a Space Invaders.\n");
 
     while (!do_exit) {
-        if(!dont_play_song){
+        if(play_song){
             set_file_to_play("spaceinvader_theme.wav");
             play_sound();
         }
@@ -177,7 +177,7 @@ void main_menu(void) {
         }
         reset = false;          //cancela la condicion de reset en caso
                                 //que luego se desee volver al menú
-        dont_play_song=true;
+        play_song=false;
         switch (choice) {            
             case '1': 
             {
@@ -199,7 +199,7 @@ void main_menu(void) {
                         break;
                     }                    
                 }
-                dont_play_song=false;
+                play_song=true;
                 break;
             } 
             case '2':
