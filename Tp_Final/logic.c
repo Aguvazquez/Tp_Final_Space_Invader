@@ -232,8 +232,17 @@ int8_t play(void)
 
 static int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, uint8_t multiplier) {
 
+    
     uint8_t i, j, aux, explosion_time = 0, accelerate = 0;
-    static uint8_t vida_bloques[4] = {30, 30, 30, 30};
+    
+    static uint8_t vida_bloques[CANT_BLOQUES];
+    
+    if(!(*score)){ //Solo cuando se inicia una partida, se le asigna, dependiendo de la dificultad, la vida a los bloques
+        for(i=0;i<CANT_BLOQUES;i++){
+            vida_bloques[i]=difficulty;
+        }
+    }
+    
     int8_t cant_aliens = CANT_ALIENS;
 
     elements_t bullet_x = SCREEN_W, bullet_y, nave_x, bloques_x[4], explosion_x, explosion_y;
@@ -451,11 +460,6 @@ static int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* 
 
 #endif
 
-    if (cant_aliens) { // Reinicia la vida de los bloques.
-        for (i = 0; i < 4; i++)
-            vida_bloques[i] = 30;
-    }
-    
     return cant_aliens;
 }
 
