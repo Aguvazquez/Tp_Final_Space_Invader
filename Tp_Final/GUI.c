@@ -303,19 +303,16 @@ void draw_world(uint8_t level, uint32_t score, uint8_t lives, uint8_t alien_chan
     //bloques
     for (i = 0; i < CANT_BLOQUES; i++) {
         if (vida_bloques[i] >= 20) {
-            al_draw_filled_rectangle(bloques_x[i], BLOQUES_Y, bloques_x[i] + 4 * BASE_SIZE, BLOQUES_Y + BASE_SIZE, al_map_rgb(0, 255, 0));
-            al_draw_filled_rectangle(bloques_x[i], BLOQUES_Y + BASE_SIZE, bloques_x[i] + BASE_SIZE, BLOQUES_Y + 2 * BASE_SIZE, al_map_rgb(0, 255, 0));
-            al_draw_filled_rectangle(bloques_x[i] + 3 * BASE_SIZE, BLOQUES_Y + BASE_SIZE, bloques_x[i] + 4 * BASE_SIZE, BLOQUES_Y + 2 * BASE_SIZE, al_map_rgb(0, 255, 0));
+            al_draw_scaled_bitmap(display_background[17], 0, 0, al_get_bitmap_width(display_background[17]),
+                al_get_bitmap_height(display_background[17]), bloques_x[i], BLOQUES_Y, 4 * BASE_SIZE, 2 * BASE_SIZE, 0);
         }
         else if (vida_bloques[i] >= 10) {
-            al_draw_filled_rectangle(bloques_x[i], BLOQUES_Y, bloques_x[i] + 4 * BASE_SIZE, BLOQUES_Y + BASE_SIZE, al_map_rgb(255, 255, 0));
-            al_draw_filled_rectangle(bloques_x[i], BLOQUES_Y + BASE_SIZE, bloques_x[i] + BASE_SIZE, BLOQUES_Y + 2 * BASE_SIZE, al_map_rgb(255, 255, 0));
-            al_draw_filled_rectangle(bloques_x[i] + 3 * BASE_SIZE, BLOQUES_Y + BASE_SIZE, bloques_x[i] + 4 * BASE_SIZE, BLOQUES_Y + 2 * BASE_SIZE, al_map_rgb(255, 255, 0));
+            al_draw_scaled_bitmap(display_background[18], 0, 0, al_get_bitmap_width(display_background[18]),
+                al_get_bitmap_height(display_background[17]), bloques_x[i], BLOQUES_Y, 4 * BASE_SIZE, 2 * BASE_SIZE, 0);  
         }
         else if (vida_bloques[i]) {
-            al_draw_filled_rectangle(bloques_x[i], BLOQUES_Y, bloques_x[i] + 4 * BASE_SIZE, BLOQUES_Y + BASE_SIZE, al_map_rgb(255, 0, 0));
-            al_draw_filled_rectangle(bloques_x[i], BLOQUES_Y + BASE_SIZE, bloques_x[i] + BASE_SIZE, BLOQUES_Y + 2 * BASE_SIZE, al_map_rgb(255, 0, 0));
-            al_draw_filled_rectangle(bloques_x[i] + 3 * BASE_SIZE, BLOQUES_Y + BASE_SIZE, bloques_x[i] + 4 * BASE_SIZE, BLOQUES_Y + 2 * BASE_SIZE, al_map_rgb(255, 0, 0));
+            al_draw_scaled_bitmap(display_background[19], 0, 0, al_get_bitmap_width(display_background[19]),
+                al_get_bitmap_height(display_background[17]), bloques_x[i], BLOQUES_Y, 4 * BASE_SIZE, 2 * BASE_SIZE, 0);
         }
     }
     for (i = 0; i < CANT_ALIENS; i++) {
@@ -380,6 +377,7 @@ static void score_to_str(uint32_t score) {
     }
     al_draw_text(font[0], al_map_rgb(255, 255, 255), SCREEN_W, BASE_SIZE / 4, ALLEGRO_ALIGN_RIGHT, str);
 }
+
 void next_level_animation(uint8_t level){
 
     char str[]={'L','E','V','E','L',' ',' ',' '};
@@ -522,6 +520,7 @@ void draw_world_rpi(elements_t nave_x, elements_t* bloques_x, uint8_t* vida_bloq
 #endif //RASPBERRY
 
 void new_player_in_top(char name[STR_LONG]){
+    
 #ifndef RASPBERRY
     ALLEGRO_EVENT ev;
     uint8_t i;
@@ -581,6 +580,7 @@ void new_player_in_top(char name[STR_LONG]){
     }
 #endif
 }
+
 void print_top_score(void){
     
     uint8_t i;
@@ -601,7 +601,7 @@ void print_top_score(void){
         fgetc(fp);  // "aumento" el fp a la siguiente linea 
 
         //NAME
-        fgets(str,STR_LONG,fp);
+        fgets(str, STR_LONG, fp);
 
 #ifndef RASPBERRY
         al_draw_text(font[0], al_map_rgb(255,255,255), 31*SCREEN_W/48, (21+4*i)*SCREEN_H/48, ALLEGRO_ALIGN_CENTER, str);

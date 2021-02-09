@@ -180,9 +180,9 @@ uint8_t allegro_ini(void)
     display_background[14] = al_load_bitmap("fondo4.jpg");
     display_background[15] = al_load_bitmap("fondo5.jpg");
     display_background[16] = al_load_bitmap("bum.png");
-    //display_background[17] = al_load_bitmap("platform1.png");
-    //display_background[17] = al_load_bitmap("platform2.png");
-    //display_background[17] = al_load_bitmap("platform3.png");
+    display_background[17] = al_load_bitmap("bloque_1.png");
+    display_background[18] = al_load_bitmap("bloque_2.png");
+    display_background[19] = al_load_bitmap("bloque_3.png");
     //display_background[17] = al_load_bitmap("platform4.png");
     for(i=0; i<BACKGROUNDS; i++){
     if(!display_background[i]){
