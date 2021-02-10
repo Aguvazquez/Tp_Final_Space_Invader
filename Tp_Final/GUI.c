@@ -33,7 +33,6 @@
 
 extern  ALLEGRO_DISPLAY *display;
 extern  ALLEGRO_EVENT_QUEUE *event_queue;
-extern  ALLEGRO_TIMER *timer;
 extern  ALLEGRO_FONT *font[FONTS]; 
 extern  ALLEGRO_SAMPLE *samples[SAMPLES]; 
 extern  ALLEGRO_BITMAP *display_background[BACKGROUNDS];
@@ -156,9 +155,13 @@ int8_t menu_display(char *str0, char *str1, char *str2, char flag, uint8_t pause
     return aux;
 }
 
+/*******************************************************************************/
+
 /******************************* Local fuctions ********************************/
 
- int8_t Top_Score(void){
+//MENU FUNCTIONS
+
+int8_t Top_Score(void){
     
     uint8_t do_exit=false, check=false, redraw=false;
     int8_t aux=0;
@@ -255,20 +258,20 @@ static void create_button_top_score(char *colour){
 }
 
 static void create_table_top_score(void){
-    //RECTANGULO BASE
+    //Rectangulo base
     al_draw_filled_rectangle(SCREEN_W/4, SCREEN_H/3, 3*SCREEN_W/4, 5*SCREEN_H/6, al_color_name("black"));
     al_draw_rectangle(SCREEN_W/4, SCREEN_H/3, 3*SCREEN_W/4, 5*SCREEN_H/6, al_color_name("white"), 2.0);
     
-    //LINEAS VERTICALES 
+    //Lineas verticales 
     al_draw_line(13*SCREEN_W/24, SCREEN_H/3,13*SCREEN_W/24, 5*SCREEN_H/6, al_color_name("white"), 2.0);
     al_draw_line(SCREEN_W/3, SCREEN_H/3,SCREEN_W/3, 5*SCREEN_H/6, al_color_name("white"), 2.0);//vertical
     
-    //SEPARADORES
+    //Separadores
     al_draw_rectangle(SCREEN_W/4, 5*SCREEN_H/12,3*SCREEN_W/4, SCREEN_H/2, al_color_name("white"), 2.0);
     al_draw_rectangle(SCREEN_W/4, 7*SCREEN_H/12, 3*SCREEN_W/4, 2*SCREEN_H/3, al_color_name("white"), 2.0);
     al_draw_rectangle(SCREEN_W/4, 3*SCREEN_H/4, 3*SCREEN_W/4, 5*SCREEN_H/6, al_color_name("white"), 2.0);
     
-    //TEXTO
+    //Texto
     al_draw_text(font[0], al_map_rgb(255,255,255), 29*SCREEN_W / 96, (17*SCREEN_H /48), ALLEGRO_ALIGN_CENTER, "N°");
     al_draw_text(font[0], al_map_rgb(255,255,255), 29*SCREEN_W / 96, (7*SCREEN_H /16), ALLEGRO_ALIGN_CENTER, "1");
     al_draw_text(font[0], al_map_rgb(255,255,255), 29*SCREEN_W / 96, (25*SCREEN_H /48), ALLEGRO_ALIGN_CENTER, "2");
@@ -280,6 +283,8 @@ static void create_table_top_score(void){
     
     al_flip_display();
 }
+
+//GAME FUNCTIONS
 
 void draw_world(uint8_t level, uint32_t score, uint8_t lives, uint8_t alien_change, elements_t nave_x, elements_t* bloques_x,
                 uint8_t* vida_bloques, elements_t* alien_x, elements_t* alien_y, elements_t* alien_bullets_x, 
@@ -319,7 +324,7 @@ void draw_world(uint8_t level, uint32_t score, uint8_t lives, uint8_t alien_chan
         //aliens
         if (alien_y[i] < SCREEN_H) {
             if (alien_change) {
-                if (i < (CANT_ALIENS/5)) {
+                if (i < (CANT_ALIENS / 5)) {
                     al_draw_scaled_bitmap(display_background[8], 0, 0, al_get_bitmap_width(display_background[8]),
                             al_get_bitmap_height(display_background[8]), alien_x[i], alien_y[i], 2 * BASE_SIZE, 2 * BASE_SIZE, 0);
                 }
@@ -367,30 +372,25 @@ void draw_world(uint8_t level, uint32_t score, uint8_t lives, uint8_t alien_chan
     al_flip_display();
 }
 
-static void score_to_str(uint32_t score) {
-    char str[] = {'S', 'C', 'O', 'R', 'E', ':', ' ', ' ', '0', '0', '0', '0', '0'};
-    uint8_t i;
-    uint32_t aux = 0, j;
-    for (i = 12, j = 1; i > 7; i--, j *= 10) {
-        aux = score / j;
-        str[i] = (char) (aux % 10 + ASCII);
-    }
-    al_draw_text(font[0], al_map_rgb(255, 255, 255), SCREEN_W, BASE_SIZE / 4, ALLEGRO_ALIGN_RIGHT, str);
-}
+
 
 void next_level_animation(uint8_t level){
 
     char str[]={'L','E','V','E','L',' ',' ',' '};
+    int16_t i;
     
     if(level>=10){
         str[6]=(char)((level/10)+ASCII);    //escribe la decena del nivel en ASCII
     }
     str[7]=(char)((level%10)+ASCII);    //escribe la unidad del nivel en ASCII
     
-    al_clear_to_color(al_map_rgb(0, 0, 0));
-    al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W/2, 2*SCREEN_H/5, ALLEGRO_ALIGN_CENTER, str);
-    al_flip_display();
-    al_rest(2.0);       //tiempo que dura la animación
+    for (i = 990; i >= 0; i -= 9) {
+        al_draw_scaled_bitmap(display_background[0], 0, 0, al_get_bitmap_width(display_background[0]), 
+                        al_get_bitmap_height(display_background[0]), 0, 0, SCREEN_W, SCREEN_H, 0);
+        al_draw_text(font[1], al_map_rgb(255, 255, 255), i, 2*SCREEN_H/5, ALLEGRO_ALIGN_RIGHT, str);
+        al_flip_display();
+        al_rest(0.02);
+    }
 }
 
 void lose_animation(uint32_t score){
@@ -411,7 +411,6 @@ void lose_animation(uint32_t score){
     al_flip_display();
     al_rest(2.0);   //tiempo que dura la animación
 }
-
 
 #else
 
@@ -519,13 +518,27 @@ void draw_world_rpi(elements_t nave_x, elements_t* bloques_x, uint8_t* vida_bloq
 
 #endif //RASPBERRY
 
+//POST-GAME FUNCTIONS
+
+static void score_to_str(uint32_t score) {
+    char str[] = {'S', 'C', 'O', 'R', 'E', ':', ' ', ' ', '0', '0', '0', '0', '0'};
+    uint8_t i;
+    uint32_t aux = 0, j;
+    for (i = 12, j = 1; i > 7; i--, j *= 10) {
+        aux = score / j;
+        str[i] = (char) (aux % 10 + ASCII);
+    }
+    al_draw_text(font[0], al_map_rgb(255, 255, 255), SCREEN_W, BASE_SIZE / 4, ALLEGRO_ALIGN_RIGHT, str);
+}
+
 void new_player_in_top(char name[STR_LONG]){
     
 #ifndef RASPBERRY
+
     ALLEGRO_EVENT ev;
     uint8_t i;
 
-    for(i=0; i<STR_LONG; ){
+    for(i = 0; i < STR_LONG; ){
         al_clear_to_color(al_map_rgb(0, 0, 0));
         al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W/2, SCREEN_H/3, ALLEGRO_ALIGN_CENTER, "Escriba su nombre:");
         al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W/2, SCREEN_H/2, ALLEGRO_ALIGN_CENTER, name);
@@ -533,11 +546,26 @@ void new_player_in_top(char name[STR_LONG]){
         al_wait_for_event(event_queue, &ev);
         if(ev.type == ALLEGRO_EVENT_KEY_DOWN){
             switch(ev.keyboard.keycode){
-                case ALLEGRO_KEY_ENTER:{
-                    i=STR_LONG; //para salir del ciclo
+                case ALLEGRO_KEY_ENTER:
+                {
+#else
+        uint8_t c, i;
+        system("clear");
+        fprintf(stderr,"Por favor, escriba su nombre en no mas de 5 caracteres:\n");
+        for (i = 0; i < STR_LONG; ) {
+            c = getchar();
+            switch (c) {
+                case '\n':
+                {
+#endif
+                    i=STR_LONG;     //para salir del ciclo
                     break;
                 }
+#ifndef RASPBERRY
                 case ALLEGRO_KEY_BACKSPACE:{
+#else
+                case 127:{              //ASCII de delete
+#endif
                     if(i){               //si no es la primera letra
                         name[--i]=' ';   //borra la letra anterior
                     }
@@ -547,36 +575,23 @@ void new_player_in_top(char name[STR_LONG]){
                     break;       
                 }
                 default:{
-                    if(i < STR_LONG-1){
+                    if(i < STR_LONG-1){         //no escribe si se llega al limite de caracteres
+#ifndef RASPBERRY
                         if(ev.keyboard.keycode>=ALLEGRO_KEY_A && ev.keyboard.keycode<=ALLEGRO_KEY_Z){
                             name[i++]=ev.keyboard.keycode-ALLEGRO_KEY_A+'A';
                         }
                         else if(ev.keyboard.keycode>=ALLEGRO_KEY_0 && ev.keyboard.keycode<=ALLEGRO_KEY_9){
                             name[i++]=ev.keyboard.keycode-ALLEGRO_KEY_0+'0';
                         }
+#else
+                        name[i++] = c;
+#endif
                     }
                     break;
                 }
             }
         }
-    }
-#else
-    uint8_t c,i;
-    system("clear");
-    fprintf(stderr,"Por favor, escriba su nombre(MAX 5 CARACTERES):\n");
-    for(i=0;i<STR_LONG;i++){
-        c=getchar();
-        if(c==127){ // 127 es el ASCII de delete
-           if (i) { //si no es la primera letra
-                name[--i] = ' '; //borra la letra anterior
-            } else {
-                name[i] = ' '; //sino borra la primera
-            }
-        }
-        else if(c=='\n'){
-            break; // se termina el algoritmo, pues el usuario decide mander ese nombre.
-        }
-            name[i]=c;
+#ifndef RASPBERRY
     }
 #endif
 }
@@ -589,7 +604,7 @@ void print_top_score(void){
     fp = fopen(".Top_Score.txt", "r"); // Con el punto se crea un archivo oculto.
     
     for(i=0; i<5; i++){
-        //SCORE
+        //Score
         fgets(str,STR_LONG,fp);
         
 #ifndef RASPBERRY
@@ -600,7 +615,7 @@ void print_top_score(void){
         
         fgetc(fp);  // "aumento" el fp a la siguiente linea 
 
-        //NAME
+        //Name
         fgets(str, STR_LONG, fp);
 
 #ifndef RASPBERRY
