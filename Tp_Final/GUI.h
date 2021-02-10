@@ -33,18 +33,6 @@ int8_t menu_display(char *str0, char *str1, char *str2, char flag, uint8_t pause
 
 int8_t Top_Score(void);
 
-/* @Brief funcion que dibuja el mundo en la pantalla.
- * @Params: recibe el nivel, el puntaje y la cantidad de vidas del jugador
- *          recibe una variable que permite la animación de movimiento de los aliens
- *          recibe la vida de los bloques, para variar su imagen a medida que son destruidos
- *          recibe las coordenadas de todos los posibles elementos de juego
- */
-
-void draw_world(uint8_t level, uint32_t score, uint8_t lives, uint8_t alien_change, elements_t nave_x, elements_t* bloques_x, 
-                uint8_t* vida_bloques, elements_t* alien_x, elements_t* alien_y, elements_t* alien_bullets_x, 
-                elements_t* alien_bullets_y, elements_t bullet_x, elements_t bullet_y, elements_t mystery_ship_x,
-                elements_t explosion_x, elements_t explosion_y, uint8_t* explosion_time);
-
 /*
  * @Brief crea una animación que indica el nivel que está por empezar. 
  * @Param1: valor del nivel siguiente.
@@ -58,6 +46,18 @@ void next_level_animation(uint8_t level);
  */
 
 void lose_animation(uint32_t score);
+
+/* @Brief funcion que dibuja el mundo en la pantalla.
+ * @Params: recibe el nivel, el puntaje y la cantidad de vidas del jugador
+ *          recibe una variable que permite la animación de movimiento de los aliens
+ *          recibe la vida de los bloques, para variar su imagen a medida que son destruidos
+ *          recibe las coordenadas de todos los posibles elementos de juego
+ */
+
+void draw_world(uint8_t level, uint32_t score, uint8_t lives, uint8_t alien_change, elements_t nave_x, elements_t* bloques_x, 
+                uint8_t* vida_bloques, elements_t* alien_x, elements_t* alien_y, elements_t* alien_bullets_x, 
+                elements_t* alien_bullets_y, elements_t bullet_x, elements_t bullet_y, elements_t mystery_ship_x,
+                elements_t explosion_x, elements_t explosion_y, uint8_t* explosion_time);
 
 #else
 

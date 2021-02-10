@@ -41,6 +41,8 @@ extern  ALLEGRO_BITMAP *display_background[BACKGROUNDS];
 
 /************************* Header of local functions ***************************/
 
+//MENU FUNCTIONS
+
 /*
  * @Brief crea los botones del menú (diseñado para 3 botones).
  * @Param1: oración del primer botón.
@@ -59,13 +61,15 @@ static void create_button_top_score(char *colour);
 
 static void create_table_top_score(void);
 
+//SCORE FUNCTIONS
+
 //Escribe el puntaje del jugador en pantalla en todo momento de la partida.
 
 static void score_to_str(uint32_t score);
 
 /*******************************************************************************/
 
-/******************************* Global fuctions *******************************/
+/******************************** Menu fuctions ********************************/
 
 int8_t menu_display(char *str0, char *str1, char *str2, char flag, uint8_t pause){
     
@@ -155,12 +159,6 @@ int8_t menu_display(char *str0, char *str1, char *str2, char flag, uint8_t pause
     return aux;
 }
 
-/*******************************************************************************/
-
-/******************************* Local fuctions ********************************/
-
-//MENU FUNCTIONS
-
 int8_t Top_Score(void){
     
     uint8_t do_exit=false, check=false, redraw=false;
@@ -248,6 +246,42 @@ static void create_button(uint8_t button, char *str0, char *str1, char *str2, ch
     
 }
 
+#endif  //RASPBERRY
+
+void print_top_score(void){
+    
+    uint8_t i;
+    static FILE* fp;
+    char str[STR_LONG];
+    fp = fopen(".Top_Score.txt", "r"); // Con el punto se crea un archivo oculto.
+    
+    for(i=0; i<5; i++){
+        //Score
+        fgets(str,STR_LONG,fp);
+        
+#ifndef RASPBERRY
+        al_draw_text(font[0], al_map_rgb(255,255,255), 7*SCREEN_W/16, (21+4*i)*SCREEN_H/48, ALLEGRO_ALIGN_CENTER, str);
+#else
+        fprintf(stderr,"%d: %s",(i+1),str);
+#endif //RASPBERRY
+        
+        fgetc(fp);  // "aumento" el fp a la siguiente linea 
+
+        //Name
+        fgets(str, STR_LONG, fp);
+
+#ifndef RASPBERRY
+        al_draw_text(font[0], al_map_rgb(255,255,255), 31*SCREEN_W/48, (21+4*i)*SCREEN_H/48, ALLEGRO_ALIGN_CENTER, str);
+#else
+        fprintf(stderr,"    %s\n",str);
+#endif //RASPBERRY
+
+        fgetc(fp);
+    }
+}
+
+#ifndef RASPBERRY
+
 static void create_button_top_score(char *colour){
 
     al_draw_filled_rectangle(13*SCREEN_W/16, 13*SCREEN_H/16, 15*SCREEN_W/16, 15*SCREEN_H/16, al_color_name(colour));
@@ -284,7 +318,9 @@ static void create_table_top_score(void){
     al_flip_display();
 }
 
-//GAME FUNCTIONS
+/*******************************************************************************/
+
+/******************************** Game fuctions ********************************/
 
 void draw_world(uint8_t level, uint32_t score, uint8_t lives, uint8_t alien_change, elements_t nave_x, elements_t* bloques_x,
                 uint8_t* vida_bloques, elements_t* alien_x, elements_t* alien_y, elements_t* alien_bullets_x, 
@@ -371,8 +407,6 @@ void draw_world(uint8_t level, uint32_t score, uint8_t lives, uint8_t alien_chan
     }
     al_flip_display();
 }
-
-
 
 void next_level_animation(uint8_t level){
 
@@ -518,7 +552,9 @@ void draw_world_rpi(elements_t nave_x, elements_t* bloques_x, uint8_t* vida_bloq
 
 #endif //RASPBERRY
 
-//POST-GAME FUNCTIONS
+/*******************************************************************************/
+
+/******************************* Score fuctions ********************************/
 
 static void score_to_str(uint32_t score) {
     char str[] = {'S', 'C', 'O', 'R', 'E', ':', ' ', ' ', '0', '0', '0', '0', '0'};
@@ -594,38 +630,6 @@ void new_player_in_top(char name[STR_LONG]){
 #ifndef RASPBERRY
     }
 #endif
-}
-
-void print_top_score(void){
-    
-    uint8_t i;
-    static FILE* fp;
-    char str[STR_LONG];
-    fp = fopen(".Top_Score.txt", "r"); // Con el punto se crea un archivo oculto.
-    
-    for(i=0; i<5; i++){
-        //Score
-        fgets(str,STR_LONG,fp);
-        
-#ifndef RASPBERRY
-        al_draw_text(font[0], al_map_rgb(255,255,255), 7*SCREEN_W/16, (21+4*i)*SCREEN_H/48, ALLEGRO_ALIGN_CENTER, str);
-#else
-        fprintf(stderr,"%d: %s",(i+1),str);
-#endif //RASPBERRY
-        
-        fgetc(fp);  // "aumento" el fp a la siguiente linea 
-
-        //Name
-        fgets(str, STR_LONG, fp);
-
-#ifndef RASPBERRY
-        al_draw_text(font[0], al_map_rgb(255,255,255), 31*SCREEN_W/48, (21+4*i)*SCREEN_H/48, ALLEGRO_ALIGN_CENTER, str);
-#else
-        fprintf(stderr,"    %s\n",str);
-#endif //RASPBERRY
-
-        fgetc(fp);
-    }
 }
 
 /****************************** END FILE ***************************************/
