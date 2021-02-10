@@ -18,7 +18,6 @@
 #include "back_end.h"
 #include "joydrv.h"
 
-
 /*******************************************************************************/
 
 #ifndef RASPBERRY
@@ -50,15 +49,38 @@ extern ALLEGRO_BITMAP *display_background[BACKGROUNDS];
 
 /*********************** Headers of local functions ****************************/
 
+/*
+ * @Brief se encarga del movimiento de los aliens, su aceleracion, disparos 
+ *        y el movimiento de la nave misteriosa.
+ * @Params: recibe una variable que permite la animación de los aliens.
+ *          recibe la coordenada x de la nave misteriosa, y si estado (activa o inactiva)
+ *          recibe la cantidad de aliens vivos, sus coordenadas y las de sus balas
+ *          recibe punteros a accelerate, un contador que permite modificar difficulty
+ *      cada cierta cantidad de ciclos, acelerando a los aliens 
+ */
+
 static void move_elements(bool* alien_change, bool* lock_mystery_ship, elements_t* mystery_ship_x, 
-                        elements_t* alien_x, elements_t* alien_y, uint8_t* difficulty, elements_t* alien_bullets_x, 
-                        elements_t* alien_bullets_y, uint8_t* accelerate, int8_t cant_aliens);
+                          elements_t* alien_x, elements_t* alien_y, uint8_t* difficulty, elements_t* alien_bullets_x,
+                          elements_t* alien_bullets_y, uint8_t* accelerate, int8_t cant_aliens);
+
+/*
+ * @Brief se encarga del movimiento de las balas, y detectar cuando impactan con los demás elementos 
+ * @Params: recibe punteros a las coordenadas de todos los elementos del juego
+ *          recibe punteros a variables que bloquean disparar y la aparicion de la nave misteriosa
+ *          recibe la cantidad de aliens vivos, sus coordenadas y las de sus balas
+ *          recibe punteros a variables que permiten animar las explosiones
+ *          recibe punteros a las vidas de los bloques, la nave y cantidad de aliens, 
+ *      para modificarlas cuando reciben un impacto
+ *          recibe un multiplicador de dificultad y puntero al puntaje para aumentarlo
+ * @Return  true en caso de perder la partida
+ *          false en caso que continue la partida
+ */
 
 static bool move_bullets(bool* lock_mystery_ship, elements_t* mystery_ship_x, elements_t* alien_x, elements_t* alien_y,
-        elements_t* alien_bullets_x, elements_t* alien_bullets_y, int8_t* cant_aliens, elements_t* bullet_y,
-        elements_t* bullet_x, elements_t* explosion_x, elements_t* explosion_y, uint8_t* explosion_time,
-        bool* lock, elements_t* nave_x, uint32_t* score, uint8_t* vida_bloques, elements_t* bloques_x,
-        uint8_t* lives, uint8_t multiplier);
+                         elements_t* alien_bullets_x, elements_t* alien_bullets_y, int8_t* cant_aliens, elements_t* bullet_y,
+                         elements_t* bullet_x, elements_t* explosion_x, elements_t* explosion_y, uint8_t* explosion_time,
+                         bool* lock, elements_t nave_x, uint32_t* score, uint8_t* vida_bloques, elements_t* bloques_x,
+                         uint8_t* lives, uint8_t multiplier);
 
 /*
  * @Brief recibe un entero positivo
@@ -289,7 +311,7 @@ static int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* 
 
 #ifdef RASPBERRY  
 
-    while (!do_exit && cant_aliens && *lives) {
+    while (!do_exit && cant_aliens) {
         if (!TimerTickRBP) {
             TimerTickRBP = TIMERTICKRBP;
             if (key_pressed[LEFT] && nave_x >= MOVE_RATE) {
@@ -336,10 +358,8 @@ static int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* 
                           &alien_bullets_x[0], &alien_bullets_y[0], bullet_x, bullet_y,mystery_ship_x);
             do_exit = move_bullets(&lock_mystery_ship, &mystery_ship_x, &alien_x[0], &alien_y[0],
                     &alien_bullets_x[0], &alien_bullets_y[0], &cant_aliens, &bullet_y, &bullet_x,
-                    &explosion_x, &explosion_y, &explosion_time, &lock, &nave_x,
-                    score, &vida_bloques[0], &bloques_x[0], lives, multiplier);
-
-            
+                    &explosion_x, &explosion_y, &explosion_time, &lock, nave_x,
+                    score, &vida_bloques[0], &bloques_x[0], lives, multiplier);            
         }
 
     }
@@ -348,7 +368,7 @@ static int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* 
 
     al_set_target_bitmap(al_get_backbuffer(display));
     al_start_timer(timer);
-    while (!do_exit && cant_aliens && *lives) {
+    while (!do_exit && cant_aliens) {
         ALLEGRO_EVENT ev;
         if (al_get_next_event(event_queue, &ev)) {
             if (ev.type == ALLEGRO_EVENT_TIMER) {   //controles de movimiento de la nave
@@ -452,7 +472,7 @@ static int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* 
 
             do_exit = move_bullets(&lock_mystery_ship, &mystery_ship_x, &alien_x[0], &alien_y[0], &alien_bullets_x[0],
                     &alien_bullets_y[0], &cant_aliens, &bullet_y, &bullet_x, &explosion_x, &explosion_y, &explosion_time,
-                    &lock, &nave_x, score, &vida_bloques[0], &bloques_x[0], lives, multiplier);
+                    &lock, nave_x, score, &vida_bloques[0], &bloques_x[0], lives, multiplier);
         }
     }
 
@@ -487,7 +507,7 @@ static void move_elements(bool* alien_change, bool* lock_mystery_ship, elements_
     static int8_t step = BASE_SIZE/2;
 #endif
     
-    if (*alien_change) {
+    if (*alien_change) {        //cambia la forma de los aliens, activando una animación
         *alien_change = false;
     } else {
         *alien_change = true;
@@ -562,7 +582,7 @@ static void move_elements(bool* alien_change, bool* lock_mystery_ship, elements_
 static bool move_bullets(bool* lock_mystery_ship, elements_t* mystery_ship_x, elements_t* alien_x, elements_t* alien_y,
         elements_t* alien_bullets_x, elements_t* alien_bullets_y, int8_t* cant_aliens,
         elements_t* bullet_y, elements_t* bullet_x, elements_t* explosion_x, elements_t* explosion_y,
-        uint8_t* explosion_time, bool* lock, elements_t* nave_x, uint32_t* score, uint8_t* vida_bloques,
+        uint8_t* explosion_time, bool* lock, elements_t nave_x, uint32_t* score, uint8_t* vida_bloques,
         elements_t* bloques_x, uint8_t* lives, uint8_t multiplier) {
 
     int8_t i, j;
@@ -638,15 +658,16 @@ static bool move_bullets(bool* lock_mystery_ship, elements_t* mystery_ship_x, el
         //revisa si las balas de los aliens golpean la nave
 #ifndef RASPBERRY
         if (alien_bullets_y[i] >= NAVE_Y && alien_bullets_y[i] <= NAVE_Y + BASE_SIZE) {
-            if (alien_bullets_x[i] >= *nave_x && alien_bullets_x[i] <= *nave_x + 3 * BASE_SIZE) {
+            if (alien_bullets_x[i] >= nave_x && alien_bullets_x[i] <= nave_x + 3 * BASE_SIZE) {
                 al_play_sample(samples[3], 0.25, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 #else
         if (alien_bullets_y[i] == NAVE_Y) {
-            if (alien_bullets_x[i] >= *nave_x && alien_bullets_x[i] < *nave_x + 3 * BASE_SIZE) {
+            if (alien_bullets_x[i] >= nave_x && alien_bullets_x[i] < nave_x + 3 * BASE_SIZE) {
                 //music();
 #endif
                 alien_bullets_y[i] = SCREEN_H + BASE_SIZE;
                 (*lives)--;
+                return true;
             }
         }
 

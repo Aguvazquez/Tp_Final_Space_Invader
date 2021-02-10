@@ -1,32 +1,31 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-
 #define ASCII       '0'
 #define STR_LONG    6
 #define TOP_PLAYERS 5
 
 #ifdef RASPBERRY
 
-typedef int elements_t;
+typedef int elements_t;     //para coordenadas
 
 #define SCREEN_W    16
 #define SCREEN_H    16
 #define MOVE_RATE   1
 #define BASE_SIZE   1
 
-#define FILAS_ALIENS            3   //es a ojo
-#define COLUMNAS_ALIENS         6   //es a ojo
+#define FILAS_ALIENS            3   
+#define COLUMNAS_ALIENS         6   
 #define CANT_ALIENS             FILAS_ALIENS*COLUMNAS_ALIENS
-#define PRIMERA_FILA_ALIENS     2   //es a ojo
-#define PRIMERA_COLUMNA_ALIENS  3   //es a ojo
-#define DISTANCIA_ALIENS_X      2   //es a ojo
-#define DISTANCIA_ALIENS_Y      2   //es a ojo
+#define PRIMERA_FILA_ALIENS     2   
+#define PRIMERA_COLUMNA_ALIENS  3   
+#define DISTANCIA_ALIENS_X      2   
+#define DISTANCIA_ALIENS_Y      2   
 
 #define CANT_BLOQUES        4
-#define PRIMER_BLOQUE       1   //es a ojo
-#define DISTANCIA_BLOQUES   4   //es a ojo
-#define BLOQUES_Y           12  //es a ojo
+#define PRIMER_BLOQUE       1   
+#define DISTANCIA_BLOQUES   4   
+#define BLOQUES_Y           12  
 
 #define NAVE_Y          SCREEN_H - BASE_SIZE
 #define NAVE_X          SCREEN_W/2 - BASE_SIZE
@@ -34,25 +33,25 @@ typedef int elements_t;
 
 #else
 
-typedef float elements_t;
+typedef float elements_t;   //para coordenadas
 
 #define SCREEN_W    800
 #define SCREEN_H    640
 #define MOVE_RATE   4.0
 #define BASE_SIZE   20
 
-#define FILAS_ALIENS            5   //es a ojo
-#define COLUMNAS_ALIENS         10  //es a ojo
+#define FILAS_ALIENS            5   
+#define COLUMNAS_ALIENS         10
 #define CANT_ALIENS             FILAS_ALIENS*COLUMNAS_ALIENS
-#define PRIMERA_FILA_ALIENS     SCREEN_H/10     //es a ojo
-#define PRIMERA_COLUMNA_ALIENS  3*SCREEN_W/15   //es a ojo
-#define DISTANCIA_ALIENS_X      SCREEN_W/15     //es a ojo
-#define DISTANCIA_ALIENS_Y      SCREEN_H/10     //es a ojo
+#define PRIMERA_FILA_ALIENS     SCREEN_H/10  
+#define PRIMERA_COLUMNA_ALIENS  3*SCREEN_W/15  
+#define DISTANCIA_ALIENS_X      SCREEN_W/15     
+#define DISTANCIA_ALIENS_Y      SCREEN_H/10     
 
 #define CANT_BLOQUES        4
-#define PRIMER_BLOQUE       SCREEN_W/6.5 - 2*BASE_SIZE      //es a ojo
-#define DISTANCIA_BLOQUES   3*SCREEN_W/13                   //es a ojo
-#define BLOQUES_Y           3*SCREEN_H/4 + 2.5*BASE_SIZE    //es a ojo
+#define PRIMER_BLOQUE       SCREEN_W/6.5 - 2*BASE_SIZE     
+#define DISTANCIA_BLOQUES   3*SCREEN_W/13                
+#define BLOQUES_Y           3*SCREEN_H/4 + 2.5*BASE_SIZE   
 
 #define NAVE_Y          SCREEN_H - 2*BASE_SIZE
 #define NAVE_X          SCREEN_W/2 - 1.5*BASE_SIZE

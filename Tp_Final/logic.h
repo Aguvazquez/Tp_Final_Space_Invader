@@ -7,10 +7,7 @@
 
 #ifndef LOGIC_H
 #define LOGIC_H
-
-//defino un tipo de variable que varía según la plataforma, para los elementos del display
  
-
 /*
  * @Brief ejecuta el juego, administrando parámetros como el puntaje, las vidas y la dificultad. 
  * @Return  CLOSE_DISPLAY cierra el juego.
@@ -20,4 +17,5 @@
  */
 
 int8_t play(void);
+
 #endif
