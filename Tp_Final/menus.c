@@ -103,7 +103,7 @@ void main_menu(void) {
             }
             case 2:
             {
-                aux = menu_display("EASY", "NORMAL", "HARD", 0, 0);
+                aux = menu_display("EASY", "NORMAL", "HARD", 1, 0);
                 flag = false;
                 switch (aux) {
                     case 1: case 2: case 3:

@@ -9,6 +9,34 @@
 
 #ifndef RASPBERRY
 
+#define INVADER ".allegro/al_backgrounds/invaders.png"
+#define SPACE_INVADER_LOGO ".allegro/al_backgrounds/space-invaders-logo.png"
+#define SPACESHIP ".allegro/al_backgrounds/spaceship.png"
+#define SAUCER2B ".allegro/al_backgrounds/saucer2b.png"
+#define SAUCER2BB ".allegro/al_backgrounds/saucer2bb.png"
+#define RED_HEART ".allegro/al_backgrounds/red-heart.png"
+#define MYSTERYB ".allegro/al_backgrounds/mysteryb.png"
+#define SAUCER3B ".allegro/al_backgrounds/saucer3b.png"
+#define SAUCER3BB ".allegro/al_backgrounds/saucer3bb.png"
+#define SAUCER1B ".allegro/al_backgrounds/saucer1b.png"
+#define SAUCER1BB ".allegro/al_backgrounds/saucer1bb.png"
+#define FONDO1 ".allegro/al_backgrounds/fondo1.jpeg"
+#define FONDO2 ".allegro/al_backgrounds/fondo2.jpg"
+#define FONDO3 ".allegro/al_backgrounds/fondo3.jpg"
+#define FONDO4 ".allegro/al_backgrounds/fondo4.jpg"
+#define FONDO5 ".allegro/al_backgrounds/fondo5.jpg"
+#define BUM ".allegro/al_backgrounds/bum.png"
+#define BLOQUE1 ".allegro/al_backgrounds/bloque_1.png"
+#define BLOQUE2 ".allegro/al_backgrounds/bloque_2.png"
+#define BLOQUE3 ".allegro/al_backgrounds/bloque_3.png"
+
+#define SAMPLE1 ".allegro/samples/spaceinvader_theme.wav"
+#define SAMPLE2 ".allegro/samples/shoot.wav"
+#define SAMPLE3 ".allegro/samples/invaderkilled.wav"
+#define SAMPLE4 ".allegro/samples/explosion.wav"
+#define SAMPLE5 ".allegro/samples/game.wav"
+
+#define SPACE_TTF ".allegro/ttf/space_invaders.ttf"
 /************************* Allegro libraries ***********************************/
 
 #include <allegro5/allegro.h>  
@@ -125,8 +153,8 @@ uint8_t allegro_ini(void)
     
     al_init_font_addon(); 
     al_init_ttf_addon();
-    font[0] = al_load_ttf_font("space_invaders.ttf", 24, 0);    //parámetros utilizados para definir las
-    font[1] = al_load_ttf_font("space_invaders.ttf", 50, 0);    //fuentes a nuestro gusto
+    font[0] = al_load_ttf_font(SPACE_TTF, 24, 0);    //parámetros utilizados para definir las
+    font[1] = al_load_ttf_font(SPACE_TTF, 50, 0);    //fuentes a nuestro gusto
     for(i=0; i<FONTS; i++){
         if(!font[i]){
             fprintf(stderr, "font not loaded!.\n");
@@ -142,11 +170,11 @@ uint8_t allegro_ini(void)
         }
     }
     
-    samples[0] = al_load_sample("spaceinvader_theme.wav");
-    samples[1] = al_load_sample("shoot.wav");
-    samples[2] = al_load_sample("invaderkilled.wav");
-    samples[3] = al_load_sample("explosion.wav");
-    samples[4] = al_load_sample("game.wav");
+    samples[0] = al_load_sample(SAMPLE1);
+    samples[1] = al_load_sample(SAMPLE2);
+    samples[2] = al_load_sample(SAMPLE3);
+    samples[3] = al_load_sample(SAMPLE4);
+    samples[4] = al_load_sample(SAMPLE5);
     for(i=0; i<SAMPLES; i++){
         if(!samples[i]){
             fprintf(stderr, "Audio clip sample not loaded!\n");
@@ -163,26 +191,26 @@ uint8_t allegro_ini(void)
         }
     }
     
-    display_background[0] = al_load_bitmap("invaders.png");
-    display_background[1] = al_load_bitmap("space-invaders-logo.png");
-    display_background[2] = al_load_bitmap("spaceship.png");
-    display_background[3] = al_load_bitmap("saucer2b.png");
-    display_background[4] = al_load_bitmap("saucer2bb.png");
-    display_background[5] = al_load_bitmap("red-heart.png"); 
-    display_background[6] = al_load_bitmap("mysteryb.png");
-    display_background[7] = al_load_bitmap("saucer3b.png");
-    display_background[8] = al_load_bitmap("saucer3bb.png");
-    display_background[9] = al_load_bitmap("saucer1b.png");
-    display_background[10] = al_load_bitmap("saucer1bb.png");
-    display_background[11] = al_load_bitmap("fondo1.jpeg");
-    display_background[12] = al_load_bitmap("fondo2.jpg");
-    display_background[13] = al_load_bitmap("fondo3.jpg");
-    display_background[14] = al_load_bitmap("fondo4.jpg");
-    display_background[15] = al_load_bitmap("fondo5.jpg");
-    display_background[16] = al_load_bitmap("bum.png");
-    display_background[17] = al_load_bitmap("bloque_1.png");
-    display_background[18] = al_load_bitmap("bloque_2.png");
-    display_background[19] = al_load_bitmap("bloque_3.png");
+    display_background[0] = al_load_bitmap(INVADER);
+    display_background[1] = al_load_bitmap(SPACE_INVADER_LOGO);
+    display_background[2] = al_load_bitmap(SPACESHIP);
+    display_background[3] = al_load_bitmap(SAUCER2B);
+    display_background[4] = al_load_bitmap(SAUCER2BB);
+    display_background[5] = al_load_bitmap(RED_HEART); 
+    display_background[6] = al_load_bitmap(MYSTERYB);
+    display_background[7] = al_load_bitmap(SAUCER3B);
+    display_background[8] = al_load_bitmap(SAUCER3BB);
+    display_background[9] = al_load_bitmap(SAUCER1B);
+    display_background[10] = al_load_bitmap(SAUCER1BB);
+    display_background[11] = al_load_bitmap(FONDO1);
+    display_background[12] = al_load_bitmap(FONDO2);
+    display_background[13] = al_load_bitmap(FONDO3);
+    display_background[14] = al_load_bitmap(FONDO4);
+    display_background[15] = al_load_bitmap(FONDO5);
+    display_background[16] = al_load_bitmap(BUM);
+    display_background[17] = al_load_bitmap(BLOQUE1);
+    display_background[18] = al_load_bitmap(BLOQUE2);
+    display_background[19] = al_load_bitmap(BLOQUE3);
     //display_background[17] = al_load_bitmap("platform4.png");
     for(i=0; i<BACKGROUNDS; i++){
     if(!display_background[i]){
