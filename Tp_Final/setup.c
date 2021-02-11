@@ -5,6 +5,13 @@
 #include <stdint.h>
 #include "config.h"
 
+#ifdef RASPBERRY
+
+#include "disdrv.h"
+#include  "joydrv.h"
+#include "audio.h"
+
+#endif
 /*******************************************************************************/
 
 #ifndef RASPBERRY
@@ -20,23 +27,23 @@
 #define SAUCER3BB ".allegro/al_backgrounds/saucer3bb.png"
 #define SAUCER1B ".allegro/al_backgrounds/saucer1b.png"
 #define SAUCER1BB ".allegro/al_backgrounds/saucer1bb.png"
-#define FONDO1 ".allegro/al_backgrounds/fondo1.jpeg"
+#define FONDO1 ".allegro/al_backgrounds/fondo1.jpg"
 #define FONDO2 ".allegro/al_backgrounds/fondo2.jpg"
 #define FONDO3 ".allegro/al_backgrounds/fondo3.jpg"
 #define FONDO4 ".allegro/al_backgrounds/fondo4.jpg"
-#define FONDO5 ".allegro/al_backgrounds/fondo5.jpg"
+#define FONDO5 ".allegro/al_backgrounds/fondo5.jpeg"
 #define BUM ".allegro/al_backgrounds/bum.png"
 #define BLOQUE1 ".allegro/al_backgrounds/bloque_1.png"
 #define BLOQUE2 ".allegro/al_backgrounds/bloque_2.png"
 #define BLOQUE3 ".allegro/al_backgrounds/bloque_3.png"
+
+#define SPACE_TTF ".allegro/ttf/space_invaders.ttf"
 
 #define SAMPLE1 ".allegro/samples/spaceinvader_theme.wav"
 #define SAMPLE2 ".allegro/samples/shoot.wav"
 #define SAMPLE3 ".allegro/samples/invaderkilled.wav"
 #define SAMPLE4 ".allegro/samples/explosion.wav"
 #define SAMPLE5 ".allegro/samples/game.wav"
-
-#define SPACE_TTF ".allegro/ttf/space_invaders.ttf"
 /************************* Allegro libraries ***********************************/
 
 #include <allegro5/allegro.h>  
@@ -264,7 +271,12 @@ void allegro_shutdown(void){
     al_shutdown_ttf_addon();
     
 }
-
+#else
+int8_t rpi_ini(void){
+    disp_init();
+    joy_init();
+    
+}
 #endif
 
 /***************************** END FILE ****************************************/

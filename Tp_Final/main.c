@@ -19,7 +19,7 @@
 
 /******************************* Locals headers ********************************/
 
-#include "allegro_setup.h"
+#include "setup.h"
 #include "config.h"
 #include "menus.h"
 #include "back_end.h"

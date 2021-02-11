@@ -153,9 +153,7 @@ void main_menu(void) {
 
     uint8_t choice = 0, c = 0;
     bool do_exit = false, reset = false, play_song = true;
-    disp_init();
-    joy_init();
-    init_sound();
+
     system("clear");
     fprintf(stderr, "Bienvenido a Space Invaders.\n");
 
