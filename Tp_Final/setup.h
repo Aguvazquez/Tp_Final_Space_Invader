@@ -24,7 +24,13 @@ uint8_t allegro_ini(void);
  */
 
 void allegro_shutdown(void);
-    
+#else
+/*
+ * @Brief  Funcion que se encarga del setup de las funciones de raspberry.
+ * @Return EXIT_FAILURE si hubo un error
+ *         EXIT_SUCCESS si no hubo errores  
+ */
+int8_t rpi_ini(void);
 #endif
 
 #endif

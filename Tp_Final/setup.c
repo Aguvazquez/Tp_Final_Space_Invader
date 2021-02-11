@@ -11,8 +11,15 @@
 #include  "joydrv.h"
 #include "audio.h"
 
+extern Audio* audios[SAMPLES];
+
 #endif
 /*******************************************************************************/
+#define SAMPLE1 ".allegro/samples/spaceinvader_theme.wav"
+#define SAMPLE2 ".allegro/samples/shoot.wav"
+#define SAMPLE3 ".allegro/samples/invaderkilled.wav"
+#define SAMPLE4 ".allegro/samples/explosion.wav"
+#define SAMPLE5 ".allegro/samples/game.wav"
 
 #ifndef RASPBERRY
 
@@ -39,11 +46,7 @@
 
 #define SPACE_TTF ".allegro/ttf/space_invaders.ttf"
 
-#define SAMPLE1 ".allegro/samples/spaceinvader_theme.wav"
-#define SAMPLE2 ".allegro/samples/shoot.wav"
-#define SAMPLE3 ".allegro/samples/invaderkilled.wav"
-#define SAMPLE4 ".allegro/samples/explosion.wav"
-#define SAMPLE5 ".allegro/samples/game.wav"
+
 /************************* Allegro libraries ***********************************/
 
 #include <allegro5/allegro.h>  
@@ -275,7 +278,26 @@ void allegro_shutdown(void){
 int8_t rpi_ini(void){
     disp_init();
     joy_init();
-    
+    initAudio();
+    if(audios[0]=createAudio(SAMPLE1,0,127)){
+        if(audios[1]=createAudio(SAMPLE2,0,127)){
+            if(audios[2]=createAudio(SAMPLE3,0,127)){
+                if(audios[3]=createAudio(SAMPLE4,0,127)){
+                    if(audios[4]=createAudio(SAMPLE5,0,127)){
+                        return EXIT_SUCCESS;
+                    }
+                }
+            }
+        }
+    }
+    return EXIT_FAILURE;   
+}
+void rpi_shutdown(void){
+    int i;
+    for(i=0;i<SAMPLES;i++){
+        freeAudio(audios[i]);
+    }
+    endAudio();
 }
 #endif
 

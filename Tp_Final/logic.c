@@ -16,7 +16,7 @@
 #include "logic.h"
 #include "GUI.h"
 #include "back_end.h"
-#include "joydrv.h"
+
 
 /*******************************************************************************/
 
@@ -44,6 +44,10 @@ extern ALLEGRO_SAMPLE *samples[SAMPLES];
 extern ALLEGRO_BITMAP *display_background[BACKGROUNDS];
 
 /*******************************************************************************/
+#else
+#include "joydrv.h"
+#include "audio.h"
+extern Audio* audios[SAMPLES];
 
 #endif
 

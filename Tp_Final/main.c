@@ -57,7 +57,10 @@ ALLEGRO_BITMAP *display_background[BACKGROUNDS] = {NULL, NULL, NULL, NULL, NULL,
          NULL, NULL, NULL, NULL,NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
 
 /*******************************************************************************/
+#else
+#include "audio.h"
 
+Audio* audios[SAMPLES]= {NULL, NULL, NULL, NULL, NULL};
 #endif  //RASPBERRY
 
 /******************************* Main function *********************************/
@@ -75,9 +78,12 @@ int main(void) {
 
 
 #ifdef RASPBERRY
-
+    if(rpi_init()){
+        fprintf(stderr, "Hubo un error de inicialización.\n");
+        return EXIT_FAILURE;
+    }
     main_menu();
-
+    rpi_shutdown();
 #else
 
     if (allegro_ini()) { //inicialización de allegro
