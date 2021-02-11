@@ -156,11 +156,10 @@ void main_menu(void) {
 
     system("clear");
     fprintf(stderr, "Bienvenido a Space Invaders.\n");
-
+    
     while (!do_exit) {
         if(play_song){
-            set_file_to_play("spaceinvader_theme.wav");
-            play_sound();
+            playMusicFromMemory(audios[0],127);
         }
         if (!reset) {
             disp_clear();
@@ -178,7 +177,7 @@ void main_menu(void) {
         switch (choice) {            
             case '1': 
             {
-                stop_sound();
+                pauseAudio();
                 switch (play()) {
                     case 0: case EXIT_MENU:
                     {

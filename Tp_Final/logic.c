@@ -119,24 +119,24 @@ bool key_pressed[4] = {false, false, false, false}; //estado de teclas, true cua
 
 void* Stop_Sound(){
     while(1){
-        switch(efect_sound){
-            case 0:{
-                if(player_status()==STOPPED || player_status()==FINISHED){
-                    stop_sound();
+        if(TimerTickRBP){
+            switch(efect_sound){                  
+                case 1:{
+                    if(musicStatus()==PLAYING){
+                        pauseAudio();
+                    }
+                    playSound(audios[2],100);
+                    efect_sound=0;
+                    break;
                 }
-                break;
-            }   
-            case 1:{
-                set_file_to_play("invaderkilled.wav");
-                play_sound();
-                efect_sound=0;
-                break;
-            }
-            case 2:{
-                set_file_to_play("shoot.wav");
-                play_sound();
-                efect_sound=0;
-                break;
+                case 2:{
+                    if(musicStatus()==PLAYING){
+                        pauseAudio();
+                    }
+                    playSound(audios[1],100);
+                    efect_sound=0;
+                    break;
+                }
             }
         }
     }
