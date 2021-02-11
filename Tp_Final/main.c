@@ -33,7 +33,7 @@ int main(void) {
     }
     
 #ifdef RASPBERRY
-    if(rpi_init()){
+    if(rpi_ini()){
         fprintf(stderr, "Hubo un error de inicialización.\n");
         return EXIT_FAILURE;
     }

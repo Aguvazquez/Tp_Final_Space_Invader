@@ -39,6 +39,7 @@ void allegro_shutdown(void);
  *         EXIT_SUCCESS si no hubo errores  
  */
 int8_t rpi_ini(void);
+void rpi_shutdown(void);
 #endif
 
 #endif

@@ -555,7 +555,7 @@ void draw_world_rpi(elements_t nave_x, elements_t* bloques_x, uint8_t* vida_bloq
 /*******************************************************************************/
 
 /******************************* Score fuctions ********************************/
-
+#ifndef RASPBERRY
 static void score_to_str(uint32_t score) {
     char str[] = {'S', 'C', 'O', 'R', 'E', ':', ' ', ' ', '0', '0', '0', '0', '0'};
     uint8_t i;
@@ -566,7 +566,7 @@ static void score_to_str(uint32_t score) {
     }
     al_draw_text(font[0], al_map_rgb(255, 255, 255), SCREEN_W, BASE_SIZE / 4, ALLEGRO_ALIGN_RIGHT, str);
 }
-
+#endif
 void new_player_in_top(char name[STR_LONG]){
     
 #ifndef RASPBERRY

@@ -314,11 +314,11 @@ int8_t rpi_ini(void){
     disp_init();
     joy_init();
     initAudio();
-    if(audios[0]=createAudio(SAMPLE1,0,127)){
-        if(audios[1]=createAudio(SAMPLE2,0,127)){
-            if(audios[2]=createAudio(SAMPLE3,0,127)){
-                if(audios[3]=createAudio(SAMPLE4,0,127)){
-                    if(audios[4]=createAudio(SAMPLE5,0,127)){
+    if((audios[0]=createAudio(SAMPLE1,0,127))){
+        if((audios[1]=createAudio(SAMPLE2,0,127)){
+            if((audios[2]=createAudio(SAMPLE3,0,127))){
+                if((audios[3]=createAudio(SAMPLE4,0,127))){
+                    if((audios[4]=createAudio(SAMPLE5,0,127))){
                         return EXIT_SUCCESS;
                     }
                 }

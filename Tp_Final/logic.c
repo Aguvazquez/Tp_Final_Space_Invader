@@ -125,7 +125,7 @@ void* Stop_Sound(){
                     if(musicStatus()==PLAYING){
                         pauseAudio();
                     }
-                    playSound(audios[2],100);
+                    playSoundFromMemory(audios[2],100);
                     efect_sound=0;
                     break;
                 }
@@ -133,7 +133,7 @@ void* Stop_Sound(){
                     if(musicStatus()==PLAYING){
                         pauseAudio();
                     }
-                    playSound(audios[1],100);
+                    playSoundFromMemory(audios[1],100);
                     efect_sound=0;
                     break;
                 }
