@@ -83,7 +83,7 @@ ALLEGRO_BITMAP *display_background[BACKGROUNDS] = {NULL, NULL, NULL, NULL, NULL,
 
 #else
 
-Audio* audios[SAMPLES]= {NULL, NULL, NULL, NULL, NULL};
+Audio* audios[SAMPLES];
 
 #endif  //RASPBERRY
 
@@ -315,7 +315,7 @@ int8_t rpi_ini(void){
     joy_init();
     initAudio();
     if((audios[0]=createAudio(SAMPLE1,0,127))){
-        if((audios[1]=createAudio(SAMPLE2,0,127)){
+        if((audios[1]=createAudio(SAMPLE2,0,127))){
             if((audios[2]=createAudio(SAMPLE3,0,127))){
                 if((audios[3]=createAudio(SAMPLE4,0,127))){
                     if((audios[4]=createAudio(SAMPLE5,0,127))){
