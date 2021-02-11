@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include "config.h"
+#include "back_end.h"
 
 #ifdef RASPBERRY
 
@@ -11,10 +12,12 @@
 #include  "joydrv.h"
 #include "audio.h"
 
-extern Audio* audios[SAMPLES];
-
 #endif
+
 /*******************************************************************************/
+
+/*************************** Resource file definitions *************************/
+
 #define SAMPLE1 ".allegro/samples/spaceinvader_theme.wav"
 #define SAMPLE2 ".allegro/samples/shoot.wav"
 #define SAMPLE3 ".allegro/samples/invaderkilled.wav"
@@ -46,8 +49,9 @@ extern Audio* audios[SAMPLES];
 
 #define SPACE_TTF ".allegro/ttf/space_invaders.ttf"
 
+/*******************************************************************************/
 
-/************************* Allegro libraries ***********************************/
+/***************************** Allegro libraries *******************************/
 
 #include <allegro5/allegro.h>  
 #include <allegro5/allegro_color.h> 
@@ -56,22 +60,51 @@ extern Audio* audios[SAMPLES];
 #include <allegro5/allegro_ttf.h> 
 #include <allegro5/allegro_audio.h> 
 #include <allegro5/allegro_acodec.h> 
-#include <allegro5/allegro_image.h>
+#include <allegro5/allegro_image.h> 
 
 /*******************************************************************************/
 
-/************************** Extern variables ***********************************/
+/************************** Allegro global variables ***************************/
 
-extern  ALLEGRO_DISPLAY *display;
-extern  ALLEGRO_EVENT_QUEUE *event_queue;
-extern  ALLEGRO_TIMER *timer;
-extern  ALLEGRO_FONT *font[FONTS]; 
-extern  ALLEGRO_SAMPLE *samples[SAMPLES]; 
-extern  ALLEGRO_BITMAP *display_background[BACKGROUNDS];
+ALLEGRO_DISPLAY *display = NULL;
+
+ALLEGRO_EVENT_QUEUE *event_queue = NULL;
+
+ALLEGRO_TIMER *timer = NULL;
+
+ALLEGRO_FONT *font[FONTS] = {NULL, NULL}; 
+                                        
+ALLEGRO_SAMPLE *samples[SAMPLES] = {NULL, NULL, NULL, NULL, NULL};
+
+ALLEGRO_BITMAP *display_background[BACKGROUNDS] = {NULL, NULL, NULL, NULL, NULL,
+         NULL, NULL, NULL, NULL,NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
+
+/*******************************************************************************/
+
+#else
+
+Audio* audios[SAMPLES]= {NULL, NULL, NULL, NULL, NULL};
+
+#endif  //RASPBERRY
 
 /*******************************************************************************/
 
 /*************************** Global functions **********************************/
+
+uint8_t files_setup (void) {
+    
+    if (create_Top_Score()) {   //crea el archivo donde ubicaremos el
+                                //top score, en caso de ser necesario.
+        return EXIT_FAILURE;
+    }
+    if (create_difficulty()) {  //crea el archivo donde ubicaremos la
+                                //dificultad, en caso de ser necesario.
+        return EXIT_FAILURE;
+    }
+    return EXIT_SUCCESS;
+}
+
+#ifndef RASPBERRY
 
 uint8_t allegro_ini(void)
 {
@@ -274,7 +307,9 @@ void allegro_shutdown(void){
     al_shutdown_ttf_addon();
     
 }
+
 #else
+
 int8_t rpi_ini(void){
     disp_init();
     joy_init();
@@ -292,6 +327,7 @@ int8_t rpi_ini(void){
     }
     return EXIT_FAILURE;   
 }
+
 void rpi_shutdown(void){
     int i;
     for(i=0;i<SAMPLES;i++){
@@ -299,6 +335,7 @@ void rpi_shutdown(void){
     }
     endAudio();
 }
-#endif
+
+#endif //RASPBERRY
 
 /***************************** END FILE ****************************************/

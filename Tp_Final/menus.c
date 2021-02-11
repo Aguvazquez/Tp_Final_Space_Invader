@@ -55,9 +55,9 @@ void main_menu(void) {
     while (!do_exit) {
         if (!flag) {
             if (play_song) {
-                aux = menu_display("PLAY", "DIFFICULTY", "TOP SCORE", 0, 0);
+                aux = menu_display("JUGAR", "DIFICULTAD", "TOP SCORE", 0, 0);
             } else {
-                aux = menu_display("PLAY", "DIFFICULTY", "TOP SCORE", 1, 0);
+                aux = menu_display("JUGAR", "DIFICULTAD", "TOP SCORE", 1, 0);
             }
             flag = true;
             play_song = false;
@@ -103,7 +103,7 @@ void main_menu(void) {
             }
             case 2:
             {
-                aux = menu_display("EASY", "NORMAL", "HARD", 1, 0);
+                aux = menu_display("FACIL", "NORMAL", "DIFICIL", 1, 0);
                 flag = false;
                 switch (aux) {
                     case 1: case 2: case 3:

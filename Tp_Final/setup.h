@@ -8,6 +8,14 @@
 #ifndef ALLEGRO_SETUP_H
 #define ALLEGRO_SETUP_H
 
+/*
+ * @Brief verifica la inicialización de los archivos necesarios para jugar
+ * @Return EXIT_SUCCESS si no hay errores
+ *         EXIT_FAILURE si hay errores 
+ */
+
+uint8_t files_setup (void);
+
 #ifndef RASPBERRY
 
 /*

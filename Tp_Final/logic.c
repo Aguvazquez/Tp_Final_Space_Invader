@@ -17,7 +17,6 @@
 #include "GUI.h"
 #include "back_end.h"
 
-
 /*******************************************************************************/
 
 #ifndef RASPBERRY
@@ -39,11 +38,10 @@
 extern ALLEGRO_DISPLAY *display;
 extern ALLEGRO_EVENT_QUEUE *event_queue;
 extern ALLEGRO_TIMER *timer;
-extern ALLEGRO_FONT *font[FONTS];
 extern ALLEGRO_SAMPLE *samples[SAMPLES];
-extern ALLEGRO_BITMAP *display_background[BACKGROUNDS];
 
 /*******************************************************************************/
+
 #else
 #include "joydrv.h"
 #include "audio.h"
@@ -670,8 +668,9 @@ static bool move_bullets(bool* lock_mystery_ship, elements_t* mystery_ship_x, el
                 //music();
 #endif
                 alien_bullets_y[i] = SCREEN_H + BASE_SIZE;
-                (*lives)--;
-                return true;
+                if (!(--(*lives))) {        //si las vidas bajan a 0
+                    return true;
+                }
             }
         }
 

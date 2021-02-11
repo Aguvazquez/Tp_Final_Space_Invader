@@ -20,63 +20,18 @@
 /******************************* Locals headers ********************************/
 
 #include "setup.h"
-#include "config.h"
 #include "menus.h"
-#include "back_end.h"
 
 /*******************************************************************************/
-
-#ifndef RASPBERRY //Condición de compilación, afecta a las librerias 
-                  //y a las variables.
-
-/***************************** Allegro libraries *******************************/
-
-#include <allegro5/allegro.h>  
-#include <allegro5/allegro_color.h> 
-#include <allegro5/allegro_primitives.h>
-#include <allegro5/allegro_font.h> 
-#include <allegro5/allegro_ttf.h> 
-#include <allegro5/allegro_audio.h> 
-#include <allegro5/allegro_acodec.h>
-
-/*******************************************************************************/
-
-/************************** Allegro global variables ***************************/
-
-ALLEGRO_DISPLAY *display = NULL;
-
-ALLEGRO_EVENT_QUEUE *event_queue = NULL;
-
-ALLEGRO_TIMER *timer = NULL;
-
-ALLEGRO_FONT *font[FONTS] = {NULL, NULL}; 
-                                        
-ALLEGRO_SAMPLE *samples[SAMPLES] = {NULL, NULL, NULL, NULL, NULL};
-
-ALLEGRO_BITMAP *display_background[BACKGROUNDS] = {NULL, NULL, NULL, NULL, NULL,
-         NULL, NULL, NULL, NULL,NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
-
-/*******************************************************************************/
-#else
-#include "audio.h"
-
-Audio* audios[SAMPLES]= {NULL, NULL, NULL, NULL, NULL};
-#endif  //RASPBERRY
 
 /******************************* Main function *********************************/
 
 int main(void) {
 
-    if (create_Top_Score()) {   //crea el archivo donde ubicaremos el
-                                //top score, en caso de ser necesario.
+    if(files_setup()) {
         return EXIT_FAILURE;
     }
-    if (create_difficulty()) {  //crea el archivo donde ubicaremos la
-                                //dificultad, en caso de ser necesario.
-        return EXIT_FAILURE;
-    }
-
-
+    
 #ifdef RASPBERRY
     if(rpi_init()){
         fprintf(stderr, "Hubo un error de inicialización.\n");

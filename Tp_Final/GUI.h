@@ -15,7 +15,7 @@
  * @Param1: oración del primer botón.
  * @Param2: oración del segundo botón.
  * @Param3: oración del tercer botón.
- * @Param4: uso interno que determina la continuación de la música.
+ * @Param4: uso interno que determina la continuación de la música (0=iniciar , 1=no iniciar)
  * @Param5: indica si es menú de pausa o no.
  * @Return  CLOSE_DISPLAY cierra el juego.
  *          el número del botón oprimido.
