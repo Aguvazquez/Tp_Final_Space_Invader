@@ -46,6 +46,8 @@
 #define BLOQUE1 ".allegro/al_backgrounds/bloque_1.png"
 #define BLOQUE2 ".allegro/al_backgrounds/bloque_2.png"
 #define BLOQUE3 ".allegro/al_backgrounds/bloque_3.png"
+#define INSTRUCTIONS_1 ".allegro/al_backgrounds/instructions_1.jpeg"
+#define INSTRUCTIONS_2 ".allegro/al_backgrounds/instructions_2.jpeg"
 
 #define SPACE_TTF ".allegro/ttf/space_invaders.ttf"
 
@@ -77,7 +79,8 @@ ALLEGRO_FONT *font[FONTS] = {NULL, NULL};
 ALLEGRO_SAMPLE *samples[SAMPLES] = {NULL, NULL, NULL, NULL, NULL};
 
 ALLEGRO_BITMAP *display_background[BACKGROUNDS] = {NULL, NULL, NULL, NULL, NULL,
-         NULL, NULL, NULL, NULL,NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
+         NULL, NULL, NULL, NULL,NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+         NULL, NULL};
 
 /*******************************************************************************/
 
@@ -254,6 +257,8 @@ uint8_t allegro_ini(void)
     display_background[17] = al_load_bitmap(BLOQUE1);
     display_background[18] = al_load_bitmap(BLOQUE2);
     display_background[19] = al_load_bitmap(BLOQUE3);
+    display_background[20] = al_load_bitmap(INSTRUCTIONS_1);
+    display_background[21] = al_load_bitmap(INSTRUCTIONS_2);
     //display_background[17] = al_load_bitmap("platform4.png");
     for(i=0; i<BACKGROUNDS; i++){
     if(!display_background[i]){

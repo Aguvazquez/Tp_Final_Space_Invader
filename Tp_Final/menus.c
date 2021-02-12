@@ -53,7 +53,7 @@ void main_menu(void) {
 
     bool do_exit = false, flag = false, play_song = true;
     int8_t aux = 0;
-
+    instructions();
     while (!do_exit) {
         if (!flag) {
             if (play_song) {
@@ -161,7 +161,7 @@ void main_menu(void) {
     
     while (!do_exit) {
         if(play_song){
-            playMusicFromMemory(audios[0],127);
+            playSound(".allegro/samples/spaceinvader_theme.wav",127);
         }
         if (!reset) {
             disp_clear();

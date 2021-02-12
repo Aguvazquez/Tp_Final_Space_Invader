@@ -445,6 +445,31 @@ void lose_animation(uint32_t score){
     al_flip_display();
     al_rest(2.0);   //tiempo que dura la animación
 }
+void instructions(void){
+    
+    ALLEGRO_EVENT ev;
+    int8_t i;
+    bool do_exit = false;
+    for(i=0;i<2;i++){
+        do_exit = false;
+        al_draw_scaled_bitmap(display_background[20+i], 0, 0, al_get_bitmap_width(display_background[20+i]),
+            al_get_bitmap_height(display_background[20+i]), 0, 0, SCREEN_W, SCREEN_H, 0);
+        al_flip_display();
+        al_rest(2.0);
+        al_draw_text(font[0], al_map_rgb(255, 255, 255), SCREEN_W/2, 23*SCREEN_H/25, ALLEGRO_ALIGN_CENTER, "PRESIONE ENTER PARA CONTINUAR"); 
+        al_flip_display();
+        while(!do_exit){
+            al_wait_for_event(event_queue, &ev);
+            if(ev.type == ALLEGRO_EVENT_KEY_DOWN){
+                if(ev.keyboard.keycode==ALLEGRO_KEY_ENTER){
+                    do_exit = true;
+                }
+            } 
+        }
+    }
+    
+    
+}
 
 #else
 

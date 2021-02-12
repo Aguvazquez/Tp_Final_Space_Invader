@@ -118,25 +118,25 @@ bool key_pressed[4] = {false, false, false, false}; //estado de teclas, true cua
 #ifdef RASPBERRY
 
 void* Stop_Sound(){
-    while(1){
-        if(TimerTickRBP){
-            switch(efect_sound){                  
-                case 1:{
-                    if(musicStatus()==PLAYING){
-                        pauseAudio();
-                    }
-                    playSoundFromMemory(audios[2],100);
-                    efect_sound=0;
-                    break;
+    while(1) {
+        switch (efect_sound) {
+            case 1:
+            {
+                if (musicStatus() == PLAYING) {
+                    pauseAudio();
                 }
-                case 2:{
-                    if(musicStatus()==PLAYING){
-                        pauseAudio();
-                    }
-                    playSoundFromMemory(audios[1],100);
-                    efect_sound=0;
-                    break;
+                playSound(, 100);
+                efect_sound = 0;
+                break;
+            }
+            case 2:
+            {
+                if (musicStatus() == PLAYING) {
+                    pauseAudio();
                 }
+                playSound(, 100);
+                efect_sound = 0;
+                break;
             }
         }
     }

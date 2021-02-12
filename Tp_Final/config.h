@@ -63,7 +63,7 @@ typedef float elements_t;   //para coordenadas
 #define TIMERTICKRBP    1
 #define SAMPLES         5
 #define FONTS           2
-#define BACKGROUNDS     20
+#define BACKGROUNDS     22
 #define FPS             60.0
 
 #define ALIEN 1
