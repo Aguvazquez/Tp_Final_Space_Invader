@@ -15,10 +15,12 @@
 #include "logic.h"
 
 #ifdef RASPBERRY
+
 #include "joydrv.h"
 #include "disdrv.h"
 #include "audio.h"
 extern Audio* audios[SAMPLES];
+
 #endif
 
 /*******************************************************************************/
