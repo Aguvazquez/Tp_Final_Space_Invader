@@ -53,7 +53,7 @@ void main_menu(void) {
 
     bool do_exit = false, flag = false, play_song = true;
     int8_t aux = 0;
-    instructions();
+    do_exit = instructions();
     while (!do_exit) {
         if (!flag) {
             if (play_song) {

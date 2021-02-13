@@ -58,7 +58,12 @@ void draw_world(uint8_t level, uint32_t score, uint8_t lives, uint8_t alien_chan
                 uint8_t* vida_bloques, elements_t* alien_x, elements_t* alien_y, elements_t* alien_bullets_x, 
                 elements_t* alien_bullets_y, elements_t bullet_x, elements_t bullet_y, elements_t mystery_ship_x,
                 elements_t explosion_x, elements_t explosion_y, uint8_t* explosion_time);
-void instructions(void);
+
+/* @Brief funcion que muestra las instrucciones en la pantalla.
+ * @Return: false , en caso de que todo ande normal, 
+ *          true, en caso de que cierren display
+ */
+bool instructions(void);
 
 #else
 
