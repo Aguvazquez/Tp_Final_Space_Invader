@@ -445,12 +445,13 @@ void lose_animation(uint32_t score){
     al_flip_display();
     al_rest(2.0);   //tiempo que dura la animación
 }
+
 bool instructions(void){
     
     ALLEGRO_EVENT ev;
     int8_t i;
     bool do_exit = false;
-    for(i=0;i<2;i++){
+    for(i=0;i<2;i++){       //dos imágenes
         do_exit = false;
         al_draw_scaled_bitmap(display_background[20+i], 0, 0, al_get_bitmap_width(display_background[20+i]),
             al_get_bitmap_height(display_background[20+i]), 0, 0, SCREEN_W, SCREEN_H, 0);
@@ -594,6 +595,7 @@ static void score_to_str(uint32_t score) {
     al_draw_text(font[0], al_map_rgb(255, 255, 255), SCREEN_W, BASE_SIZE / 4, ALLEGRO_ALIGN_RIGHT, str);
 }
 #endif
+
 void new_player_in_top(char name[STR_LONG]){
     
 #ifndef RASPBERRY

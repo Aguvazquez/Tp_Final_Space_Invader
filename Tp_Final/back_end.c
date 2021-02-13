@@ -200,20 +200,20 @@ static void reorder_top_score(void) {
     user_t *puser = users;
 
     while (all_names > 0) {
-        for (i = 0; i < 12; i++) { //no se que significa este 12
+        for (i = 0; i < 2*STR_LONG; i++) { 
             c = fgetc(fp);
             if (c != '\n') {
                 if (!its_before_enter) {
                     puser->score[i] = c;
                 } else {
-                    puser->name[i - 6] = c; //ni este 6
+                    puser->name[i - STR_LONG] = c; 
                 }
             } else {
                 if (!its_before_enter) {
                     puser->score[i] = '\0';
                     its_before_enter = true;
                 } else {
-                    puser->name[i - 6] = '\0'; //ni este 6
+                    puser->name[i - STR_LONG] = '\0';
                     its_before_enter = false;
                 }
             }

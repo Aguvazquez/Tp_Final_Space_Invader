@@ -43,6 +43,7 @@ extern ALLEGRO_SAMPLE *samples[SAMPLES];
 /*******************************************************************************/
 
 #else
+
 #include "joydrv.h"
 #include "audio.h"
 extern Audio* audios[SAMPLES];
@@ -742,8 +743,6 @@ static bool move_bullets(bool* lock_mystery_ship, elements_t* mystery_ship_x, el
 
 #ifndef RASPBERRY
                 al_play_sample(samples[2], 0.25, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
-#else
-                //music();
 #endif
             }
         }

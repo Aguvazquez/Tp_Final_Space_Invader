@@ -38,10 +38,10 @@
 #define SAUCER1B ".allegro/al_backgrounds/saucer1b.png"
 #define SAUCER1BB ".allegro/al_backgrounds/saucer1bb.png"
 #define FONDO1 ".allegro/al_backgrounds/fondo1.jpg"
-#define FONDO2 ".allegro/al_backgrounds/fondo2.jpg"
-#define FONDO3 ".allegro/al_backgrounds/fondo3.jpg"
-#define FONDO4 ".allegro/al_backgrounds/fondo4.jpg"
-#define FONDO5 ".allegro/al_backgrounds/fondo5.jpeg"
+#define FONDO2 ".allegro/al_backgrounds/fondo2.jpeg"
+#define FONDO3 ".allegro/al_backgrounds/fondo3.png"
+#define FONDO4 ".allegro/al_backgrounds/fondo4.png"
+#define FONDO5 ".allegro/al_backgrounds/fondo5.png"
 #define BUM ".allegro/al_backgrounds/bum.png"
 #define BLOQUE1 ".allegro/al_backgrounds/bloque_1.png"
 #define BLOQUE2 ".allegro/al_backgrounds/bloque_2.png"
@@ -259,7 +259,6 @@ uint8_t allegro_ini(void)
     display_background[19] = al_load_bitmap(BLOQUE3);
     display_background[20] = al_load_bitmap(INSTRUCTIONS_1);
     display_background[21] = al_load_bitmap(INSTRUCTIONS_2);
-    //display_background[17] = al_load_bitmap("platform4.png");
     for(i=0; i<BACKGROUNDS; i++){
     if(!display_background[i]){
             fprintf(stderr, "background image not loaded!\n");

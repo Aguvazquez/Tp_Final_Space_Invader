@@ -40,7 +40,7 @@ typedef float elements_t;   //para coordenadas
 #define MOVE_RATE   4.0
 #define BASE_SIZE   20
 
-#define FILAS_ALIENS            5   
+#define FILAS_ALIENS            5 
 #define COLUMNAS_ALIENS         10
 #define CANT_ALIENS             FILAS_ALIENS*COLUMNAS_ALIENS
 #define PRIMERA_FILA_ALIENS     SCREEN_H/10  
