@@ -12,17 +12,16 @@
 #include  "joydrv.h"
 #include "audio.h"
 
+#define SAMPLE1B ".allegro/samples/shoot_ral.wav"
+#define SAMPLE2B ".allegro/samples/invaderkilled_ral.wav"
+Audio* audios[SAMPLES] = {NULL,NULL};
 #endif
 
 /*******************************************************************************/
 
 /*************************** Resource file definitions *************************/
 
-#define SAMPLE1 ".allegro/samples/spaceinvader_theme.wav"
-#define SAMPLE2 ".allegro/samples/shoot.wav"
-#define SAMPLE3 ".allegro/samples/invaderkilled.wav"
-#define SAMPLE4 ".allegro/samples/explosion.wav"
-#define SAMPLE5 ".allegro/samples/game.wav"
+
 
 #ifndef RASPBERRY
 
@@ -48,6 +47,13 @@
 #define BLOQUE3 ".allegro/al_backgrounds/bloque_3.png"
 #define INSTRUCTIONS_1 ".allegro/al_backgrounds/instructions_1.jpeg"
 #define INSTRUCTIONS_2 ".allegro/al_backgrounds/instructions_2.jpeg"
+
+#define SAMPLE1 ".allegro/samples/spaceinvader_theme.wav"
+#define SAMPLE2 ".allegro/samples/shoot.wav"
+#define SAMPLE3 ".allegro/samples/invaderkilled.wav"
+#define SAMPLE4 ".allegro/samples/explosion.wav"
+#define SAMPLE5 ".allegro/samples/game.wav"
+
 
 #define SPACE_TTF ".allegro/ttf/space_invaders.ttf"
 
@@ -317,19 +323,16 @@ void allegro_shutdown(void){
 int8_t rpi_ini(void){
     disp_init();
     joy_init();
-    initAudio();
-    if((audios[0]=createAudio(SAMPLE1,0,127))){
-        if((audios[1]=createAudio(SAMPLE2,0,127))){
-            if((audios[2]=createAudio(SAMPLE3,0,127))){
-                if((audios[3]=createAudio(SAMPLE4,0,127))){
-                    if((audios[4]=createAudio(SAMPLE5,0,127))){
-                        return EXIT_SUCCESS;
-                    }
-                }
-            }
-        }
+    if ( initAudio() == NO_INIT){
+        fprintf(stderr, "Audio not initilized.\n");
+	    endAudio();
+	    return 1;
     }
-    return EXIT_FAILURE;   
+    audios[0]=createAudio(SAMPLE1B,0,127);
+    audios[1]=createAudio(SAMPLE2B,0,127);
+
+ 	
+    return 0;   
 }
 
 void rpi_shutdown(void){

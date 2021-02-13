@@ -30,7 +30,7 @@ typedef int elements_t;     //para coordenadas
 #define NAVE_Y          SCREEN_H - BASE_SIZE
 #define NAVE_X          SCREEN_W/2 - BASE_SIZE
 #define MYSTERY_SHIP_Y  BASE_SIZE
-
+#define SAMPLES 2
 #else
 
 typedef float elements_t;   //para coordenadas
@@ -58,10 +58,11 @@ typedef float elements_t;   //para coordenadas
 #define BULLET_W        3
 #define MYSTERY_SHIP_Y  1.5*BASE_SIZE
 
+#define SAMPLES         5
+
 #endif
 
 #define TIMERTICKRBP    1
-#define SAMPLES         5
 #define FONTS           2
 #define BACKGROUNDS     22
 #define FPS             60.0

@@ -114,32 +114,34 @@ enum MYKEYS {LEFT, RIGHT, SPACE_UP, JOY_SWITCH};
 uint8_t TimerTickRBP,efect_sound;
 bool key_pressed[4] = {false, false, false, false}; //estado de teclas, true cuando esta apretada
 
+
 /*******************************************************************************/
 
 #ifdef RASPBERRY
 
+
 void* Stop_Sound(){
     while(1) {
+	if(TimerTickRBP){
         switch (efect_sound) {
             case 1:
             {
-                if (musicStatus() == PLAYING) {
-                    pauseAudio();
-                }
-                playSound(, 100);
-                efect_sound = 0;
+                
+                playSoundFromMemory(audios[1], 100);
+                efect_sound=0;
                 break;
             }
             case 2:
             {
-                if (musicStatus() == PLAYING) {
-                    pauseAudio();
-                }
-                playSound(, 100);
-                efect_sound = 0;
+                
+                playSoundFromMemory(audios[0], 100);
+                efect_sound=0;
                 break;
             }
         }
+
+	}
+
     }
 }
 
