@@ -493,7 +493,7 @@ int pause_menu_terminal(void){
     int output=0;
     bool do_exit=false;
     system("clear");
-    fprintf(stderr,"\t\tPAUSA.\n"); 
+    fprintf(stderr,"\tPAUSA.\n\n"); 
     
     while(!do_exit){
         fprintf(stderr, "Para continuar jugando pulse 1.\n");
