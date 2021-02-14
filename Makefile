@@ -26,7 +26,7 @@ rpi_game:main.o  back_end.o setup.o menus.o logic.o GUI.o ${RPI_OBJ}
 ##########################################################
 	
 ###############Main back###################################
-main.o: main.c back_end.h menus.h setup.h 
+main.o: main.c menus.h setup.h 
 	gcc -c main.c ${OPTIONS}
 
 menus.o: menus.c menus.h logic.h GUI.h back_end.h config.h ${RPI_HS}
