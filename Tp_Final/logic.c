@@ -273,7 +273,7 @@ static int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* 
     int8_t cant_aliens = CANT_ALIENS;
 
     elements_t bullet_x = SCREEN_W, bullet_y, nave_x, bloques_x[4], explosion_x, explosion_y;
-    elements_t alien_bullets_x[CANT_ALIENS], alien_bullets_y[CANT_ALIENS], mystery_ship_x = SCREEN_W;;
+    elements_t alien_bullets_x[CANT_ALIENS], alien_bullets_y[CANT_ALIENS], mystery_ship_x = SCREEN_W;
 
     //bloques
     for (i = 0; i < CANT_BLOQUES; i++) {
