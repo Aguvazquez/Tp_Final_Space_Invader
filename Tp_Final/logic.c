@@ -742,7 +742,7 @@ static bool move_bullets(bool* lock_mystery_ship, elements_t* mystery_ship_x, el
                 *lock_mystery_ship = false;
                 *lock = false;
                 *bullet_y = NAVE_Y + BASE_SIZE;
-                *score += 5 * multiplier * (get_rand_num(20)+1); //te puede sumar desde 5 a 100 puntos.
+                *score += multiplier * (get_rand_num(100)+1); //te puede sumar desde hasta 100 puntos.
 
 #ifndef RASPBERRY
                 al_play_sample(samples[2], 0.25, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
