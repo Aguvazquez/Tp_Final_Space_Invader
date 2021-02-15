@@ -38,7 +38,7 @@ Audio* audios[SAMPLES] = {NULL,NULL};
 #define SAUCER1BB ".allegro/al_backgrounds/saucer1bb.png"
 #define FONDO1 ".allegro/al_backgrounds/fondo1.jpg"
 #define FONDO2 ".allegro/al_backgrounds/fondo2.jpeg"
-#define FONDO3 ".allegro/al_backgrounds/fondo3.png"
+#define FONDO3 ".allegro/al_backgrounds/fondo3.jpeg"
 #define FONDO4 ".allegro/al_backgrounds/fondo4.png"
 #define FONDO5 ".allegro/al_backgrounds/fondo5.png"
 #define BUM ".allegro/al_backgrounds/bum.png"

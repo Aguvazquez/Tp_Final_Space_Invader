@@ -83,7 +83,7 @@ static bool move_bullets(bool* lock_mystery_ship, elements_t* mystery_ship_x, el
                          elements_t* alien_bullets_x, elements_t* alien_bullets_y, int8_t* cant_aliens, elements_t* bullet_y,
                          elements_t* bullet_x, elements_t* explosion_x, elements_t* explosion_y, uint8_t* explosion_time,
                          bool* lock, elements_t nave_x, uint32_t* score, uint8_t* vida_bloques, elements_t* bloques_x,
-                         uint8_t* lives, uint8_t multiplier);
+                         uint8_t* lives, float multiplier);
 
 /*
  * @Brief recibe un entero positivo
@@ -103,7 +103,7 @@ static uint16_t get_rand_num(uint16_t x);
  *          FATAL_ERROR si ocurre algún error
  */
 
-static int8_t move(uint8_t difficulty, uint8_t* lifes, uint8_t level, uint32_t* score, uint8_t multiplier);
+static int8_t move(uint8_t difficulty, uint8_t* lifes, uint8_t level, uint32_t* score, float multiplier);
 
 /*******************************************************************************/
 
@@ -193,7 +193,8 @@ void *Joy_action() {
 
 int8_t play(void)
 {
-    uint8_t level=1, lives=LIVES, multiplier;
+    uint8_t level=1, lives=LIVES; 
+    float multiplier;
     int8_t aux=0, difficulty;
     uint32_t score=0;
     char name[STR_LONG]={' ',' ',' ',' ',' ','\0'};
@@ -202,10 +203,10 @@ int8_t play(void)
         multiplier=1;
     }
     else if(difficulty==NORMAL){
-        multiplier=2;
+        multiplier=1.5;
     }
     else if(difficulty==HARD){
-        multiplier=3;
+        multiplier=2;
     }
     else{
         fprintf(stderr, "Dificultad mal configurada.\n");
@@ -257,7 +258,7 @@ int8_t play(void)
     return EXIT_SUCCESS;
 }
 
-static int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, uint8_t multiplier) {
+static int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* score, float multiplier) {
 
     
     uint8_t i, j, aux, explosion_time = 0, accelerate = 0;
@@ -432,7 +433,7 @@ static int8_t move(uint8_t difficulty, uint8_t* lives, uint8_t level, uint32_t* 
                     }
                     case ALLEGRO_KEY_ESCAPE:
                     {
-                        switch (menu_display("RESUME", "RESET GAME", "EXIT", 1, 1)) { //menú de pausa
+                        switch (menu_display("CONTINUAR", "REINICIAR JUEGO", "SALIR", 1, 1)) { //menú de pausa
                             case 0:
                             {
                                 cant_aliens = CLOSE_DISPLAY;
@@ -588,7 +589,7 @@ static bool move_bullets(bool* lock_mystery_ship, elements_t* mystery_ship_x, el
         elements_t* alien_bullets_x, elements_t* alien_bullets_y, int8_t* cant_aliens,
         elements_t* bullet_y, elements_t* bullet_x, elements_t* explosion_x, elements_t* explosion_y,
         uint8_t* explosion_time, bool* lock, elements_t nave_x, uint32_t* score, uint8_t* vida_bloques,
-        elements_t* bloques_x, uint8_t* lives, uint8_t multiplier) {
+        elements_t* bloques_x, uint8_t* lives, float multiplier) {
 
     int8_t i, j;
 

@@ -84,7 +84,7 @@ int8_t menu_display(char *str0, char *str1, char *str2, char flag, uint8_t pause
     al_draw_scaled_bitmap(display_background[0], 0, 0, al_get_bitmap_width(display_background[0]),
                         al_get_bitmap_height(display_background[0]), 0, 0, SCREEN_W, SCREEN_H, 0);
     if(pause){
-        al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W/2, SCREEN_H/5, ALLEGRO_ALIGN_CENTER, "PAUSE MENU");
+        al_draw_text(font[1], al_map_rgb(255, 255, 255), SCREEN_W/2, SCREEN_H/5, ALLEGRO_ALIGN_CENTER, "MENU DE PAUSA");
     }
     else{
         al_draw_scaled_bitmap(display_background[1], 0, 0, al_get_bitmap_width(display_background[1]),
