@@ -158,15 +158,12 @@ void main_menu(void) {
 void main_menu(void) {
 
     uint8_t choice = 0, c = 0;
-    bool do_exit = false, reset = false, play_song = true;
+    bool do_exit = false, reset = false;
 
     system("clear");
     fprintf(stderr, "Bienvenido a Space Invaders.\n");
     
-    while (!do_exit) {
-        if(play_song){
-            playSound(".allegro/samples/spaceinvader_theme.wav",127);
-        }
+    while (!do_exit) {        
         if (!reset) {
             disp_clear();
             fprintf(stderr, "Para emepezar a jugar pulse 1.\n");
@@ -179,11 +176,9 @@ void main_menu(void) {
         }
         reset = false;          //cancela la condicion de reset en caso
                                 //que luego se desee volver al menú
-        play_song=false;
         switch (choice) {            
             case '1': 
             {
-                pauseAudio();
                 switch (play()) {
                     case 0: case EXIT_MENU:
                     {
@@ -201,7 +196,6 @@ void main_menu(void) {
                         break;
                     }                    
                 }
-                play_song=true;
                 break;
             } 
             case '2':
