@@ -13,6 +13,7 @@ typedef int elements_t;     //para coordenadas
 #define SCREEN_H    16
 #define MOVE_RATE   1
 #define BASE_SIZE   1
+#define SAMPLES     2
 
 #define FILAS_ALIENS            3   
 #define COLUMNAS_ALIENS         6   
@@ -30,7 +31,7 @@ typedef int elements_t;     //para coordenadas
 #define NAVE_Y          SCREEN_H - BASE_SIZE
 #define NAVE_X          SCREEN_W/2 - BASE_SIZE
 #define MYSTERY_SHIP_Y  BASE_SIZE
-#define SAMPLES 2
+
 #else
 
 typedef float elements_t;   //para coordenadas
@@ -39,6 +40,7 @@ typedef float elements_t;   //para coordenadas
 #define SCREEN_H    640
 #define MOVE_RATE   4.0
 #define BASE_SIZE   20
+#define SAMPLES     5
 
 #define FILAS_ALIENS            5 
 #define COLUMNAS_ALIENS         10
@@ -57,8 +59,6 @@ typedef float elements_t;   //para coordenadas
 #define NAVE_X          SCREEN_W/2 - 1.5*BASE_SIZE
 #define BULLET_W        3
 #define MYSTERY_SHIP_Y  1.5*BASE_SIZE
-
-#define SAMPLES         5
 
 #endif
 
@@ -84,6 +84,6 @@ typedef float elements_t;   //para coordenadas
 #define EASY            30
 #define NORMAL          25
 #define HARD            20
-#define MAX_DIFFICULTY  15
+#define MAX_DIFFICULTY  13
 
 #endif//CONFIG_H
