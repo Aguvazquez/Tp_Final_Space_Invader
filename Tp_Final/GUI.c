@@ -429,8 +429,8 @@ void next_level_animation(uint8_t level){
 
 void lose_animation(uint32_t score){
 
-    char str1[]={"GAME OVER"};
-    char str2[]={"YOUR SCORE IS: "};
+    char str1[]={"FIN DEL JUEGO"};
+    char str2[]={"TU PUNTAJE ES: "};
     char str3[STR_LONG]={' ',' ',' ',' ',' '};
     uint32_t aux=0, j;
     int8_t i;
