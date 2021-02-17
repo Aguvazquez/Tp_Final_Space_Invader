@@ -418,7 +418,7 @@ void next_level_animation(uint8_t level){
     }
     str[7]=(char)((level%10)+ASCII);    //escribe la unidad del nivel en ASCII
     
-    for (i = 990; i >= 0; i -= 9) {
+    for (i = 990; i >= 0; i -= 9) {     //para que el mensaje se mueva a lo largo de toda la pantalla (si cambia el ancho debe cambiarse este valor)
         al_draw_scaled_bitmap(display_background[0], 0, 0, al_get_bitmap_width(display_background[0]), 
                         al_get_bitmap_height(display_background[0]), 0, 0, SCREEN_W, SCREEN_H, 0);
         al_draw_text(font[1], al_map_rgb(255, 255, 255), i, 2*SCREEN_H/5, ALLEGRO_ALIGN_RIGHT, str);
