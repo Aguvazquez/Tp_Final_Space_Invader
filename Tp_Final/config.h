@@ -84,6 +84,6 @@ typedef float elements_t;   //para coordenadas
 #define EASY            30
 #define NORMAL          25
 #define HARD            20
-#define MAX_DIFFICULTY  13
+#define MAX_DIFFICULTY  14
 
 #endif//CONFIG_H
