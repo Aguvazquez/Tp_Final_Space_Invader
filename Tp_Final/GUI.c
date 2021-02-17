@@ -374,7 +374,7 @@ void draw_world(uint8_t level, uint32_t score, uint8_t lives, uint8_t alien_chan
                 }
             }
             else {
-                if (i <= (CANT_ALIENS / 5)) {
+                if (i < (CANT_ALIENS / 5)) {
                     al_draw_scaled_bitmap(display_background[7], 0, 0, al_get_bitmap_width(display_background[7]),
                             al_get_bitmap_height(display_background[7]), alien_x[i], alien_y[i], 2 * BASE_SIZE, 2 * BASE_SIZE, 0);
                 }
